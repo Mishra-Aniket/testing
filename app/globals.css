@@ -1,4 +1,4 @@
-@import './fonts.css';
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300..800;1,300..800&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
 @import 'lenis/dist/lenis.css';
 
 @tailwind base;
@@ -6,9 +6,9 @@
 @tailwind utilities;
 
 :root {
-  --font-merriweather: 'Merriweather', 'Merriweather Fallback', ui-serif, Georgia, serif;
-  --font-jetbrains-mono: 'JetBrains Mono', 'JetBrains Mono Fallback', ui-monospace, SFMono-Regular, monospace;
-  --font-mono: 'JetBrains Mono', 'JetBrains Mono Fallback', ui-monospace, SFMono-Regular, monospace;
+  --font-merriweather: 'Merriweather', ui-serif, Georgia, serif;
+  --font-jetbrains-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
   
   --paper: #fdfbf7;
   --ink: #4a3b33;
