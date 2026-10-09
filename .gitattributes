@@ -1,0 +1,7 @@
+# GitHub Linguist Overrides - ensure repository language reflects real Next.js/React codebase
+index.html linguist-detectable=false
+index.html linguist-vendored=true
+_next/** linguist-vendored=true
+out/** linguist-vendored=true
+static/** linguist-vendored=true
+*.svg linguist-detectable=false

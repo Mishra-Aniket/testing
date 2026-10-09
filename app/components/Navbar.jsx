@@ -86,15 +86,17 @@ export default function Navbar({
       }
       lastY = currentY;
 
-      // Exact pixel-accurate theme detection directly beneath center of navbar at y=44
+      // Pixel-perfect dark theme detection when navbar overlaps dark sections (DarkCTA, Footer, etc.)
       if (typeof document !== 'undefined') {
-        const elements = document.elementsFromPoint(window.innerWidth / 2, 44);
+        const navY = 56;
+        const darkElements = document.querySelectorAll('[data-theme="dark"], #dark-cta-section, footer');
         let darkFound = false;
-        for (const el of elements) {
-          if (!el.closest('nav[data-site-nav]')) {
-            if (el.closest('[data-theme="dark"]')) {
-              darkFound = true;
-            }
+        for (let i = 0; i < darkElements.length; i++) {
+          const el = darkElements[i];
+          if (el.closest('nav[data-site-nav]')) continue;
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= navY && rect.bottom >= navY) {
+            darkFound = true;
             break;
           }
         }
