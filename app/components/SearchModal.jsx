@@ -95,6 +95,20 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
   const [activeAnswer, setActiveAnswer] = useState(null);
   const inputRef = useRef(null);
 
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Sync with mobile menu open state to prevent overlapping
+  useEffect(() => {
+    const handleMobileMenuChange = (e) => {
+      setIsMobileMenuOpen(Boolean(e.detail));
+    };
+    if (typeof document !== 'undefined') {
+      setIsMobileMenuOpen(document.documentElement.getAttribute('data-mobile-nav-open') === 'true');
+    }
+    window.addEventListener("aniket_mobile_menu", handleMobileMenuChange);
+    return () => window.removeEventListener("aniket_mobile_menu", handleMobileMenuChange);
+  }, []);
+
   // Keyboard shortcut listener for ⌘K / Ctrl K and Escape
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -229,8 +243,13 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
 
   return (
     <>
-      {/* 1. FIXED FLOATING BOTTOM DOCK: Exact 1:1 match with getalchemystai.com (Image 2) */}
-      <div className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 z-40 -translate-x-1/2 pointer-events-auto max-w-[calc(100vw-2rem)]">
+      {/* 1. FIXED FLOATING BOTTOM DOCK: Exact 1:1 match with getalchemystai.com */}
+      <div 
+        data-bottom-search-dock="true"
+        className={`fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 z-40 -translate-x-1/2 pointer-events-auto max-w-[calc(100vw-2rem)] transition-all duration-200 ${
+          isOpen || isMobileMenuOpen ? "opacity-0 pointer-events-none scale-95 invisible" : "opacity-100 scale-100"
+        }`}
+      >
         <button
           type="button"
           onClick={() => {
@@ -251,7 +270,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
         </button>
       </div>
 
-      {/* 2. THE BOTTOM-UP SEARCH DOCK EXPANSION */}
+      {/* 2. THE SEARCH MODAL: Rock-solid flex centering on desktop, smooth bottom sheet on mobile */}
       <AnimatePresence>
         {isOpen && (
           <>
@@ -260,29 +279,28 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.22, ease: "easeOut" }}
-              className="fixed inset-0 bg-[#1C1917]/50 backdrop-blur-sm z-50"
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="fixed inset-0 bg-[#1C1917]/60 backdrop-blur-sm z-50 pointer-events-auto"
               onClick={() => {
                 sound.playClick();
                 onClose();
               }}
             />
 
-            {/* Bottom Sheet that emerges smoothly from the bottom dock */}
-            <motion.div
-              initial={{ y: "100%", opacity: 0.8 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: "100%", opacity: 0 }}
-              transition={{ 
-                type: "spring",
-                damping: 28,
-                stiffness: 300,
-                mass: 0.82
-              }}
-              className="fixed bottom-0 inset-x-0 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 z-50 w-full sm:max-w-xl max-h-[88dvh] sm:max-h-[82vh] flex flex-col rounded-t-2xl sm:rounded-2xl sm:bottom-6 border-t sm:border border-[#E4D9BC] bg-[#FDFBF7] shadow-[0_-16px_48px_-12px_rgba(74,59,51,0.28)] overflow-hidden text-[#4A3B33]"
-              onClick={(e) => e.stopPropagation()}
-              onKeyDown={handleKeyDown}
-            >
+            {/* Modal Flex Container: Guarantees 100% true centering on desktop and bottom sheet on mobile */}
+            <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
+              <motion.div
+                initial={{ y: 24, opacity: 0, scale: 0.98 }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                exit={{ y: 16, opacity: 0, scale: 0.98 }}
+                transition={{ 
+                  duration: 0.22,
+                  ease: [0.16, 1, 0.3, 1]
+                }}
+                className="pointer-events-auto relative w-full sm:max-w-xl max-h-[88dvh] sm:max-h-[82vh] flex flex-col rounded-t-2xl sm:rounded-2xl border-t sm:border border-[#E4D9BC] bg-[#FDFBF7] shadow-[0_24px_64px_-12px_rgba(74,59,51,0.3)] overflow-hidden text-[#4A3B33]"
+                onClick={(e) => e.stopPropagation()}
+                onKeyDown={handleKeyDown}
+              >
               {/* Drag Handle Pill (Mobile) */}
               <div className="pt-2.5 pb-1 flex justify-center sm:hidden shrink-0">
                 <div className="w-10 h-1 rounded-full bg-[#E4D9BC]" />
@@ -481,9 +499,10 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                 <span>Esc close</span>
               </div>
             </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+          </div>
+        </>
+      )}
+    </AnimatePresence>
     </>
   );
 }

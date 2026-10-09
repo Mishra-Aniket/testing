@@ -120,27 +120,36 @@ export default function Navbar({
     };
   }, [pathname]);
 
-  // Lock body scroll and Lenis when mobile menu is open
+  // Lock body scroll, Lenis, and dispatch mobile menu state to window
   useEffect(() => {
-    if (mobileMenuOpen) {
-      if (typeof window !== 'undefined' && window.__lenis) {
-        window.__lenis.stop();
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('aniket_mobile_menu', { detail: mobileMenuOpen }));
+      if (mobileMenuOpen) {
+        document.documentElement.setAttribute('data-mobile-nav-open', 'true');
+        if (window.__lenis) {
+          window.__lenis.stop();
+        }
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+      } else {
+        document.documentElement.removeAttribute('data-mobile-nav-open');
+        if (window.__lenis) {
+          window.__lenis.start();
+        }
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
       }
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-    } else {
-      if (typeof window !== 'undefined' && window.__lenis) {
-        window.__lenis.start();
-      }
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
     }
     return () => {
-      if (typeof window !== 'undefined' && window.__lenis) {
-        window.__lenis.start();
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('aniket_mobile_menu', { detail: false }));
+        document.documentElement.removeAttribute('data-mobile-nav-open');
+        if (window.__lenis) {
+          window.__lenis.start();
+        }
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
       }
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
     };
   }, [mobileMenuOpen]);
 
@@ -172,12 +181,18 @@ export default function Navbar({
           ease: [0.16, 1, 0.3, 1]
         }}
       >
-        <div className="pointer-events-auto w-full max-w-[1200px] flex flex-col overflow-hidden max-h-[calc(100dvh-0.5rem)]">
+        <div className={`pointer-events-auto w-full max-w-[1200px] flex flex-col overflow-hidden transition-all duration-300 ${
+          mobileMenuOpen 
+            ? "rounded-2xl border border-[#E4D9BC] bg-[#FDFBF7] shadow-[0_24px_64px_-12px_rgba(74,59,51,0.35)] max-h-[calc(100dvh-1.5rem)]" 
+            : "max-h-[calc(100dvh-0.5rem)]"
+        }`}>
           <nav
             data-site-nav="true"
             data-theme={isDarkTheme ? "dark" : undefined}
             aria-label="Primary"
-            className={`w-full flex items-center justify-between gap-4 sm:gap-6 rounded-[calc(var(--radius)+4px)] border pl-4 sm:pl-5 pr-2 py-2 backdrop-blur-xl backdrop-saturate-150 transition-[background-color,border-color,box-shadow] duration-300 ${
+            className={`w-full flex items-center justify-between gap-4 sm:gap-6 ${
+              mobileMenuOpen ? "rounded-t-2xl border-0" : "rounded-[calc(var(--radius)+4px)] border"
+            } pl-4 sm:pl-5 pr-2 py-2 backdrop-blur-xl backdrop-saturate-150 transition-[background-color,border-color,box-shadow] duration-300 ${
               isDarkTheme 
                 ? "bg-[#1C1917]/75 border-white/[0.08]" 
                 : isScrolled
@@ -494,7 +509,7 @@ export default function Navbar({
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              className="lg:hidden border-t border-[#E4D9BC] px-3.5 py-3 sm:px-6 sm:py-5 overflow-y-auto overscroll-contain bg-[#FDFBF7] flex flex-col gap-3 max-h-[calc(100dvh-4.25rem)] touch-pan-y"
+              className="lg:hidden border-t border-[#E4D9BC] px-3.5 pt-3 pb-8 sm:px-6 sm:py-5 overflow-y-auto overscroll-contain bg-[#FDFBF7] flex flex-col gap-3 max-h-[calc(100dvh-5.5rem)] touch-pan-y"
               style={{ WebkitOverflowScrolling: "touch" }}
             >
               {/* Header Label inside Drawer */}
@@ -913,7 +928,7 @@ export default function Navbar({
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
         onClick={() => setMobileMenuOpen(false)}
-        className="fixed inset-0 bg-black/50 backdrop-blur-xs z-40 lg:hidden"
+        className="fixed inset-0 bg-[#1C1917]/70 backdrop-blur-md z-40 lg:hidden"
       />
     )}
   </AnimatePresence>

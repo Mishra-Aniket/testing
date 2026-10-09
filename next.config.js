@@ -7,7 +7,7 @@ if (isGithubActions && process.env.GITHUB_REPOSITORY) {
 
 const nextConfig = {
   reactStrictMode: true,
-  output: 'export',
+  output: isGithubActions ? 'export' : undefined,
   trailingSlash: true,
   basePath: repo ? `/${repo}` : undefined,
   assetPrefix: repo ? `/${repo}/` : undefined,
