@@ -60,31 +60,63 @@ export default function Navbar({
     return () => window.removeEventListener('aniket_sound_change', onSoundChange);
   }, []);
 
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
 
-  // Dynamic theme detection: smoothly switches Navbar colors when scrolling into dark sections
+  // Exact 1:1 implementation from getalchemystai.com:
+  // r < 120 ? F(!1) : s > 6 ? F(!0) : s < -4 && F(!1)
+  // document.elementsFromPoint(window.innerWidth/2, 44) for pixel-perfect dark theme detection
   useEffect(() => {
-    const handleScrollTheme = () => {
-      const darkSections = document.querySelectorAll('[data-theme="dark"], #dark-cta-section, footer');
-      let overDark = false;
-      const navY = 48; // center position of floating header
-      darkSections.forEach((sec) => {
-        const rect = sec.getBoundingClientRect();
-        if (rect.top <= navY && rect.bottom >= navY) {
-          overDark = true;
+    let lastY = window.scrollY;
+    let rafId = 0;
+
+    const update = () => {
+      rafId = 0;
+      const currentY = window.scrollY;
+      setIsScrolled(currentY > 12);
+
+      const diff = currentY - lastY;
+      if (currentY < 120) {
+        setIsHidden(false);
+      } else if (diff > 6) {
+        setIsHidden(true);
+      } else if (diff < -4) {
+        setIsHidden(false);
+      }
+      lastY = currentY;
+
+      // Exact pixel-accurate theme detection directly beneath center of navbar at y=44
+      if (typeof document !== 'undefined') {
+        const elements = document.elementsFromPoint(window.innerWidth / 2, 44);
+        let darkFound = false;
+        for (const el of elements) {
+          if (!el.closest('nav[data-site-nav]')) {
+            if (el.closest('[data-theme="dark"]')) {
+              darkFound = true;
+            }
+            break;
+          }
         }
-      });
-      setIsDarkTheme(overDark);
+        setIsDarkTheme(darkFound);
+      }
     };
 
-    window.addEventListener('scroll', handleScrollTheme, { passive: true });
-    window.addEventListener('resize', handleScrollTheme, { passive: true });
-    handleScrollTheme();
-    return () => {
-      window.removeEventListener('scroll', handleScrollTheme);
-      window.removeEventListener('resize', handleScrollTheme);
+    const onScroll = () => {
+      if (!rafId) {
+        rafId = requestAnimationFrame(update);
+      }
     };
-  }, []);
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, [pathname]);
 
   // Lock body scroll and Lenis when mobile menu is open
   useEffect(() => {
@@ -122,55 +154,58 @@ export default function Navbar({
     setSoundActive(next);
   };
 
+  const isNavVisible = !isHidden || !!activeDropdown || mobileMenuOpen;
+
   return (
     <>
       <motion.header
+        className="fixed top-3 md:top-4 left-0 right-0 z-50 px-3 md:px-6 flex justify-center pointer-events-none"
         initial={false}
         animate={{
-          y: 0,
-          opacity: 1
+          y: isNavVisible ? 0 : -96,
+          opacity: isNavVisible ? 1 : 0
         }}
         transition={{
-          duration: 0.3,
+          duration: 0.35,
           ease: [0.16, 1, 0.3, 1]
         }}
-        className="fixed top-0 md:top-4 inset-x-0 z-50 px-0 md:px-6 flex justify-center pointer-events-none"
       >
-        <div className={`pointer-events-auto w-full max-w-[1200px] flex flex-col border-b md:border md:rounded-[calc(var(--radius)+3px)] backdrop-blur-xl transition-[background-color,border-color,box-shadow,color] duration-300 ${
-          isDarkTheme 
-            ? "bg-[#1C1917]/85 md:bg-[#1C1917]/90 border-white/[0.12] text-[#F5F5F4] shadow-[0_8px_32px_-4px_rgba(0,0,0,0.6)]" 
-            : "bg-[#FDFBF7] md:bg-white/95 border-[#E4D9BC] text-[#4A3B33] shadow-md md:shadow-[0_4px_20px_-4px_rgba(74,59,51,0.12)]"
-        } overflow-hidden max-h-[calc(100dvh-0.5rem)]`}>
-          <nav className={`w-full flex items-center justify-between gap-2 sm:gap-6 px-4 py-2.5 sm:px-5 sm:py-2 shrink-0 border-b lg:border-b-0 transition-colors duration-300 ${
-            isDarkTheme 
-              ? "border-white/[0.08] bg-transparent text-[#F5F5F4]" 
-              : "border-[#E4D9BC]/40 bg-[#FDFBF7] text-[#4A3B33]"
-          }`}>
+        <div className="pointer-events-auto w-full max-w-[1200px] flex flex-col overflow-hidden max-h-[calc(100dvh-0.5rem)]">
+          <nav
+            data-site-nav="true"
+            data-theme={isDarkTheme ? "dark" : undefined}
+            aria-label="Primary"
+            className={`w-full flex items-center justify-between gap-4 sm:gap-6 rounded-[calc(var(--radius)+4px)] border pl-4 sm:pl-5 pr-2 py-2 backdrop-blur-xl backdrop-saturate-150 transition-[background-color,border-color,box-shadow] duration-300 ${
+              isDarkTheme 
+                ? "bg-[#1C1917]/75 border-white/[0.08]" 
+                : isScrolled
+                  ? "bg-[#FDFBF7]/85 border-[#E4D9BC]"
+                  : "bg-[#FDFBF7]/55 border-[#E4D9BC]/70"
+            } ${
+              isScrolled
+                ? isDarkTheme
+                  ? "shadow-[0_12px_32px_-16px_rgba(0,0,0,0.6)]"
+                  : "shadow-[0_12px_32px_-16px_rgba(74,59,51,0.24)]"
+                : ""
+            }`}
+          >
           {/* Logo */}
-          <Link href="/" onClick={() => sound.playClick()} className="flex items-center gap-1.5 sm:gap-2 group shrink-0">
+          <Link href="/" onClick={() => sound.playClick()} className="relative flex items-center gap-1.5 sm:gap-2 group shrink-0">
             <span className={`text-2xl font-black leading-none transform transition-transform group-hover:scale-110 ${
               isDarkTheme ? "text-[#E4C090]" : "text-[#B45309]"
             }`}>
               ▲
             </span>
-            <span className={`font-serif font-black text-xl tracking-tight transition-colors duration-300 ${
-              isDarkTheme ? "text-[#F5F5F4]" : "text-[#4A3B33]"
-            }`}>
+            <span className="font-serif font-black text-xl tracking-tight nav-brand-text">
               ANIKET
             </span>
-            <span className={`font-mono text-[9px] font-bold px-1.5 py-0.5 rounded tracking-widest border transition-colors duration-300 ${
-              isDarkTheme 
-                ? "text-[#E4C090] bg-[#E4C090]/10 border-[#E4C090]/20" 
-                : "text-[#B45309] bg-[#B45309]/10 border-[#B45309]/20"
-            }`}>
+            <span className="font-mono text-[9px] font-bold px-1.5 py-0.5 rounded tracking-widest border nav-brand-tag">
               .ONE
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className={`hidden lg:flex items-center gap-1 text-[0.875rem] font-medium transition-colors duration-300 ${
-            isDarkTheme ? "text-[#D6D3D1]" : "text-[#4A3B33]"
-          }`}>
+          <div className="hidden lg:flex items-center gap-1 text-[0.875rem] font-medium">
             {/* Compare Dropdown */}
             <div
               className="relative"
@@ -180,16 +215,14 @@ export default function Navbar({
               <Link 
                 href="/compare"
                 onClick={() => sound.playClick()}
-                className={`relative flex items-center gap-1 px-3 py-2 transition-colors duration-200 ${
-                  isCompareActive 
-                    ? (isDarkTheme ? "text-[#E4C090] font-bold" : "text-[#B45309] font-bold") 
-                    : (isDarkTheme ? "hover:text-[#E4C090]" : "hover:text-[#B45309]")
+                className={`nav-link relative flex items-center gap-1 px-3 py-2 ${
+                  isCompareActive ? "!text-[color:var(--ink)] font-bold" : ""
                 }`}
               >
                 <span>Compare</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${
-                  isDarkTheme ? "text-[#A8A29E]" : "opacity-70"
-                } ${activeDropdown === 'compare' ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-3.5 h-3.5 opacity-70 transition-transform duration-300 ${
+                  activeDropdown === 'compare' ? 'rotate-180' : ''
+                }`} />
                 {isCompareActive && (
                   <span className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
                     isDarkTheme ? "bg-[#E4C090]" : "bg-[#B45309]"
@@ -264,16 +297,14 @@ export default function Navbar({
               <Link
                 href="/use-cases"
                 onClick={() => sound.playClick()}
-                className={`relative flex items-center gap-1 px-3 py-2 transition-colors duration-200 ${
-                  isResourcesActive 
-                    ? (isDarkTheme ? "text-[#E4C090] font-bold" : "text-[#B45309] font-bold") 
-                    : (isDarkTheme ? "hover:text-[#E4C090]" : "hover:text-[#B45309]")
+                className={`nav-link relative flex items-center gap-1 px-3 py-2 ${
+                  isResourcesActive ? "!text-[color:var(--ink)] font-bold" : ""
                 }`}
               >
                 <span>Resources</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${
-                  isDarkTheme ? "text-[#A8A29E]" : "opacity-70"
-                } ${activeDropdown === 'resources' ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-3.5 h-3.5 opacity-70 transition-transform duration-300 ${
+                  activeDropdown === 'resources' ? 'rotate-180' : ''
+                }`} />
                 {isResourcesActive && (
                   <span className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
                     isDarkTheme ? "bg-[#E4C090]" : "bg-[#B45309]"
@@ -327,10 +358,8 @@ export default function Navbar({
             <Link
               href="/blog"
               onClick={() => sound.playClick()}
-              className={`relative px-3 py-2 transition-colors duration-200 ${
-                isBlogActive 
-                  ? (isDarkTheme ? "text-[#E4C090] font-bold" : "text-[#B45309] font-bold") 
-                  : (isDarkTheme ? "hover:text-[#E4C090]" : "hover:text-[#B45309]")
+              className={`nav-link relative px-3 py-2 ${
+                isBlogActive ? "!text-[color:var(--ink)] font-bold" : ""
               }`}
             >
               Blog
@@ -344,10 +373,8 @@ export default function Navbar({
             <Link
               href="/docs"
               onClick={() => sound.playClick()}
-              className={`relative px-3 py-2 transition-colors duration-200 ${
-                isDocsActive 
-                  ? (isDarkTheme ? "text-[#E4C090] font-bold" : "text-[#B45309] font-bold") 
-                  : (isDarkTheme ? "hover:text-[#E4C090]" : "hover:text-[#B45309]")
+              className={`nav-link relative px-3 py-2 ${
+                isDocsActive ? "!text-[color:var(--ink)] font-bold" : ""
               }`}
             >
               Docs
@@ -361,10 +388,8 @@ export default function Navbar({
             <Link
               href="/pricing"
               onClick={() => sound.playClick()}
-              className={`relative px-3 py-2 transition-colors duration-200 ${
-                isPricingActive 
-                  ? (isDarkTheme ? "text-[#E4C090] font-bold" : "text-[#B45309] font-bold") 
-                  : (isDarkTheme ? "hover:text-[#E4C090]" : "hover:text-[#B45309]")
+              className={`nav-link relative px-3 py-2 ${
+                isPricingActive ? "!text-[color:var(--ink)] font-bold" : ""
               }`}
             >
               Pricing
@@ -378,10 +403,8 @@ export default function Navbar({
             <Link
               href="/labs"
               onClick={() => sound.playClick()}
-              className={`relative px-3 py-2 transition-colors duration-200 ${
-                isLabsActive 
-                  ? (isDarkTheme ? "text-[#E4C090] font-bold" : "text-[#B45309] font-bold") 
-                  : (isDarkTheme ? "hover:text-[#E4C090]" : "hover:text-[#B45309]")
+              className={`nav-link relative px-3 py-2 ${
+                isLabsActive ? "!text-[color:var(--ink)] font-bold" : ""
               }`}
             >
               Labs
@@ -401,11 +424,7 @@ export default function Navbar({
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => sound.playClick()}
-              className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[var(--radius)] font-mono text-[11px] font-semibold border shadow-xs transition-all duration-200 ${
-                isDarkTheme
-                  ? "border-white/[0.12] bg-white/[0.05] text-[#D6D3D1] hover:text-[#E4C090] hover:border-white/25 hover:bg-white/10"
-                  : "border-[#E4D9BC] bg-white text-[#4A3B33] hover:text-[#B45309] hover:border-[#B45309] hover:bg-[#FAF6EE]"
-              }`}
+              className="nav-btn-ghost inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[var(--radius)] font-mono text-[11px] font-semibold border shadow-xs transition-all duration-200"
               title="GitHub: @aniketmishra-0"
             >
               <svg viewBox="0 0 24 24" fill="currentColor" className="w-3.5 h-3.5">
@@ -419,10 +438,8 @@ export default function Navbar({
               onClick={handleToggleSound}
               type="button"
               data-custom-sound="true"
-              className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[var(--radius)] font-mono text-[11px] font-semibold border transition-all duration-200 ${
-                isDarkTheme
-                  ? (soundActive ? "bg-white/10 text-[#E4C090] border-white/20" : "bg-transparent text-[#A8A29E] border-white/10 hover:text-white")
-                  : (soundActive ? "bg-[#FAF6EE] text-[#B45309] border-[#E4D9BC] shadow-sm hover:border-[#B45309]" : "bg-white text-[#A8A29E] border-[#E4D9BC]/60 hover:text-[#78716C]")
+              className={`nav-btn-ghost inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[var(--radius)] font-mono text-[11px] font-semibold border transition-all duration-200 ${
+                soundActive ? (isDarkTheme ? "!text-[#E4C090] !border-[#E4C090]/40" : "!text-[#B45309] !border-[#B45309]/40") : ""
               }`}
               title={soundActive ? "Mute interface sound" : "Enable interface sound"}
             >
