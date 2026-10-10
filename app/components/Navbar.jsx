@@ -523,7 +523,7 @@ export default function Navbar({
           </div>
         </nav>
 
-        {/* Integrated Clean Mobile Drawer (unfolds naturally without giant blank void) */}
+        {/* Integrated Clean Mobile Drawer */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
@@ -534,62 +534,34 @@ export default function Navbar({
               className="lg:hidden border-t border-[#E4D9BC] bg-[#FDFBF7] overflow-hidden"
             >
               <div 
-                className="max-h-[min(76dvh,calc(100dvh-5rem))] overflow-y-auto overscroll-contain px-4.5 sm:px-6 pt-3.5 pb-6 flex flex-col gap-4 text-[#4A3B33]"
+                className="max-h-[min(76dvh,calc(100dvh-5rem))] overflow-y-auto overscroll-contain px-6 sm:px-8 py-4 flex flex-col gap-3 text-[#4A3B33]"
                 style={{ WebkitOverflowScrolling: "touch", overscrollBehavior: "contain" }}
               >
-                {/* Header Sub-Label & Quick Search Bar */}
-                <div className="flex flex-col gap-2.5 pb-2 border-b border-[#E4D9BC]/60">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-[10px] font-semibold tracking-wider text-[#78716C] uppercase">
-                      Navigation
-                    </span>
-                    <span className="font-mono text-[9.5px] text-[#A8A29E] tracking-tight">
-                      aniket.one
-                    </span>
-                  </div>
-
-                  {/* Quick Search Trigger Pill */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      sound.playClick();
-                      setMobileMenuOpen(false);
-                      if (onOpenSearch) onOpenSearch();
-                    }}
-                    className="flex items-center justify-between w-full px-3 py-2 rounded-xl border border-[#E4D9BC] bg-white text-[#78716C] hover:bg-[#FAF6EE] hover:text-[#4A3B33] transition-all text-left shadow-2xs group cursor-pointer"
-                  >
-                    <div className="flex items-center gap-2 text-xs">
-                      <Search className="w-3.5 h-3.5 text-[#B45309] shrink-0" />
-                      <span className="text-[#A8A29E] group-hover:text-[#4A3B33] transition-colors truncate">
-                        Search or ask anything…
-                      </span>
-                    </div>
-                    <kbd className="ml-2 px-1.5 py-0.5 rounded border border-[#E4D9BC] bg-[#FAF6EE] font-mono text-[10px] text-[#78716C] shrink-0">
-                      ⌘K
-                    </kbd>
-                  </button>
+                {/* Header Sub-Label */}
+                <div className="flex items-center justify-between pb-2 border-b border-[#E4D9BC]/60">
+                  <span className="font-mono text-[10.5px] font-semibold tracking-wider text-[#78716C] uppercase">
+                    Navigation
+                  </span>
+                  <span className="font-mono text-[10px] text-[#A8A29E] tracking-tight">
+                    aniket.one
+                  </span>
                 </div>
 
-                {/* Minimalist, Clean Editorial Navigation matching UI with subtle subtitles */}
+                {/* Truly Minimal, Clean Editorial Navigation */}
                 <div className="flex flex-col divide-y divide-[#E4D9BC]/50">
                   {/* 1. Compare */}
-                  <div className="py-2.5">
+                  <div className="py-2">
                     <button
                       type="button"
                       onClick={() => {
                         sound.playClick();
                         setMobileExpandedSection(prev => prev === 'compare' ? null : 'compare');
                       }}
-                      className="w-full flex items-center justify-between py-1 text-left cursor-pointer group"
+                      className="w-full flex items-center justify-between py-1.5 text-left cursor-pointer group"
                     >
-                      <div className="min-w-0 pr-2">
-                        <div className="text-[16px] font-serif font-bold text-[#4A3B33] group-hover:text-[#B45309] transition-colors leading-snug">
-                          Compare
-                        </div>
-                        <div className="text-[11.5px] font-sans text-[#A8A29E] truncate">
-                          Benchmarks vs Mem0, Glean, Palantir &amp; more
-                        </div>
-                      </div>
+                      <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
+                        Compare
+                      </span>
                       <ChevronDown 
                         className={`w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] shrink-0 transition-transform duration-200 ${
                           mobileExpandedSection === 'compare' ? 'rotate-180 text-[#B45309]' : ''
@@ -619,7 +591,7 @@ export default function Navbar({
                                 sound.playClick();
                                 setMobileMenuOpen(false);
                               }}
-                              className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[13.5px] text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE] transition-colors group"
+                              className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[14px] text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE] transition-colors group"
                             >
                               <span>{item.label}</span>
                               <ArrowUpRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:text-[#B45309]" />
@@ -642,23 +614,18 @@ export default function Navbar({
                   </div>
 
                   {/* 2. Resources */}
-                  <div className="py-2.5">
+                  <div className="py-2">
                     <button
                       type="button"
                       onClick={() => {
                         sound.playClick();
                         setMobileExpandedSection(prev => prev === 'resources' ? null : 'resources');
                       }}
-                      className="w-full flex items-center justify-between py-1 text-left cursor-pointer group"
+                      className="w-full flex items-center justify-between py-1.5 text-left cursor-pointer group"
                     >
-                      <div className="min-w-0 pr-2">
-                        <div className="text-[16px] font-serif font-bold text-[#4A3B33] group-hover:text-[#B45309] transition-colors leading-snug">
-                          Resources
-                        </div>
-                        <div className="text-[11.5px] font-sans text-[#A8A29E] truncate">
-                          Use cases, case studies, security &amp; creators
-                        </div>
-                      </div>
+                      <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
+                        Resources
+                      </span>
                       <ChevronDown 
                         className={`w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] shrink-0 transition-transform duration-200 ${
                           mobileExpandedSection === 'resources' ? 'rotate-180 text-[#B45309]' : ''
@@ -686,7 +653,7 @@ export default function Navbar({
                                 sound.playClick();
                                 setMobileMenuOpen(false);
                               }}
-                              className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[13.5px] text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE] transition-colors group"
+                              className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[14px] text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE] transition-colors group"
                             >
                               <span>{item.label}</span>
                               <ArrowUpRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:text-[#B45309]" />
@@ -698,45 +665,35 @@ export default function Navbar({
                   </div>
 
                   {/* 3. Blog */}
-                  <div className="py-2.5">
+                  <div className="py-2">
                     <Link
                       href="/blog"
                       onClick={() => {
                         sound.playClick();
                         setMobileMenuOpen(false);
                       }}
-                      className="w-full flex items-center justify-between py-1 text-left group"
+                      className="w-full flex items-center justify-between py-1.5 text-left group"
                     >
-                      <div className="min-w-0 pr-2">
-                        <div className="text-[16px] font-serif font-bold text-[#4A3B33] group-hover:text-[#B45309] transition-colors leading-snug">
-                          Blog
-                        </div>
-                        <div className="text-[11.5px] font-sans text-[#A8A29E] truncate">
-                          Context Tracing with OpenAI Euphony
-                        </div>
-                      </div>
-                      <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] shrink-0 transition-colors" />
+                      <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
+                        Blog
+                      </span>
+                      <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-colors" />
                     </Link>
                   </div>
 
                   {/* 4. Docs */}
-                  <div className="py-2.5">
+                  <div className="py-2">
                     <button
                       type="button"
                       onClick={() => {
                         sound.playClick();
                         setMobileExpandedSection(prev => prev === 'docs' ? null : 'docs');
                       }}
-                      className="w-full flex items-center justify-between py-1 text-left cursor-pointer group"
+                      className="w-full flex items-center justify-between py-1.5 text-left cursor-pointer group"
                     >
-                      <div className="min-w-0 pr-2">
-                        <div className="text-[16px] font-serif font-bold text-[#4A3B33] group-hover:text-[#B45309] transition-colors leading-snug">
-                          Docs
-                        </div>
-                        <div className="text-[11.5px] font-sans text-[#A8A29E] truncate">
-                          Quickstarts, SDKs &amp; context thesis
-                        </div>
-                      </div>
+                      <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
+                        Docs
+                      </span>
                       <ChevronDown 
                         className={`w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] shrink-0 transition-transform duration-200 ${
                           mobileExpandedSection === 'docs' ? 'rotate-180 text-[#B45309]' : ''
@@ -765,7 +722,7 @@ export default function Navbar({
                                 sound.playClick();
                                 setMobileMenuOpen(false);
                               }}
-                              className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[13.5px] text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE] transition-colors group"
+                              className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[14px] text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE] transition-colors group"
                             >
                               <span>{item.label}</span>
                               <ArrowUpRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:text-[#B45309]" />
@@ -777,52 +734,42 @@ export default function Navbar({
                   </div>
 
                   {/* 5. Pricing */}
-                  <div className="py-2.5">
+                  <div className="py-2">
                     <Link
                       href="/pricing"
                       onClick={() => {
                         sound.playClick();
                         setMobileMenuOpen(false);
                       }}
-                      className="w-full flex items-center justify-between py-1 text-left group"
+                      className="w-full flex items-center justify-between py-1.5 text-left group"
                     >
-                      <div className="min-w-0 pr-2">
-                        <div className="text-[16px] font-serif font-bold text-[#4A3B33] group-hover:text-[#B45309] transition-colors leading-snug">
-                          Pricing
-                        </div>
-                        <div className="text-[11.5px] font-sans text-[#A8A29E] truncate">
-                          Free developer tier to sovereign enterprise
-                        </div>
-                      </div>
-                      <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] shrink-0 transition-colors" />
+                      <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
+                        Pricing
+                      </span>
+                      <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-colors" />
                     </Link>
                   </div>
 
                   {/* 6. Labs */}
-                  <div className="py-2.5">
+                  <div className="py-2">
                     <Link
                       href="/labs"
                       onClick={() => {
                         sound.playClick();
                         setMobileMenuOpen(false);
                       }}
-                      className="w-full flex items-center justify-between py-1 text-left group"
+                      className="w-full flex items-center justify-between py-1.5 text-left group"
                     >
-                      <div className="min-w-0 pr-2">
-                        <div className="text-[16px] font-serif font-bold text-[#4A3B33] group-hover:text-[#B45309] transition-colors leading-snug">
-                          Labs
-                        </div>
-                        <div className="text-[11.5px] font-sans text-[#A8A29E] truncate">
-                          Interactive multi-model sovereignty sandbox
-                        </div>
-                      </div>
-                      <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] shrink-0 transition-colors" />
+                      <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
+                        Labs
+                      </span>
+                      <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-colors" />
                     </Link>
                   </div>
                 </div>
 
                 {/* Bottom Drawer Actions with Social Profiles + CTA */}
-                <div className="pt-3 pb-2 flex flex-col gap-3 shrink-0 border-t border-[#E4D9BC]/60">
+                <div className="pt-3 pb-1 flex flex-col gap-3 shrink-0 border-t border-[#E4D9BC]/60">
                   {/* Social profiles bar */}
                   <div className="grid grid-cols-3 gap-2">
                     <a
