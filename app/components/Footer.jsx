@@ -12,11 +12,11 @@ export default function Footer() {
     {
       title: "STACK & WORK",
       links: [
-        { label: "Core Primitives", href: "/#primitives" },
+        { label: "Featured Projects", href: "/#work" },
+        { label: "Freelance Services", href: "/#services" },
         { label: "Full-Stack Engine", href: "/#how-it-works" },
         { label: "AI Integration", href: "/#router" },
-        { label: "Philosophy & Thesis", href: "/#thesis" },
-        { label: "Interactive 3D Web", href: "/#hero" }
+        { label: "Philosophy & Thesis", href: "/#why-context" }
       ]
     },
     {

@@ -426,33 +426,19 @@ export default function Navbar({
             </Link>
 
             <Link
-              href="/pricing"
+              href="#work"
               onClick={() => sound.playClick()}
-              className={`nav-link relative px-3 py-2 cursor-pointer transition-colors ${
-                isPricingActive ? "!text-[color:var(--ink)] font-bold" : ""
-              }`}
+              className="nav-link relative px-3 py-2 cursor-pointer transition-colors"
             >
-              Pricing
-              {isPricingActive && (
-                <span className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
-                  isDarkTheme ? "bg-[#E4C090]" : "bg-[#B45309]"
-                }`} />
-              )}
+              Projects
             </Link>
 
             <Link
-              href="/labs"
+              href="#services"
               onClick={() => sound.playClick()}
-              className={`nav-link relative px-3 py-2 cursor-pointer transition-colors ${
-                isLabsActive ? "!text-[color:var(--ink)] font-bold" : ""
-              }`}
+              className="nav-link relative px-3 py-2 cursor-pointer transition-colors"
             >
-              Labs
-              {isLabsActive && (
-                <span className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
-                  isDarkTheme ? "bg-[#E4C090]" : "bg-[#B45309]"
-                }`} />
-              )}
+              Services
             </Link>
           </div>
 
@@ -740,10 +726,10 @@ export default function Navbar({
                     </AnimatePresence>
                   </div>
 
-                  {/* 5. Pricing */}
+                  {/* 5. Projects */}
                   <div className="py-2">
                     <Link
-                      href="/pricing"
+                      href="#work"
                       onClick={() => {
                         sound.playClick();
                         setMobileMenuOpen(false);
@@ -751,16 +737,16 @@ export default function Navbar({
                       className="w-full flex items-center justify-between py-1.5 text-left group"
                     >
                       <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
-                        Pricing
+                        Projects &amp; Case Studies
                       </span>
                       <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-colors" />
                     </Link>
                   </div>
 
-                  {/* 6. Labs */}
+                  {/* 6. Services */}
                   <div className="py-2">
                     <Link
-                      href="/labs"
+                      href="#services"
                       onClick={() => {
                         sound.playClick();
                         setMobileMenuOpen(false);
@@ -768,7 +754,7 @@ export default function Navbar({
                       className="w-full flex items-center justify-between py-1.5 text-left group"
                     >
                       <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
-                        Labs
+                        Freelance Services &amp; Workflow
                       </span>
                       <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-colors" />
                     </Link>

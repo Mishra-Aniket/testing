@@ -10,6 +10,8 @@ import CodeWalkthrough from "./components/CodeWalkthrough";
 import FAQ from "./components/FAQ";
 import DarkCTA from "./components/DarkCTA";
 import Footer from "./components/Footer";
+import FeaturedProjects from "./components/FeaturedProjects";
+import ServicesWorkflow from "./components/ServicesWorkflow";
 import ConstellationCanvas from "./components/ConstellationCanvas";
 import SearchModal from "./components/SearchModal";
 import ContextAssessmentModal from "./components/ContextAssessmentModal";
@@ -71,7 +73,13 @@ export default function Home() {
         {/* 3. The Context Thesis, Technical Case & Business Case */}
         <ContextThesis />
 
-        {/* 4. Model Sovereignty 3D Router Graphic (Claude, GPT, Gemini) */}
+        {/* 4. Featured Projects & Production Systems (Driven by app/data/portfolioData.js) */}
+        <FeaturedProjects />
+
+        {/* 5. Freelance Services, 4-Week Delivery Protocol & Founder Testimonials */}
+        <ServicesWorkflow />
+
+        {/* 6. Model Sovereignty 3D Router Graphic (Claude, GPT, Gemini) */}
         <ModelSovereignty />
 
         {/* 5. 4 Engineering Primitives / Code Walkthrough (includes the Accuracy Terrain benchmark, as on the original) */}
