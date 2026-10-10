@@ -13,22 +13,9 @@ import Footer from "./components/Footer";
 import ConstellationCanvas from "./components/ConstellationCanvas";
 import SearchModal from "./components/SearchModal";
 import ContextAssessmentModal from "./components/ContextAssessmentModal";
-import ComparisonModal from "./components/ComparisonModal";
-import ResourcesModal from "./components/ResourcesModal";
-import PricingModal from "./components/PricingModal";
-import DocsModal from "./components/DocsModal";
-import LabsModal from "./components/LabsModal";
-import BlogModal from "./components/BlogModal";
-
 export default function Home() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [assessmentOpen, setAssessmentOpen] = useState(false);
-  const [compareState, setCompareState] = useState({ open: false, tab: "mem0" });
-  const [resourcesState, setResourcesState] = useState({ open: false, tab: "use-cases" });
-  const [pricingOpen, setPricingOpen] = useState(false);
-  const [docsOpen, setDocsOpen] = useState(false);
-  const [labsOpen, setLabsOpen] = useState(false);
-  const [blogOpen, setBlogOpen] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -39,39 +26,6 @@ export default function Home() {
       if (params.get("assessment") === "true") {
         setAssessmentOpen(true);
       }
-
-      const handleHashChange = () => {
-        const hash = window.location.hash.toLowerCase();
-        if (hash.startsWith("#compare")) {
-          const compMatch = hash.replace("#compare-", "").replace("#compare", "");
-          const tab = compMatch && ["mem0", "glean", "palantir", "claude", "langchain"].includes(compMatch) ? compMatch : "mem0";
-          setCompareState({ open: true, tab });
-        } else if (
-          hash.startsWith("#resource") || 
-          hash === "#use-cases" || 
-          hash === "#case-study" || 
-          hash === "#security" || 
-          hash === "#creators"
-        ) {
-          let tab = "use-cases";
-          if (hash.includes("case-study")) tab = "case-study";
-          else if (hash.includes("security")) tab = "security";
-          else if (hash.includes("creator")) tab = "creators-program";
-          setResourcesState({ open: true, tab });
-        } else if (hash === "#pricing") {
-          setPricingOpen(true);
-        } else if (hash === "#docs") {
-          setDocsOpen(true);
-        } else if (hash === "#labs") {
-          setLabsOpen(true);
-        } else if (hash === "#blog") {
-          setBlogOpen(true);
-        }
-      };
-
-      handleHashChange();
-      window.addEventListener("hashchange", handleHashChange);
-      return () => window.removeEventListener("hashchange", handleHashChange);
     }
   }, []);
 
@@ -84,12 +38,6 @@ export default function Home() {
       <Navbar 
         onOpenSearch={() => setSearchOpen(true)} 
         onOpenAssessment={() => setAssessmentOpen(true)}
-        onOpenCompare={(tab = "mem0") => setCompareState({ open: true, tab })}
-        onOpenResources={(tab = "use-cases") => setResourcesState({ open: true, tab })}
-        onOpenPricing={() => setPricingOpen(true)}
-        onOpenDocs={() => setDocsOpen(true)}
-        onOpenLabs={() => setLabsOpen(true)}
-        onOpenBlog={() => setBlogOpen(true)}
       />
 
       {/* Main Content Sections */}
@@ -155,14 +103,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <Footer 
-        onOpenCompare={(tab = "mem0") => setCompareState({ open: true, tab })}
-        onOpenResources={(tab = "use-cases") => setResourcesState({ open: true, tab })}
-        onOpenPricing={() => setPricingOpen(true)}
-        onOpenDocs={() => setDocsOpen(true)}
-        onOpenLabs={() => setLabsOpen(true)}
-        onOpenBlog={() => setBlogOpen(true)}
-      />
+      <Footer />
 
       {/* ⌘K Quick Search Modal & Fixed Floating Bottom Dock */}
       <SearchModal 
@@ -175,44 +116,6 @@ export default function Home() {
       <ContextAssessmentModal
         isOpen={assessmentOpen}
         onClose={() => setAssessmentOpen(false)}
-      />
-
-      {/* Interactive Architecture Comparison Modal */}
-      <ComparisonModal
-        isOpen={compareState.open}
-        initialTab={compareState.tab}
-        onClose={() => setCompareState(prev => ({ ...prev, open: false }))}
-      />
-
-      {/* Enterprise Resources & Security Modal */}
-      <ResourcesModal
-        isOpen={resourcesState.open}
-        initialTab={resourcesState.tab}
-        onClose={() => setResourcesState(prev => ({ ...prev, open: false }))}
-      />
-
-      {/* Transparent ROI & Pruning Savings Pricing Modal */}
-      <PricingModal
-        isOpen={pricingOpen}
-        onClose={() => setPricingOpen(false)}
-      />
-
-      {/* Interactive SDK & Quickstart Documentation Modal */}
-      <DocsModal
-        isOpen={docsOpen}
-        onClose={() => setDocsOpen(false)}
-      />
-
-      {/* Live Context Arithmetic & Model Hot-Swap Laboratory Modal */}
-      <LabsModal
-        isOpen={labsOpen}
-        onClose={() => setLabsOpen(false)}
-      />
-
-      {/* Deep Engineering Walkthrough Blog Modal */}
-      <BlogModal
-        isOpen={blogOpen}
-        onClose={() => setBlogOpen(false)}
       />
     </div>
   );

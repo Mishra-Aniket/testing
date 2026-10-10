@@ -3,20 +3,9 @@ import Link from "next/link";
 import { ArrowUp } from "lucide-react";
 import { sound } from "../utils/sound";
 
-export default function Footer({
-  onOpenCompare,
-  onOpenResources,
-  onOpenPricing,
-  onOpenDocs,
-  onOpenLabs,
-  onOpenBlog
-}) {
+export default function Footer() {
   const handleLinkClick = (e, item) => {
     sound.playClick();
-    if (item.action) {
-      e.preventDefault();
-      item.action();
-    }
   };
 
   const FOOTER_COLUMNS = [
@@ -25,28 +14,28 @@ export default function Footer({
       links: [
         { label: "Context Layer", href: "/#how-it-works" },
         { label: "Thesis", href: "/thesis" },
-        { label: "Pricing", href: "/pricing", action: onOpenPricing },
-        { label: "Labs & Simulator", href: "/labs", action: onOpenLabs },
-        { label: "Creators Program", href: "/creators-program", action: () => onOpenResources && onOpenResources("creators-program") }
+        { label: "Pricing", href: "/pricing" },
+        { label: "Labs & Simulator", href: "/labs" },
+        { label: "Creators Program", href: "/creators-program" }
       ]
     },
     {
       title: "USE CASES",
       links: [
-        { label: "Finance", href: "/use-cases", action: () => onOpenResources && onOpenResources("use-cases") },
-        { label: "Customer Support", href: "/use-cases", action: () => onOpenResources && onOpenResources("use-cases") },
-        { label: "EdTech", href: "/use-cases", action: () => onOpenResources && onOpenResources("use-cases") },
-        { label: "Healthcare", href: "/use-cases", action: () => onOpenResources && onOpenResources("use-cases") },
-        { label: "All Use Cases", href: "/use-cases", action: () => onOpenResources && onOpenResources("use-cases") }
+        { label: "Finance", href: "/use-cases" },
+        { label: "Customer Support", href: "/use-cases" },
+        { label: "EdTech", href: "/use-cases" },
+        { label: "Healthcare", href: "/use-cases" },
+        { label: "All Use Cases", href: "/use-cases" }
       ]
     },
     {
       title: "DEVELOPERS",
       links: [
-        { label: "Documentation", href: "/docs", action: onOpenDocs },
-        { label: "API Reference", href: "/docs", action: onOpenDocs },
-        { label: "Python SDK", href: "/docs", action: onOpenDocs },
-        { label: "Node.js SDK", href: "/docs", action: onOpenDocs },
+        { label: "Documentation", href: "/docs" },
+        { label: "API Reference", href: "/docs" },
+        { label: "Python SDK", href: "/docs" },
+        { label: "Node.js SDK", href: "/docs" },
         { label: "llms.txt", href: "/llms.txt" },
         { label: "llms-full.txt", href: "/llms-full.txt" }
       ]
@@ -54,29 +43,29 @@ export default function Footer({
     {
       title: "COMPARE",
       links: [
-        { label: "vs Mem0", href: "/compare/aniket-vs-mem0", action: () => onOpenCompare && onOpenCompare("mem0") },
-        { label: "vs Glean", href: "/compare/aniket-vs-glean", action: () => onOpenCompare && onOpenCompare("glean") },
-        { label: "vs Palantir", href: "/compare/aniket-vs-palantir", action: () => onOpenCompare && onOpenCompare("palantir") },
-        { label: "vs Claude Memory", href: "/compare/aniket-vs-claude", action: () => onOpenCompare && onOpenCompare("claude") },
-        { label: "vs LangChain", href: "/compare/aniket-vs-langchain", action: () => onOpenCompare && onOpenCompare("langchain") },
-        { label: "All Comparisons", href: "/compare", action: () => onOpenCompare && onOpenCompare("mem0") }
+        { label: "vs Mem0", href: "/compare/aniket-vs-mem0" },
+        { label: "vs Glean", href: "/compare/aniket-vs-glean" },
+        { label: "vs Palantir", href: "/compare/aniket-vs-palantir" },
+        { label: "vs Claude Memory", href: "/compare/aniket-vs-claude" },
+        { label: "vs LangChain", href: "/compare/aniket-vs-langchain" },
+        { label: "All Comparisons", href: "/compare" }
       ]
     },
     {
       title: "COMPANY",
       links: [
         { label: "About Us", href: "/thesis" },
-        { label: "Blog", href: "/blog", action: onOpenBlog },
-        { label: "Case Studies", href: "/use-cases", action: () => onOpenResources && onOpenResources("case-study") },
+        { label: "Blog", href: "/blog" },
+        { label: "Case Studies", href: "/use-cases" },
         { label: "Contact", href: "mailto:hello@aniket.one" }
       ]
     },
     {
       title: "LEGAL",
       links: [
-        { label: "Privacy Policy", href: "/security", action: () => onOpenResources && onOpenResources("security") },
-        { label: "Security & SOC2", href: "/security", action: () => onOpenResources && onOpenResources("security") },
-        { label: "Terms of Use", href: "/security", action: () => onOpenResources && onOpenResources("security") }
+        { label: "Privacy Policy", href: "/security" },
+        { label: "Security & SOC2", href: "/security" },
+        { label: "Terms of Use", href: "/security" }
       ]
     }
   ];
@@ -172,13 +161,7 @@ export default function Footer({
                     {link.href.startsWith('/') ? (
                       <Link
                         href={link.href}
-                        onClick={(e) => {
-                          sound.playClick();
-                          if (link.action && !e.metaKey && !e.ctrlKey) {
-                            e.preventDefault();
-                            link.action();
-                          }
-                        }}
+                        onClick={() => sound.playClick()}
                         className="text-[0.875rem] text-[#A8A29E] transition-colors duration-200 hover:text-[#E4C090] cursor-pointer"
                       >
                         {link.label}

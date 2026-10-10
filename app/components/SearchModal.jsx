@@ -142,9 +142,6 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
       }
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 50);
     } else {
       if (typeof window !== "undefined" && window.__lenis) {
         window.__lenis.start();

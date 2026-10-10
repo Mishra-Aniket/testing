@@ -26,13 +26,7 @@ import { sound } from '../utils/sound';
 
 export default function Navbar({
   onOpenSearch,
-  onOpenAssessment,
-  onOpenCompare,
-  onOpenResources,
-  onOpenPricing,
-  onOpenDocs,
-  onOpenLabs,
-  onOpenBlog
+  onOpenAssessment
 }) {
   const pathname = usePathname() || '';
   const isCompareActive = pathname.startsWith('/compare');
@@ -195,7 +189,7 @@ export default function Navbar({
   return (
     <>
       <motion.header
-        className="fixed top-3 md:top-4 left-0 right-0 z-50 px-3 md:px-6 flex justify-center pointer-events-none"
+        className="fixed top-0 md:top-4 left-0 right-0 z-50 px-0 md:px-6 flex justify-center pointer-events-none"
         initial={false}
         animate={{
           y: isNavVisible ? 0 : -96,
@@ -210,22 +204,20 @@ export default function Navbar({
           ref={navRef}
           className={`pointer-events-auto w-full max-w-[1200px] flex flex-col transition-all duration-300 ${
             mobileMenuOpen 
-              ? "rounded-2xl border border-[#E4D9BC] bg-[#FDFBF7] shadow-[0_24px_64px_-12px_rgba(74,59,51,0.35)] max-h-[calc(100dvh-1.5rem)] overflow-hidden" 
-              : "max-h-[calc(100dvh-0.5rem)] overflow-visible"
+              ? "max-h-[100dvh] overflow-hidden bg-[#FDFBF7] border-b border-[#E4D9BC] md:rounded-2xl md:border md:shadow-2xl" 
+              : "max-h-[100dvh] overflow-visible"
           }`}
         >
           <nav
             data-site-nav="true"
             data-theme={isDarkTheme ? "dark" : undefined}
             aria-label="Primary"
-            className={`w-full flex items-center justify-between gap-4 sm:gap-6 ${
-              mobileMenuOpen ? "rounded-t-2xl border-0" : "rounded-[calc(var(--radius)+4px)] border"
-            } pl-4 sm:pl-5 pr-2 py-2 backdrop-blur-xl backdrop-saturate-150 transition-[background-color,border-color,box-shadow] duration-300 ${
+            className={`w-full flex items-center justify-between gap-4 sm:gap-6 rounded-none md:rounded-[calc(var(--radius)+4px)] border-b md:border pl-4 sm:pl-5 pr-2 py-2 backdrop-blur-xl backdrop-saturate-150 transition-[background-color,border-color,box-shadow] duration-300 ${
               isDarkTheme 
-                ? "bg-[#1C1917]/75 border-white/[0.08]" 
+                ? "bg-[#1C1917]/90 md:bg-[#1C1917]/75 border-white/[0.08]" 
                 : isScrolled
-                  ? "bg-[#FDFBF7]/85 border-[#E4D9BC]"
-                  : "bg-[#FDFBF7]/55 border-[#E4D9BC]/70"
+                  ? "bg-[#FDFBF7]/90 md:bg-[#FDFBF7]/85 border-[#E4D9BC]"
+                  : "bg-[#FDFBF7]/90 md:bg-[#FDFBF7]/55 border-[#E4D9BC]/70"
             } ${
               isScrolled
                 ? isDarkTheme
@@ -257,16 +249,14 @@ export default function Navbar({
               onMouseEnter={() => setActiveDropdown('compare')}
               onMouseLeave={() => setActiveDropdown(null)}
             >
-              <button 
-                type="button"
-                onClick={(e) => {
+              <Link 
+                href="/compare"
+                onClick={() => {
                   sound.playClick();
-                  setActiveDropdown(prev => prev === 'compare' ? null : 'compare');
                 }}
                 className={`nav-link relative flex items-center gap-1 px-3 py-2 cursor-pointer transition-colors ${
                   isCompareActive || activeDropdown === 'compare' ? "!text-[color:var(--ink)] font-bold" : ""
                 }`}
-                aria-expanded={activeDropdown === 'compare'}
               >
                 <span>Compare</span>
                 <ChevronDown className={`w-3.5 h-3.5 opacity-70 transition-transform duration-300 ${
@@ -277,7 +267,7 @@ export default function Navbar({
                     isDarkTheme ? "bg-[#E4C090]" : "bg-[#B45309]"
                   }`} />
                 )}
-              </button>
+              </Link>
               <AnimatePresence>
                 {activeDropdown === 'compare' && (
                   <motion.div
@@ -293,22 +283,18 @@ export default function Navbar({
                     }`}
                   >
                     {[
-                      { label: "Aniket vs Mem0", id: "mem0", href: "/compare/aniket-vs-mem0" },
-                      { label: "Aniket vs Glean", id: "glean", href: "/compare/aniket-vs-glean" },
-                      { label: "Aniket vs Palantir", id: "palantir", href: "/compare/aniket-vs-palantir" },
-                      { label: "Claude Memory vs Aniket", id: "claude", href: "/compare/aniket-vs-claude" },
-                      { label: "LangChain Memory vs Aniket", id: "langchain", href: "/compare/aniket-vs-langchain" },
+                      { label: "Aniket vs Mem0", href: "/compare/aniket-vs-mem0" },
+                      { label: "Aniket vs Glean", href: "/compare/aniket-vs-glean" },
+                      { label: "Aniket vs Palantir", href: "/compare/aniket-vs-palantir" },
+                      { label: "Claude Memory vs Aniket", href: "/compare/aniket-vs-claude" },
+                      { label: "LangChain Memory vs Aniket", href: "/compare/aniket-vs-langchain" },
                     ].map((item) => (
                       <Link
                         key={item.href}
                         href={item.href}
-                        onClick={(e) => {
+                        onClick={() => {
                           sound.playClick();
                           setActiveDropdown(null);
-                          if (onOpenCompare && !e.metaKey && !e.ctrlKey) {
-                            e.preventDefault();
-                            onOpenCompare(item.id);
-                          }
                         }}
                         className={`w-full text-left flex items-center justify-between px-3.5 py-2 text-[0.875rem] rounded-[var(--radius)] transition-colors ${
                           pathname === item.href 
@@ -325,13 +311,9 @@ export default function Navbar({
                     <div className={`my-1.5 h-px ${isDarkTheme ? "bg-white/10" : "bg-[#E4D9BC]/70"}`} />
                     <Link
                       href="/compare"
-                      onClick={(e) => {
+                      onClick={() => {
                         sound.playClick();
                         setActiveDropdown(null);
-                        if (onOpenCompare && !e.metaKey && !e.ctrlKey) {
-                          e.preventDefault();
-                          onOpenCompare("mem0");
-                        }
                       }}
                       className={`w-full text-left flex items-center justify-between px-3.5 py-2 text-[0.875rem] font-bold rounded-[var(--radius)] transition-colors ${
                         isDarkTheme ? "text-[#E4C090] hover:text-white hover:bg-white/[0.05]" : "text-[#B45309] hover:text-[#A16207] hover:bg-black/[0.03]"
@@ -351,16 +333,14 @@ export default function Navbar({
               onMouseEnter={() => setActiveDropdown('resources')}
               onMouseLeave={() => setActiveDropdown(null)}
             >
-              <button
-                type="button"
-                onClick={(e) => {
+              <Link
+                href="/use-cases"
+                onClick={() => {
                   sound.playClick();
-                  setActiveDropdown(prev => prev === 'resources' ? null : 'resources');
                 }}
                 className={`nav-link relative flex items-center gap-1 px-3 py-2 cursor-pointer transition-colors ${
                   isResourcesActive || activeDropdown === 'resources' ? "!text-[color:var(--ink)] font-bold" : ""
                 }`}
-                aria-expanded={activeDropdown === 'resources'}
               >
                 <span>Resources</span>
                 <ChevronDown className={`w-3.5 h-3.5 opacity-70 transition-transform duration-300 ${
@@ -371,7 +351,7 @@ export default function Navbar({
                     isDarkTheme ? "bg-[#E4C090]" : "bg-[#B45309]"
                   }`} />
                 )}
-              </button>
+              </Link>
               <AnimatePresence>
                 {activeDropdown === 'resources' && (
                   <motion.div
@@ -387,21 +367,17 @@ export default function Navbar({
                     }`}
                   >
                     {[
-                      { label: "Use Cases", id: "use-cases", href: "/use-cases" },
-                      { label: "Case Studies", id: "case-study", href: "/use-cases" },
-                      { label: "Security & Trust", id: "security", href: "/security" },
-                      { label: "Creators Program", id: "creators-program", href: "/creators-program" },
+                      { label: "Use Cases", href: "/use-cases" },
+                      { label: "Case Studies", href: "/use-cases" },
+                      { label: "Security & Trust", href: "/security" },
+                      { label: "Creators Program", href: "/creators-program" },
                     ].map((item) => (
                       <Link
                         key={item.label}
                         href={item.href}
-                        onClick={(e) => {
+                        onClick={() => {
                           sound.playClick();
                           setActiveDropdown(null);
-                          if (onOpenResources && !e.metaKey && !e.ctrlKey) {
-                            e.preventDefault();
-                            onOpenResources(item.id);
-                          }
                         }}
                         className={`w-full text-left flex items-center justify-between px-3.5 py-2 text-[0.875rem] rounded-[var(--radius)] transition-colors ${
                           pathname === item.href 
@@ -422,13 +398,7 @@ export default function Navbar({
 
             <Link
               href="/blog"
-              onClick={(e) => {
-                sound.playClick();
-                if (onOpenBlog && !e.metaKey && !e.ctrlKey) {
-                  e.preventDefault();
-                  onOpenBlog();
-                }
-              }}
+              onClick={() => sound.playClick()}
               className={`nav-link relative px-3 py-2 cursor-pointer transition-colors ${
                 isBlogActive ? "!text-[color:var(--ink)] font-bold" : ""
               }`}
@@ -443,13 +413,7 @@ export default function Navbar({
 
             <Link
               href="/docs"
-              onClick={(e) => {
-                sound.playClick();
-                if (onOpenDocs && !e.metaKey && !e.ctrlKey) {
-                  e.preventDefault();
-                  onOpenDocs();
-                }
-              }}
+              onClick={() => sound.playClick()}
               className={`nav-link relative px-3 py-2 cursor-pointer transition-colors ${
                 isDocsActive ? "!text-[color:var(--ink)] font-bold" : ""
               }`}
@@ -464,13 +428,7 @@ export default function Navbar({
 
             <Link
               href="/pricing"
-              onClick={(e) => {
-                sound.playClick();
-                if (onOpenPricing && !e.metaKey && !e.ctrlKey) {
-                  e.preventDefault();
-                  onOpenPricing();
-                }
-              }}
+              onClick={() => sound.playClick()}
               className={`nav-link relative px-3 py-2 cursor-pointer transition-colors ${
                 isPricingActive ? "!text-[color:var(--ink)] font-bold" : ""
               }`}
@@ -485,13 +443,7 @@ export default function Navbar({
 
             <Link
               href="/labs"
-              onClick={(e) => {
-                sound.playClick();
-                if (onOpenLabs && !e.metaKey && !e.ctrlKey) {
-                  e.preventDefault();
-                  onOpenLabs();
-                }
-              }}
+              onClick={() => sound.playClick()}
               className={`nav-link relative px-3 py-2 cursor-pointer transition-colors ${
                 isLabsActive ? "!text-[color:var(--ink)] font-bold" : ""
               }`}
@@ -653,13 +605,9 @@ export default function Navbar({
                           <Link
                             key={item.href}
                             href={item.href}
-                            onClick={(e) => {
+                            onClick={() => {
                               sound.playClick();
                               setMobileMenuOpen(false);
-                              if (onOpenCompare && !e.metaKey && !e.ctrlKey) {
-                                e.preventDefault();
-                                onOpenCompare(item.id);
-                              }
                             }}
                             className="flex items-center justify-between p-2.5 rounded-xl text-left hover:bg-white hover:shadow-xs transition-all group"
                           >
@@ -677,13 +625,9 @@ export default function Navbar({
 
                         <Link
                           href="/compare"
-                          onClick={(e) => {
+                          onClick={() => {
                             sound.playClick();
                             setMobileMenuOpen(false);
-                            if (onOpenCompare && !e.metaKey && !e.ctrlKey) {
-                              e.preventDefault();
-                              onOpenCompare("mem0");
-                            }
                           }}
                           className="flex items-center justify-between p-2.5 text-[11.5px] font-mono font-bold text-[#B45309] bg-[#B45309]/10 hover:bg-[#B45309]/15 rounded-xl transition-colors mt-1"
                         >
@@ -743,21 +687,17 @@ export default function Navbar({
                         className="border-t border-[#E4D9BC]/50 bg-[#FAF6EE]/40 px-3 py-2.5 space-y-1"
                       >
                         {[
-                          { label: "Use Cases", id: "use-cases", desc: "Finance, Customer Ops, HR & Health", href: "/use-cases" },
-                          { label: "Case Studies", id: "case-study", desc: "Production sub-300ms agent deployments", href: "/use-cases" },
-                          { label: "Security & Sovereignty", id: "security", desc: "SOC 2, zero retention & sovereign VPC", href: "/security" },
-                          { label: "Creators Program", id: "creators-program", desc: "Early API access & research grants", href: "/creators-program" },
+                          { label: "Use Cases", desc: "Finance, Customer Ops, HR & Health", href: "/use-cases" },
+                          { label: "Case Studies", desc: "Production sub-300ms agent deployments", href: "/use-cases" },
+                          { label: "Security & Sovereignty", desc: "SOC 2, zero retention & sovereign VPC", href: "/security" },
+                          { label: "Creators Program", desc: "Early API access & research grants", href: "/creators-program" },
                         ].map((item) => (
                           <Link
                             key={item.label}
                             href={item.href}
-                            onClick={(e) => {
+                            onClick={() => {
                               sound.playClick();
                               setMobileMenuOpen(false);
-                              if (onOpenResources && !e.metaKey && !e.ctrlKey) {
-                                e.preventDefault();
-                                onOpenResources(item.id);
-                              }
                             }}
                             className="flex items-center justify-between p-2.5 rounded-xl text-left hover:bg-white hover:shadow-xs transition-all group"
                           >
@@ -780,13 +720,9 @@ export default function Navbar({
                 {/* 3. Blog */}
                 <Link
                   href="/blog"
-                  onClick={(e) => {
+                  onClick={() => {
                     sound.playClick();
                     setMobileMenuOpen(false);
-                    if (onOpenBlog && !e.metaKey && !e.ctrlKey) {
-                      e.preventDefault();
-                      onOpenBlog();
-                    }
                   }}
                   className="flex items-center justify-between p-4 sm:p-4.5 text-left hover:bg-[#FAF6EE]/50 active:bg-[#FAF6EE] transition-all group"
                 >
@@ -856,21 +792,17 @@ export default function Navbar({
                         className="border-t border-[#E4D9BC]/50 bg-[#FAF6EE]/40 px-3 py-2.5 space-y-1"
                       >
                         {[
-                          { label: "Overview & Quickstart", id: "docs", desc: "Install & instantiate in under 3 mins", href: "/docs" },
-                          { label: "Python SDK (aniket-sdk)", id: "docs", desc: "pip install aniket-sdk", href: "/docs" },
-                          { label: "Node.js SDK (@aniket/core)", id: "docs", desc: "npm i @aniket/core", href: "/docs" },
-                          { label: "Context Thesis", id: "thesis", desc: "Why institutional context compounds", href: "/thesis" },
+                          { label: "Overview & Quickstart", desc: "Install & instantiate in under 3 mins", href: "/docs" },
+                          { label: "Python SDK (aniket-sdk)", desc: "pip install aniket-sdk", href: "/docs" },
+                          { label: "Node.js SDK (@aniket/core)", desc: "npm i @aniket/core", href: "/docs" },
+                          { label: "Context Thesis", desc: "Why institutional context compounds", href: "/thesis" },
                         ].map((item) => (
                           <Link
                             key={item.label}
                             href={item.href}
-                            onClick={(e) => {
+                            onClick={() => {
                               sound.playClick();
                               setMobileMenuOpen(false);
-                              if (item.id === 'docs' && onOpenDocs && !e.metaKey && !e.ctrlKey) {
-                                e.preventDefault();
-                                onOpenDocs();
-                              }
                             }}
                             className="flex items-center justify-between p-2.5 rounded-xl text-left hover:bg-white hover:shadow-xs transition-all group"
                           >
@@ -893,13 +825,9 @@ export default function Navbar({
                 {/* 5. Pricing */}
                 <Link
                   href="/pricing"
-                  onClick={(e) => {
+                  onClick={() => {
                     sound.playClick();
                     setMobileMenuOpen(false);
-                    if (onOpenPricing && !e.metaKey && !e.ctrlKey) {
-                      e.preventDefault();
-                      onOpenPricing();
-                    }
                   }}
                   className="flex items-center justify-between p-4 sm:p-4.5 text-left hover:bg-[#FAF6EE]/50 active:bg-[#FAF6EE] transition-all group"
                 >
@@ -924,13 +852,9 @@ export default function Navbar({
                 {/* 6. Labs */}
                 <Link
                   href="/labs"
-                  onClick={(e) => {
+                  onClick={() => {
                     sound.playClick();
                     setMobileMenuOpen(false);
-                    if (onOpenLabs && !e.metaKey && !e.ctrlKey) {
-                      e.preventDefault();
-                      onOpenLabs();
-                    }
                   }}
                   className="flex items-center justify-between p-4 sm:p-4.5 text-left hover:bg-[#FAF6EE]/50 active:bg-[#FAF6EE] transition-all group"
                 >
