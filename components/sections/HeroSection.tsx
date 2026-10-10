@@ -9,9 +9,18 @@ interface HeroSectionProps {
 
 export function HeroSection({ blocks }: HeroSectionProps) {
   const hero = blocks.find((b) => b.type === 'hero');
-  if (!hero) return null;
 
-  const data = hero.data as unknown as HeroData;
+  const data: HeroData = hero
+    ? (hero.data as unknown as HeroData)
+    : {
+        name: 'Aniket Mishra',
+        role: 'Full-Stack & AI Engineer building scalable web applications and intelligent systems.',
+        availability: 'Open for freelance',
+        cta_primary_text: 'Hire me',
+        cta_primary_url: '#contact',
+        cta_secondary_text: 'View projects',
+        cta_secondary_url: '#projects',
+      };
 
   return (
     <section
