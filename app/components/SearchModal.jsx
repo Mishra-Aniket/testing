@@ -141,13 +141,11 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
         }
       }
       document.body.style.overflow = "hidden";
-      document.documentElement.style.overflow = "hidden";
     } else {
       if (typeof window !== "undefined" && window.__lenis) {
         window.__lenis.start();
       }
       document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
       setQuery("");
       setActiveAnswer(null);
     }
@@ -157,7 +155,6 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
         window.__lenis.start();
       }
       document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
     };
   }, [isOpen]);
 
@@ -243,8 +240,10 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
       {/* 1. FIXED FLOATING BOTTOM DOCK: Exact 1:1 match with getalchemystai.com */}
       <div 
         data-bottom-search-dock="true"
-        className={`fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 z-40 -translate-x-1/2 pointer-events-auto max-w-[calc(100vw-2rem)] transition-all duration-200 ${
-          isOpen || isMobileMenuOpen ? "opacity-0 pointer-events-none scale-95 invisible" : "opacity-100 scale-100"
+        className={`fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 z-40 -translate-x-1/2 max-w-[calc(100vw-2rem)] transition-[opacity,transform] duration-250 ease-out will-change-[transform,opacity] ${
+          isOpen || isMobileMenuOpen 
+            ? "opacity-0 pointer-events-none scale-95" 
+            : "opacity-100 pointer-events-auto scale-100"
         }`}
       >
         <button
@@ -276,8 +275,8 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="fixed inset-0 bg-[#1C1917]/60 backdrop-blur-sm z-50 pointer-events-auto"
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed inset-0 bg-[#1C1917]/60 backdrop-blur-sm z-50 pointer-events-auto will-change-opacity"
               onClick={() => {
                 sound.playClick();
                 onClose();
@@ -287,14 +286,14 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
             {/* Modal Flex Container: Guarantees 100% true centering on desktop and bottom sheet on mobile */}
             <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
               <motion.div
-                initial={{ y: 24, opacity: 0, scale: 0.98 }}
+                initial={{ y: 20, opacity: 0, scale: 0.98 }}
                 animate={{ y: 0, opacity: 1, scale: 1 }}
-                exit={{ y: 16, opacity: 0, scale: 0.98 }}
+                exit={{ y: 14, opacity: 0, scale: 0.98 }}
                 transition={{ 
-                  duration: 0.22,
+                  duration: 0.24,
                   ease: [0.16, 1, 0.3, 1]
                 }}
-                className="pointer-events-auto relative w-full sm:max-w-xl max-h-[88dvh] sm:max-h-[82vh] flex flex-col rounded-t-2xl sm:rounded-2xl border-t sm:border border-[#E4D9BC] bg-[#FDFBF7] shadow-[0_24px_64px_-12px_rgba(74,59,51,0.3)] overflow-hidden text-[#4A3B33]"
+                className="pointer-events-auto relative w-full sm:max-w-xl max-h-[88dvh] sm:max-h-[82vh] flex flex-col rounded-t-2xl sm:rounded-2xl border-t sm:border border-[#E4D9BC] bg-[#FDFBF7] shadow-[0_24px_64px_-12px_rgba(74,59,51,0.3)] overflow-hidden text-[#4A3B33] will-change-transform"
                 onClick={(e) => e.stopPropagation()}
                 onKeyDown={handleKeyDown}
               >

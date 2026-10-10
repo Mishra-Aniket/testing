@@ -149,14 +149,12 @@ export default function Navbar({
           window.__lenis.stop();
         }
         document.body.style.overflow = 'hidden';
-        document.documentElement.style.overflow = 'hidden';
       } else {
         document.documentElement.removeAttribute('data-mobile-nav-open');
         if (window.__lenis) {
           window.__lenis.start();
         }
         document.body.style.overflow = '';
-        document.documentElement.style.overflow = '';
       }
     }
     return () => {
@@ -167,7 +165,6 @@ export default function Navbar({
           window.__lenis.start();
         }
         document.body.style.overflow = '';
-        document.documentElement.style.overflow = '';
       }
     };
   }, [mobileMenuOpen]);
@@ -189,24 +186,22 @@ export default function Navbar({
   return (
     <>
       <motion.header
-        className={`fixed top-0 md:top-4 left-0 right-0 z-50 px-0 md:px-6 flex justify-center pointer-events-none ${
-          mobileMenuOpen ? "h-[100dvh] md:h-auto" : ""
-        }`}
+        className="fixed top-0 md:top-4 left-0 right-0 z-50 px-0 md:px-6 flex justify-center pointer-events-none"
         initial={false}
         animate={{
           y: isNavVisible ? 0 : -96,
           opacity: isNavVisible ? 1 : 0
         }}
         transition={{
-          duration: 0.35,
+          duration: 0.3,
           ease: [0.16, 1, 0.3, 1]
         }}
       >
         <div 
           ref={navRef}
-          className={`pointer-events-auto w-full max-w-[1200px] flex flex-col transition-all duration-300 ${
+          className={`pointer-events-auto w-full max-w-[1200px] flex flex-col transition-[background-color,border-color,box-shadow,border-radius] duration-250 ${
             mobileMenuOpen 
-              ? "h-[100dvh] md:h-auto md:max-h-[88vh] bg-[#FDFBF7] border-b border-[#E4D9BC] md:rounded-2xl md:border md:shadow-2xl overflow-hidden" 
+              ? "bg-[#FDFBF7] border-b border-[#E4D9BC] md:rounded-2xl md:border md:shadow-2xl overflow-hidden" 
               : "overflow-visible"
           }`}
         >
@@ -527,29 +522,54 @@ export default function Navbar({
           </div>
         </nav>
 
-        {/* Integrated Clean Mobile Drawer */}
+        {/* Integrated Clean Mobile Drawer (unfolds naturally without giant blank void) */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-              className="lg:hidden flex-1 min-h-0 overflow-y-auto overscroll-contain bg-[#FDFBF7] border-t border-[#E4D9BC] px-5 sm:px-8 pt-4 pb-24 flex flex-col justify-between touch-pan-y"
-              style={{ WebkitOverflowScrolling: "touch", overscrollBehavior: "contain" }}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              className="lg:hidden border-t border-[#E4D9BC] bg-[#FDFBF7] overflow-hidden"
             >
-              <div className="flex flex-col">
-                {/* Header Sub-Label inside Drawer */}
-                <div className="flex items-center justify-between pb-3 border-b border-[#E4D9BC]/60">
-                  <span className="font-mono text-[10px] font-semibold tracking-wider text-[#78716C] uppercase">
-                    Navigation
-                  </span>
-                  <span className="font-mono text-[9.5px] text-[#A8A29E] tracking-tight">
-                    aniket.one
-                  </span>
+              <div 
+                className="max-h-[min(76dvh,calc(100dvh-5rem))] overflow-y-auto overscroll-contain px-4.5 sm:px-6 pt-3.5 pb-6 flex flex-col gap-4 text-[#4A3B33]"
+                style={{ WebkitOverflowScrolling: "touch", overscrollBehavior: "contain" }}
+              >
+                {/* Header Sub-Label & Quick Search Bar */}
+                <div className="flex flex-col gap-2.5 pb-2 border-b border-[#E4D9BC]/60">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[10px] font-semibold tracking-wider text-[#78716C] uppercase">
+                      Navigation
+                    </span>
+                    <span className="font-mono text-[9.5px] text-[#A8A29E] tracking-tight">
+                      aniket.one
+                    </span>
+                  </div>
+
+                  {/* Quick Search Trigger Pill */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      sound.playClick();
+                      setMobileMenuOpen(false);
+                      if (onOpenSearch) onOpenSearch();
+                    }}
+                    className="flex items-center justify-between w-full px-3 py-2 rounded-xl border border-[#E4D9BC] bg-white text-[#78716C] hover:bg-[#FAF6EE] hover:text-[#4A3B33] transition-all text-left shadow-2xs group cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2 text-xs">
+                      <Search className="w-3.5 h-3.5 text-[#B45309] shrink-0" />
+                      <span className="text-[#A8A29E] group-hover:text-[#4A3B33] transition-colors truncate">
+                        Search or ask anything…
+                      </span>
+                    </div>
+                    <kbd className="ml-2 px-1.5 py-0.5 rounded border border-[#E4D9BC] bg-[#FAF6EE] font-mono text-[10px] text-[#78716C] shrink-0">
+                      ⌘K
+                    </kbd>
+                  </button>
                 </div>
 
-                {/* Minimalist, Clean Editorial Navigation matching UI */}
+                {/* Minimalist, Clean Editorial Navigation matching UI with subtle subtitles */}
                 <div className="flex flex-col divide-y divide-[#E4D9BC]/50">
                   {/* 1. Compare */}
                   <div className="py-2.5">
@@ -559,13 +579,18 @@ export default function Navbar({
                         sound.playClick();
                         setMobileExpandedSection(prev => prev === 'compare' ? null : 'compare');
                       }}
-                      className="w-full flex items-center justify-between py-2 text-left cursor-pointer group"
+                      className="w-full flex items-center justify-between py-1 text-left cursor-pointer group"
                     >
-                      <span className="text-[17px] font-serif font-semibold text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
-                        Compare
-                      </span>
+                      <div className="min-w-0 pr-2">
+                        <div className="text-[16px] font-serif font-bold text-[#4A3B33] group-hover:text-[#B45309] transition-colors leading-snug">
+                          Compare
+                        </div>
+                        <div className="text-[11.5px] font-sans text-[#A8A29E] truncate">
+                          Benchmarks vs Mem0, Glean, Palantir &amp; more
+                        </div>
+                      </div>
                       <ChevronDown 
-                        className={`w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-transform duration-200 ${
+                        className={`w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] shrink-0 transition-transform duration-200 ${
                           mobileExpandedSection === 'compare' ? 'rotate-180 text-[#B45309]' : ''
                         }`} 
                       />
@@ -576,8 +601,8 @@ export default function Navbar({
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="pl-3 mt-1.5 mb-2 space-y-1 border-l-2 border-[#B45309]/30"
+                          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                          className="pl-3 mt-2 mb-1 space-y-0.5 border-l-2 border-[#B45309]/30"
                         >
                           {[
                             { label: "Aniket vs Mem0", href: "/compare/aniket-vs-mem0" },
@@ -593,7 +618,7 @@ export default function Navbar({
                                 sound.playClick();
                                 setMobileMenuOpen(false);
                               }}
-                              className="flex items-center justify-between py-2 px-2 rounded-lg text-[14px] text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE] transition-colors group"
+                              className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[13.5px] text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE] transition-colors group"
                             >
                               <span>{item.label}</span>
                               <ArrowUpRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:text-[#B45309]" />
@@ -605,7 +630,7 @@ export default function Navbar({
                               sound.playClick();
                               setMobileMenuOpen(false);
                             }}
-                            className="flex items-center justify-between py-2 px-2 text-[12.5px] font-mono font-semibold text-[#B45309] hover:underline pt-1.5"
+                            className="flex items-center justify-between py-1.5 px-2 text-[12px] font-mono font-semibold text-[#B45309] hover:underline pt-1"
                           >
                             <span>Explore all comparisons</span>
                             <ArrowRight className="w-3.5 h-3.5" />
@@ -623,13 +648,18 @@ export default function Navbar({
                         sound.playClick();
                         setMobileExpandedSection(prev => prev === 'resources' ? null : 'resources');
                       }}
-                      className="w-full flex items-center justify-between py-2 text-left cursor-pointer group"
+                      className="w-full flex items-center justify-between py-1 text-left cursor-pointer group"
                     >
-                      <span className="text-[17px] font-serif font-semibold text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
-                        Resources
-                      </span>
+                      <div className="min-w-0 pr-2">
+                        <div className="text-[16px] font-serif font-bold text-[#4A3B33] group-hover:text-[#B45309] transition-colors leading-snug">
+                          Resources
+                        </div>
+                        <div className="text-[11.5px] font-sans text-[#A8A29E] truncate">
+                          Use cases, case studies, security &amp; creators
+                        </div>
+                      </div>
                       <ChevronDown 
-                        className={`w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-transform duration-200 ${
+                        className={`w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] shrink-0 transition-transform duration-200 ${
                           mobileExpandedSection === 'resources' ? 'rotate-180 text-[#B45309]' : ''
                         }`} 
                       />
@@ -640,8 +670,8 @@ export default function Navbar({
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="pl-3 mt-1.5 mb-2 space-y-1 border-l-2 border-[#B45309]/30"
+                          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                          className="pl-3 mt-2 mb-1 space-y-0.5 border-l-2 border-[#B45309]/30"
                         >
                           {[
                             { label: "Use Cases", href: "/use-cases" },
@@ -655,7 +685,7 @@ export default function Navbar({
                                 sound.playClick();
                                 setMobileMenuOpen(false);
                               }}
-                              className="flex items-center justify-between py-2 px-2 rounded-lg text-[14px] text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE] transition-colors group"
+                              className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[13.5px] text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE] transition-colors group"
                             >
                               <span>{item.label}</span>
                               <ArrowUpRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:text-[#B45309]" />
@@ -674,12 +704,17 @@ export default function Navbar({
                         sound.playClick();
                         setMobileMenuOpen(false);
                       }}
-                      className="w-full flex items-center justify-between py-2 text-left group"
+                      className="w-full flex items-center justify-between py-1 text-left group"
                     >
-                      <span className="text-[17px] font-serif font-semibold text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
-                        Blog
-                      </span>
-                      <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-colors" />
+                      <div className="min-w-0 pr-2">
+                        <div className="text-[16px] font-serif font-bold text-[#4A3B33] group-hover:text-[#B45309] transition-colors leading-snug">
+                          Blog
+                        </div>
+                        <div className="text-[11.5px] font-sans text-[#A8A29E] truncate">
+                          Context Tracing with OpenAI Euphony
+                        </div>
+                      </div>
+                      <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] shrink-0 transition-colors" />
                     </Link>
                   </div>
 
@@ -691,13 +726,18 @@ export default function Navbar({
                         sound.playClick();
                         setMobileExpandedSection(prev => prev === 'docs' ? null : 'docs');
                       }}
-                      className="w-full flex items-center justify-between py-2 text-left cursor-pointer group"
+                      className="w-full flex items-center justify-between py-1 text-left cursor-pointer group"
                     >
-                      <span className="text-[17px] font-serif font-semibold text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
-                        Docs
-                      </span>
+                      <div className="min-w-0 pr-2">
+                        <div className="text-[16px] font-serif font-bold text-[#4A3B33] group-hover:text-[#B45309] transition-colors leading-snug">
+                          Docs
+                        </div>
+                        <div className="text-[11.5px] font-sans text-[#A8A29E] truncate">
+                          Quickstarts, SDKs &amp; context thesis
+                        </div>
+                      </div>
                       <ChevronDown 
-                        className={`w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-transform duration-200 ${
+                        className={`w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] shrink-0 transition-transform duration-200 ${
                           mobileExpandedSection === 'docs' ? 'rotate-180 text-[#B45309]' : ''
                         }`} 
                       />
@@ -708,8 +748,8 @@ export default function Navbar({
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="pl-3 mt-1.5 mb-2 space-y-1 border-l-2 border-[#B45309]/30"
+                          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                          className="pl-3 mt-2 mb-1 space-y-0.5 border-l-2 border-[#B45309]/30"
                         >
                           {[
                             { label: "Overview & Quickstart", href: "/docs" },
@@ -724,7 +764,7 @@ export default function Navbar({
                                 sound.playClick();
                                 setMobileMenuOpen(false);
                               }}
-                              className="flex items-center justify-between py-2 px-2 rounded-lg text-[14px] text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE] transition-colors group"
+                              className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[13.5px] text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE] transition-colors group"
                             >
                               <span>{item.label}</span>
                               <ArrowUpRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:text-[#B45309]" />
@@ -743,12 +783,17 @@ export default function Navbar({
                         sound.playClick();
                         setMobileMenuOpen(false);
                       }}
-                      className="w-full flex items-center justify-between py-2 text-left group"
+                      className="w-full flex items-center justify-between py-1 text-left group"
                     >
-                      <span className="text-[17px] font-serif font-semibold text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
-                        Pricing
-                      </span>
-                      <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-colors" />
+                      <div className="min-w-0 pr-2">
+                        <div className="text-[16px] font-serif font-bold text-[#4A3B33] group-hover:text-[#B45309] transition-colors leading-snug">
+                          Pricing
+                        </div>
+                        <div className="text-[11.5px] font-sans text-[#A8A29E] truncate">
+                          Free developer tier to sovereign enterprise
+                        </div>
+                      </div>
+                      <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] shrink-0 transition-colors" />
                     </Link>
                   </div>
 
@@ -760,75 +805,80 @@ export default function Navbar({
                         sound.playClick();
                         setMobileMenuOpen(false);
                       }}
-                      className="w-full flex items-center justify-between py-2 text-left group"
+                      className="w-full flex items-center justify-between py-1 text-left group"
                     >
-                      <span className="text-[17px] font-serif font-semibold text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
-                        Labs
-                      </span>
-                      <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-colors" />
+                      <div className="min-w-0 pr-2">
+                        <div className="text-[16px] font-serif font-bold text-[#4A3B33] group-hover:text-[#B45309] transition-colors leading-snug">
+                          Labs
+                        </div>
+                        <div className="text-[11.5px] font-sans text-[#A8A29E] truncate">
+                          Interactive multi-model sovereignty sandbox
+                        </div>
+                      </div>
+                      <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] shrink-0 transition-colors" />
                     </Link>
                   </div>
                 </div>
-              </div>
 
-              {/* Bottom Drawer Actions with Social Profiles + CTA */}
-              <div className="pt-8 pb-4 flex flex-col gap-3 shrink-0">
-                {/* Social profiles bar */}
-                <div className="grid grid-cols-3 gap-2">
-                  <a
-                    href="https://github.com/aniketmishra-0"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => sound.playClick()}
-                    className="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border border-[#E4D9BC] bg-white hover:border-[#B45309] hover:bg-[#FAF6EE] text-[#4A3B33] font-mono text-xs shadow-2xs transition-all active:scale-[0.98]"
-                  >
-                    <svg className="w-3.5 h-3.5 fill-current text-[#4A3B33]" viewBox="0 0 24 24">
-                      <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-                    </svg>
-                    <span>GitHub</span>
-                  </a>
-                  <a
-                    href="https://www.linkedin.com/in/aniketmishra0"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => sound.playClick()}
-                    className="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border border-[#E4D9BC] bg-white hover:border-[#B45309] hover:bg-[#FAF6EE] text-[#4A3B33] font-mono text-xs shadow-2xs transition-all active:scale-[0.98]"
-                  >
-                    <svg className="w-3.5 h-3.5 fill-current text-[#0A66C2]" viewBox="0 0 24 24">
-                      <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
-                    </svg>
-                    <span>LinkedIn</span>
-                  </a>
-                  <a
-                    href="https://x.com/aniketmishra0"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => sound.playClick()}
-                    className="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border border-[#E4D9BC] bg-white hover:border-[#B45309] hover:bg-[#FAF6EE] text-[#4A3B33] font-mono text-xs shadow-2xs transition-all active:scale-[0.98]"
-                  >
-                    <svg className="w-3.5 h-3.5 fill-current text-[#4A3B33]" viewBox="0 0 24 24">
-                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                    </svg>
-                    <span>X</span>
-                  </a>
-                </div>
+                {/* Bottom Drawer Actions with Social Profiles + CTA */}
+                <div className="pt-3 pb-2 flex flex-col gap-3 shrink-0 border-t border-[#E4D9BC]/60">
+                  {/* Social profiles bar */}
+                  <div className="grid grid-cols-3 gap-2">
+                    <a
+                      href="https://github.com/aniketmishra-0"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => sound.playClick()}
+                      className="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border border-[#E4D9BC] bg-white hover:border-[#B45309] hover:bg-[#FAF6EE] text-[#4A3B33] font-mono text-xs shadow-2xs transition-all active:scale-[0.98]"
+                    >
+                      <svg className="w-3.5 h-3.5 fill-current text-[#4A3B33]" viewBox="0 0 24 24">
+                        <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                      </svg>
+                      <span>GitHub</span>
+                    </a>
+                    <a
+                      href="https://www.linkedin.com/in/aniketmishra0"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => sound.playClick()}
+                      className="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border border-[#E4D9BC] bg-white hover:border-[#B45309] hover:bg-[#FAF6EE] text-[#4A3B33] font-mono text-xs shadow-2xs transition-all active:scale-[0.98]"
+                    >
+                      <svg className="w-3.5 h-3.5 fill-current text-[#0A66C2]" viewBox="0 0 24 24">
+                        <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+                      </svg>
+                      <span>LinkedIn</span>
+                    </a>
+                    <a
+                      href="https://x.com/aniketmishra0"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => sound.playClick()}
+                      className="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border border-[#E4D9BC] bg-white hover:border-[#B45309] hover:bg-[#FAF6EE] text-[#4A3B33] font-mono text-xs shadow-2xs transition-all active:scale-[0.98]"
+                    >
+                      <svg className="w-3.5 h-3.5 fill-current text-[#4A3B33]" viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                      </svg>
+                      <span>X</span>
+                    </a>
+                  </div>
 
-                {/* Primary Call to Action Button */}
-                <Link
-                  href="#get-access"
-                  onClick={() => {
-                    sound.playClick();
-                    setMobileMenuOpen(false);
-                  }}
-                  className="group relative flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#B45309] to-[#92400E] px-5 py-3 font-sans font-bold text-white shadow-[0_8px_24px_-6px_rgba(180,83,9,0.35)] transition-all duration-200 hover:brightness-105 active:scale-[0.98]"
-                >
-                  <span className="tracking-wide">Request API Access</span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </Link>
+                  {/* Primary Call to Action Button */}
+                  <Link
+                    href="#get-access"
+                    onClick={() => {
+                      sound.playClick();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="group relative flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#B45309] to-[#92400E] px-5 py-3 font-sans font-bold text-white shadow-[0_8px_24px_-6px_rgba(180,83,9,0.35)] transition-all duration-200 hover:brightness-105 active:scale-[0.98]"
+                  >
+                    <span className="tracking-wide">Request API Access</span>
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
 
-                {/* Trust guarantee subtext */}
-                <div className="text-center font-mono text-[9.5px] text-[#A8A29E] tracking-tight">
-                  ✦ Instant Sandbox · Python &amp; Node.js SDKs · No Credit Card Required
+                  {/* Trust guarantee subtext */}
+                  <div className="text-center font-mono text-[9.5px] text-[#A8A29E] tracking-tight">
+                    ✦ Instant Sandbox · Python &amp; Node.js SDKs · No Credit Card Required
+                  </div>
                 </div>
               </div>
             </motion.div>
