@@ -3,54 +3,46 @@
 import React from "react";
 
 export default function Project3DVisualizer({ projectId }) {
-  // 1. AI RAG / Vector Space Visualizer (Warm Editorial Style matching StackDiagram)
+  // 1. AI RAG / Vector Space Visualizer (Frameless Floating 3D Vector Mesh)
   if (projectId === "agentic-rag-engine") {
     const nodes = [
-      { id: 0, x: 75, y: 55, label: "BM25 Sparse", val: "0.94 score" },
-      { id: 1, x: 190, y: 38, label: "Dense Vector", val: "1536 dim" },
-      { id: 2, x: 265, y: 110, label: "Reranker", val: "bge-rerank" },
-      { id: 3, x: 155, y: 140, label: "Graph Memory", val: "cross-session" },
-      { id: 4, x: 65, y: 120, label: "Semantic Cache", val: "< 12ms hit" },
+      { id: 0, x: 75, y: 55, label: "BM25 Sparse" },
+      { id: 1, x: 190, y: 38, label: "Dense Vector" },
+      { id: 2, x: 265, y: 110, label: "Reranker" },
+      { id: 3, x: 155, y: 140, label: "Graph Memory" },
+      { id: 4, x: 65, y: 120, label: "Semantic Cache" },
     ];
 
     return (
-      <div className="relative w-full h-[220px] sm:h-[240px] rounded-xl overflow-hidden bg-[#FAF6EE] border border-[#E4D9BC] flex items-center justify-center select-none">
-        {/* Subtle warm isometric grid */}
-        <div
-          className="absolute inset-0 opacity-40 pointer-events-none"
-          style={{
-            backgroundImage: "radial-gradient(#E4D9BC 1px, transparent 1px)",
-            backgroundSize: "24px 24px"
-          }}
-        />
-
-        {/* Top Telemetry Header */}
-        <div className="absolute top-3 left-4 z-10 flex items-center gap-2 font-mono text-[10px] text-[#78716C]">
-          <span className="h-2 w-2 rounded-full bg-[#B45309] animate-pulse" />
-          <span className="text-[#B45309] font-bold">VECTOR SPACE // L02_PIPELINE</span>
-          <span className="text-[#A8A29E]">·</span>
-          <span>HYBRID RETRIEVAL MESH</span>
-        </div>
-
+      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-center select-none overflow-visible">
         <svg
           viewBox="0 0 340 180"
-          className="w-full h-full max-h-[200px]"
+          className="w-full h-full max-h-[220px] overflow-visible"
           preserveAspectRatio="xMidYMid meet"
         >
           <defs>
-            <linearGradient id="warmVectorBeam" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#B45309" stopOpacity="0.8" />
-              <stop offset="100%" stopColor="#E4C090" stopOpacity="0.3" />
+            <linearGradient id="framelessVectorBeam" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#B45309" stopOpacity="0.75" />
+              <stop offset="100%" stopColor="#E4C090" stopOpacity="0.25" />
             </linearGradient>
           </defs>
 
+          {/* Telemetry Header Text in SVG */}
+          <circle cx="16" cy="18" r="2.5" fill="#B45309" />
+          <text x="25" y="21" fill="#B45309" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1.2">
+            VECTOR SPACE // L02_HYBRID_RAG
+          </text>
+          <text x="325" y="21" textAnchor="end" fill="#78716C" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.8">
+            p95 &lt; 38ms
+          </text>
+
           {/* Central Query Vector Node */}
-          <g transform="translate(170, 90)">
+          <g transform="translate(170, 95)">
             <ellipse rx="100" ry="42" fill="none" stroke="#E4D9BC" strokeWidth="1" strokeDasharray="3 3" />
             <ellipse rx="68" ry="28" fill="none" stroke="#E4C090" strokeWidth="1" />
-            <circle r="7" fill="#B45309" opacity="0.2" className="animate-ping" />
+            <circle r="7" fill="#B45309" opacity="0.18" className="animate-ping" />
             <circle r="4.5" fill="#B45309" />
-            <text y="-10" textAnchor="middle" fill="#B45309" fontSize="8" fontFamily="monospace" fontWeight="bold">
+            <text y="-10" textAnchor="middle" fill="#B45309" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="bold">
               q_vector(query)
             </text>
           </g>
@@ -60,10 +52,10 @@ export default function Project3DVisualizer({ projectId }) {
             <line
               key={`line-${node.id}`}
               x1="170"
-              y1="90"
+              y1="95"
               x2={node.x}
               y2={node.y}
-              stroke="url(#warmVectorBeam)"
+              stroke="url(#framelessVectorBeam)"
               strokeWidth="1.2"
               strokeDasharray="2 3"
             />
@@ -76,24 +68,27 @@ export default function Project3DVisualizer({ projectId }) {
               <circle r="3.5" fill="#B45309" />
               <text
                 x="0"
-                y={node.y < 90 ? "-10" : "15"}
+                y={node.y < 95 ? "-10" : "15"}
                 textAnchor="middle"
                 fill="#4A3B33"
                 fontSize="7.5"
-                fontFamily="monospace"
+                fontFamily="JetBrains Mono, monospace"
                 fontWeight="600"
               >
                 {node.label}
               </text>
             </g>
           ))}
-        </svg>
 
-        {/* Bottom Telemetry HUD */}
-        <div className="absolute bottom-2.5 left-4 right-4 flex items-center justify-between text-[10px] font-mono text-[#78716C] bg-white/80 backdrop-blur-xs px-3 py-1 rounded border border-[#E4D9BC]">
-          <span>Retriever: <span className="text-[#B45309] font-bold">Hybrid pgvector + BM25</span></span>
-          <span>p95 Latency: <span className="text-emerald-700 font-bold">&lt; 38ms</span></span>
-        </div>
+          {/* Bottom Telemetry Baseline */}
+          <line x1="16" y1="168" x2="324" y2="168" stroke="#E4D9BC" strokeWidth="0.8" strokeDasharray="2 4" />
+          <text x="16" y="162" fill="#78716C" fontSize="7" fontFamily="JetBrains Mono, monospace">
+            RETRIEVER: pgvector + BM25
+          </text>
+          <text x="324" y="162" textAnchor="end" fill="#059669" fontSize="7" fontFamily="JetBrains Mono, monospace" fontWeight="600">
+            COSINE SIM: 0.962
+          </text>
+        </svg>
       </div>
     );
   }
@@ -110,19 +105,21 @@ export default function Project3DVisualizer({ projectId }) {
     ];
 
     return (
-      <div className="relative w-full h-[220px] sm:h-[240px] rounded-xl overflow-hidden bg-[#FAF6EE] border border-[#E4D9BC] flex items-center justify-center select-none">
-        <div className="absolute top-3 left-4 z-10 flex items-center gap-2 font-mono text-[10px] text-[#78716C]">
-          <span className="h-2 w-2 rounded-full bg-[#B45309] animate-pulse" />
-          <span className="text-[#B45309] font-bold">ISOMETRIC PIPELINE // L03_REALTIME</span>
-          <span className="text-[#A8A29E]">·</span>
-          <span>THROUGHPUT ENGINE</span>
-        </div>
-
+      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-center select-none overflow-visible">
         <svg
           viewBox="0 0 340 180"
-          className="w-full h-full max-h-[200px]"
+          className="w-full h-full max-h-[220px] overflow-visible"
           preserveAspectRatio="xMidYMid meet"
         >
+          {/* Telemetry Header */}
+          <circle cx="16" cy="18" r="2.5" fill="#B45309" />
+          <text x="25" y="21" fill="#B45309" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1.2">
+            ISOMETRIC PIPELINE // L03_THROUGHPUT
+          </text>
+          <text x="325" y="21" textAnchor="end" fill="#059669" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="600">
+            2.4k DAU · &lt; 45ms
+          </text>
+
           {/* Base Grid Plane */}
           <g opacity="0.6">
             <line x1="20" y1="135" x2="310" y2="65" stroke="#E4D9BC" strokeWidth="0.8" />
@@ -165,7 +162,7 @@ export default function Project3DVisualizer({ projectId }) {
                   y={by + 16}
                   fill="#78716C"
                   fontSize="7.5"
-                  fontFamily="monospace"
+                  fontFamily="JetBrains Mono, monospace"
                   textAnchor="middle"
                   fontWeight="600"
                 >
@@ -174,12 +171,15 @@ export default function Project3DVisualizer({ projectId }) {
               </g>
             );
           })}
-        </svg>
 
-        <div className="absolute bottom-2.5 left-4 right-4 flex items-center justify-between text-[10px] font-mono text-[#78716C] bg-white/80 backdrop-blur-xs px-3 py-1 rounded border border-[#E4D9BC]">
-          <span>Throughput: <span className="text-emerald-700 font-bold">2.4k DAU</span></span>
-          <span>WebSocket Sync: <span className="text-[#B45309] font-bold">&lt; 45ms Edge</span></span>
-        </div>
+          <line x1="16" y1="168" x2="324" y2="168" stroke="#E4D9BC" strokeWidth="0.8" strokeDasharray="2 4" />
+          <text x="16" y="162" fill="#78716C" fontSize="7" fontFamily="JetBrains Mono, monospace">
+            ENGINE: NEXT.JS 15 + WEBSOCKETS
+          </text>
+          <text x="324" y="162" textAnchor="end" fill="#B45309" fontSize="7" fontFamily="JetBrains Mono, monospace" fontWeight="600">
+            60 FPS CANVAS SYNC
+          </text>
+        </svg>
       </div>
     );
   }
@@ -187,20 +187,22 @@ export default function Project3DVisualizer({ projectId }) {
   // 3. Creative 3D Isometric Prismatic Polyhedron
   if (projectId === "interactive-3d-visualizer") {
     return (
-      <div className="relative w-full h-[220px] sm:h-[240px] rounded-xl overflow-hidden bg-[#FAF6EE] border border-[#E4D9BC] flex items-center justify-center select-none">
-        <div className="absolute top-3 left-4 z-10 flex items-center gap-2 font-mono text-[10px] text-[#78716C]">
-          <span className="h-2 w-2 rounded-full bg-[#B45309] animate-pulse" />
-          <span className="text-[#B45309] font-bold">MATHEMATICAL 3D // SVG_PRISM</span>
-          <span className="text-[#A8A29E]">·</span>
-          <span>HARDWARE ACCELERATED</span>
-        </div>
-
+      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-center select-none overflow-visible">
         <svg
           viewBox="0 0 340 180"
-          className="w-full h-full max-h-[200px]"
+          className="w-full h-full max-h-[220px] overflow-visible"
           preserveAspectRatio="xMidYMid meet"
         >
-          <g transform="translate(170, 90)">
+          {/* Telemetry Header */}
+          <circle cx="16" cy="18" r="2.5" fill="#B45309" />
+          <text x="25" y="21" fill="#B45309" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1.2">
+            MATHEMATICAL 3D // SVG_PRISM
+          </text>
+          <text x="325" y="21" textAnchor="end" fill="#059669" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="600">
+            60 FPS · 0 KB THREE.JS
+          </text>
+
+          <g transform="translate(170, 95)">
             {/* Top Isometric Diamond */}
             <polygon
               points="0,-48 62,-16 0,16 -62,-16"
@@ -232,12 +234,15 @@ export default function Project3DVisualizer({ projectId }) {
               <circle key={idx} cx={vx} cy={vy} r="3" fill="#B45309" />
             ))}
           </g>
-        </svg>
 
-        <div className="absolute bottom-2.5 left-4 right-4 flex items-center justify-between text-[10px] font-mono text-[#78716C] bg-white/80 backdrop-blur-xs px-3 py-1 rounded border border-[#E4D9BC]">
-          <span>Rendering: <span className="text-[#B45309] font-bold">Pure SVG 3D Matrix</span></span>
-          <span>Bundle Overhead: <span className="text-emerald-700 font-bold">0 KB Extra JS</span></span>
-        </div>
+          <line x1="16" y1="168" x2="324" y2="168" stroke="#E4D9BC" strokeWidth="0.8" strokeDasharray="2 4" />
+          <text x="16" y="162" fill="#78716C" fontSize="7" fontFamily="JetBrains Mono, monospace">
+            ENGINE: HARDWARE SVG MATRICES
+          </text>
+          <text x="324" y="162" textAnchor="end" fill="#B45309" fontSize="7" fontFamily="JetBrains Mono, monospace" fontWeight="600">
+            ZERO THREE.JS OVERHEAD
+          </text>
+        </svg>
       </div>
     );
   }
@@ -252,19 +257,21 @@ export default function Project3DVisualizer({ projectId }) {
   ];
 
   return (
-    <div className="relative w-full h-[220px] sm:h-[240px] rounded-xl overflow-hidden bg-[#FAF6EE] border border-[#E4D9BC] flex items-center justify-center select-none">
-      <div className="absolute top-3 left-4 z-10 flex items-center gap-2 font-mono text-[10px] text-[#78716C]">
-        <span className="h-2 w-2 rounded-full bg-[#B45309] animate-pulse" />
-        <span className="text-[#B45309] font-bold">GLOBAL EDGE CLUSTER // TOPOLOGY</span>
-        <span className="text-[#A8A29E]">·</span>
-        <span>DISTRIBUTED PROXY</span>
-      </div>
-
+    <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-center select-none overflow-visible">
       <svg
         viewBox="0 0 340 180"
-        className="w-full h-full max-h-[200px]"
+        className="w-full h-full max-h-[220px] overflow-visible"
         preserveAspectRatio="xMidYMid meet"
       >
+        {/* Telemetry Header */}
+        <circle cx="16" cy="18" r="2.5" fill="#B45309" />
+        <text x="25" y="21" fill="#B45309" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1.2">
+          GLOBAL EDGE TOPOLOGY // PROXY
+        </text>
+        <text x="325" y="21" textAnchor="end" fill="#059669" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="600">
+          12k req/sec · 99.99%
+        </text>
+
         <path
           d="M 20 105 Q 170 30 320 105 M 20 135 Q 170 60 320 135"
           fill="none"
@@ -294,20 +301,23 @@ export default function Project3DVisualizer({ projectId }) {
           <g key={node.name} transform={`translate(${node.x}, ${node.y})`}>
             <circle r="7" fill="#FFFFFF" stroke="#E4D9BC" strokeWidth="1" />
             <circle r="3.5" fill="#B45309" />
-            <text y="-9" textAnchor="middle" fill="#4A3B33" fontSize="7.5" fontFamily="monospace" fontWeight="bold">
+            <text y="-9" textAnchor="middle" fill="#4A3B33" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="bold">
               {node.name}
             </text>
-            <text y="14" textAnchor="middle" fill="#B45309" fontSize="6.5" fontFamily="monospace">
+            <text y="14" textAnchor="middle" fill="#B45309" fontSize="6.5" fontFamily="JetBrains Mono, monospace">
               {node.ping}
             </text>
           </g>
         ))}
-      </svg>
 
-      <div className="absolute bottom-2.5 left-4 right-4 flex items-center justify-between text-[10px] font-mono text-[#78716C] bg-white/80 backdrop-blur-xs px-3 py-1 rounded border border-[#E4D9BC]">
-        <span>Cluster: <span className="text-[#B45309] font-bold">Distributed Rate Limiter</span></span>
-        <span>Availability: <span className="text-emerald-700 font-bold">12k req/sec · 99.99%</span></span>
-      </div>
+        <line x1="16" y1="168" x2="324" y2="168" stroke="#E4D9BC" strokeWidth="0.8" strokeDasharray="2 4" />
+        <text x="16" y="162" fill="#78716C" fontSize="7" fontFamily="JetBrains Mono, monospace">
+          GATEWAY: DISTRIBUTED RATE LIMITER
+        </text>
+        <text x="324" y="162" textAnchor="end" fill="#B45309" fontSize="7" fontFamily="JetBrains Mono, monospace" fontWeight="600">
+          CLOUDFLARE + REDIS
+        </text>
+      </svg>
     </div>
   );
 }
