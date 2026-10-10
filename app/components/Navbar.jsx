@@ -200,6 +200,7 @@ export default function Navbar({
       >
         <div 
           ref={navRef}
+          data-lenis-prevent="true"
           className={`pointer-events-auto w-full max-w-[1200px] flex flex-col transition-[background-color,border-color,box-shadow,border-radius] duration-250 ${
             mobileMenuOpen 
               ? "bg-[#FDFBF7] border-b border-[#E4D9BC] md:rounded-2xl md:border md:shadow-2xl overflow-hidden" 
@@ -532,10 +533,16 @@ export default function Navbar({
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
               className="lg:hidden border-t border-[#E4D9BC] bg-[#FDFBF7] overflow-hidden"
+              data-lenis-prevent="true"
             >
               <div 
-                className="max-h-[min(76dvh,calc(100dvh-5rem))] overflow-y-auto overscroll-contain px-6 sm:px-8 py-4 flex flex-col gap-3 text-[#4A3B33]"
-                style={{ WebkitOverflowScrolling: "touch", overscrollBehavior: "contain" }}
+                data-lenis-prevent="true"
+                className="max-h-[calc(100dvh-4.25rem)] overflow-y-auto overscroll-contain px-6 sm:px-8 pt-4 pb-8 flex flex-col gap-3 text-[#4A3B33] touch-pan-y"
+                style={{ 
+                  WebkitOverflowScrolling: "touch", 
+                  overscrollBehavior: "contain",
+                  touchAction: "pan-y"
+                }}
               >
                 {/* Header Sub-Label */}
                 <div className="flex items-center justify-between pb-2 border-b border-[#E4D9BC]/60">
@@ -769,7 +776,7 @@ export default function Navbar({
                 </div>
 
                 {/* Bottom Drawer Actions with Social Profiles + CTA */}
-                <div className="pt-3 pb-1 flex flex-col gap-3 shrink-0 border-t border-[#E4D9BC]/60">
+                <div className="pt-3 pb-6 flex flex-col gap-3 shrink-0 border-t border-[#E4D9BC]/60">
                   {/* Social profiles bar */}
                   <div className="grid grid-cols-3 gap-2">
                     <a
