@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Github, Sparkles, CheckCircle2, Layers } from "lucide-react";
 import { PROJECTS } from "../data/portfolioData";
@@ -9,48 +9,18 @@ import Project3DVisualizer from "./Project3DVisualizer";
 
 export default function FeaturedProjects() {
   const [activeIdx, setActiveIdx] = useState(0);
+  const activeProject = PROJECTS[activeIdx] || PROJECTS[0];
 
-  // Setup scroll listener so as the user naturally scrolls, the left sticky indicator updates
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPos = window.scrollY + 260;
-      let active = 0;
-      PROJECTS.forEach((p, idx) => {
-        const el = document.getElementById(`project-${p.id}`);
-        if (el) {
-          const top = el.getBoundingClientRect().top + window.scrollY;
-          if (scrollPos >= top) {
-            active = idx;
-          }
-        }
-      });
-      setActiveIdx(active);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToProject = (idx) => {
+  const handleSelect = (idx) => {
     sound.playClick();
     setActiveIdx(idx);
-    const el = document.getElementById(`project-${PROJECTS[idx].id}`);
-    if (el) {
-      if (typeof window !== "undefined" && window.__lenis) {
-        window.__lenis.scrollTo(el, { offset: -120, duration: 1.0 });
-      } else {
-        const targetY = el.getBoundingClientRect().top + window.scrollY - 120;
-        window.scrollTo({ top: targetY, behavior: "smooth" });
-      }
-    }
   };
 
   return (
     <section id="work" className="relative py-20 md:py-28 bg-[#FDFBF7] border-t border-[#E4D9BC]">
       <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
-        {/* Header Eyebrow & Title */}
-        <div className="mb-14 md:mb-20">
+        {/* Section Eyebrow & Title */}
+        <div className="mb-12 md:mb-16">
           <div aria-hidden="true" className="h-px w-full bg-[#E4D9BC] mb-7" />
           <div className="mb-6">
             <span className="inline-flex items-center gap-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] leading-none text-[#B45309]">
@@ -66,163 +36,86 @@ export default function FeaturedProjects() {
             </h2>
             <div className="lg:col-span-5 lg:pb-1.5">
               <p className="text-[1.0625rem] leading-[1.75] text-[#57534E]">
-                A curated selection of production applications, AI agent pipelines, and high-performance primitives built with interactive 3D telemetry, custom vector math, and resilient architectures.
+                A curated selection of production applications, AI agent pipelines, and high-performance primitives built with vector math, edge latency optimizations, and clean architecture.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Mobile Sticky Horizontal Tabs */}
-        <div className="lg:hidden sticky top-14 md:top-20 z-30 -mx-4 px-4 py-2.5 bg-[#FDFBF7]/95 backdrop-blur-md border-y border-[#E4D9BC]/70 mb-8">
-          <div className="flex gap-2 overflow-x-auto no-scrollbar py-0.5">
-            {PROJECTS.map((project, idx) => (
+        {/* Interactive Project Selector Tabs (Lightweight, 60fps, No Scroll Lag) */}
+        <div className="mb-8 flex gap-2 overflow-x-auto no-scrollbar pb-2">
+          {PROJECTS.map((project, idx) => {
+            const isActive = activeIdx === idx;
+            return (
               <button
                 key={project.id}
-                onClick={() => scrollToProject(idx)}
-                className={`shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all ${
-                  activeIdx === idx
-                    ? "bg-[#B45309] text-white shadow-xs"
-                    : "bg-white text-[#78716C] border border-[#E4D9BC]"
+                onClick={() => handleSelect(idx)}
+                className={`shrink-0 flex items-center gap-2.5 px-4 py-2.5 rounded-[var(--radius)] text-xs font-mono transition-all duration-200 cursor-pointer border ${
+                  isActive
+                    ? "bg-[#FAF6EE] text-[#B45309] border-[#B45309]/40 font-bold shadow-xs"
+                    : "bg-white text-[#78716C] border-[#E4D9BC] hover:border-[#B45309]/30 hover:text-[#4A3B33]"
                 }`}
               >
-                <span>0{idx + 1}</span>
-                <span className="max-w-[130px] truncate">{project.title}</span>
+                <span className={isActive ? "text-[#B45309]" : "text-[#A8A29E]"}>
+                  0{idx + 1}
+                </span>
+                <span className="font-serif font-bold text-sm text-[#4A3B33]">{project.title}</span>
+                <span className="hidden sm:inline-block text-[10px] text-[#A8A29E] uppercase font-mono">
+                  ({project.category})
+                </span>
               </button>
-            ))}
-          </div>
+            );
+          })}
         </div>
 
-        {/* Two Column: Sticky Step Navigation (Left) + Detailed Cards (Right) */}
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 mb-16">
-          {/* Sticky Navigation (Desktop) matching Image 3 */}
-          <div className="hidden lg:block lg:col-span-4">
-            <div className="sticky top-28 md:top-32 w-full">
-              {/* Progress Bars */}
-              <div className="mb-8 flex gap-1.5" aria-hidden="true">
-                {PROJECTS.map((p, idx) => (
-                  <div key={p.id} className="relative h-[3px] flex-1 overflow-hidden rounded-full bg-[#F1E9DA]">
-                    <div
-                      className="absolute inset-0 origin-left bg-[#B45309] transition-transform duration-300"
-                      style={{ transform: idx <= activeIdx ? "scaleX(1)" : "scaleX(0)" }}
-                    />
-                  </div>
-                ))}
-              </div>
-
-              {/* Step Navigation Buttons matching Image 3 */}
-              <nav className="flex flex-col gap-2">
-                {PROJECTS.map((project, idx) => {
-                  const isActive = activeIdx === idx;
-                  return (
-                    <button
-                      key={project.id}
-                      onClick={() => scrollToProject(idx)}
-                      className={`w-full text-left p-3.5 rounded-[var(--radius)] transition-all duration-200 cursor-pointer flex items-start gap-3.5 group border ${
-                        isActive
-                          ? "bg-[#FAF6EE] border-[#E4D9BC] shadow-xs"
-                          : "bg-transparent border-transparent hover:bg-black/[0.02] hover:border-[#E4D9BC]/50"
-                      }`}
-                    >
-                      <span
-                        className={`font-mono text-xs font-bold pt-0.5 transition-colors ${
-                          isActive ? "text-[#B45309]" : "text-[#78716C] group-hover:text-[#4A3B33]"
-                        }`}
-                      >
-                        0{idx + 1}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <div
-                          className={`font-serif text-sm leading-snug transition-colors ${
-                            isActive
-                              ? "font-bold text-[#4A3B33]"
-                              : "font-medium text-[#78716C] group-hover:text-[#4A3B33]"
-                          }`}
-                        >
-                          {project.title}
-                        </div>
-                        <div className="font-mono text-[10px] text-[#A8A29E] mt-1 flex items-center gap-1.5">
-                          <span className="text-[#B45309] font-medium">{project.category}</span>
-                          <span>·</span>
-                          <span>{project.badge}</span>
-                        </div>
-                      </div>
-                    </button>
-                  );
-                })}
-              </nav>
-
-              {/* Quick Inquiry Mini Card */}
-              <div className="mt-8 p-4 rounded-xl border border-[#E4D9BC] bg-white/70 shadow-xs">
-                <div className="font-serif font-bold text-xs text-[#4A3B33] mb-1">
-                  Need a custom build?
-                </div>
-                <div className="font-mono text-[10.5px] text-[#78716C] mb-3">
-                  I architect &amp; deploy production MVPs in 2–4 weeks.
-                </div>
-                <Link
-                  href="#get-access"
-                  onClick={() => sound.playClick()}
-                  className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-[#B45309] hover:text-[#92400E]"
-                >
-                  Start Project Scope →
-                </Link>
-              </div>
+        {/* Featured Showcase Card (Clean 2-Column Layout: Warm 3D Diagram on Left, Project Spec on Right) */}
+        <div className="rounded-[var(--radius)] border bg-white border-[#E4D9BC] shadow-[var(--shadow-soft)] p-7 sm:p-10 mb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left Column: Warm 3D Vector Visualizer (Matching StackDiagram Aesthetic) */}
+            <div className="lg:col-span-6 w-full">
+              <Project3DVisualizer projectId={activeProject.id} />
             </div>
-          </div>
 
-          {/* Right Column: Project Showcase Cards */}
-          <div className="lg:col-span-8 flex flex-col gap-12">
-            {PROJECTS.map((project, idx) => (
-              <article
-                key={project.id}
-                id={`project-${project.id}`}
-                className="group relative rounded-[var(--radius)] border bg-white border-[#E4D9BC] shadow-[var(--shadow-soft)] p-7 sm:p-9 transition-all duration-300 hover:shadow-[var(--shadow-soft-lg)] hover:border-[#E4C090]"
-              >
-                {/* Step Index & Badge Header */}
+            {/* Right Column: Project Specification & Proof of Work */}
+            <div className="lg:col-span-6 flex flex-col justify-between">
+              <div>
+                {/* Header Tag & Badge */}
                 <div className="flex items-center justify-between gap-3 mb-4">
-                  <div className="flex items-center gap-2.5">
-                    <span className="font-mono text-xs font-bold text-[#B45309] bg-[#B45309]/10 px-2 py-0.5 rounded border border-[#B45309]/20">
-                      0{idx + 1}
-                    </span>
-                    <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[#78716C]">
-                      {project.category}
+                  <div className="flex items-center gap-2.5 font-mono text-xs">
+                    <span className="font-bold text-[#B45309] bg-[#B45309]/10 px-2.5 py-0.5 rounded border border-[#B45309]/20">
+                      0{activeIdx + 1} // {activeProject.category}
                     </span>
                   </div>
                   <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#78716C] bg-[#FAF6EE] px-2.5 py-1 rounded border border-[#E4D9BC]">
-                    {project.badge}
+                    {activeProject.badge}
                   </span>
                 </div>
 
                 {/* Title & Subtitle */}
-                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#4A3B33] mb-2 group-hover:text-[#B45309] transition-colors">
-                  {project.title}
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#4A3B33] mb-1.5">
+                  {activeProject.title}
                 </h3>
-                <div className="font-mono text-xs text-[#78716C] mb-5">
-                  {project.subtitle}
+                <div className="font-mono text-xs text-[#78716C] mb-4">
+                  {activeProject.subtitle}
                 </div>
 
                 {/* Metrics Pill */}
-                {project.metrics && (
-                  <div className="mb-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAF6EE] border border-[#E4D9BC]/90 font-mono text-[11px] text-[#4A3B33] font-medium">
+                {activeProject.metrics && (
+                  <div className="mb-5 inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAF6EE] border border-[#E4D9BC]/90 font-mono text-[11px] text-[#4A3B33] font-medium">
                     <Sparkles className="w-3.5 h-3.5 text-[#B45309] shrink-0" />
-                    <span>{project.metrics}</span>
+                    <span>{activeProject.metrics}</span>
                   </div>
                 )}
 
-                {/* 3D Interactive Telemetry Visualizer */}
-                <div className="mb-6">
-                  <Project3DVisualizer projectId={project.id} />
-                </div>
-
                 {/* Description */}
-                <p className="text-[0.9375rem] leading-[1.7] text-[#57534E] mb-6">
-                  {project.description}
+                <p className="text-[0.9375rem] leading-[1.7] text-[#57534E] mb-5">
+                  {activeProject.description}
                 </p>
 
                 {/* Highlights List */}
-                {project.highlights && project.highlights.length > 0 && (
+                {activeProject.highlights && activeProject.highlights.length > 0 && (
                   <ul className="mb-6 space-y-2 border-t border-[#E4D9BC]/60 pt-4">
-                    {project.highlights.map((h, hIdx) => (
+                    {activeProject.highlights.map((h, hIdx) => (
                       <li key={hIdx} className="flex items-start gap-2.5 text-xs text-[#78716C] leading-relaxed">
                         <CheckCircle2 className="w-3.5 h-3.5 text-[#B45309] shrink-0 mt-0.5" />
                         <span>{h}</span>
@@ -232,8 +125,8 @@ export default function FeaturedProjects() {
                 )}
 
                 {/* Tech Stack Tags */}
-                <div className="flex flex-wrap gap-1.5 pt-4 border-t border-[#E4D9BC]/60 mb-6">
-                  {project.tags.map((tag) => (
+                <div className="flex flex-wrap gap-1.5 pt-3 border-t border-[#E4D9BC]/60 mb-6">
+                  {activeProject.tags.map((tag) => (
                     <span
                       key={tag}
                       className="font-mono text-[10.5px] px-2 py-0.5 rounded bg-[#FAF6EE] text-[#57534E] border border-[#E4D9BC]/70"
@@ -242,32 +135,31 @@ export default function FeaturedProjects() {
                     </span>
                   ))}
                 </div>
+              </div>
 
-                {/* Actions */}
-                <div className="flex items-center justify-between gap-3 pt-2">
-                  <a
-                    href={project.liveUrl}
-                    onClick={() => sound.playClick()}
-                    className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-[#B45309] hover:text-[#92400E] transition-colors"
-                  >
-                    <span>Interactive Demo</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </a>
+              {/* Actions */}
+              <div className="flex items-center justify-between gap-4 pt-2">
+                <a
+                  href={activeProject.liveUrl}
+                  onClick={() => sound.playClick()}
+                  className="inline-flex items-center gap-2 rounded-[var(--radius)] bg-[#B45309] px-4 py-2 font-mono text-xs font-bold text-white hover:bg-[#A16207] shadow-xs transition-all"
+                >
+                  <span>Interactive Demo</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
 
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => sound.playClick()}
-                    className="inline-flex items-center gap-1.5 font-mono text-xs text-[#78716C] hover:text-[#4A3B33] transition-colors"
-                    title="Inspect Source Code on GitHub"
-                  >
-                    <Github className="w-3.5 h-3.5" />
-                    <span>Source Code</span>
-                  </a>
-                </div>
-              </article>
-            ))}
+                <a
+                  href={activeProject.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => sound.playClick()}
+                  className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-[#78716C] hover:text-[#4A3B33] transition-colors"
+                >
+                  <Github className="w-3.5 h-3.5" />
+                  <span>Inspect Source</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
 
