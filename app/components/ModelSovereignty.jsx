@@ -107,7 +107,7 @@ export default function ModelSovereignty() {
       <div className="relative mx-auto max-w-[1200px] px-6 lg:px-8">
         <div className="flex justify-center mb-8">
           <p className="font-mono text-xs uppercase tracking-[0.22em] text-[#78716C] font-semibold text-center">
-            One sovereign context layer, any model, agents that operate
+            Multi-model architecture: Any LLM docks seamlessly into your system
           </p>
         </div>
 
@@ -122,7 +122,7 @@ export default function ModelSovereignty() {
               className="w-full h-full block overflow-visible" 
               preserveAspectRatio="xMidYMid meet" 
               role="img" 
-              aria-label="Any model plugs into one sovereign context layer, which feeds agents that run operations."
+              aria-label="Any model plugs into one sovereign architecture layer, which feeds agents that run operations."
             >
               <defs>
                 <linearGradient id="svTop" x1="0" y1="0" x2="0" y2="1">
@@ -158,7 +158,7 @@ export default function ModelSovereignty() {
               <g pointerEvents="none">
                 <rect x="24" y="33" width="7" height="7" fill={isSwapping ? "#F59E0B" : "#B45309"} className={isSwapping ? "animate-ping" : ""} />
                 <text x="37" y="40" fill="#78716C" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1.6" fontWeight="600">
-                  ANIKET // CONTEXT_SOVEREIGNTY
+                  ANIKET // MULTI_MODEL_ENGINE
                 </text>
                 <text x="24" y="57" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1">
                   hot-swaps {swapCount} · memory reset 0 · latency {lastSwapTime}

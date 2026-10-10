@@ -6,32 +6,31 @@ import AccuracyTerrain from "./AccuracyTerrain";
 
 const SIMULATION_OUTPUTS = {
   0: [
-    { text: "$ aniket.context.search({ query: 'pricing update EMEA', groupName: ['sales', 'emea'] })", color: "text-[#B45309]" },
-    { text: "[12ms] ∩ Intersecting tag space: ['sales', 'emea'] (2,410 candidates matched)", color: "text-[#059669]" },
-    { text: "[34ms] ∩ Applying metadata constraint: version == 'v2' (480 stale dropped)", color: "text-[#059669]" },
-    { text: "[78ms] − Subtracting superseded checkpoints (18 duplicates pruned)", color: "text-[#2563EB]" },
-    { text: "[112ms] ★ Set rank: top 4 sovereign contexts selected (Recall: 99.8%)", color: "text-[#7C3AED]" },
-    { text: "✓ Window prepared: 1,840 tokens (< 300ms SLA · 0 hallucinations)", color: "text-[#10B981] font-bold" }
+    { text: "$ curl -I https://aniket.one/dashboard", color: "text-[#B45309]" },
+    { text: "[12ms] HTTP/2 200 OK (Edge CDN Cache Hit)", color: "text-[#059669]" },
+    { text: "[24ms] Hydrating React Server Components (Zero JS bundle bloat)", color: "text-[#059669]" },
+    { text: "[45ms] Database query resolved via Neon Serverless Postgres pool", color: "text-[#2563EB]" },
+    { text: "✓ Lighthouse Score: 99/100 (TTFB < 45ms)", color: "text-[#10B981] font-bold" }
   ],
   1: [
-    { text: "$ ctx.search({ metadata: { groupName: [session_id] } })", color: "text-[#B45309]" },
-    { text: "[15ms] Graph traversal: Walking institutional knowledge graph (3 layers)", color: "text-[#059669]" },
-    { text: "[42ms] Derived memory: Context checkpoint #2 loaded seamlessly", color: "text-[#2563EB]" },
-    { text: "[89ms] CXO query resolved against team-segregated namespace", color: "text-[#7C3AED]" },
-    { text: "✓ Memory resolved: 100% auditable provenance, zero vendor lock-in", color: "text-[#10B981] font-bold" }
+    { text: "$ python run_agent.py --query 'Process user request'", color: "text-[#B45309]" },
+    { text: "[15ms] Embedding generated via text-embedding-3-small", color: "text-[#059669]" },
+    { text: "[38ms] Hybrid vector retrieval over company knowledge docs", color: "text-[#2563EB]" },
+    { text: "[89ms] Tool invoked: 'query_db' with verified arguments", color: "text-[#7C3AED]" },
+    { text: "✓ Completed in 142ms: Zero hallucinations, full source audit", color: "text-[#10B981] font-bold" }
   ],
   2: [
-    { text: "$ aniket.trace.get('sess_984', 'turn_14')", color: "text-[#B45309]" },
-    { text: "[8ms] Trace telemetry retrieved: sources: 3, scores: [0.98, 0.94, 0.91]", color: "text-[#059669]" },
-    { text: "[24ms] Rules applied: ['emea_gtm_v2', 'revenue_canonical_2026']", color: "text-[#2563EB]" },
-    { text: "[48ms] OpenAI Euphony paired: Visual graph debug frame attached", color: "text-[#7C3AED]" },
-    { text: "✓ Root cause isolated in 48ms: Retrieval score 100% verified", color: "text-[#10B981] font-bold" }
+    { text: "$ telemetry.query({ window: 'last_24h' })", color: "text-[#B45309]" },
+    { text: "[8ms] Ingesting OpenTelemetry traces across 12 microservices", color: "text-[#059669]" },
+    { text: "[22ms] Error budget: 100% compliant (0.00% error rate)", color: "text-[#2563EB]" },
+    { text: "✓ All systems optimal: P99 latency < 95ms", color: "text-[#10B981] font-bold" }
   ],
   3: [
-    { text: "$ aniket.context.search({ query: 'revenue Q2', groupName: ['revenue'] })", color: "text-[#B45309]" },
-    { text: "[10ms] Canonical resolution: GTM definition ∩ Finance definitions isolated", color: "text-[#059669]" },
-    { text: "[35ms] Disambiguation rules evaluated: CXO perspective prioritized", color: "text-[#2563EB]" },
-    { text: "✓ Ambiguity resolved: Zero semantic collisions between teams", color: "text-[#10B981] font-bold" }
+    { text: "$ git push origin main", color: "text-[#B45309]" },
+    { text: "[10s] CI checks passed (Lint, TypeScript, Unit Tests)", color: "text-[#059669]" },
+    { text: "[18s] Docker multi-stage container built & tagged", color: "text-[#2563EB]" },
+    { text: "[24s] Instant edge deployment propagated to 35 global PoPs", color: "text-[#7C3AED]" },
+    { text: "✓ Deployed to Production: Zero downtime rollout complete", color: "text-[#10B981] font-bold" }
   ]
 };
 
@@ -81,98 +80,61 @@ function HighlightedCode({ code }) {
 const STEPS = [
   {
     id: "01",
-    title: "How does knowledge retrieval for AI agents work?",
-    desc: "Context arithmetic is the foundational primitive: dynamic set algebra over meaning, computed at query time. Instead of naïve top-K similarity, Aniket intersects to narrow scope, unions to widen recall, subtracts superseded or out-of-scope content, and ranks what remains, so only the right context survives into the window.",
-    file: "context_arithmetic.ts",
-    code: `// Set algebra over meaning, at query time
-const window = aniket.context.search({
-  query: userMessage,
-  groupName: ["sales", "emea"],   // ∩ narrow scope
-  metadata: { version: "v2" },     // ∩ filter
-});
-
-// − superseded / deduped  → rank → top-K`
+    title: "How do I build high-performance Full-Stack Web Apps?",
+    desc: "Built with Next.js 15, App Router, React Server Components, and edge API caching. We achieve sub-100ms first paint times, smooth client animations, and 99+ Lighthouse performance scores.",
+    file: "app_architecture.ts",
+    code: `// Clean, scalable Next.js 15 App Architecture
+export async function getClientDashboard(workspaceId: string) {
+  const data = await db.query.projects.findMany({
+    where: eq(projects.workspaceId, workspaceId),
+    with: { analytics: true, aiMetrics: true }
+  });
+  return { success: true, data, p95: "< 45ms" };
+}`
   },
   {
     id: "02",
-    title: "How does an enterprise knowledge graph support memory?",
-    desc: "What you store is an institutional knowledge graph of your organization's context, fully traceable. Memory isn't three hard-coded layers. By applying context arithmetic over the graph you can derive the behaviors people expect from memory: recall what happened, resolve what it means, and inform how to act. The memory types are outcomes of the primitive, not separate modules.",
-    file: "memory_graph.ts",
-    code: `// One graph + arithmetic → derived "memories"
-const captureTime1 = "end-date-" + Date.now();
-
-// Represents what should be added when your session is first saved.
-const storeInformationOfSessionAtFirstInstance = await ctx.add({
-  documents: [ ],
-  metadata: {
-    groupName: [session_id, captureTime1]
-  }
-});
-
-// Now resume from where you left off, or let someone resume from there.
-const whatHappened = await ctx.search({
-  query: term,
-  metadata {
-    groupName: [session_id, captureTime1]
-  }
-});
-
-// Second checkpoint
-const storeInformationOfSessionAtSecondInstance = await ctx.add({
-  documents: [...],
-  metadata: {
-    groupName: [session_id, captureTime2]
-  }
-});
-
-// Now team lead / CXO looks up about the information
-const whatItMeans = ctx.search({
-  query: term,
-  metadata: {
-    groupName: [session_id]
-  }
-})
-
-// "how to act" falls out of scope over the global context`
+    title: "How do custom AI Agents & RAG pipelines integrate?",
+    desc: "No naive vector dumps. We implement hybrid semantic retrieval, smart reranking, and dynamic tool orchestration with LangChain, LlamaIndex, and OpenAI/Claude APIs.",
+    file: "agent_pipeline.py",
+    code: `# Autonomous Agent Pipeline with Hybrid Retrieval
+agent = AgentExecutor.create(
+    llm=ChatAnthropic(model="claude-3-5-sonnet"),
+    tools=[vector_search, postgres_query, api_caller],
+    memory=ConversationSummaryBufferMemory(max_token_limit=2000)
+)
+result = await agent.arun("Analyze Q3 telemetry and draft client report")`
   },
   {
     id: "03",
-    title: "Why did my AI agent give a wrong answer?",
-    desc: "When an AI agent gives wrong answers about internal data, inspect what it retrieved before changing the prompt. Aniket Context Traces expose the sources, scores, and rules used to assemble context. Developers can investigate retrieval failures, while enterprise teams can review which business information supported an answer.",
-    file: "context_trace.ts",
-    code: `const trace = await aniket.trace.get(
-  session_id, turn_id
-);
-
-// Returns: sources[], scores[], rules_applied[]
-// Pairs with Euphony for visual debugging`
+    title: "How do we track performance & prevent regressions?",
+    desc: "Every API call, database query, and LLM inference is tracked with OpenTelemetry and custom tracing. You get complete transparency into latency, token spend, and user journeys.",
+    file: "telemetry_audit.ts",
+    code: `// Real-time latency & error tracing
+const trace = await telemetry.record({
+  endpoint: "/api/v1/generate",
+  durationMs: 82,
+  tokensUsed: 420,
+  cacheHit: true
+});
+// Zero latency spikes, 100% auditability`
   },
   {
     id: "04",
-    title: "How do agents use consistent business definitions?",
-    desc: "Define canonical term definitions at the org level. When \"revenue\" means different things to different teams, Aniket resolves the ambiguity before it reaches the model.",
-    file: "domain_namespaces.ts",
-    code: `const gtmTeamResponse = await aniket.context.add({
-  documents: [...], // Data here
-  metadata: {
-    groupName: ["gtm", "revenue"] // The term "revenue" defined by GTM team
-  }
-})
-
-const financeTeamResponse = await aniket.context.add({
-  documents: [...], // Data here
-  metadata: {
-    groupName: ["finance", "revenue"] // The term "revenue" defined by Finances team.
-  }
-})
-
-const cxoResponse = await aniket.context.search({
-  query: "What's the revenue for Q2 2026?",
-  metadata: {
-    groupName: ["revenue"]
-    // The term "revenue" defined for CXO, with clear segregation between the resources by GTM team and Finances team.
-  }
-})`
+    title: "How do we deploy and scale seamlessly to production?",
+    desc: "Automated GitHub Actions CI/CD pipelines, Docker containerized services, and multi-region edge deployments on Vercel and AWS with automatic SSL and zero-downtime rollouts.",
+    file: "deploy_pipeline.yml",
+    code: `# GitHub Actions Production Deployment
+name: Production Release
+on: [push]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm run build && npm run test
+      - run: docker build -t app:latest .
+      - run: ./deploy-to-cluster.sh --env=production`
   }
 ];
 
@@ -243,19 +205,19 @@ export default function CodeWalkthrough() {
           <div className="mb-6">
             <span className="inline-flex items-center gap-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] leading-none text-[#B45309]">
               <span aria-hidden="true" className="h-[7px] w-[7px] bg-[#B45309]" />
-              What does Aniket do?
+              Engineering Primitives
             </span>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end">
             <h2 id="fixes-heading" className="text-[clamp(1.875rem,3.6vw,2.875rem)] leading-[1.14] tracking-[-0.028em] font-bold text-[#4A3B33] text-balance lg:col-span-7 font-serif">
-              A context layer that keeps your AI{" "}
-              <span className="text-[#B45309] italic font-normal">current, traceable,</span>{" "}
-              and semantically consistent.
+              How I architect, code &amp; ship{" "}
+              <span className="text-[#B45309] italic font-normal">high-performance</span>{" "}
+              digital products.
             </h2>
             <div className="lg:col-span-5 lg:pb-1.5">
               <p className="text-[1.0625rem] leading-[1.75] text-[#57534E]">
-                Aniket AI is an AI context management platform for storing and retrieving business knowledge. Use context arithmetic to select relevant information from your institutional knowledge graph, then inspect the sources behind retrieval without operating your own vector database or graph store.
+                From snappy frontends and reactive microservices to custom RAG pipelines and production cloud deployments — explore the code patterns and engineering primitives I build into client applications.
               </p>
             </div>
           </div>

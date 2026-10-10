@@ -10,18 +10,18 @@ export default function ContextThesis() {
           <div className="mb-6">
             <span className="inline-flex items-center gap-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] leading-none text-[#B45309]">
               <span aria-hidden="true" className="h-[7px] w-[7px] bg-[#B45309]" />
-              Why context
+              Philosophy &amp; Approach
             </span>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end">
             <h2 id="why-context-heading" className="text-[clamp(1.875rem,3.6vw,2.875rem)] leading-[1.14] tracking-[-0.028em] font-bold text-[#4A3B33] text-balance lg:col-span-7">
-              The model is replaceable. Your{' '}
-              <span className="text-[#B45309]">institutional context</span> isn&apos;t.
+              Frameworks evolve. Solid architecture &amp;{' '}
+              <span className="text-[#B45309]">craftsmanship</span> compound.
             </h2>
             <div className="lg:col-span-5 lg:pb-1.5">
               <p className="text-[1.0625rem] leading-[1.75] text-[#57534E]">
-                An AI context layer retrieves relevant business knowledge before an agent answers or acts. It connects your internal documents and saved interactions to the model, so your application can ground responses in company data rather than rely on general training knowledge alone.
+                I don&apos;t just build templates — I build resilient, full-stack digital products. Every project combines crisp UI performance, robust backend systems, and context-aware AI pipelines engineered to scale from Day 1.
               </p>
             </div>
           </div>
@@ -37,10 +37,9 @@ export default function ContextThesis() {
                   “
                 </span>
                 <p className="mt-8 text-[1.375rem] sm:text-[1.625rem] lg:text-[1.75rem] font-bold text-[#4A3B33] leading-[1.35] tracking-[-0.02em]">
-                  Models will keep changing. Your{' '}
-                  <span className="text-[#B45309]">institutional context</span> is
-                  the asset that compounds, so it should belong to you, not to
-                  whichever model you happen to run today.
+                  Anyone can call an LLM API. The true edge lies in building{' '}
+                  <span className="text-[#B45309]">reliable, observable systems</span> with
+                  delightful user experience that genuinely move business needles.
                 </p>
               </div>
               <div className="mt-10 pt-6 border-t border-[#E4D9BC]/60">
@@ -48,7 +47,7 @@ export default function ContextThesis() {
                   href="#how-it-works"
                   className="group inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-[#B45309] font-semibold hover:text-[#A16207]"
                 >
-                  Read the Context Thesis
+                  Explore Engineering Workflow
                   <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
@@ -61,16 +60,16 @@ export default function ContextThesis() {
             <div className="group relative rounded-[var(--radius)] border bg-white border-[#E4D9BC] shadow-[var(--shadow-soft)] p-8 lg:p-10 transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[var(--shadow-soft-lg)] hover:border-[#E4C090] flex flex-col flex-1">
               <span className="inline-flex items-center gap-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#A16207] mb-3">
                 <span aria-hidden="true" className="h-[6px] w-[6px] bg-[#A16207]" />
-                The Technical Case
+                The Engineering Standard
               </span>
               <h3 className="mb-3 text-[1.3125rem] font-bold leading-snug tracking-[-0.015em] text-[#4A3B33]">
-                Switch models freely. Keep your context sovereign.
+                Sub-100ms speed. Clean code. Zero technical debt.
               </h3>
               <p className="mb-6 text-[0.9375rem] leading-[1.7] text-[#57534E]">
-                Keep AI agent memory outside the model so saved context can be retrieved across sessions and model changes. Aniket separates your company knowledge from the LLM that uses it, giving developers a reusable integration and enterprises continuity across teams and workflows.
+                Strict TypeScript, modular Next.js app architecture, reactive state management, and optimized asset pipelines. Every component is designed to render instantly and handle high concurrency without degradation.
               </p>
               <ul className="mt-auto flex flex-wrap gap-2">
-                {['Model-agnostic', 'Context sovereignty', 'Zero migration cost', 'Multi-model routing', 'Sub-300ms retrieval'].map((tag) => (
+                {['Next.js 15 & React', 'Tailwind & 3D WebGL', 'FastAPI & Node.js', 'PostgreSQL & Redis', 'Sub-100ms Latency'].map((tag) => (
                   <li key={tag}>
                     <span className="inline-flex items-center font-mono text-[10.5px] tracking-[0.04em] text-[#57534E] bg-[#F8F4EE] border border-[#E4D9BC] rounded-[var(--radius)] px-2.5 py-1.5 transition-colors duration-200 group-hover:bg-white group-hover:border-[#E4C090]">
                       {tag}
@@ -84,16 +83,16 @@ export default function ContextThesis() {
             <div className="group relative rounded-[var(--radius)] border bg-white border-[#E4D9BC] shadow-[var(--shadow-soft)] p-8 lg:p-10 transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[var(--shadow-soft-lg)] hover:border-[#E4C090] flex flex-col flex-1">
               <span className="inline-flex items-center gap-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#B45309] mb-3">
                 <span aria-hidden="true" className="h-[6px] w-[6px] bg-[#B45309]" />
-                The Business Case
+                The Freelance &amp; Client Guarantee
               </span>
               <h3 className="mb-3 text-[1.3125rem] font-bold leading-snug tracking-[-0.015em] text-[#4A3B33]">
-                Give every agent the company knowledge it needs.
+                Rapid turnaround without sacrificing technical excellence.
               </h3>
               <p className="mb-6 text-[0.9375rem] leading-[1.7] text-[#57534E]">
-                An agent can give generic answers when the relevant company data is missing from its context. Connect policies, product knowledge, and operational records to a shared knowledge layer for AI agents, then retrieve the evidence each sales, support, or operations workflow needs.
+                Whether you need a SaaS MVP launched in 2–4 weeks, an AI agent system integrated with your existing data, or a mission-critical web application overhaul — you get transparent weekly sprints, direct Slack/Discord communication, and clean documentation.
               </p>
               <ul className="mt-auto flex flex-wrap gap-2">
-                {['Run ops, not just answers', 'One source of truth', 'Every decision auditable', 'Scales without FDE teams'].map((tag) => (
+                {['2–4 Week MVP Sprints', 'Direct 1-on-1 Communication', 'Docker & Cloud CI/CD', 'Full Source Handover'].map((tag) => (
                   <li key={tag}>
                     <span className="inline-flex items-center font-mono text-[10.5px] tracking-[0.04em] text-[#57534E] bg-[#F8F4EE] border border-[#E4D9BC] rounded-[var(--radius)] px-2.5 py-1.5 transition-colors duration-200 group-hover:bg-white group-hover:border-[#E4C090]">
                       {tag}

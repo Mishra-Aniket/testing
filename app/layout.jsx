@@ -25,9 +25,9 @@ export const viewport = {
 };
 
 export const metadata = {
-  title: 'AI Context Layer for Business Knowledge | Aniket',
-  description: 'Give AI agents access to your company knowledge and persistent memory through a single API. Aniket connects the context developers need with the shared, traceable knowledge enterprises rely on.',
-  keywords: 'AI context layer, context arithmetic, institutional knowledge graph, context traces, AI memory API, semantic retrieval, agent memory, Aniket',
+  title: 'Aniket Mishra | Full-Stack & AI Systems Engineer',
+  description: 'Portfolio & engineering showcase of Aniket Mishra. Building high-performance full-stack web products, autonomous AI agent pipelines, and bespoke client architectures.',
+  keywords: 'Aniket Mishra, Full-Stack Engineer, AI Systems, Next.js 15, FastAPI, React, Freelance Software Engineer, Autonomous Agents, RAG, Web Development, Bangalore',
   icons: {
     icon: '/logo.png',
   },

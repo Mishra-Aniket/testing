@@ -11,20 +11,20 @@ const QUICKSTART_TABS = [
   {
     id: 'npm',
     label: 'TypeScript / Node',
-    command: 'npm install @aniket/sdk',
-    snippet: `import { Aniket } from "@aniket/sdk";\nconst ctx = new Aniket({ apiKey: process.env.ANIKET_KEY });\nconst window = await ctx.search({ query: "EMEA deals" });`
+    command: 'git clone https://github.com/Mishra-Aniket/aniket.one',
+    snippet: `// Hire Aniket for high-impact Full-Stack & AI Systems\nconst engineer = await hire({ role: "Full-Stack & AI", availability: "Immediate" });\nawait engineer.ship({ product: "AI-Powered SaaS", timeline: "2-4 Weeks" });`
   },
   {
     id: 'python',
-    label: 'Python',
-    command: 'pip install aniket',
-    snippet: `from aniket import Context\nctx = Context(api_key="...")\nwindow = ctx.search(query="EMEA deals", group=["sales"])`
+    label: 'Python / AI',
+    command: 'pip install langchain openai fastapi',
+    snippet: `from aniket import SoftwareEngineer\nengineer = SoftwareEngineer(name="Aniket Mishra", skills=["Next.js", "FastAPI", "RAG"])\nengineer.build_mvp(quality="Production Grade", latency="< 100ms")`
   },
   {
     id: 'curl',
-    label: 'cURL',
-    command: `curl -X POST https://api.aniket.one/v1/context/search \\\n  -H "Authorization: Bearer $ANIKET_KEY" \\\n  -d '{"query": "EMEA deals"}'`,
-    snippet: `// Response (< 300ms SLA)\n{\n  "contexts": [...],\n  "tokens": 1420,\n  "sources": ["hubspot", "notion"]\n}`
+    label: 'Terminal Bio',
+    command: 'curl -s https://aniket.one/api/bio',
+    snippet: `// Response (Aniket Mishra Profile)\n{\n  "role": "Full-Stack & AI Systems Engineer",\n  "status": "Available for Freelance & Contracts",\n  "contact": "hello@aniket.one"\n}`
   }
 ];
 
@@ -58,50 +58,26 @@ export default function Hero({ onOpenAssessment }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column */}
           <div className="lg:col-span-6 space-y-8">
-            {/* Backed by */}
-            <div className="flex items-center gap-4 flex-wrap">
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#78716C] font-semibold">
-                BACKED BY
+            {/* Availability status badge */}
+            <div className="flex items-center gap-3 flex-wrap">
+              <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-[#E4D9BC] bg-white shadow-xs">
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#B45309] font-bold">
+                  Available for Freelance &amp; Contract
+                </span>
               </span>
-              <div className="flex items-center gap-4 opacity-80">
-                <Image
-                  src="/Antler.svg"
-                  alt="Antler"
-                  width={72}
-                  height={18}
-                  className="h-3.5 w-auto object-contain"
-                />
-                <span className="text-[#E4D9BC]">|</span>
-                <Image
-                  src="/9uinicorn.png"
-                  alt="9Unicorns"
-                  width={80}
-                  height={22}
-                  className="h-5 w-auto object-contain"
-                />
-                <span className="text-[#E4D9BC]">|</span>
-                <Image
-                  src="/ipv-logo.png"
-                  alt="Inflection Point Ventures"
-                  width={80}
-                  height={22}
-                  className="h-5 w-auto object-contain"
-                />
-              </div>
+              <span className="font-mono text-[11px] text-[#78716C]">Remote Worldwide</span>
             </div>
 
             {/* Main Heading - font-medium on Merriweather for editorial perfection */}
             <h1 id="hero-heading" className="font-serif text-[clamp(2.25rem,4.3vw,3.5rem)] font-medium tracking-[-0.03em] text-[#4A3B33] leading-[1.12] mb-7 max-w-[34rem] text-balance">
-              Context Backbone for every{' '}
-              <span className="text-[#B45309] italic font-normal">AI team.</span>
+              Engineering Next-Gen Web &amp;{' '}
+              <span className="text-[#B45309] italic font-normal">AI Products.</span>
             </h1>
 
             {/* Subtitle */}
             <p className="text-[1.0625rem] font-light text-[#57534E] leading-[1.75] mb-10 max-w-[29rem]">
-              Give AI agents access to your company knowledge and persistent
-              memory through a single API. Aniket connects the context
-              developers need with the shared, traceable knowledge enterprises
-              rely on, across models and workflows.
+              Hi, I&apos;m <strong className="font-semibold text-[#4A3B33]">Aniket Mishra</strong>. I architect hyper-performant web applications, custom agentic AI systems, and interactive 3D web interfaces for ambitious teams and startups.
             </p>
 
             {/* CTAs with exact rounded-[var(--radius)] architectural micro-corners */}
@@ -111,7 +87,7 @@ export default function Hero({ onOpenAssessment }) {
                 onClick={() => sound.playClick()}
                 className="group inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius)] font-bold text-sm tracking-wide px-7 py-3.5 transition-all duration-200 active:translate-y-0 active:scale-[0.985] bg-[#B45309] text-white shadow-[var(--shadow-soft)] hover:bg-[#A16207] hover:shadow-[var(--shadow-soft-lg)] hover:-translate-y-px"
               >
-                Signup
+                Hire Me / Work Together
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
               <button
@@ -122,7 +98,7 @@ export default function Hero({ onOpenAssessment }) {
                 }}
                 className="group inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius)] font-bold text-sm tracking-wide px-7 py-3.5 transition-all duration-200 active:translate-y-0 active:scale-[0.985] bg-white text-[#57534E] border border-[#E4D9BC] shadow-[var(--shadow-soft)] hover:text-[#4A3B33] hover:border-[#B45309]/50 hover:shadow-[var(--shadow-soft-lg)] hover:-translate-y-px cursor-pointer"
               >
-                Take Context Assessment
+                Estimate Project Scope
               </button>
             </div>
 
@@ -131,15 +107,15 @@ export default function Hero({ onOpenAssessment }) {
               <dl className="grid items-stretch border-y border-[#E4D9BC]/80 w-fit" style={{ gridTemplateColumns: 'repeat(3, auto)' }}>
                 <div className="flex flex-col gap-1.5 py-4 pr-4 sm:pr-8">
                   <dt className="order-2 font-mono text-[9.5px] sm:text-[10px] uppercase tracking-[0.12em] sm:tracking-[0.16em] text-[#78716C] whitespace-nowrap">
-                    p95 latency
+                    fast performance
                   </dt>
                   <dd className="order-1 text-[0.9375rem] sm:text-[1.0625rem] whitespace-nowrap font-normal tracking-[-0.01em] text-[#4A3B33] tabular-nums">
-                    &lt; 300ms
+                    &lt; 100ms
                   </dd>
                 </div>
                 <div className="flex flex-col gap-1.5 py-4 pr-4 sm:pr-8 pl-4 sm:pl-8 border-l border-[#E4D9BC]/80">
                   <dt className="order-2 font-mono text-[9.5px] sm:text-[10px] uppercase tracking-[0.12em] sm:tracking-[0.16em] text-[#78716C] whitespace-nowrap">
-                    auditable
+                    production ready
                   </dt>
                   <dd className="order-1 text-[0.9375rem] sm:text-[1.0625rem] whitespace-nowrap font-normal tracking-[-0.01em] text-[#4A3B33] tabular-nums">
                     100%
@@ -147,10 +123,10 @@ export default function Hero({ onOpenAssessment }) {
                 </div>
                 <div className="flex flex-col gap-1.5 py-4 pr-4 sm:pr-8 pl-4 sm:pl-8 border-l border-[#E4D9BC]/80">
                   <dt className="order-2 font-mono text-[9.5px] sm:text-[10px] uppercase tracking-[0.12em] sm:tracking-[0.16em] text-[#78716C] whitespace-nowrap">
-                    zero infra
+                    end-to-end delivery
                   </dt>
                   <dd className="order-1 text-[0.9375rem] sm:text-[1.0625rem] whitespace-nowrap font-normal tracking-[-0.01em] text-[#4A3B33] tabular-nums">
-                    1 API
+                    Full-Stack
                   </dd>
                 </div>
               </dl>

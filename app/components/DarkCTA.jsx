@@ -135,12 +135,12 @@ export default function DarkCTA({ showStats = false }) {
             <div className="mb-7">
               <span className="inline-flex items-center gap-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] leading-none text-[#E4C090]">
                 <span aria-hidden="true" className="h-[7px] w-[7px] bg-[#E4C090]" />
-                Get Started
+                Let&apos;s Build Together
               </span>
             </div>
 
             <h2 id="cta-heading" className="text-[clamp(2rem,4.2vw,3.25rem)] font-bold tracking-[-0.03em] leading-[1.1] text-[#F5F5F4] mb-7 text-balance font-serif">
-              {["Give", "your", "AI", "agents", "the"].map((word, idx) => (
+              {["Let's", "build", "something", "extraordinary"].map((word, idx) => (
                 <span key={idx} className="inline-block overflow-hidden align-bottom pb-[0.14em] -mb-[0.14em] pr-[0.18em] -mr-[0.08em]">
                   <motion.span
                     initial={{ y: "110%" }}
@@ -155,7 +155,7 @@ export default function DarkCTA({ showStats = false }) {
               ))}
               {" "}
               <span className="italic text-[#E4C090]">
-                {["memory", "they", "deserve."].map((word, idx) => (
+                {["for", "your", "users."].map((word, idx) => (
                   <span key={idx} className="inline-block overflow-hidden align-bottom pb-[0.14em] -mb-[0.14em] pr-[0.18em] -mr-[0.08em]">
                     <motion.span
                       initial={{ y: "110%" }}
@@ -172,15 +172,15 @@ export default function DarkCTA({ showStats = false }) {
             </h2>
 
             <p className="text-[1.0625rem] text-[#A8A29E] leading-[1.75] mb-10 max-w-[30rem]">
-              Join developers building the next generation of AI products with persistent, auditable context. Free tier available. No credit card required.
+              Available for high-impact freelance contracts, MVP product sprints, and custom AI integrations. Have a project idea or need technical advisory? Let&apos;s make it reality.
             </p>
 
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3.5 max-w-[30rem]">
               {[
-                "Free tier",
-                "REST + Python & Node SDKs",
-                "99.9% uptime SLA",
-                "SOC 2 in progress"
+                "Rapid 2–4 Week MVPs",
+                "Full Source Ownership",
+                "Direct 1-on-1 Access",
+                "Zero Technical Debt"
               ].map((badge, idx) => (
                 <li key={idx} className="flex items-center gap-3 font-mono text-[11px] tracking-[0.12em] uppercase text-[#D6D3D1]">
                   <span aria-hidden="true" className="h-[6px] w-[6px] bg-[#E4C090]" />
@@ -190,24 +190,24 @@ export default function DarkCTA({ showStats = false }) {
             </ul>
           </div>
 
-          {/* Right Column: Request API Access Card */}
+          {/* Right Column: Request API Access / Project Inquiry Card */}
           <div className="lg:col-span-5">
             <div className="group relative rounded-[6px] border border-white/[0.09] bg-[#232020]/90 p-8 lg:p-10 shadow-[0_24px_60px_-30px_rgba(0,0,0,0.8)] backdrop-blur-sm">
               <h3 className="text-xl font-bold text-[#F5F5F4] mb-2 font-serif">
-                Request API Access
+                Start a Project / Hire Me
               </h3>
               <p className="text-sm text-[#A8A29E] mb-8">
-                Enter your email and we&apos;ll set up your workspace.
+                Drop your email and let&apos;s schedule a quick introductory chat.
               </p>
 
               {submitted ? (
                 <div className="rounded-[6px] border border-[#E4C090]/30 bg-[#E4C090]/10 p-5 text-center">
                   <CheckCircle2 className="w-8 h-8 text-[#E4C090] mx-auto mb-2" />
                   <div className="font-serif font-bold text-white text-base mb-1">
-                    Access Requested!
+                    Inquiry Received!
                   </div>
                   <p className="text-xs text-[#A8A29E]">
-                    We&apos;ve sent an onboarding invite to <span className="text-white font-mono">{email}</span>. Check your inbox shortly.
+                    Thank you! I will get back to you at <span className="text-white font-mono">{email}</span> within 24 hours.
                   </p>
                 </div>
               ) : (
@@ -219,7 +219,7 @@ export default function DarkCTA({ showStats = false }) {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your@email.com"
+                    placeholder="your@company.com"
                     className="w-full rounded-[6px] border border-white/[0.1] bg-[#1C1917] px-4 py-3.5 text-sm text-[#F5F5F4] placeholder-[#78716C] outline-none transition-all duration-200 focus:border-[#E4C090]/70 focus:ring-1 focus:ring-[#E4C090]/40"
                   />
                   <button
@@ -227,18 +227,18 @@ export default function DarkCTA({ showStats = false }) {
                     data-custom-sound="true"
                     className="group inline-flex w-full items-center justify-center gap-2 rounded-[6px] bg-[#B45309] px-7 py-3.5 text-sm font-bold tracking-wide text-white shadow-sm transition-all duration-200 hover:-translate-y-px hover:bg-[#A16207]"
                   >
-                    <span>Get API Access</span>
+                    <span>Send Project Inquiry</span>
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </button>
                 </form>
               )}
 
               <div className="mt-7 flex flex-col gap-3 border-t border-white/[0.08] pt-6 sm:flex-row sm:gap-6 font-mono text-xs">
-                <a href="#how-it-works" className="text-[#E4C090] hover:underline font-semibold">
-                  Read the Docs →
+                <a href="mailto:hello@aniket.one" className="text-[#E4C090] hover:underline font-semibold">
+                  Direct Email: hello@aniket.one →
                 </a>
-                <a href="#why-context" className="text-[#E4C090] hover:underline font-semibold">
-                  Read the Thesis →
+                <a href="#how-it-works" className="text-[#E4C090] hover:underline font-semibold">
+                  View Workflow →
                 </a>
               </div>
             </div>

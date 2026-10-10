@@ -45,41 +45,23 @@ export default function Home() {
         {/* 1. Hero with 3D isometric 5-layer architecture stack & hover zoom telemetry */}
         <Hero onOpenAssessment={() => setAssessmentOpen(true)} />
 
-        {/* Hidden SEO overview (same pattern as the original site: rendered but visually hidden) */}
-        <section aria-label="Aniket AI overview" style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)", clipPath: "inset(50%)", whiteSpace: "nowrap" }}>
-          <h2 className="sr-only">Aniket AI: an AI context layer for business knowledge and agent memory</h2>
+        {/* Hidden SEO overview */}
+        <section aria-label="Aniket Mishra engineering overview" style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)", clipPath: "inset(50%)", whiteSpace: "nowrap" }}>
+          <h2 className="sr-only">Aniket Mishra: Full-Stack &amp; AI Systems Engineer Portfolio</h2>
           <p>
-            Aniket AI gives developers and enterprises a shared knowledge layer for AI agents through a single API. It combines
-            persistent AI agent memory with semantic retrieval over company knowledge, helping applications give an LLM relevant
-            internal documents and business context. The context layer keeps stored knowledge separate from the model, so
-            applications can reuse it across models, sessions, and workflows. Grounding answers in enterprise data can reduce
-            unsupported claims; correctness still depends on source quality, retrieval, application permissions, and the model&apos;s
-            response.
+            Aniket Mishra is a Full-Stack and AI Systems Engineer building scalable web applications, autonomous AI agent pipelines, and high-performance digital products for founders and engineering teams. Specializing in Next.js 15, React, Python, FastAPI, PostgreSQL, vector search, and LLM orchestration.
           </p>
-          <h3>Context arithmetic: the core primitive</h3>
+          <h3>Core Engineering Capabilities</h3>
           <p>
-            Context arithmetic applies set operations over meaning at query time. Intersection narrows scope by team, region, or
-            version. Union combines sources. Subtraction excludes superseded or out-of-scope content. Ranking selects the context
-            that enters the model window. These operations over an institutional knowledge graph support memory behaviors:
-            recalling what happened, resolving what it means, and informing the next action.
+            Full-stack product engineering from architecture to deployment. Rapid 2–4 week MVP development, high-throughput microservices, edge computing, distributed caching, and interactive 3D WebGL / SVG web experiences.
           </p>
-          <h3>Context Traces, business definitions, and integrations</h3>
+          <h3>AI Engineering &amp; Autonomous Agents</h3>
           <p>
-            Context Traces expose retrieval sources, scores, and rules so teams can inspect which information reached an agent.
-            Canonical business definitions help resolve terms such as revenue, pricing, and policy across teams. Integration
-            resources cover Python, TypeScript, LangChain, LlamaIndex, n8n, and MCP clients such as Claude Desktop, Cursor, and
-            VS Code.
+            Production retrieval-augmented generation (RAG), tool-calling autonomous agents, evaluation harnesses, semantic caching, and multi-model routing across Claude 3.5, GPT-4o, and Gemini 1.5 Pro.
           </p>
-          <h3>Use cases, pricing, and trust</h3>
+          <h3>Freelance, Contract &amp; Technical Advisory</h3>
           <p>
-            Use cases include customer support, employee support over internal policies, EdTech tutoring, finance, healthcare
-            continuity, and voice agents. Aniket AI is headquartered in Bangalore, India. Contact hello@aniket.one for company
-            information, security controls, and privacy details.
-          </p>
-          <h3>CLI, SDKs, and discovery</h3>
-          <p>
-            Install the SDK with npm install @aniket/sdk or pip install aniket. The developer guide explains how to add business
-            knowledge to an AI agent. Machine-readable content is available for crawlers that support the llms.txt convention.
+            Available for freelance projects, technical consulting, and contract engineering. Headquartered in Bangalore, India. Contact hello@aniket.one to discuss project scopes and timelines.
           </p>
         </section>
 

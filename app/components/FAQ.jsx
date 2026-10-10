@@ -2,34 +2,34 @@ import { ArrowRight } from "lucide-react";
 
 const FAQ_ITEMS = [
   {
-    q: "What is an AI context layer?",
-    a: "An AI context layer stores and retrieves the information an AI application needs for a task: company documents, business definitions, and saved interactions. Aniket provides this knowledge layer for AI agents through an API, so teams can reuse business context across models and inspect the sources used in retrieval.",
-    linkText: "Connect your company knowledge →",
+    q: "What services do you offer for freelance clients and startups?",
+    a: "I provide end-to-end full-stack web engineering (Next.js 15, React, Node, FastAPI), custom AI agent & RAG architectures (Claude 3.5, GPT-4o, Gemini), rapid MVP prototyping (2–4 week turnaround), and interactive 3D UI design.",
+    linkText: "Discuss your project requirements →",
+    href: "#get-access"
+  },
+  {
+    q: "What does your typical project workflow look like?",
+    a: "We start with a technical discovery call to define scope and milestones. The project runs in agile 1-week sprints with live preview deployments, daily/weekly async updates via Slack/Discord, and clean git commits.",
+    linkText: "Explore our delivery roadmap →",
     href: "#how-it-works"
   },
   {
-    q: "Why does my AI agent keep giving generic answers?",
-    a: "An agent may give generic answers because the relevant company information never reaches its context window. Check whether your application has ingested the right documents, retrieved the relevant passages, and passed them to the model. Better prompts help specify the task, but cannot supply missing business facts by themselves.",
-    linkText: "Diagnose generic and unsupported answers →",
-    href: "#how-it-works"
+    q: "Can you integrate AI capabilities into my existing product?",
+    a: "Yes. From vector search and document retrieval over proprietary company data to autonomous agent workflows and automated background workers, I can dock AI securely into your existing stack with zero vendor lock-in.",
+    linkText: "Learn about custom AI integrations →",
+    href: "#why-context"
   },
   {
-    q: "How can I add business knowledge to my AI agent?",
-    a: "Start with a trusted set of company documents and record their sources, versions, and access boundaries. Store that context, retrieve relevant passages for each question, and pass those passages to your LLM. In Aniket AI, developers integrate context storage and search through the API or SDKs; teams remain responsible for source quality and application permissions.",
-    linkText: "Follow the business knowledge integration steps →",
-    href: "#how-it-works"
+    q: "How fast can you build and launch a production-ready MVP?",
+    a: "Most MVPs take between 2 to 4 weeks. You receive a fully deployed, high-speed product with database schemas, authentication, responsive styling, error monitoring, and complete source code ownership.",
+    linkText: "Estimate your MVP timeline →",
+    href: "#get-access"
   },
   {
-    q: "How is AI agent memory different from a company knowledge base?",
-    a: "AI agent memory preserves information from previous interactions, such as a user preference or an unfinished task. A company knowledge base holds shared information such as policies and product documentation. An agent may need both: session history to understand the conversation, and current business knowledge to answer a company-specific question.",
-    linkText: "Learn how persistent agent memory works →",
-    href: "#how-it-works"
-  },
-  {
-    q: "Can grounding an LLM in enterprise data stop hallucinations?",
-    a: "Grounding gives the model relevant evidence, which can reduce unsupported answers about your business. It does not guarantee correctness. Keep documents current, check retrieval quality, require source references, and make the agent say when evidence is missing. Review high-impact answers and test both retrieval and generation before expanding a workflow.",
-    linkText: "Build a workflow for grounded answers →",
-    href: "#how-it-works"
+    q: "Are you available for contract roles and consulting?",
+    a: "Yes! I am available for high-impact freelance contracts, technical architecture consulting, and select startup roles worldwide. Reach out to discuss availability and rates.",
+    linkText: "Reach out via email or book a call →",
+    href: "#get-access"
   }
 ];
 
@@ -40,7 +40,7 @@ export default function FAQ() {
         {/* Header */}
         <div className="mb-14">
           <h2 id="context-questions-heading" className="text-3xl sm:text-4xl font-bold tracking-tight text-[#4A3B33]">
-            How do you give AI agents your business knowledge?
+            Frequently Asked Questions (Freelance &amp; Collaboration)
           </h2>
         </div>
 

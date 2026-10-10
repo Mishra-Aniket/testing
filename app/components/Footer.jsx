@@ -10,62 +10,61 @@ export default function Footer() {
 
   const FOOTER_COLUMNS = [
     {
-      title: "PRODUCT",
+      title: "STACK & WORK",
       links: [
-        { label: "Context Layer", href: "/#how-it-works" },
-        { label: "Thesis", href: "/thesis" },
-        { label: "Pricing", href: "/pricing" },
-        { label: "Labs & Simulator", href: "/labs" },
-        { label: "Creators Program", href: "/creators-program" }
+        { label: "Core Primitives", href: "/#primitives" },
+        { label: "Full-Stack Engine", href: "/#how-it-works" },
+        { label: "AI Integration", href: "/#router" },
+        { label: "Philosophy & Thesis", href: "/#thesis" },
+        { label: "Interactive 3D Web", href: "/#hero" }
       ]
     },
     {
-      title: "USE CASES",
+      title: "SERVICES",
       links: [
-        { label: "Finance", href: "/use-cases" },
-        { label: "Customer Support", href: "/use-cases" },
-        { label: "EdTech", href: "/use-cases" },
-        { label: "Healthcare", href: "/use-cases" },
-        { label: "All Use Cases", href: "/use-cases" }
+        { label: "2–4 Week MVP Build", href: "/#get-access" },
+        { label: "AI Agent Orchestration", href: "/#how-it-works" },
+        { label: "High-Load API Systems", href: "/#primitives" },
+        { label: "Full-Stack Refactor", href: "/#get-access" },
+        { label: "Technical Advisory", href: "/#get-access" }
       ]
     },
     {
-      title: "DEVELOPERS",
+      title: "EXPERTISE",
       links: [
-        { label: "Documentation", href: "/docs" },
-        { label: "API Reference", href: "/docs" },
-        { label: "Python SDK", href: "/docs" },
-        { label: "Node.js SDK", href: "/docs" },
+        { label: "Next.js 15 & React", href: "/#primitives" },
+        { label: "FastAPI & Python", href: "/#how-it-works" },
+        { label: "PostgreSQL & Vector", href: "/#how-it-works" },
+        { label: "Multi-Model LLMs", href: "/#router" },
+        { label: "Framer Motion & 3D", href: "/#hero" }
+      ]
+    },
+    {
+      title: "CODE & OSS",
+      links: [
+        { label: "GitHub Profile", href: "https://github.com/Mishra-Aniket" },
+        { label: "Architecture Specs", href: "/#thesis" },
+        { label: "API Reference", href: "/#primitives" },
         { label: "llms.txt", href: "/llms.txt" },
-        { label: "llms-full.txt", href: "/llms-full.txt" }
+        { label: "Developer Guide", href: "/#how-it-works" }
       ]
     },
     {
-      title: "COMPARE",
+      title: "PHILOSOPHY",
       links: [
-        { label: "vs Mem0", href: "/compare/aniket-vs-mem0" },
-        { label: "vs Glean", href: "/compare/aniket-vs-glean" },
-        { label: "vs Palantir", href: "/compare/aniket-vs-palantir" },
-        { label: "vs Claude Memory", href: "/compare/aniket-vs-claude" },
-        { label: "vs LangChain", href: "/compare/aniket-vs-langchain" },
-        { label: "All Comparisons", href: "/compare" }
+        { label: "Craftsmanship Thesis", href: "/#thesis" },
+        { label: "Zero Technical Debt", href: "/#thesis" },
+        { label: "Reliability Guarantee", href: "/#faq" },
+        { label: "Client FAQ", href: "/#faq" }
       ]
     },
     {
-      title: "COMPANY",
+      title: "CONNECT",
       links: [
-        { label: "About Us", href: "/thesis" },
-        { label: "Blog", href: "/blog" },
-        { label: "Case Studies", href: "/use-cases" },
-        { label: "Contact", href: "mailto:hello@aniket.one" }
-      ]
-    },
-    {
-      title: "LEGAL",
-      links: [
-        { label: "Privacy Policy", href: "/security" },
-        { label: "Security & SOC2", href: "/security" },
-        { label: "Terms of Use", href: "/security" }
+        { label: "Hire Me / Scope Project", href: "/#get-access" },
+        { label: "Email Directly", href: "mailto:hello@aniket.one" },
+        { label: "LinkedIn", href: "https://www.linkedin.com/in/aniketmishra0" },
+        { label: "X / Twitter", href: "https://x.com/aniketmishra0" }
       ]
     }
   ];
@@ -93,12 +92,12 @@ export default function Footer() {
                 ANIKET
               </span>
               <span className="font-mono text-[9px] font-bold text-[#E4C090] bg-[#E4C090]/15 px-1.5 py-0.5 rounded tracking-widest border border-[#E4C090]/30 -translate-y-1.5">
-                AI
+                .ONE
               </span>
             </a>
 
             <p className="mb-6 max-w-[300px] text-[0.9375rem] leading-[1.7] text-[#A8A29E]">
-              Persistent, traceable context and semantic retrieval for AI agents over your institutional knowledge graph.
+              Full-stack and AI systems engineer. Building production web applications, autonomous AI workflows, and bespoke digital experiences for founders and fast-moving teams.
             </p>
 
             <p className="mb-6 flex items-baseline gap-2.5 font-mono text-[10.5px] uppercase leading-[1.7] tracking-[0.16em] text-[#78716C]">
@@ -122,11 +121,11 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://github.com/aniketmishra-0"
+                href="https://github.com/Mishra-Aniket"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="GitHub: aniketmishra-0"
-                title="GitHub: aniketmishra-0"
+                aria-label="GitHub: Mishra-Aniket"
+                title="GitHub: Mishra-Aniket"
                 className="flex h-9 w-9 items-center justify-center rounded-[6px] border border-white/[0.08] text-[#A8A29E] transition-all hover:border-[#E4C090]/50 hover:text-[#E4C090] hover:scale-105"
               >
                 <svg viewBox="0 0 24 24" fill="currentColor" className="h-[15px] w-[15px]">
@@ -188,14 +187,14 @@ export default function Footer() {
           className="relative w-full py-8 md:py-12 flex justify-center items-center select-none pointer-events-none overflow-hidden"
         >
           <span className="font-serif font-bold text-[clamp(4.5rem,13vw,11.5rem)] leading-none tracking-tight text-white/[0.06] whitespace-nowrap">
-            Aniket AI
+            ANIKET.ONE
           </span>
         </div>
 
         {/* Bottom Bar */}
         <div className="relative pt-6 border-t border-white/[0.08] flex items-center justify-between flex-wrap gap-4 text-xs text-[#78716C] font-mono">
           <div>
-            © 2026 Aniket. All rights reserved.
+            © 2026 Aniket Mishra. All rights reserved.
           </div>
           <div className="flex items-center gap-6">
             <a href="#" className="hover:text-[#E4C090] transition-colors">Privacy Policy</a>

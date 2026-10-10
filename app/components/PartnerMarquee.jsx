@@ -17,7 +17,7 @@ export default function PartnerMarquee() {
       <div className="mx-auto mb-10 flex max-w-[1200px] items-center gap-6 px-6 lg:px-8">
         <div className="h-px w-full bg-[#E4D9BC] flex-1" />
         <span className="shrink-0 font-mono text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#78716C]">
-          Trusted by developer teams at
+          Experience with engineering teams &amp; projects at
         </span>
         <div className="h-px w-full bg-[#E4D9BC] flex-1" />
       </div>

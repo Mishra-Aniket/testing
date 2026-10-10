@@ -298,7 +298,7 @@ export default function ContextAssessmentModal({ isOpen, onClose }) {
                 }}
                 className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-[#B45309] px-4 py-2.5 font-bold text-xs text-white hover:bg-[#A16207] shadow-sm transition-all"
               >
-                <span>Request API Access</span>
+                <span>Hire Me / Consult on Scope</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </a>
             </div>
