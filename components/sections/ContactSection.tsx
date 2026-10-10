@@ -3,7 +3,7 @@
 import { useState, useActionState } from 'react';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Button } from '@/components/ui/Button';
-import { submitContact } from '@/app/(public)/actions';
+import { submitContact } from '@/app/actions';
 import { cn } from '@/lib/utils';
 
 const PROJECT_TYPES = [

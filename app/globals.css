@@ -1,103 +1,202 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300..800;1,300..800&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+@import 'lenis/dist/lenis.css';
 
-/* ── Design Tokens ────────────────────────────────────────── */
-@theme {
-  --color-primary: #534AB7;
-  --color-primary-light: #6E65D0;
-  --color-primary-dark: #3F3793;
-  --color-accent: #E8650A;
-  --color-accent-light: #FF7D2A;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  --color-bg: #0A0A0A;
-  --color-bg-card: #141414;
-  --color-bg-elevated: #1A1A1A;
-  --color-bg-input: #1E1E1E;
-
-  --color-text: #FAFAFA;
-  --color-text-muted: #A1A1AA;
-  --color-text-dim: #71717A;
-
-  --color-border: #27272A;
-  --color-border-hover: #3F3F46;
-
-  --font-sans: "Inter", "Geist", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", monospace;
-
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-}
-
-/* ── Base Styles ──────────────────────────────────────────── */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+:root {
+  --font-merriweather: 'Merriweather', ui-serif, Georgia, serif;
+  --font-jetbrains-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  
+  --paper: #fdfbf7;
+  --ink: #4a3b33;
+  --amber: #b45309;
+  --amber-light: #e4c090;
+  --teal: #a16207;
+  --teal-light: #e4c090;
+  --teal-dark: #78350f;
+  --dark-hero: #1c1917;
+  --dark-section: #1c1917;
+  --muted: 39 45% 90%;
+  --subtle: #a8a29e;
+  --border-light: #e4d9bc;
+  --hairline: #4a3b3314;
+  --hairline-strong: #4a3b3324;
+  --ink-soft: #57534e;
+  --shadow-color: 28 18% 25%;
+  --shadow-opacity: .18;
+  --shadow-soft: 0 2px 3px 0 hsl(var(--shadow-color) / var(--shadow-opacity));
+  --shadow-soft-lg: 0 10px 24px -10px hsl(var(--shadow-color) / .28);
+  --radius: .3rem;
+  --background: 40 60% 98%;
+  --foreground: 21 18% 25%;
+  --border: 43 43% 82%;
 }
 
 html {
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-merriweather), ui-serif, Georgia, serif;
+  width: 100%;
+  max-width: 100vw;
+  -webkit-text-size-adjust: 100%;
+  scrollbar-gutter: stable;
 }
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-sans);
+  overflow-x: clip;
 }
 
-::selection {
-  background-color: var(--color-primary);
-  color: white;
+html.lenis, html.lenis body {
+  height: auto;
 }
 
-/* ── Focus Styles ─────────────────────────────────────────── */
-:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
 }
 
-/* ── Scrollbar ────────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 6px;
+.lenis.lenis-smooth [data-lenis-prevent],
+[data-lenis-prevent] {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: var(--color-border);
-  border-radius: 3px;
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
-/* ── Utilities ────────────────────────────────────────────── */
-@utility container-tight {
-  max-width: 72rem;
-  margin-inline: auto;
-  padding-inline: 1.5rem;
+body {
+  font-family: var(--font-merriweather), ui-serif, Georgia, serif;
+  background-color: #FDFBF7;
+  color: #4A3B33;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
 }
 
-@utility section-padding {
-  padding-block: 5rem;
+/* Authentic Navbar cascading theme system */
+.nav-link {
+  color: #57534E;
+  transition: color 0.16s ease;
+}
+.nav-link:hover {
+  color: #4A3B33;
+}
+[data-theme="dark"] .nav-link,
+[data-site-nav][data-theme="dark"] .nav-link {
+  color: #A8A29E;
+}
+[data-theme="dark"] .nav-link:hover,
+[data-site-nav][data-theme="dark"] .nav-link:hover {
+  color: #F5F5F4;
 }
 
-@utility animate-fade-in {
-  animation: fade-in 0.5s ease-out forwards;
+[data-site-nav][data-theme="dark"] .nav-brand-text {
+  color: #F5F5F4;
+}
+[data-site-nav] .nav-brand-text {
+  color: #4A3B33;
 }
 
-@utility animate-slide-up {
-  animation: slide-up 0.6s ease-out forwards;
+[data-site-nav][data-theme="dark"] .nav-brand-tag {
+  color: #E4C090;
+  background-color: rgba(228, 192, 144, 0.1);
+  border-color: rgba(228, 192, 144, 0.2);
+}
+[data-site-nav] .nav-brand-tag {
+  color: #B45309;
+  background-color: rgba(180, 83, 9, 0.1);
+  border-color: rgba(180, 83, 9, 0.2);
 }
 
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+[data-site-nav][data-theme="dark"] .nav-btn-ghost {
+  color: #A8A29E;
+  background-color: rgba(245, 245, 244, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+[data-site-nav][data-theme="dark"] .nav-btn-ghost:hover {
+  color: #F5F5F4;
+  border-color: rgba(228, 192, 144, 0.55);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+[data-site-nav] .nav-btn-ghost {
+  color: #4A3B33;
+  background-color: #FFFFFF;
+  border-color: #E4D9BC;
+}
+[data-site-nav] .nav-btn-ghost:hover {
+  color: #B45309;
+  border-color: #B45309;
+  background-color: #FAF6EE;
 }
 
-@keyframes slide-up {
-  from { opacity: 0; transform: translateY(1.5rem); }
-  to { opacity: 1; transform: translateY(0); }
+/* Touch scrolling optimizations & zero tap highlight / blue focus outlines */
+*, *::before, *::after {
+  -webkit-tap-highlight-color: transparent !important;
+  box-sizing: border-box;
 }
+
+/* Eliminate blue browser focus borders on SVG, <g> elements, buttons */
+svg, svg *, g, path, rect, circle, polygon, polyline, ellipse, text, button, a {
+  outline: none !important;
+  -webkit-focus-ring-color: transparent !important;
+}
+
+:focus:not(:focus-visible) {
+  outline: none !important;
+}
+
+/* Ensure code and tables are smooth to swipe horizontally on touch devices */
+pre, table, .overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-merriweather), ui-serif, Georgia, serif;
+}
+
+.font-serif {
+  font-family: var(--font-merriweather), ui-serif, Georgia, serif !important;
+}
+
+.font-mono {
+  font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace !important;
+}
+
+@keyframes marqueeScroll {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 35s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.plate-grid {
+  background-image: linear-gradient(to right, rgba(228, 217, 188, 0.45) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(228, 217, 188, 0.45) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Hide floating search dock when mobile menu drawer is open */
+[data-mobile-nav-open="true"] [data-bottom-search-dock="true"],
+html[data-mobile-nav-open="true"] [data-bottom-search-dock="true"] {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+
