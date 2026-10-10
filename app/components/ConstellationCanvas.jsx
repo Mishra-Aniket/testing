@@ -22,7 +22,7 @@ export default function ConstellationCanvas({ className = '' }) {
 
     const initPoints = () => {
       points = [];
-      const count = Math.floor((width * height) / 18000);
+      const count = Math.min(Math.floor((width * height) / 24000), 30);
       for (let i = 0; i < count; i++) {
         points.push({
           x: Math.random() * width,

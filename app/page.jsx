@@ -33,9 +33,6 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen bg-[#FDFBF7] text-[#4A3B33] selection:bg-[#B45309]/20 selection:text-[#B45309]">
-      {/* Background Interactive Warm Constellation Particle Canvas */}
-      <ConstellationCanvas />
-
       {/* Floating Pill Header / Navigation */}
       <Navbar 
         onOpenSearch={() => setSearchOpen(true)} 

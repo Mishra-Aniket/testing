@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Github, Sparkles, CheckCircle2, Layers } from "lucide-react";
 import { PROJECTS } from "../data/portfolioData";
@@ -10,7 +10,7 @@ import Project3DVisualizer from "./Project3DVisualizer";
 export default function FeaturedProjects() {
   const [activeStep, setActiveStep] = useState(0);
 
-  // High-performance IntersectionObserver: updates active step on scroll with ZERO thread lag
+  // High-performance IntersectionObserver: updates active step on scroll without thread lag
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -24,8 +24,8 @@ export default function FeaturedProjects() {
         });
       },
       {
-        rootMargin: "-25% 0px -45% 0px",
-        threshold: 0.1
+        rootMargin: "-20% 0px -40% 0px",
+        threshold: 0.15
       }
     );
 
@@ -97,7 +97,7 @@ export default function FeaturedProjects() {
           </div>
         </div>
 
-        {/* Two Column Layout (Image 3 Style): Sticky Navigation (Left) + Sequential Scrolling Projects (Right) */}
+        {/* Two Column Layout (Image 3 Style): Sticky Navigation (Left) + Continuous Scrolling Projects (Right) */}
         <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 mb-24 md:mb-32">
           {/* Sticky Navigation (Desktop) matching Image 3 */}
           <div className="hidden lg:block lg:col-span-4">
@@ -175,14 +175,14 @@ export default function FeaturedProjects() {
             </div>
           </div>
 
-          {/* Right Column: ALL Projects Stacked Continuously (Visitors can scroll through every project) */}
+          {/* Right Column: ALL Projects Stacked Continuously (Scroll down to view every project) */}
           <div className="lg:col-span-8 flex flex-col gap-14">
             {PROJECTS.map((project, idx) => (
               <article
                 key={project.id}
                 id={`project-${project.id}`}
                 data-project-index={idx}
-                className="group relative rounded-[var(--radius)] border bg-white border-[#E4D9BC] shadow-[var(--shadow-soft)] p-7 sm:p-9 transition-all duration-300 hover:shadow-[var(--shadow-soft-lg)] hover:border-[#E4C090]"
+                className="scroll-mt-32 group relative rounded-[var(--radius)] border bg-white border-[#E4D9BC] shadow-[var(--shadow-soft)] p-7 sm:p-9 lg:p-10 transition-all duration-300 hover:shadow-[var(--shadow-soft-lg)] hover:border-[#E4C090]"
               >
                 {/* Step Index & Badge Header */}
                 <div className="flex items-center justify-between gap-3 mb-4">
@@ -213,7 +213,7 @@ export default function FeaturedProjects() {
                 )}
 
                 {/* Frameless 3D Telemetry Diagram (Pure floating vector graphic, NO inner box!) */}
-                <div className="mb-6 pt-2 pb-4 border-y border-[#E4D9BC]/50">
+                <div className="mb-6">
                   <Project3DVisualizer projectId={project.id} />
                 </div>
 
