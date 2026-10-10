@@ -20,7 +20,8 @@ import {
   ArrowUpRight,
   Sparkles,
   Layers,
-  ShieldCheck
+  ShieldCheck,
+  Search
 } from 'lucide-react';
 import { sound } from '../utils/sound';
 
