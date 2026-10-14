@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Github, Sparkles, CheckCircle2, Layers } from "lucide-react";
+import { ArrowUpRight, Github, Sparkles, CheckCircle2, Layers, FileText } from "lucide-react";
 import { PROJECTS } from "../data/portfolioData";
 import { sound } from "../utils/sound";
 import Project3DVisualizer from "./Project3DVisualizer";
@@ -250,29 +250,54 @@ export default function FeaturedProjects() {
                 </div>
 
                 {/* Actions */}
-                <div className="flex items-center justify-between gap-3 pt-2">
-                  <a
-                    href={project.liveUrl}
-                    target={project.liveUrl?.startsWith("http") ? "_blank" : undefined}
-                    rel={project.liveUrl?.startsWith("http") ? "noopener noreferrer" : undefined}
-                    onClick={() => sound.playClick()}
-                    className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-[#B45309] hover:text-[#92400E] transition-colors"
-                  >
-                    <span>{project.liveLabel || "Launch App / Demo"}</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </a>
+                <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+                  {project.liveUrl === "Live Demo Will Be Provided Soon" || !project.liveUrl?.startsWith("http") ? (
+                    <span className="inline-flex items-center gap-2 font-mono text-xs font-semibold text-[#78716C] bg-[#FAF6EE] px-3 py-1.5 rounded-[var(--radius)] border border-[#E4D9BC]">
+                      <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                      <span>Live Demo Will Be Provided Soon</span>
+                    </span>
+                  ) : (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => sound.playClick()}
+                      className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-[#B45309] hover:text-[#92400E] transition-colors"
+                    >
+                      <span>{project.liveLabel || "Launch App / Demo"}</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </a>
+                  )}
 
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => sound.playClick()}
-                    className="inline-flex items-center gap-1.5 font-mono text-xs text-[#78716C] hover:text-[#4A3B33] transition-colors"
-                    title="Inspect Source Code on GitHub"
-                  >
-                    <Github className="w-3.5 h-3.5" />
-                    <span>Source Code</span>
-                  </a>
+                  <div className="flex items-center gap-3">
+                    {project.docsUrl && (
+                      <a
+                        href={project.docsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => sound.playClick()}
+                        className="inline-flex items-center gap-1.5 font-mono text-xs text-[#78716C] hover:text-[#B45309] transition-colors"
+                        title="View Documentation"
+                      >
+                        <FileText className="w-3.5 h-3.5" />
+                        <span>Documentation</span>
+                      </a>
+                    )}
+
+                    {project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => sound.playClick()}
+                        className="inline-flex items-center gap-1.5 font-mono text-xs text-[#78716C] hover:text-[#4A3B33] transition-colors"
+                        title="Inspect Source Code on GitHub"
+                      >
+                        <Github className="w-3.5 h-3.5" />
+                        <span>Source Code</span>
+                      </a>
+                    )}
+                  </div>
                 </div>
               </article>
             ))}

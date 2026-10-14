@@ -35,63 +35,84 @@ export const PERSONAL_INFO = {
 
 export const PROJECTS = [
   {
-    id: "centrix",
-    title: "Centrix — Autonomous Lecture Ingestion",
-    subtitle: "Edge-First Operations Platform for 500+ PW Centers",
-    category: "Enterprise & Edge Systems",
+    id: "omtabs",
+    title: "OmTabs — Chrome Tab Management & Privacy Shield",
+    subtitle: "Custom Tab Renaming, Biometric Lock & Tab Organization",
+    category: "Chrome Extension",
     featured: true,
-    badge: "Production Deployed (Physics Wallah)",
-    metrics: "500+ Centers · 10,000–20,000 Lectures/Day · Zero Cloud Egress Cost",
+    badge: "Chrome Web Store (Official)",
+    metrics: "Official Web Store · Sub-10ms Rename · Biometric Shield",
     description:
-      "Engineered an edge-first automated ingestion engine for Physics Wallah Vidyapeeth centers across India. Automatically pairs OBS/capture card recordings with MaxHub interactive flat panel notes, matches timetables using confidence scoring, and executes chunked resumable uploads directly to Google Drive with zero central bandwidth cost.",
-    tags: [".NET 8 (C#)", "React 18", "TypeScript", "SQLite WAL", "Google Drive API v3", "Tailwind CSS"],
-    githubUrl: "https://github.com/aniketmishra-0/Centrix",
-    liveUrl: "https://github.com/aniketmishra-0/Centrix",
-    liveLabel: "View Architecture & Repo",
+      "Chrome extension that enables power users to rename open browser tabs with custom titles, protect sensitive tabs with biometric/passcode shields, and organize work sessions effortlessly.",
+    tags: ["Chrome Extension (MV3)", "JavaScript", "WebAuthn / Biometrics", "CSS3", "Chrome Storage"],
+    githubUrl: "https://github.com/aniketmishra-0",
+    liveUrl: "https://chromewebstore.google.com/detail/omtabs/innncdapnjlnjdgkdjjajbiebeppieaf",
+    liveLabel: "Add to Chrome (Web Store)",
     highlights: [
-      "Sub-second write stability detection for OBS .mkv/.mp4 & MaxHub .pdf notes",
-      "Weighted multi-factor confidence engine for automated timetable slot matching",
-      "Direct chunked resumable upload to Google Drive saving petabytes in egress costs"
+      "Instant tab title customization with keyboard shortcuts (Alt+Shift+R)",
+      "Shield lock privacy mechanism to hide sensitive tabs when stepping away",
+      "Persistent session memory with zero browser slowdown"
     ]
   },
   {
-    id: "qpic",
-    title: "Qpic — Smart Exam Paper Splitter & OCR Studio",
-    subtitle: "3-Tier Detection Engine & Cross-Platform Desktop App",
-    category: "AI & Document Intelligence",
+    id: "omspace",
+    title: "OmSpace — New Tab Dashboard & Focus Studio",
+    subtitle: "Customizable Productivity Hub for Chrome",
+    category: "Chrome Extension",
     featured: true,
-    badge: "Open Source / Production",
-    metrics: "14-Stage Pipeline · Sub-2s per Paper · Bilingual Auto-Stitch",
+    badge: "Chrome Web Store (Official)",
+    metrics: "Official Web Store · Zero Latency · Focus Mode",
     description:
-      "FastAPI and Flutter desktop app that parses complex MCQ exam PDFs, detects questions via a 3-tier pipeline (native text layer → Tesseract OCR → Claude vision fallback), crops/stitches multi-page questions, and automatically extracts answer keys to CSV/JSON.",
-    tags: ["Python (FastAPI)", "Flutter / Dart", "PyMuPDF", "OpenCV", "Tesseract OCR", "Claude AI"],
-    githubUrl: "https://github.com/aniketmishra-0/Qpic",
-    liveUrl: "https://github.com/aniketmishra-0/Qpic",
-    liveLabel: "Inspect Engine & GitHub",
+      "A customizable new tab dashboard with browser-default search, focus tools, widgets, and quick-access surfaces. Built for power users who want an organized, distraction-free browser workspace every time a new tab is opened.",
+    tags: ["Chrome Extension (MV3)", "JavaScript", "React / HTML5", "LocalStorage", "Widgets"],
+    githubUrl: "https://github.com/aniketmishra-0",
+    liveUrl: "https://chromewebstore.google.com/detail/omspace-new-tab-dashboard/hofalojlkckeopheldapdcickcmeihmd?utm_source=ext_app_menu",
+    liveLabel: "Add to Chrome (Web Store)",
     highlights: [
-      "14-stage document processing pipeline with deskew, denoise, and auto-binarization",
-      "Bilingual side-by-side Hindi & English column detection and auto-stitching",
-      "Bundled Python sidecar engine running seamlessly inside native Flutter desktop app"
+      "Customizable new tab dashboard with built-in search & quick access surfaces",
+      "Integrated focus tools, widgets, and personalized workspace layout",
+      "Lightweight, instant boot with zero impact on browser memory"
     ]
   },
   {
-    id: "thumbcraft",
-    title: "ThumbCraft — 1-Click EdTech Thumbnail Studio",
-    subtitle: "Automated YouTube & App Asset Generator",
-    category: "GenAI & Creative Tools",
+    id: "gps-cam",
+    title: "GPS Cam (GPSnap) — Geotagged Media Stamper",
+    subtitle: "Real-Time GPS Coordinate & Video Watermarking Engine",
+    category: "Mobile & Android Systems",
     featured: true,
-    badge: "Live Production Tool",
-    metrics: "1-Click Generation · 100+ PW Presets · Zero Server Lag",
+    badge: "Native Android (Kotlin)",
+    metrics: "Sub-100ms Geocoding · Native CameraX · Drive Sync",
     description:
-      "High-speed thumbnail generation studio for educators and creators. Features Google Gemini GenAI integration, automated typography placement, Physics Wallah faculty/batch asset presets, and Google Sheets batch export.",
-    tags: ["React 19", "Google GenAI SDK", "HTML5 Canvas", "Vite", "Tailwind CSS", "JSZip"],
-    githubUrl: "https://github.com/aniketmishra-0/thumbcraft",
-    liveUrl: "https://github.com/aniketmishra-0/thumbcraft",
-    liveLabel: "Explore Studio Code",
+      "Native Android application built with Kotlin and Jetpack Compose for field operations, auditing, and academic centers. Captures high-res photos and videos with real-time dynamic overlays of GPS coordinates, elevation, timestamp, and address with direct Google Drive upload.",
+    tags: ["Android", "Kotlin", "Jetpack Compose", "CameraX", "Google Location Services", "Drive API"],
+    githubUrl: "https://github.com/aniketmishra-0",
+    liveUrl: "Live Demo Will Be Provided Soon",
+    liveLabel: "Live Demo Will Be Provided Soon",
     highlights: [
-      "Direct browser HTML5 Canvas rendering for instant zero-latency export",
-      "Automated batch thumbnail generation synchronized from Google Sheets",
-      "Built-in faculty library, chapter tagging, and high-CTR layout presets"
+      "Real-time dynamic canvas stamping for both photos and MP4 video recordings",
+      "Accurate GPS coordinate, elevation, and reverse geocoded address stamping",
+      "Integrated background sync pipeline to upload audited media straight to Google Drive"
+    ]
+  },
+  {
+    id: "nexus-streamer",
+    title: "Nexus Streamer — Drive to YouTube Ingestion Matrix",
+    subtitle: "Zero-RAM Cloud-to-Cloud Video Streamer",
+    category: "Cloud & Media Streaming",
+    featured: true,
+    badge: "HuggingFace Live Space",
+    metrics: "Zero-RAM Streaming · Real-Time SSE · Resumable Uploads",
+    description:
+      "Autonomous cloud pipeline bridging Google Drive and YouTube. Streams multi-gigabyte video files directly to YouTube as Unlisted assets with chunk-by-chunk Node.js stream transforms and live Server-Sent Events (SSE) telemetry without filling server RAM.",
+    tags: ["Node.js", "Express", "Google YouTube API", "SSE", "Docker", "HuggingFace"],
+    githubUrl: "https://github.com/aniketmishra-0",
+    liveUrl: "https://pwvp-drive2youtube.hf.space/",
+    liveLabel: "Launch Streamer (Live Space)",
+    docsUrl: "https://docs.google.com/document/d/e/2PACX-1vT6DnA5CWBdEr1rqZD7jFVhUi6zDSUEUb-4UtuLafIeyhev9tTVL0lW_5SbHcmOcEfySbIQ8_iSiBSU/pub",
+    highlights: [
+      "Zero-gravity memory footprint using Node.js stream pipelines",
+      "Real-time live progress broadcasting via Server-Sent Events (SSE)",
+      "Automated metadata tagging and unlisted asset provisioning"
     ]
   },
   {
@@ -100,14 +121,14 @@ export const PROJECTS = [
     subtitle: "Modern Circular Power-User Launcher for Windows 10/11",
     category: "Desktop & Systems",
     featured: true,
-    badge: "Open Source (.NET 8 / WPF)",
+    badge: "Windows Releases Live",
     metrics: "Sub-5ms Hotkey Launch · 60 FPS WPF · Fuzzy Search HUD",
     description:
       "A modern circular application launcher and fuzzy search HUD for Windows 10/11 built with C# and WPF. Brings macOS-style radial aesthetics with global hotkeys, 8 configurable app slots, and lightning-fast keyboard navigation.",
     tags: [".NET 8", "C#", "WPF", "Windows API", "XAML"],
     githubUrl: "https://github.com/aniketmishra-0/RedialWin",
-    liveUrl: "https://github.com/aniketmishra-0/RedialWin",
-    liveLabel: "Download on GitHub",
+    liveUrl: "https://aniketmishra-0.github.io/RedialMenu-releases/",
+    liveLabel: "Download Release (.exe)",
     highlights: [
       "Global hotkey registration with instant hardware-accelerated rendering",
       "Fuzzy search indexing across all installed Windows applications",
@@ -116,22 +137,42 @@ export const PROJECTS = [
   },
   {
     id: "imgworld",
-    title: "imgworld.biz — Client-Side Image Tools Studio",
+    title: "ImgWorld.buzz — Client-Side Image Tools Studio",
     subtitle: "Zero-Server Privacy-First Media Processing Suite",
     category: "Web Tools & Privacy",
     featured: true,
-    badge: "Live Production Site",
+    badge: "Live Production (ImgWorld.buzz)",
     metrics: "100% On-Device · 0 Bytes Sent to Cloud · ONNX Web AI",
     description:
       "A comprehensive in-browser image editing suite running entirely on the user's hardware. Utilizes the native Canvas API, Web ImageDecoder, FaceDetector, and on-device ONNX background removal models without server uploads.",
     tags: ["React 19", "ONNX Runtime Web", "Web ImageDecoder", "Canvas API", "Vite", "Tailwind CSS"],
     githubUrl: "https://github.com/aniketmishra-0/imgWorld.biz",
-    liveUrl: "https://imgworld.biz",
-    liveLabel: "Launch Live Site (imgworld.biz)",
+    liveUrl: "https://www.imgworld.buzz",
+    liveLabel: "Launch ImgWorld.buzz",
     highlights: [
       "On-device AI background removal using WebAssembly & ONNX Runtime",
       "Client-side batch image conversion, cropping, and compression",
       "Zero telemetry and strict user data privacy compliance"
+    ]
+  },
+  {
+    id: "qpic",
+    title: "Qpic — Smart Exam Paper Splitter & OCR Studio",
+    subtitle: "3-Tier Detection Engine & Cross-Platform Desktop App",
+    category: "AI & Document Intelligence",
+    featured: true,
+    badge: "Production Pipeline",
+    metrics: "14-Stage Pipeline · Sub-2s per Paper · Bilingual Auto-Stitch",
+    description:
+      "FastAPI and Flutter desktop app that parses complex MCQ exam PDFs, detects questions via a 3-tier pipeline (native text layer → Tesseract OCR → Claude vision fallback), crops/stitches multi-page questions, and automatically extracts answer keys to CSV/JSON.",
+    tags: ["Python (FastAPI)", "Flutter / Dart", "PyMuPDF", "OpenCV", "Tesseract OCR", "Claude AI"],
+    githubUrl: "https://github.com/aniketmishra-0/Qpic",
+    liveUrl: "Live Demo Will Be Provided Soon",
+    liveLabel: "Live Demo Will Be Provided Soon",
+    highlights: [
+      "14-stage document processing pipeline with deskew, denoise, and auto-binarization",
+      "Bilingual side-by-side Hindi & English column detection and auto-stitching",
+      "Bundled Python sidecar engine running seamlessly inside native Flutter desktop app"
     ]
   },
   {
@@ -140,14 +181,14 @@ export const PROJECTS = [
     subtitle: "Instant Dynamic Forms & Viewer for Spreadsheets",
     category: "Cloud & Productivity",
     featured: true,
-    badge: "Live Web Application",
+    badge: "Live Production PWA",
     metrics: "1-Click Setup · Real-time OAuth 2.0 · Live PWA",
     description:
       "Transforms any Google Spreadsheet into an intuitive, mobile-first data entry and viewing PWA. Authenticates via Google OAuth 2.0, parses column schemas, and generates instant entry forms without requiring code or third-party database setups.",
     tags: ["Next.js", "React", "Google Sheets API", "OAuth 2.0", "Tailwind CSS", "Vercel"],
     githubUrl: "https://github.com/aniketmishra-0",
-    liveUrl: "https://officemobile.vercel.app",
-    liveLabel: "Launch App (officemobile.vercel.app)",
+    liveUrl: "https://officemobile.vercel.app/",
+    liveLabel: "Launch officemobile.vercel.app",
     highlights: [
       "Instant dynamic form generation from any public or private Google Sheet",
       "Bi-directional real-time row reading and writing with zero backend lag",
@@ -155,63 +196,23 @@ export const PROJECTS = [
     ]
   },
   {
-    id: "pw-qc-assistant",
-    title: "PW Automation & QC Assistant (v3.6.0)",
-    subtitle: "Internal Chrome Extension for PenPencil Admin",
-    category: "Browser Automation & Ops",
-    featured: false,
-    badge: "Internal Enterprise Tool",
-    metrics: "v3.6.0 Stable · 4 hrs → 15 mins · 1,000+ Batches",
+    id: "centrix",
+    title: "Centrix — Autonomous Lecture Ingestion Pipeline",
+    subtitle: "Edge-First Operations Platform for 500+ PW Centers",
+    category: "Enterprise & Edge Systems",
+    featured: true,
+    badge: "Live Interactive Demo",
+    metrics: "500+ Centers · 10,000–20,000 Lectures/Day · Zero Cloud Egress Cost",
     description:
-      "Manifest V3 Chrome Extension developed for Physics Wallah academic operations. Automates batch scheduling, QA validation, student attendance auditing, and test management directly on the PenPencil Admin portal.",
-    tags: ["Chrome Extensions (MV3)", "JavaScript", "Google Apps Script", "DOM Automation"],
-    githubUrl: "https://github.com/aniketmishra-0",
-    liveUrl: "https://github.com/aniketmishra-0",
-    liveLabel: "Extension Overview",
+      "Engineered an edge-first automated ingestion engine for Physics Wallah Vidyapeeth centers across India. Automatically pairs OBS/capture card recordings with MaxHub interactive flat panel notes, matches timetables using confidence scoring, and executes chunked resumable uploads directly to Google Drive with zero central bandwidth cost.",
+    tags: [".NET 8 (C#)", "React 18", "TypeScript", "SQLite WAL", "Google Drive API v3", "Tailwind CSS"],
+    githubUrl: "https://github.com/aniketmishra-0/Centrix",
+    liveUrl: "https://aniketmishra-0.github.io/Centrix_Demo/",
+    liveLabel: "Launch Centrix Demo",
     highlights: [
-      "Automates complex multi-step batch scheduling on PenPencil Admin",
-      "Real-time error flagging and fatal mistake prevention for operators",
-      "Integrated with Google Sheets MIS reporting pipelines"
-    ]
-  },
-  {
-    id: "omtabs",
-    title: "OmTabs — Chrome Tab Management & Privacy Shield",
-    subtitle: "Custom Tab Renaming, Biometric Lock & Tab Organization",
-    category: "Productivity Tools",
-    featured: false,
-    badge: "Chrome Web Store Tool",
-    metrics: "Sub-10ms Rename · Biometric Shield · Zero Latency",
-    description:
-      "Chrome extension that enables power users to rename open browser tabs with custom titles, protect sensitive tabs with biometric/passcode shields, and organize work sessions effortlessly.",
-    tags: ["Chrome Extension (MV3)", "JavaScript", "WebAuthn / Biometrics", "CSS3"],
-    githubUrl: "https://github.com/aniketmishra-0",
-    liveUrl: "https://github.com/aniketmishra-0",
-    liveLabel: "Inspect Extension",
-    highlights: [
-      "Instant tab title customization with keyboard shortcuts (Alt+Shift+R)",
-      "Shield lock privacy mechanism to hide sensitive tabs when stepping away",
-      "Persistent session memory with zero browser slowdown"
-    ]
-  },
-  {
-    id: "nexus-streamer",
-    title: "Nexus — Autonomous Drive to YouTube Matrix",
-    subtitle: "Zero-RAM Cloud-to-Cloud Video Streamer",
-    category: "Cloud & Media Streaming",
-    featured: false,
-    badge: "Cloud Pipeline",
-    metrics: "Zero-RAM Streaming · Real-Time SSE · Resumable Uploads",
-    description:
-      "Automated streaming pipeline that bridges Google Drive and YouTube. Streams multi-gigabyte video files directly to YouTube as Unlisted assets with chunk-by-chunk Node.js stream transforms and live Server-Sent Events (SSE) telemetry.",
-    tags: ["Node.js", "Express", "Google YouTube API", "SSE", "Docker"],
-    githubUrl: "https://github.com/aniketmishra-0",
-    liveUrl: "https://github.com/aniketmishra-0",
-    liveLabel: "View Pipeline",
-    highlights: [
-      "Zero-gravity memory footprint using Node.js stream pipelines",
-      "Real-time live progress broadcasting via Server-Sent Events (SSE)",
-      "Automated metadata tagging and unlisted asset provisioning"
+      "Sub-second write stability detection for OBS .mkv/.mp4 & MaxHub .pdf notes",
+      "Weighted multi-factor confidence engine for automated timetable slot matching",
+      "Direct chunked resumable upload to Google Drive saving petabytes in egress costs"
     ]
   }
 ];
