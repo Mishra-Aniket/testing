@@ -4,48 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { sound } from '../utils/sound';
 
-const LAYERS = [
-  {
-    idx: 'L00 · DATA & STORAGE',
-    title: 'Database & Storage Layer',
-    body: 'PostgreSQL, Supabase, Redis, and Cloud Storage. High-concurrency schema design with ACID compliance, instant indexing, and resilient caching.',
-    stats: [['DATABASES', 'Postgres · Supabase'], ['CACHING', 'Redis · In-Memory'], ['INTEGRITY', 'ACID Compliant']],
-    code: '> db.connect({ pool: "pg-pool", redis: true })',
-    top: '71%',
-  },
-  {
-    idx: 'L01 · CORE ENGINE',
-    title: 'Backend & Microservices',
-    body: 'High-throughput APIs and background workers built with .NET 8 / C#, Python (FastAPI), and Node.js. Resilient multi-tenant endpoints and secure auth.',
-    stats: [['FRAMEWORKS', '.NET 8 · FastAPI'], ['LATENCY', '< 80ms p95'], ['SECURITY', 'JWT · OAuth2']],
-    code: '> api.route("/v1/pipeline/stream")',
-    top: '57%',
-  },
-  {
-    idx: 'L02 · AUTOMATION',
-    title: 'Pipelines & Integrations',
-    body: 'Automated video distribution (Nexus Streamer), Google Drive API sync (Centrix for 500+ centers), media conversion (ImgWorld), and third-party APIs.',
-    stats: [['INTEGRATIONS', 'Drive · YouTube API'], ['SCALE', '500+ Offline Centers'], ['AUTOMATION', 'Zero-Touch QC']],
-    code: '> pipeline.sync({ drive: true, workers: 8 })',
-    top: '43%',
-  },
-  {
-    idx: 'L03 · INTERACTION',
-    title: 'Modern UI & Extensions',
-    body: 'Fluid, pixel-perfect interfaces with Next.js 15, React, Tailwind CSS, and Chrome Extension APIs (OmTabs & OmSpace) with interactive 3D Canvas.',
-    stats: [['CORE', 'Next.js 15 · React'], ['EXTENSIONS', 'OmTabs · OmSpace'], ['PERF', '100/100 Lighthouse']],
-    code: '> ui.render(<InteractiveDashboard />)',
-    top: '29%',
-  },
-  {
-    idx: 'L04 · PRODUCTION',
-    title: 'DevOps & Cloud Scale',
-    body: 'Automated CI/CD workflows, Docker containerization, edge computing, and zero-downtime releases on Vercel and cloud infrastructure.',
-    stats: [['DEPLOY', 'Vercel · Docker'], ['VERSIONING', 'GitHub Actions'], ['SLA', 'Zero Downtime']],
-    code: '> deploy.release({ env: "production" })',
-    top: '15%',
-  },
-];
+import { STACK_LAYERS } from '../data/portfolioData';
+
+const LAYERS = STACK_LAYERS;
 
 export default function StackDiagram() {
   const [hoveredLayer, setHoveredLayer] = useState(null);

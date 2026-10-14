@@ -7,7 +7,6 @@ import {
   Search,
   X,
   Home,
-  Code2,
   BookOpen,
   CreditCard,
   Folder,
@@ -30,237 +29,48 @@ import {
   PROJECTS,
   SERVICES,
   STUDENT_OFFERS,
-  PERSONAL_INFO
+  STACK_LAYERS,
+  FAQS,
+  SITE_PAGES,
+  PERSONAL_INFO,
+  WORKFLOW_STEPS,
+  CLIENT_TESTIMONIALS
 } from "../data/portfolioData";
 
-// ==============================================================================
-// 1. UNIVERSAL KNOWLEDGE BASE (INSTANT AI ANSWERS)
-// ==============================================================================
-const KNOWLEDGE_BASE = [
-  {
-    q: "What projects has Aniket built?",
-    keywords: ["projects", "built", "work", "portfolio", "omtabs", "omspace", "centrix", "nexus", "radialmenu", "qpic", "imgworld", "officemobile", "apps"],
-    tag: "FEATURED PORTFOLIO",
-    time: "140ms",
-    source: "Projects · aniket.one/work",
-    answer: "Aniket has engineered production applications across web, browser, desktop, and cloud: OmTabs & OmSpace (official Chrome Web Store extensions with biometric security), Centrix (lecture ingestion scaling across 500+ Physics Wallah centers), Nexus Streamer (zero-RAM Drive-to-YouTube streaming pipeline), Qpic (fast 3-tier OCR exam splitter), RadialMenu (WPF/C# circular launcher), ImgWorld.biz (client-side ONNX image suite), and Office Mobile (dynamic Google Sheet PWA).",
-    target: "#work"
-  },
-  {
-    q: "What is Aniket's primary tech stack?",
-    keywords: ["stack", "tech", "technologies", "nextjs", "react", "dotnet", "python", "fastapi", "typescript", "csharp", "postgres", "redis", "docker", "tailwind"],
-    tag: "CORE TECH STACK",
-    time: "115ms",
-    source: "Stack Profile · L00-L04 Architecture",
-    answer: "Modern Full-Stack & Systems Engineering: Front-end with Next.js 15 (App Router), React 19, TypeScript, and Tailwind CSS; High-throughput microservices and APIs with .NET 8 / C# and Python (FastAPI); Databases with PostgreSQL, Supabase, Redis, and SQLite WAL; Cloud & DevOps with Docker, Vercel, and automated GitHub Actions CI/CD pipelines.",
-    target: "#stack"
-  },
-  {
-    q: "How fast can you build and launch a production-ready MVP?",
-    keywords: ["mvp", "turnaround", "timeline", "fast", "sprint", "duration", "how long", "launch", "weeks", "days", "speed"],
-    tag: "SPRINT TURNAROUND",
-    time: "128ms",
-    source: "Delivery Blueprint · Sprints",
-    answer: "Most production MVPs are delivered within 2 to 4 weeks. You get a complete, production-hardened web product with Next.js 15, PostgreSQL database schema, authentication, Stripe/Razorpay payments, error tracking, staging preview links, and 100% intellectual property & source code handover.",
-    target: "#services"
-  },
-  {
-    q: "Tell me about Centrix and its enterprise scale",
-    keywords: ["centrix", "centers", "enterprise", "scale", "physics wallah", "pw", "google drive", "sync", "automation", "lectures"],
-    tag: "500+ CENTERS SCALED",
-    time: "160ms",
-    source: "Centrix Architecture · Case Study",
-    answer: "Centrix is an edge-first automated ingestion engine built for Physics Wallah Vidyapeeth across 500+ physical centers in India. It autonomously detects OBS/MaxHub recordings, matches timetables using confidence algorithms, and executes direct chunked resumable uploads to Google Drive, handling 10,000–20,000 daily lectures with zero cloud egress cost.",
-    target: "#work"
-  },
-  {
-    q: "What Chrome extensions has Aniket published?",
-    keywords: ["chrome", "extensions", "omtabs", "omspace", "browser", "webstore", "manifest v3", "mv3"],
-    tag: "CHROME WEB STORE",
-    time: "132ms",
-    source: "Chrome Web Store (Official)",
-    answer: "Aniket has published OmTabs (browser tab customization, grouping, and biometric privacy lock) and OmSpace (all-in-one productivity new tab dashboard with widgets and focus mode). Both are built on Manifest V3 with background service workers and zero memory drag.",
-    target: "#work"
-  },
-  {
-    q: "What free programs and mentorship do you offer for students?",
-    keywords: ["student", "students", "mentorship", "college", "free", "advice", "pr review", "code review", "grant", "subsidy", "starter"],
-    tag: "STUDENTS & BUILDERS",
-    time: "110ms",
-    source: "Students Hub · aniket.one/students",
-    answer: "Under the Students & Builders Initiative, Aniket provides: 1) 100% Free 30-min 1-on-1 career & engineering mentorship, 2) Zero-cost GitHub PR and system architecture code reviews, 3) Open-source production boilerplates (Next.js 15 + FastAPI + MV3), and 4) An 80% subsidized MVP architecture grant for student-led startups.",
-    target: "/students"
-  },
-  {
-    q: "Do I own 100% of the source code and intellectual property?",
-    keywords: ["code ownership", "ip", "intellectual property", "nda", "license", "source code", "security", "confidential"],
-    tag: "100% IP SOVEREIGNTY",
-    time: "95ms",
-    source: "Legal & IP Terms · /security",
-    answer: "Yes, 100%. Clients retain exclusive, perpetual ownership of all source code, database architectures, CI/CD scripts, and digital assets from day one. All projects operate under strict bilateral Non-Disclosure Agreements (NDAs), and complete GitHub repository access is transferred to you.",
-    target: "/security"
-  },
-  {
-    q: "What are Aniket's GitHub profiles and open-source contributions?",
-    keywords: ["github", "commits", "repos", "open source", "aniketmishra-0", "mishra-aniket", "contributions"],
-    tag: "GITHUB PROFILES",
-    time: "120ms",
-    source: "GitHub API · 699+ Contributions",
-    answer: "Aniket maintains two GitHub profiles: @aniketmishra-0 (primary personal profile with 699+ verified open-source contributions) and @Mishra-Aniket (enterprise and systems repositories), spanning full-stack web apps, browser extensions, and automated pipelines.",
-    target: "https://github.com/aniketmishra-0"
-  },
-  {
-    q: "How do contracts, milestones, and payments work?",
-    keywords: ["contracts", "invoicing", "milestone", "payment", "msme", "udyam", "invoice", "bank wire", "stripe", "escrow"],
-    tag: "CONTRACTS & MSME",
-    time: "125ms",
-    source: "Govt. of India Registered MSME",
-    answer: "Projects operate under transparent milestone-based contracts with invoices issued through Aniket's Govt. of India registered MSME enterprise (UDYAM-UP-03-0065855). Payments can be handled via bank wire, Stripe, Razorpay, or escrow milestones with clear sign-offs before any stage begins.",
-    target: "#get-access"
-  },
-  {
-    q: "How can I collaborate or hire Aniket for a project?",
-    keywords: ["hire", "contact", "email", "collaborate", "freelance", "work together", "talk", "quote", "booking"],
-    tag: "COLLABORATION & HIRE",
-    time: "98ms",
-    source: "aniketmishra492@gmail.com · Direct Inquiry",
-    answer: "Aniket is available for freelance projects, MVP sprints, and technical contract roles. Reach out directly via email at aniketmishra492@gmail.com, fill out the project form at #get-access, or connect on LinkedIn (@aniketmishra0). Average response time is under 12 hours.",
-    target: "mailto:aniketmishra492@gmail.com"
+/**
+ * Helper to recursively extract all text from any object / array
+ * This guarantees that ANY new field or property added to portfolioData.js
+ * is automatically 100% searchable with zero code changes!
+ */
+function extractAllText(data) {
+  if (!data) return "";
+  if (typeof data === "string" || typeof data === "number") return String(data);
+  if (Array.isArray(data)) {
+    return data.map(extractAllText).join(" ");
   }
-];
-
-// ==============================================================================
-// 2. TECH STACK LAYERS (INDEXED FROM ARCHITECTURE)
-// ==============================================================================
-const STACK_LAYERS = [
-  {
-    id: "stack-l00",
-    category: "stack",
-    title: "L00 · Database & Storage Layer",
-    techs: ["PostgreSQL", "Supabase", "Redis", "SQLite WAL", "Cloud Storage"],
-    description: "High-concurrency database design with ACID compliance, sub-10ms indexing, resilient caching, and transaction integrity.",
-    target: "#stack",
-    keywords: ["postgres", "postgresql", "supabase", "redis", "database", "sqlite", "sql", "storage", "caching", "acid"]
-  },
-  {
-    id: "stack-l01",
-    category: "stack",
-    title: "L01 · Backend & Microservices Engine",
-    techs: [".NET 8 (C#)", "Python (FastAPI)", "Node.js", "Express", "REST APIs"],
-    description: "High-throughput APIs and background workers built with .NET 8 and FastAPI. Sub-80ms p95 latency, JWT & OAuth 2.0 security.",
-    target: "#stack",
-    keywords: ["dotnet", "c#", "csharp", "python", "fastapi", "backend", "api", "microservices", "node", "express", "jwt", "oauth"]
-  },
-  {
-    id: "stack-l02",
-    category: "stack",
-    title: "L02 · Automation & Streaming Pipelines",
-    techs: ["Google Drive API", "YouTube Ingestion", "Chunked Resumable Uploads", "SSE", "Zero-RAM"],
-    description: "Automated media distribution, Google Drive sync across 500+ centers, client-side ONNX processing, and zero-RAM video streaming.",
-    target: "#stack",
-    keywords: ["automation", "pipelines", "stream", "drive", "youtube", "centrix", "nexus", "sse", "resumable", "egress"]
-  },
-  {
-    id: "stack-l03",
-    category: "stack",
-    title: "L03 · Modern UI & Chrome Extensions",
-    techs: ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS", "Chrome MV3", "WebGL / Canvas"],
-    description: "Fluid, responsive web applications with 100/100 Lighthouse scores, Chrome Manifest V3 extensions, and interactive 3D visualizers.",
-    target: "#stack",
-    keywords: ["nextjs", "react", "typescript", "tailwind", "chrome extension", "mv3", "frontend", "ui", "canvas", "3d", "lighthouse"]
-  },
-  {
-    id: "stack-l04",
-    category: "stack",
-    title: "L04 · DevOps & Cloud Scale",
-    techs: ["Docker", "Vercel", "GitHub Actions CI/CD", "Edge Computing", "HuggingFace"],
-    description: "Automated CI/CD workflows, multi-stage Docker builds, edge deployments, zero-downtime releases, and cloud containerization.",
-    target: "#stack",
-    keywords: ["devops", "docker", "vercel", "github actions", "ci/cd", "deployment", "cloud", "containers", "edge"]
+  if (typeof data === "object") {
+    return Object.values(data).map(extractAllText).join(" ");
   }
-];
+  return "";
+}
 
-// ==============================================================================
-// 3. FAQS (INDEXED FROM FAQ COMPONENT)
-// ==============================================================================
-const FAQ_ITEMS = [
-  {
-    id: "faq-services",
-    category: "faq",
-    q: "What services do you offer for freelance clients and startups?",
-    a: "End-to-end full-stack web engineering (Next.js 15, React 19, TypeScript, FastAPI), custom Chrome extension development (Manifest V3), high-scale APIs, automated ingestion pipelines (.NET 8 & Python), and performance audits.",
-    target: "#faq",
-    keywords: ["services", "offer", "freelance", "startups", "web engineering", "mvp", "chrome extension"]
-  },
-  {
-    id: "faq-workflow",
-    category: "faq",
-    q: "What does your typical project workflow look like?",
-    a: "We start with a quick technical discovery call to define clear scope and milestone deliverables. Projects run in agile 1-week sprints with live preview deployments on staging and direct git commits.",
-    target: "#services",
-    keywords: ["workflow", "process", "sprint", "staging", "agile", "roadmap", "discovery"]
-  },
-  {
-    id: "faq-mvp-time",
-    category: "faq",
-    q: "How fast can you build and launch a production-ready MVP?",
-    a: "Most production MVPs are delivered in 2 to 4 weeks. You receive a fully deployed application with database schemas, user authentication, payment processing, error tracking, and full docs.",
-    target: "#faq",
-    keywords: ["mvp", "timeline", "turnaround", "how fast", "weeks", "launch", "delivery"]
-  },
-  {
-    id: "faq-ip-ownership",
-    category: "faq",
-    q: "Do I own 100% of the source code and intellectual property?",
-    a: "Yes, absolutely. You retain 100% full ownership of all source code, database architectures, documentation, and digital assets from day one under strict bilateral Non-Disclosure Agreements (NDAs).",
-    target: "/security",
-    keywords: ["code ownership", "ip", "intellectual property", "nda", "contract", "source code"]
-  },
-  {
-    id: "faq-chrome-mv3",
-    category: "faq",
-    q: "Can you build or upgrade Chrome extensions to Manifest V3?",
-    a: "Yes. I have shipped official Chrome Web Store extensions like OmTabs and OmSpace. I architect modern Manifest V3 extensions with local storage persistence, biometric shields, and background workers.",
-    target: "#services",
-    keywords: ["chrome", "extensions", "manifest v3", "mv3", "upgrade", "omtabs", "omspace", "webstore"]
-  },
-  {
-    id: "faq-contracts",
-    category: "faq",
-    q: "How do contracts, milestones, and payments work?",
-    a: "All projects operate under transparent milestone-based contracts with invoices issued through my Govt. of India registered MSME enterprise (UDYAM-UP-03-0065855) via bank wire, Stripe, or escrow.",
-    target: "#get-access",
-    keywords: ["contracts", "milestones", "payments", "invoicing", "msme", "udyam", "escrow", "stripe"]
-  }
-];
+// Icon mapping helper for navigation and dynamic types
+const ICON_MAP = {
+  Home,
+  Folder,
+  Rocket,
+  Layers,
+  HelpCircle,
+  CreditCard,
+  GraduationCap,
+  BookOpen,
+  FileText,
+  Cpu,
+  Shield,
+  ExternalLink,
+  Mail
+};
 
-// ==============================================================================
-// 4. NAVIGATION & DIRECT PAGES (UNIVERSAL SITE INDEX)
-// ==============================================================================
-const SITE_PAGES = [
-  { label: "Home (Hero)", href: "#hero", icon: Home, category: "pages", desc: "Hero introduction & headline overview", keywords: ["home", "hero", "overview", "intro", "aniket"] },
-  { label: "Featured Projects (#work)", href: "#work", icon: Folder, category: "pages", desc: "OmTabs, OmSpace, Centrix, Nexus & more", keywords: ["work", "projects", "featured", "portfolio", "case studies", "apps"] },
-  { label: "Services & Sprints (#services)", href: "#services", icon: Rocket, category: "pages", desc: "MVP builds, Chrome extensions, APIs & audits", keywords: ["services", "sprints", "mvp", "offerings", "deliverables", "hire"] },
-  { label: "Tech Stack & Architecture (#stack)", href: "#stack", icon: Layers, category: "pages", desc: "5-layer full-stack & systems diagram", keywords: ["stack", "architecture", "technologies", "diagram", "database", "backend"] },
-  { label: "Frequently Asked Questions (#faq)", href: "#faq", icon: HelpCircle, category: "pages", desc: "Turnarounds, IP ownership & contract terms", keywords: ["faq", "questions", "answers", "help", "timeline", "contracts"] },
-  { label: "Pricing & Sprint Packages", href: "/pricing", icon: CreditCard, category: "pages", desc: "Transparent freelance sprint pricing & plans", keywords: ["pricing", "cost", "plans", "rate", "packages", "quote", "budget"] },
-  { label: "Students & Builders Initiative", href: "/students", icon: GraduationCap, category: "pages", desc: "100% free mentorship, PR reviews & startup grants", keywords: ["students", "college", "mentorship", "free", "code review", "boilerplates", "discount"] },
-  { label: "Documentation & Architecture Reference", href: "/docs", icon: BookOpen, category: "pages", desc: "Technical blueprints, specifications & guides", keywords: ["docs", "documentation", "reference", "api", "architecture", "specs"] },
-  { label: "Technical Blog & Deep Dives", href: "/blog", icon: FileText, category: "pages", desc: "Articles on full-stack systems & performance", keywords: ["blog", "articles", "deep dives", "insights", "read", "tutorials"] },
-  { label: "Head-to-Head Architecture Comparisons", href: "/compare", icon: Cpu, category: "pages", desc: "Engineering benchmarks & system comparisons", keywords: ["compare", "benchmarks", "analysis", "vs", "evaluation"] },
-  { label: "Security & Client IP Sovereignty", href: "/security", icon: Shield, category: "pages", desc: "Bilateral NDA, 100% code ownership & compliance", keywords: ["security", "nda", "compliance", "encryption", "ip", "intellectual property"] },
-  { label: "Privacy Policy (Chrome Extensions)", href: "/privacy", icon: Shield, category: "pages", desc: "OmTabs & OmSpace zero-telemetry policy", keywords: ["privacy", "policy", "data", "extensions", "omtabs", "omspace"] },
-  { label: "Terms of Service", href: "/terms", icon: BookOpen, category: "pages", desc: "Terms of use and client licensing agreements", keywords: ["terms", "conditions", "service", "license"] },
-  { label: "Engineering Thesis", href: "/thesis", icon: BookOpen, category: "pages", desc: "Core thesis on context layers and modern systems", keywords: ["thesis", "philosophy", "context", "systems"] },
-  { label: "Experimental Labs", href: "/labs", icon: Sparkles, category: "pages", desc: "R&D prototypes, shaders & AI experiments", keywords: ["labs", "experimental", "research", "prototypes", "ai"] },
-  { label: "Case Studies & Use Cases", href: "/use-cases", icon: Folder, category: "pages", desc: "Real-world engineering implementations", keywords: ["use cases", "case studies", "enterprise", "implementations"] },
-  { label: "GitHub Profile (@aniketmishra-0)", href: "https://github.com/aniketmishra-0", icon: ExternalLink, external: true, category: "pages", desc: "699+ public contributions & open-source repos", keywords: ["github", "aniketmishra-0", "commits", "source", "code"] },
-  { label: "Enterprise GitHub (@Mishra-Aniket)", href: "https://github.com/Mishra-Aniket", icon: ExternalLink, external: true, category: "pages", desc: "Systems, pipelines & enterprise repositories", keywords: ["github", "mishra-aniket", "org", "enterprise"] },
-  { label: "LinkedIn Profile (@aniketmishra0)", href: "https://www.linkedin.com/in/aniketmishra0", icon: ExternalLink, external: true, category: "pages", desc: "Professional network, updates & connections", keywords: ["linkedin", "profile", "connect", "aniketmishra0"] },
-  { label: "Direct Email (aniketmishra492@gmail.com)", href: "mailto:aniketmishra492@gmail.com", icon: Mail, external: true, category: "pages", desc: "Direct client inquiries & sprint bookings", keywords: ["email", "contact", "hire", "talk", "inquire", "mail"] }
-];
-
-// Category Filter Definitions
 const CATEGORY_TABS = [
   { id: "all", label: "All Results", icon: Sparkles },
   { id: "projects", label: "Projects", icon: Folder },
@@ -344,16 +154,158 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
   }, [isOpen]);
 
   // ==============================================================================
-  // UNIVERSAL SEARCH MATCHER & INDEXER
+  // 1. DYNAMIC KNOWLEDGE BASE (AUTOMATICALLY GENERATED FROM PORTFOLIO DATA)
+  // Whenever any project, service, FAQ, or student offer is added to portfolioData.js,
+  // it is automatically transformed into an AI Q&A card!
+  // ==============================================================================
+  const dynamicKnowledgeBase = useMemo(() => {
+    const base = [
+      {
+        q: "What projects has Aniket built?",
+        keywords: ["projects", "built", "work", "portfolio", "apps", "code", ...(PROJECTS || []).map(p => p.id || "")],
+        tag: "FULL PORTFOLIO",
+        time: "115ms",
+        source: "Projects · aniket.one",
+        answer: `Aniket has engineered production applications including: ${(PROJECTS || []).map(p => p.title.split("—")[0].trim()).join(", ")}. Spanning official Chrome extensions (OmTabs & OmSpace), automated enterprise pipelines (Centrix across 500+ centers), zero-RAM media streamers (Nexus Streamer), and cross-platform desktop OCR tools (Qpic).`,
+        target: "#work"
+      },
+      {
+        q: "What is Aniket's primary tech stack?",
+        keywords: ["stack", "tech", "technologies", "nextjs", "react", "dotnet", "python", "fastapi", "typescript", "csharp", "postgres", "redis", "docker"],
+        tag: "CORE TECH STACK",
+        time: "110ms",
+        source: "Stack Profile · L00-L04 Architecture",
+        answer: "Full-Stack & Systems Architecture: Next.js 15 (App Router), React 19, TypeScript, and Tailwind CSS on the frontend; high-throughput microservices in .NET 8 / C# and Python (FastAPI); PostgreSQL, Supabase, Redis, and SQLite WAL for resilient storage; Docker, Vercel, and GitHub Actions CI/CD for deployments.",
+        target: "#stack"
+      },
+      {
+        q: "How fast can you build and launch a production-ready MVP?",
+        keywords: ["mvp", "turnaround", "timeline", "fast", "sprint", "duration", "how long", "launch", "weeks", "days", "speed"],
+        tag: "SPRINT VELOCITY",
+        time: "95ms",
+        source: "Delivery Blueprint · Sprints",
+        answer: "Production MVPs are delivered within 2 to 4 weeks. You get a complete, production-hardened web product with Next.js 15, PostgreSQL database schema, authentication, Stripe/Razorpay payments, error tracking, staging preview links, and 100% intellectual property & source code handover.",
+        target: "#services"
+      },
+      {
+        q: "Tell me about Centrix and its enterprise scale",
+        keywords: ["centrix", "centers", "enterprise", "scale", "physics wallah", "pw", "google drive", "sync", "automation", "lectures"],
+        tag: "500+ CENTERS SCALED",
+        time: "140ms",
+        source: "Centrix Architecture · Case Study",
+        answer: "Centrix is an edge-first automated ingestion engine built for Physics Wallah Vidyapeeth across 500+ physical centers in India. It autonomously detects OBS/MaxHub recordings, matches timetables using confidence algorithms, and executes direct chunked resumable uploads to Google Drive, handling 10,000–20,000 daily lectures with zero cloud egress cost.",
+        target: "#work"
+      },
+      {
+        q: "What Chrome extensions has Aniket published?",
+        keywords: ["chrome", "extensions", "omtabs", "omspace", "browser", "webstore", "manifest v3", "mv3"],
+        tag: "CHROME WEB STORE",
+        time: "105ms",
+        source: "Chrome Web Store (Official)",
+        answer: "Aniket has published OmTabs (browser tab customization, grouping, and biometric privacy lock) and OmSpace (all-in-one productivity new tab dashboard with widgets and focus mode). Both are built on Manifest V3 with background service workers and zero memory drag.",
+        target: "#work"
+      },
+      {
+        q: "What free programs and mentorship do you offer for students?",
+        keywords: ["student", "students", "mentorship", "college", "free", "advice", "pr review", "code review", "grant", "subsidy", "starter"],
+        tag: "STUDENTS & BUILDERS",
+        time: "100ms",
+        source: "Students Hub · aniket.one/students",
+        answer: "Under the Students & Builders Initiative, Aniket provides: 1) 100% Free 30-min 1-on-1 career & engineering mentorship, 2) Zero-cost GitHub PR and system architecture code reviews, 3) Open-source production boilerplates (Next.js 15 + FastAPI + MV3), and 4) An 80% subsidized MVP architecture grant for student-led startups.",
+        target: "/students"
+      },
+      {
+        q: "Do I own 100% of the source code and intellectual property?",
+        keywords: ["code ownership", "ip", "intellectual property", "nda", "license", "source code", "security", "confidential"],
+        tag: "100% IP SOVEREIGNTY",
+        time: "90ms",
+        source: "Legal & IP Terms · /security",
+        answer: "Yes, 100%. Clients retain exclusive, perpetual ownership of all source code, database architectures, CI/CD scripts, and digital assets from day one. All projects operate under strict bilateral Non-Disclosure Agreements (NDAs), and complete GitHub repository access is transferred to you.",
+        target: "/security"
+      },
+      {
+        q: "What are Aniket's GitHub profiles and open-source contributions?",
+        keywords: ["github", "commits", "repos", "open source", "aniketmishra-0", "mishra-aniket", "contributions"],
+        tag: "GITHUB PROFILES",
+        time: "110ms",
+        source: "GitHub API · 699+ Contributions",
+        answer: "Aniket maintains two GitHub profiles: @aniketmishra-0 (primary personal profile with 699+ verified open-source contributions) and @Mishra-Aniket (enterprise and systems repositories), spanning full-stack web apps, browser extensions, and automated pipelines.",
+        target: "https://github.com/aniketmishra-0"
+      },
+      {
+        q: "How do contracts, milestones, and payments work?",
+        keywords: ["contracts", "invoicing", "milestone", "payment", "msme", "udyam", "invoice", "bank wire", "stripe", "escrow"],
+        tag: "CONTRACTS & MSME",
+        time: "115ms",
+        source: "Govt. of India Registered MSME",
+        answer: `Projects operate under transparent milestone-based contracts with invoices issued through Aniket's Govt. of India registered MSME enterprise (${PERSONAL_INFO?.udyamRegNo || "UDYAM-UP-03-0065855"}). Payments can be handled via bank wire, Stripe, Razorpay, or escrow milestones with clear sign-offs before any stage begins.`,
+        target: "#get-access"
+      },
+      {
+        q: "How can I collaborate or hire Aniket for a project?",
+        keywords: ["hire", "contact", "email", "collaborate", "freelance", "work together", "talk", "quote", "booking"],
+        tag: "COLLABORATION & HIRE",
+        time: "85ms",
+        source: `${PERSONAL_INFO?.email || "aniketmishra492@gmail.com"} · Direct Inquiry`,
+        answer: `Aniket is available for freelance projects, MVP sprints, and technical contract roles. Reach out directly via email at ${PERSONAL_INFO?.email || "aniketmishra492@gmail.com"}, fill out the project form at #get-access, or connect on LinkedIn (@aniketmishra0). Average response time is under 12 hours.`,
+        target: `mailto:${PERSONAL_INFO?.email || "aniketmishra492@gmail.com"}`
+      }
+    ];
+
+    // Automatically generate Q&A for every project in PROJECTS
+    (PROJECTS || []).forEach((p) => {
+      const pTitle = p.title || p.id;
+      base.push({
+        q: `Tell me about ${pTitle}`,
+        keywords: [p.id, ...pTitle.toLowerCase().split(/[\s—-]+/), ...(p.tags || []).map(t => t.toLowerCase())],
+        tag: p.badge || p.category || "PROJECT",
+        time: "105ms",
+        source: `${pTitle} · Case Study`,
+        answer: `${p.description || ""} ${p.highlights ? "Highlights: " + p.highlights.join("; ") + "." : ""} Metrics: ${p.metrics || "Production Grade"}.`,
+        target: p.liveUrl && p.liveUrl.startsWith("http") ? p.liveUrl : "#work"
+      });
+    });
+
+    // Automatically generate Q&A for every service in SERVICES
+    (SERVICES || []).forEach((s) => {
+      base.push({
+        q: `What is included in ${s.title}?`,
+        keywords: [s.id, ...s.title.toLowerCase().split(/[\s—-]+/), "service", "deliverables", "turnaround"],
+        tag: s.turnaround || "SERVICE",
+        time: "95ms",
+        source: `${s.title} · Service Offering`,
+        answer: `${s.description || ""} Turnaround: ${s.turnaround || "2–4 Weeks"}. Key deliverables: ${(s.deliverables || []).join(", ")}. Ideal for: ${s.idealFor || "High-growth teams"}.`,
+        target: "#services"
+      });
+    });
+
+    // Automatically generate Q&A for every FAQ in FAQS
+    (FAQS || []).forEach((f) => {
+      base.push({
+        q: f.q,
+        keywords: [...f.q.toLowerCase().split(/[\s?.,]+/), ...(f.keywords || [])],
+        tag: "VERIFIED FAQ",
+        time: "80ms",
+        source: "Client & Engineering FAQ",
+        answer: f.a,
+        target: f.href || "#faq"
+      });
+    });
+
+    return base;
+  }, []);
+
+  // ==============================================================================
+  // 2. UNIVERSAL DYNAMIC SEARCH MATCHER
+  // Recursively indexes all fields of all data structures from portfolioData.js
   // ==============================================================================
   const searchResults = useMemo(() => {
     const cleanQ = query.trim().toLowerCase();
 
     // 1. PROJECTS
-    const matchedProjects = PROJECTS.filter((p) => {
+    const matchedProjects = (PROJECTS || []).filter((p) => {
       if (!cleanQ) return true;
-      const haystack = `${p.title} ${p.subtitle} ${p.category} ${p.badge} ${p.metrics} ${p.description} ${p.tags.join(" ")} ${p.highlights.join(" ")}`.toLowerCase();
-      return haystack.includes(cleanQ);
+      return extractAllText(p).toLowerCase().includes(cleanQ);
     }).map((p) => ({
       type: "projects",
       id: p.id,
@@ -362,7 +314,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
       badge: p.badge,
       metrics: p.metrics,
       description: p.description,
-      tags: p.tags,
+      tags: p.tags || [],
       href: p.liveUrl && p.liveUrl.startsWith("http") ? p.liveUrl : "#work",
       external: p.liveUrl && p.liveUrl.startsWith("http"),
       secondaryUrl: p.githubUrl,
@@ -370,10 +322,9 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
     }));
 
     // 2. SERVICES
-    const matchedServices = SERVICES.filter((s) => {
+    const matchedServices = (SERVICES || []).filter((s) => {
       if (!cleanQ) return true;
-      const haystack = `${s.title} ${s.turnaround} ${s.tagline} ${s.description} ${s.deliverables.join(" ")} ${s.idealFor} ${s.badge}`.toLowerCase();
-      return haystack.includes(cleanQ);
+      return extractAllText(s).toLowerCase().includes(cleanQ);
     }).map((s) => ({
       type: "services",
       id: s.id,
@@ -382,16 +333,15 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
       badge: s.badge || s.turnaround,
       turnaround: s.turnaround,
       description: s.description,
-      deliverables: s.deliverables,
+      deliverables: s.deliverables || [],
       href: "#get-access",
       external: false
     }));
 
     // 3. STUDENT INITIATIVES
-    const matchedStudents = STUDENT_OFFERS.filter((so) => {
+    const matchedStudents = (STUDENT_OFFERS || []).filter((so) => {
       if (!cleanQ) return true;
-      const haystack = `${so.title} ${so.badge} ${so.highlight} ${so.tagline} ${so.description} ${so.perks.join(" ")}`.toLowerCase();
-      return haystack.includes(cleanQ);
+      return extractAllText(so).toLowerCase().includes(cleanQ);
     }).map((so) => ({
       type: "students",
       id: so.id,
@@ -400,58 +350,61 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
       badge: so.badge,
       highlight: so.highlight,
       description: so.description,
-      href: so.actionUrl.startsWith("mailto") ? so.actionUrl : "/students",
-      external: so.actionUrl.startsWith("mailto") || so.actionUrl.startsWith("http")
+      href: so.actionUrl?.startsWith("mailto") ? so.actionUrl : "/students",
+      external: so.actionUrl?.startsWith("mailto") || so.actionUrl?.startsWith("http")
     }));
 
     // 4. TECH STACK LAYERS
-    const matchedStack = STACK_LAYERS.filter((sl) => {
+    const matchedStack = (STACK_LAYERS || []).filter((sl) => {
       if (!cleanQ) return true;
-      const haystack = `${sl.title} ${sl.techs.join(" ")} ${sl.description} ${sl.keywords.join(" ")}`.toLowerCase();
-      return haystack.includes(cleanQ);
+      return extractAllText(sl).toLowerCase().includes(cleanQ);
     }).map((sl) => ({
       type: "stack",
-      id: sl.id,
+      id: sl.id || sl.idx,
       title: sl.title,
-      subtitle: sl.techs.join(" · "),
+      subtitle: (sl.techs || []).join(" · "),
       badge: "Architecture Layer",
-      description: sl.description,
-      href: sl.target,
+      description: sl.body || sl.description,
+      href: sl.target || "#stack",
       external: false
     }));
 
     // 5. FAQS
-    const matchedFaqs = FAQ_ITEMS.filter((f) => {
+    const matchedFaqs = (FAQS || []).filter((f) => {
       if (!cleanQ) return true;
-      const haystack = `${f.q} ${f.a} ${f.keywords.join(" ")}`.toLowerCase();
-      return haystack.includes(cleanQ);
+      return extractAllText(f).toLowerCase().includes(cleanQ);
     }).map((f) => ({
       type: "faq",
-      id: f.id,
+      id: f.id || f.q,
       title: f.q,
       subtitle: f.a,
       badge: "FAQ & Answers",
       description: f.a,
-      href: f.target,
+      href: f.href || "#faq",
       external: false
     }));
 
     // 6. PAGES & DIRECT SHORTCUTS
-    const matchedPages = SITE_PAGES.filter((pg) => {
+    const matchedPages = (SITE_PAGES || []).filter((pg) => {
       if (!cleanQ) return true;
-      const haystack = `${pg.label} ${pg.desc} ${pg.keywords.join(" ")} ${pg.href}`.toLowerCase();
-      return haystack.includes(cleanQ);
-    }).map((pg) => ({
-      type: "pages",
-      id: pg.label,
-      title: pg.label,
-      subtitle: pg.desc,
-      badge: pg.external ? "External Link" : "Site Route",
-      description: pg.desc,
-      href: pg.href,
-      icon: pg.icon,
-      external: pg.external
-    }));
+      return extractAllText(pg).toLowerCase().includes(cleanQ);
+    }).map((pg) => {
+      let IconComponent = FileText;
+      if (pg.icon) {
+        IconComponent = typeof pg.icon === "string" ? (ICON_MAP[pg.icon] || FileText) : pg.icon;
+      }
+      return {
+        type: "pages",
+        id: pg.label,
+        title: pg.label,
+        subtitle: pg.desc,
+        badge: pg.external ? "External Link" : "Site Route",
+        description: pg.desc,
+        href: pg.href,
+        icon: IconComponent,
+        external: pg.external
+      };
+    });
 
     return {
       projects: matchedProjects,
@@ -490,32 +443,51 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
     return searchResults[activeCategory] || [];
   }, [searchResults, activeCategory]);
 
-  // Intelligent matching for instant AI answer
+  // Intelligent matching for instant AI answer from the dynamic knowledge base
   const matchedQA = useMemo(() => {
     const cleanQ = query.trim().toLowerCase();
     if (!cleanQ) return null;
 
-    return KNOWLEDGE_BASE.find((item) => {
+    return dynamicKnowledgeBase.find((item) => {
       const qMatch = item.q.toLowerCase().includes(cleanQ);
-      const kMatch = item.keywords.some((k) => cleanQ.includes(k) || k.includes(cleanQ));
+      const kMatch = item.keywords?.some((k) => cleanQ.includes(k) || k.includes(cleanQ));
       return qMatch || kMatch;
     });
-  }, [query]);
+  }, [query, dynamicKnowledgeBase]);
 
   const displayAnswer = activeAnswer || matchedQA;
 
-  // Handle custom query asking with contextual synthesis
+  // Handle custom query asking with contextual synthesis across all live portfolio items
   const handleCustomAsk = (customQuery) => {
     sound.playClick();
     const qLower = customQuery.toLowerCase();
 
+    // Check if query matches any project directly
+    const matchingProj = (PROJECTS || []).find(p => extractAllText(p).toLowerCase().includes(qLower));
+    // Check if query matches any service directly
+    const matchingSrv = (SERVICES || []).find(s => extractAllText(s).toLowerCase().includes(qLower));
+    // Check if query matches any stack layer
+    const matchingStack = (STACK_LAYERS || []).find(sl => extractAllText(sl).toLowerCase().includes(qLower));
+
     let synthesizedAnswer = "";
-    let target = "#how-it-works";
+    let target = "#work";
     let tag = "AI SYNTHESIS";
 
-    if (qLower.includes("price") || qLower.includes("cost") || qLower.includes("rate") || qLower.includes("budget") || qLower.includes("quote")) {
+    if (matchingProj) {
+      tag = matchingProj.badge || "MATCHED PROJECT";
+      synthesizedAnswer = `For "${customQuery}": Aniket engineered ${matchingProj.title} (${matchingProj.metrics || "Production Grade"}). ${matchingProj.description} ${matchingProj.highlights ? "Key highlights: " + matchingProj.highlights.join("; ") : ""}`;
+      target = matchingProj.liveUrl && matchingProj.liveUrl.startsWith("http") ? matchingProj.liveUrl : "#work";
+    } else if (matchingSrv) {
+      tag = matchingSrv.turnaround || "MATCHED SERVICE";
+      synthesizedAnswer = `For "${customQuery}": Aniket offers ${matchingSrv.title}. ${matchingSrv.description} Turnaround: ${matchingSrv.turnaround}. Deliverables: ${(matchingSrv.deliverables || []).join(", ")}.`;
+      target = "#services";
+    } else if (matchingStack) {
+      tag = "MATCHED ARCHITECTURE";
+      synthesizedAnswer = `For "${customQuery}": Implemented in Aniket's ${matchingStack.title}. ${matchingStack.body} Technologies: ${(matchingStack.techs || []).join(", ")}.`;
+      target = "#stack";
+    } else if (qLower.includes("price") || qLower.includes("cost") || qLower.includes("rate") || qLower.includes("budget") || qLower.includes("quote")) {
       tag = "PRICING & ESTIMATES";
-      synthesizedAnswer = `For "${customQuery}": Freelance sprints operate on transparent milestone pricing. 2–4 Week Production MVPs are fixed-bid with clean handover. Invoices are issued under registered MSME UDYAM-UP-03-0065855 with 100% source code ownership. Check /pricing or contact aniketmishra492@gmail.com for an exact quotation.`;
+      synthesizedAnswer = `For "${customQuery}": Freelance sprints operate on transparent milestone pricing. 2–4 Week Production MVPs are fixed-bid with clean handover. Invoices are issued under registered MSME ${PERSONAL_INFO?.udyamRegNo || "UDYAM-UP-03-0065855"} with 100% source code ownership. Check /pricing or contact ${PERSONAL_INFO?.email || "aniketmishra492@gmail.com"}.`;
       target = "/pricing";
     } else if (qLower.includes("timeline") || qLower.includes("fast") || qLower.includes("time") || qLower.includes("speed") || qLower.includes("turnaround")) {
       tag = "SPRINT VELOCITY";
@@ -525,20 +497,16 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
       tag = "STUDENT BUILDERS";
       synthesizedAnswer = `For "${customQuery}": Aniket offers 100% free 1-on-1 career & project guidance sessions, zero-cost GitHub code reviews, open-source production starters, and an 80% subsidized MVP grant for student startup founders. Explore the dedicated hub at /students.`;
       target = "/students";
-    } else if (qLower.includes("ai") || qLower.includes("llm") || qLower.includes("rag") || qLower.includes("agent") || qLower.includes("onnx") || qLower.includes("model")) {
-      tag = "AI & AGENTIC SYSTEMS";
-      synthesizedAnswer = `For "${customQuery}": Aniket engineers real-world AI pipelines combining Python (FastAPI), Claude/OpenAI APIs, local OCR (Tesseract & PyMuPDF in Qpic), and on-device WebAssembly/ONNX inference (ImgWorld.biz) without leaking user data to external servers.`;
-      target = "#work";
     } else {
-      synthesizedAnswer = `For "${customQuery}": Aniket Mishra engineers end-to-end full-stack web products (Next.js 15, React 19, TypeScript), high-throughput systems (.NET 8, FastAPI, PostgreSQL), and Manifest V3 Chrome extensions. Everything is built with strict typing, sub-100ms response targets, and 100% intellectual property ownership.`;
+      synthesizedAnswer = `For "${customQuery}": Aniket Mishra engineers end-to-end full-stack web products (Next.js 15, React 19, TypeScript), high-throughput systems (.NET 8, FastAPI, PostgreSQL), and Manifest V3 Chrome extensions with strict typing, sub-100ms response targets, and 100% intellectual property ownership.`;
       target = "#get-access";
     }
 
     setActiveAnswer({
       q: customQuery,
       tag,
-      time: "112ms",
-      source: "Universal Portfolio Engine",
+      time: "92ms",
+      source: "Universal Dynamic Engine",
       answer: synthesizedAnswer,
       target
     });
@@ -654,7 +622,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                       Universal Portfolio Search
                     </h2>
                     <span className="hidden sm:inline-block font-mono text-[10px] text-[#78716C] bg-white border border-[#E4D9BC] px-1.5 py-0.5 rounded">
-                      Everything Indexed
+                      Live Dynamic Index
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -832,7 +800,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                         <span className="text-[9.5px] font-mono text-[#A8A29E]">Click to resolve</span>
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-                        {KNOWLEDGE_BASE.slice(0, 6).map((item, i) => (
+                        {dynamicKnowledgeBase.slice(0, 6).map((item, i) => (
                           <button
                             key={i}
                             type="button"
@@ -1271,7 +1239,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                    <span>Universal Index Active</span>
+                    <span>Dynamic Auto-Indexer Active</span>
                   </div>
                 </div>
               </motion.div>

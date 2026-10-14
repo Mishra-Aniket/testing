@@ -5,44 +5,9 @@ import { ChevronDown, ArrowRight, HelpCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { sound } from "../utils/sound";
 
-const FAQ_ITEMS = [
-  {
-    q: "What services do you offer for freelance clients and startups?",
-    a: "I provide end-to-end full-stack web engineering (Next.js 15, React 19, TypeScript, Node.js, FastAPI), custom Chrome extension development (Manifest V3 with background workers & Web Store packaging), high-scale APIs, automated data ingestion pipelines (.NET 8 & Python), and performance audits for fast-moving startups.",
-    linkText: "Discuss your project requirements →",
-    href: "#get-access"
-  },
-  {
-    q: "What does your typical project workflow look like?",
-    a: "We start with a quick technical discovery call to define clear scope and milestone deliverables. Projects run in agile 1-week sprints with live preview deployments on staging, transparent async communication (Slack, Discord, or WhatsApp), and clean git commits pushed directly to your private repository.",
-    linkText: "Explore our delivery roadmap & workflow →",
-    href: "#services"
-  },
-  {
-    q: "How fast can you build and launch a production-ready MVP?",
-    a: "Most production MVPs are delivered in 2 to 4 weeks. You receive a fully deployed, high-speed application with clean database schemas (PostgreSQL / Supabase), user authentication, payment processing (Stripe / Razorpay), automated error tracking, responsive styling, and complete documentation.",
-    linkText: "Estimate your MVP turnaround timeline →",
-    href: "#get-access"
-  },
-  {
-    q: "Do I own 100% of the source code and intellectual property?",
-    a: "Yes, absolutely. You retain 100% full ownership of all source code, database architectures, documentation, and digital assets from day one. I work under strict bilateral Non-Disclosure Agreements (NDAs), and complete repository ownership is handed over to your organization upon project completion.",
-    linkText: "Read our security & client IP sovereignty terms →",
-    href: "/security"
-  },
-  {
-    q: "Can you build or upgrade Chrome extensions to Manifest V3?",
-    a: "Yes. I have shipped official Chrome Web Store extensions like OmTabs and OmSpace. I architect modern Manifest V3 extensions with local storage persistence, biometric shields, custom new-tab surfaces, and automated background service workers compliant with Google's latest Web Store policies.",
-    linkText: "Review Chrome extension offerings →",
-    href: "#services"
-  },
-  {
-    q: "How do contracts, milestones, and payments work?",
-    a: "All projects operate under transparent milestone-based contracts with invoices issued through my Govt. of India registered MSME enterprise (UDYAM-UP-03-0065855). Payments can be handled via bank wire, Stripe, or escrow milestones with clear sign-offs before any stage begins.",
-    linkText: "Discuss milestone scope & contract terms →",
-    href: "#get-access"
-  }
-];
+import { FAQS } from "../data/portfolioData";
+
+const FAQ_ITEMS = FAQS;
 
 export default function FAQ() {
   // First item open by default for immediate context

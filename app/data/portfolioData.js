@@ -417,3 +417,141 @@ export const STUDENT_OFFERS = [
   },
 ];
 
+export const STACK_LAYERS = [
+  {
+    id: "l00",
+    idx: "L00 · DATA & STORAGE",
+    title: "Database & Storage Layer",
+    techs: ["PostgreSQL", "Supabase", "Redis", "SQLite WAL", "Cloud Storage"],
+    body: "PostgreSQL, Supabase, Redis, and Cloud Storage. High-concurrency schema design with ACID compliance, instant indexing, and resilient caching.",
+    stats: [["DATABASES", "Postgres · Supabase"], ["CACHING", "Redis · In-Memory"], ["INTEGRITY", "ACID Compliant"]],
+    code: '> db.connect({ pool: "pg-pool", redis: true })',
+    top: "71%",
+    target: "#stack",
+    keywords: ["postgres", "postgresql", "supabase", "redis", "database", "sqlite", "sql", "storage", "caching", "acid"]
+  },
+  {
+    id: "l01",
+    idx: "L01 · CORE ENGINE",
+    title: "Backend & Microservices Engine",
+    techs: [".NET 8 (C#)", "Python (FastAPI)", "Node.js", "Express", "REST APIs"],
+    body: "High-throughput APIs and background workers built with .NET 8 / C#, Python (FastAPI), and Node.js. Resilient multi-tenant endpoints and secure auth.",
+    stats: [["FRAMEWORKS", ".NET 8 · FastAPI"], ["LATENCY", "< 80ms p95"], ["SECURITY", "JWT · OAuth2"]],
+    code: '> api.route("/v1/pipeline/stream")',
+    top: "57%",
+    target: "#stack",
+    keywords: ["dotnet", "c#", "csharp", "python", "fastapi", "backend", "api", "microservices", "node", "express", "jwt", "oauth"]
+  },
+  {
+    id: "l02",
+    idx: "L02 · AUTOMATION",
+    title: "Pipelines & Integrations",
+    techs: ["Google Drive API", "YouTube Ingestion", "Chunked Resumable Uploads", "SSE", "Zero-RAM"],
+    body: "Automated video distribution (Nexus Streamer), Google Drive API sync (Centrix for 500+ centers), media conversion (ImgWorld), and third-party APIs.",
+    stats: [["INTEGRATIONS", "Drive · YouTube API"], ["SCALE", "500+ Offline Centers"], ["AUTOMATION", "Zero-Touch QC"]],
+    code: '> pipeline.sync({ drive: true, workers: 8 })',
+    top: "43%",
+    target: "#stack",
+    keywords: ["automation", "pipelines", "stream", "drive", "youtube", "centrix", "nexus", "sse", "resumable", "egress"]
+  },
+  {
+    id: "l03",
+    idx: "L03 · INTERACTION",
+    title: "Modern UI & Extensions",
+    techs: ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS", "Chrome MV3", "WebGL / Canvas"],
+    body: "Fluid, pixel-perfect interfaces with Next.js 15, React, Tailwind CSS, and Chrome Extension APIs (OmTabs & OmSpace) with interactive 3D Canvas.",
+    stats: [["CORE", "Next.js 15 · React"], ["EXTENSIONS", "OmTabs · OmSpace"], ["PERF", "100/100 Lighthouse"]],
+    code: '> ui.render(<InteractiveDashboard />)',
+    top: "29%",
+    target: "#stack",
+    keywords: ["nextjs", "react", "typescript", "tailwind", "chrome extension", "mv3", "frontend", "ui", "canvas", "3d", "lighthouse"]
+  },
+  {
+    id: "l04",
+    idx: "L04 · PRODUCTION",
+    title: "DevOps & Cloud Scale",
+    techs: ["Docker", "Vercel", "GitHub Actions CI/CD", "Edge Computing", "HuggingFace"],
+    body: "Automated CI/CD workflows, Docker containerization, edge computing, and zero-downtime releases on Vercel and cloud infrastructure.",
+    stats: [["DEPLOY", "Vercel · Docker"], ["VERSIONING", "GitHub Actions"], ["SLA", "Zero Downtime"]],
+    code: '> deploy.release({ env: "production" })',
+    top: "15%",
+    target: "#stack",
+    keywords: ["devops", "docker", "vercel", "github actions", "ci/cd", "deployment", "cloud", "containers", "edge"]
+  }
+];
+
+export const FAQS = [
+  {
+    id: "faq-services",
+    q: "What services do you offer for freelance clients and startups?",
+    a: "I provide end-to-end full-stack web engineering (Next.js 15, React 19, TypeScript, Node.js, FastAPI), custom Chrome extension development (Manifest V3 with background workers & Web Store packaging), high-scale APIs, automated data ingestion pipelines (.NET 8 & Python), and performance audits for fast-moving startups.",
+    linkText: "Discuss your project requirements →",
+    href: "#get-access",
+    keywords: ["services", "offer", "freelance", "startups", "web engineering", "mvp", "chrome extension"]
+  },
+  {
+    id: "faq-workflow",
+    q: "What does your typical project workflow look like?",
+    a: "We start with a quick technical discovery call to define clear scope and milestone deliverables. Projects run in agile 1-week sprints with live preview deployments on staging, transparent async communication (Slack, Discord, or WhatsApp), and clean git commits pushed directly to your private repository.",
+    linkText: "Explore our delivery roadmap & workflow →",
+    href: "#services",
+    keywords: ["workflow", "process", "sprint", "staging", "agile", "roadmap", "discovery"]
+  },
+  {
+    id: "faq-mvp-time",
+    q: "How fast can you build and launch a production-ready MVP?",
+    a: "Most production MVPs are delivered in 2 to 4 weeks. You receive a fully deployed, high-speed application with clean database schemas (PostgreSQL / Supabase), user authentication, payment processing (Stripe / Razorpay), automated error tracking, responsive styling, and complete documentation.",
+    linkText: "Estimate your MVP turnaround timeline →",
+    href: "#get-access",
+    keywords: ["mvp", "timeline", "turnaround", "how fast", "weeks", "launch", "delivery"]
+  },
+  {
+    id: "faq-ip-ownership",
+    q: "Do I own 100% of the source code and intellectual property?",
+    a: "Yes, absolutely. You retain 100% full ownership of all source code, database architectures, documentation, and digital assets from day one. I work under strict bilateral Non-Disclosure Agreements (NDAs), and complete repository ownership is handed over to your organization upon project completion.",
+    linkText: "Read our security & client IP sovereignty terms →",
+    href: "/security",
+    keywords: ["code ownership", "ip", "intellectual property", "nda", "contract", "source code", "security"]
+  },
+  {
+    id: "faq-chrome-mv3",
+    q: "Can you build or upgrade Chrome extensions to Manifest V3?",
+    a: "Yes. I have shipped official Chrome Web Store extensions like OmTabs and OmSpace. I architect modern Manifest V3 extensions with local storage persistence, biometric shields, custom new-tab surfaces, and automated background service workers compliant with Google's latest Web Store policies.",
+    linkText: "Review Chrome extension offerings →",
+    href: "#services",
+    keywords: ["chrome", "extensions", "manifest v3", "mv3", "upgrade", "omtabs", "omspace", "webstore"]
+  },
+  {
+    id: "faq-contracts",
+    q: "How do contracts, milestones, and payments work?",
+    a: "All projects operate under transparent milestone-based contracts with invoices issued through my Govt. of India registered MSME enterprise (UDYAM-UP-03-0065855). Payments can be handled via bank wire, Stripe, or escrow milestones with clear sign-offs before any stage begins.",
+    linkText: "Discuss milestone scope & contract terms →",
+    href: "#get-access",
+    keywords: ["contracts", "milestones", "payments", "invoicing", "msme", "udyam", "escrow", "stripe"]
+  }
+];
+
+export const SITE_PAGES = [
+  { label: "Home (Hero)", href: "#hero", category: "pages", desc: "Hero introduction & headline overview", keywords: ["home", "hero", "overview", "intro", "aniket"] },
+  { label: "Featured Projects (#work)", href: "#work", category: "pages", desc: "OmTabs, OmSpace, Centrix, Nexus & more", keywords: ["work", "projects", "featured", "portfolio", "case studies", "apps"] },
+  { label: "Services & Sprints (#services)", href: "#services", category: "pages", desc: "MVP builds, Chrome extensions, APIs & audits", keywords: ["services", "sprints", "mvp", "offerings", "deliverables", "hire"] },
+  { label: "Tech Stack & Architecture (#stack)", href: "#stack", category: "pages", desc: "5-layer full-stack & systems diagram", keywords: ["stack", "architecture", "technologies", "diagram", "database", "backend"] },
+  { label: "Frequently Asked Questions (#faq)", href: "#faq", category: "pages", desc: "Turnarounds, IP ownership & contract terms", keywords: ["faq", "questions", "answers", "help", "timeline", "contracts"] },
+  { label: "Pricing & Sprint Packages", href: "/pricing", category: "pages", desc: "Transparent freelance sprint pricing & plans", keywords: ["pricing", "cost", "plans", "rate", "packages", "quote", "budget"] },
+  { label: "Students & Builders Initiative", href: "/students", category: "pages", desc: "100% free mentorship, PR reviews & startup grants", keywords: ["students", "college", "mentorship", "free", "code review", "boilerplates", "discount"] },
+  { label: "Documentation & Architecture Reference", href: "/docs", category: "pages", desc: "Technical blueprints, specifications & guides", keywords: ["docs", "documentation", "reference", "api", "architecture", "specs"] },
+  { label: "Technical Blog & Deep Dives", href: "/blog", category: "pages", desc: "Articles on full-stack systems & performance", keywords: ["blog", "articles", "deep dives", "insights", "read", "tutorials"] },
+  { label: "Head-to-Head Architecture Comparisons", href: "/compare", category: "pages", desc: "Engineering benchmarks & system comparisons", keywords: ["compare", "benchmarks", "analysis", "vs", "evaluation"] },
+  { label: "Security & Client IP Sovereignty", href: "/security", category: "pages", desc: "Bilateral NDA, 100% code ownership & compliance", keywords: ["security", "nda", "compliance", "encryption", "ip", "intellectual property"] },
+  { label: "Privacy Policy (Chrome Extensions)", href: "/privacy", category: "pages", desc: "OmTabs & OmSpace zero-telemetry policy", keywords: ["privacy", "policy", "data", "extensions", "omtabs", "omspace"] },
+  { label: "Terms of Service", href: "/terms", category: "pages", desc: "Terms of use and client licensing agreements", keywords: ["terms", "conditions", "service", "license"] },
+  { label: "Engineering Thesis", href: "/thesis", category: "pages", desc: "Core thesis on context layers and modern systems", keywords: ["thesis", "philosophy", "context", "systems"] },
+  { label: "Experimental Labs", href: "/labs", category: "pages", desc: "R&D prototypes, shaders & AI experiments", keywords: ["labs", "experimental", "research", "prototypes", "ai"] },
+  { label: "Case Studies & Use Cases", href: "/use-cases", category: "pages", desc: "Real-world engineering implementations", keywords: ["use cases", "case studies", "enterprise", "implementations"] },
+  { label: "GitHub Profile (@aniketmishra-0)", href: "https://github.com/aniketmishra-0", external: true, category: "pages", desc: "699+ public contributions & open-source repos", keywords: ["github", "aniketmishra-0", "commits", "source", "code"] },
+  { label: "Enterprise GitHub (@Mishra-Aniket)", href: "https://github.com/Mishra-Aniket", external: true, category: "pages", desc: "Systems, pipelines & enterprise repositories", keywords: ["github", "mishra-aniket", "org", "enterprise"] },
+  { label: "LinkedIn Profile (@aniketmishra0)", href: "https://www.linkedin.com/in/aniketmishra0", external: true, category: "pages", desc: "Professional network, updates & connections", keywords: ["linkedin", "profile", "connect", "aniketmishra0"] },
+  { label: "Direct Email (aniketmishra492@gmail.com)", href: "mailto:aniketmishra492@gmail.com", external: true, category: "pages", desc: "Direct client inquiries & sprint bookings", keywords: ["email", "contact", "hire", "talk", "inquire", "mail"] }
+];
+
+
