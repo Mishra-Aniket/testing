@@ -16,7 +16,7 @@ export default function Footer() {
         { label: "Freelance Services", href: "/#services" },
         { label: "Full-Stack Engine", href: "/#how-it-works" },
         { label: "AI Integration", href: "/#router" },
-        { label: "Philosophy & Thesis", href: "/#why-context" }
+        { label: "Student Offers (Free)", href: "/students" }
       ]
     },
     {
@@ -89,10 +89,7 @@ export default function Footer() {
                 ▲
               </span>
               <span className="font-serif font-black text-xl tracking-tight text-white">
-                ANIKET
-              </span>
-              <span className="font-mono text-[9px] font-bold text-[#E4C090] bg-[#E4C090]/15 px-1.5 py-0.5 rounded tracking-widest border border-[#E4C090]/30 -translate-y-1.5">
-                .ONE
+                Aniket M
               </span>
             </a>
 
@@ -100,10 +97,20 @@ export default function Footer() {
               Full-stack and AI systems engineer. Building production web applications, autonomous AI workflows, and bespoke digital experiences for founders and fast-moving teams.
             </p>
 
-            <p className="mb-6 flex items-baseline gap-2.5 font-mono text-[10.5px] uppercase leading-[1.7] tracking-[0.16em] text-[#78716C]">
-              <span aria-hidden="true" className="h-[6px] w-[6px] shrink-0 bg-[#E4C090]" />
-              <span>HEADQUARTERED IN <span className="text-[#D6D3D1]">BANGALORE, INDIA</span></span>
-            </p>
+            <div className="mb-6 space-y-1.5 font-mono text-[11px] text-[#A8A29E]">
+              <div className="flex items-center gap-2">
+                <span aria-hidden="true" className="h-[6px] w-[6px] shrink-0 bg-[#E4C090] rounded-full" />
+                <span className="text-[#F5F5F4] font-bold tracking-wider text-[10.5px] uppercase">
+                  MSME REGISTERED ENTERPRISE · GOVT. OF INDIA
+                </span>
+              </div>
+              <p className="text-[#D6D3D1] pl-3.5 text-[10.5px] leading-relaxed">
+                UDYAM: <span className="text-[#E4C090] font-semibold">UDYAM-UP-03-0065855</span> · Micro (Services)
+              </p>
+              <p className="text-[#78716C] pl-3.5 text-[10.5px] leading-relaxed">
+                Operations &amp; Registered Entity: Prayagraj, Uttar Pradesh 211008, India
+              </p>
+            </div>
 
             {/* Social Links */}
             <div className="flex items-center gap-2.5 mb-5">
@@ -181,25 +188,25 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Giant Watermark Typography matching Image 5 & original site */}
+        {/* Giant Watermark Signature Typography */}
         <div 
           aria-hidden="true" 
           className="relative w-full py-8 md:py-12 flex justify-center items-center select-none pointer-events-none overflow-hidden"
         >
-          <span className="font-serif font-bold text-[clamp(4.5rem,13vw,11.5rem)] leading-none tracking-tight text-white/[0.06] whitespace-nowrap">
-            ANIKET.ONE
+          <span className="font-serif italic font-bold text-[clamp(4rem,12vw,10.5rem)] leading-none tracking-tight text-white/[0.08] whitespace-nowrap">
+            𝓐𝓷𝓲𝓴𝓮𝓽 𝓜
           </span>
         </div>
 
         {/* Bottom Bar */}
         <div className="relative pt-6 border-t border-white/[0.08] flex items-center justify-between flex-wrap gap-4 text-xs text-[#78716C] font-mono">
           <div>
-            © 2026 Aniket Mishra. All rights reserved.
+            © 2026 Aniket Mishra. Registered MSME Enterprise (UDYAM-UP-03-0065855). All rights reserved.
           </div>
           <div className="flex items-center gap-6">
-            <a href="#" className="hover:text-[#E4C090] transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-[#E4C090] transition-colors">Security</a>
-            <a href="#" className="hover:text-[#E4C090] transition-colors">Terms of Use</a>
+            <Link href="/privacy" className="hover:text-[#E4C090] transition-colors">Privacy Policy</Link>
+            <Link href="/security" className="hover:text-[#E4C090] transition-colors">Security</Link>
+            <Link href="/terms" className="hover:text-[#E4C090] transition-colors">Terms of Use</Link>
             <button
               type="button"
               onClick={() => {

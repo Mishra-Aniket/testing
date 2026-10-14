@@ -25,17 +25,125 @@ import {
 } from 'lucide-react';
 import { sound } from '../utils/sound';
 
+const NAV_PROJECTS = [
+  {
+    name: "OmTabs",
+    tagline: "Custom tab renaming & biometric shield in MV3",
+    badge: "Chrome Store",
+    href: "https://chromewebstore.google.com/detail/omtabs/innncdapnjlnjdgkdjjajbiebeppieaf",
+    external: true,
+  },
+  {
+    name: "OmSpace",
+    tagline: "Customizable new-tab productivity studio",
+    badge: "Chrome Store",
+    href: "https://chromewebstore.google.com/detail/omspace-new-tab-dashboard/hofalojlkckeopheldapdcickcmeihmd?utm_source=ext_app_menu",
+    external: true,
+  },
+  {
+    name: "Centrix",
+    tagline: "Autonomous ingestion pipeline for 500+ PW centers",
+    badge: ".NET 8 Edge",
+    href: "https://aniketmishra-0.github.io/Centrix_Demo/",
+    external: true,
+  },
+  {
+    name: "Nexus Streamer",
+    tagline: "Zero-RAM cloud Drive → YouTube video ingestion",
+    badge: "Live Space",
+    href: "https://pwvp-drive2youtube.hf.space/",
+    external: true,
+  },
+  {
+    name: "ImgWorld.biz",
+    tagline: "100% client-side privacy-first image utility suite",
+    badge: "Live WebApp",
+    href: "https://www.imgworld.biz/",
+    external: true,
+  },
+  {
+    name: "RadialMenu",
+    tagline: "Circular fuzzy-search launcher HUD for Windows",
+    badge: "Win 10/11",
+    href: "https://aniketmishra-0.github.io/RedialMenu-releases/",
+    external: true,
+  },
+];
+
+const NAV_SERVICES = [
+  {
+    title: "2–4 Week Rapid MVP Build",
+    tagline: "From wireframe to launched, production-ready product",
+    badge: "14–28 Days",
+    href: "/#services",
+  },
+  {
+    title: "Custom Chrome Extensions",
+    tagline: "Manifest V3 tools, background workers & Web Store setup",
+    badge: "7–14 Days",
+    href: "/#services",
+  },
+  {
+    title: "High-Scale APIs & Automations",
+    tagline: "Robust .NET 8 / Python pipelines with high throughput",
+    badge: "Custom Sprint",
+    href: "/#services",
+  },
+  {
+    title: "Performance Tuning & Audits",
+    tagline: "Eliminate latency, optimize queries & boost Core Web Vitals",
+    badge: "3–7 Days",
+    href: "/#services",
+  },
+];
+
+const NAV_LEARN = [
+  {
+    title: "Documentation & Specs",
+    tagline: "Architecture blueprints, schema guides & contracts",
+    badge: "Docs",
+    href: "/docs",
+  },
+  {
+    title: "Engineering Blog",
+    tagline: "Technical writeups, optimizations & teardowns",
+    badge: "Articles",
+    href: "/blog",
+  },
+  {
+    title: "Interactive Labs",
+    tagline: "R&D experiments, prototypes & 3D sandboxes",
+    badge: "Sandbox",
+    href: "/labs",
+  },
+  {
+    title: "Engineering Thesis",
+    tagline: "Philosophy on code longevity & architecture",
+    badge: "Thesis",
+    href: "/thesis",
+  },
+  {
+    title: "Use Cases & Solutions",
+    tagline: "High-concurrency systems & cloud integrations",
+    badge: "Case Studies",
+    href: "/use-cases",
+  },
+  {
+    title: "Student Perks & Grants",
+    tagline: "Free 1-on-1 mentorship, code reviews & MVP grants",
+    badge: "100% Free",
+    href: "/students",
+  },
+];
+
 export default function Navbar({
   onOpenSearch,
   onOpenAssessment
 }) {
   const pathname = usePathname() || '';
-  const isCompareActive = pathname.startsWith('/compare');
-  const isResourcesActive = pathname.startsWith('/use-cases') || pathname === '/security' || pathname === '/creators-program';
   const isBlogActive = pathname.startsWith('/blog');
-  const isDocsActive = pathname.startsWith('/docs');
-  const isPricingActive = pathname === '/pricing';
-  const isLabsActive = pathname === '/labs';
+  const isLearnActive = pathname.startsWith('/docs') || pathname.startsWith('/labs') || pathname.startsWith('/thesis') || pathname.startsWith('/use-cases');
+  const isStudentsActive = pathname === '/students';
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileExpandedSection, setMobileExpandedSection] = useState(null);
@@ -233,92 +341,95 @@ export default function Navbar({
               ▲
             </span>
             <span className="font-serif font-black text-xl tracking-tight nav-brand-text">
-              ANIKET
-            </span>
-            <span className="font-mono text-[9px] font-bold px-1.5 py-0.5 rounded tracking-widest border nav-brand-tag">
-              .ONE
+              Aniket M
             </span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-1 text-[0.875rem] font-medium">
-            {/* Compare Dropdown */}
+            {/* Projects Dropdown */}
             <div
               className="relative"
-              onMouseEnter={() => setActiveDropdown('compare')}
+              onMouseEnter={() => setActiveDropdown('projects')}
               onMouseLeave={() => setActiveDropdown(null)}
             >
-              <Link 
-                href="/compare"
+              <button
+                type="button"
                 onClick={() => {
                   sound.playClick();
+                  setActiveDropdown(activeDropdown === 'projects' ? null : 'projects');
                 }}
                 className={`nav-link relative flex items-center gap-1 px-3 py-2 cursor-pointer transition-colors ${
-                  isCompareActive || activeDropdown === 'compare' ? "!text-[color:var(--ink)] font-bold" : ""
+                  activeDropdown === 'projects' ? "!text-[color:var(--ink)] font-bold" : ""
                 }`}
               >
-                <span>Compare</span>
+                <span>Projects</span>
                 <ChevronDown className={`w-3.5 h-3.5 opacity-70 transition-transform duration-300 ${
-                  activeDropdown === 'compare' ? 'rotate-180' : ''
+                  activeDropdown === 'projects' ? 'rotate-180' : ''
                 }`} />
-                {isCompareActive && (
-                  <span className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
-                    isDarkTheme ? "bg-[#E4C090]" : "bg-[#B45309]"
-                  }`} />
-                )}
-              </Link>
+              </button>
               <AnimatePresence>
-                {activeDropdown === 'compare' && (
+                {activeDropdown === 'projects' && (
                   <motion.div
                     initial={{ opacity: 0, y: -6, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -4, scale: 0.985 }}
                     transition={{ duration: 0.2 }}
                     style={{ transformOrigin: "top left" }}
-                    className={`absolute top-full left-0 mt-2 w-72 rounded-[calc(var(--radius)+2px)] border p-1.5 backdrop-blur-xl shadow-2xl z-50 transition-colors duration-300 ${
+                    className={`absolute top-full left-0 mt-2 w-80 rounded-[calc(var(--radius)+2px)] border p-2 backdrop-blur-xl shadow-2xl z-50 transition-colors duration-300 ${
                       isDarkTheme 
                         ? "border-white/[0.12] bg-[#1C1917]/95 text-[#F5F5F4]" 
                         : "border-[#E4D9BC] bg-[#FDFBF7]/95 text-[#4A3B33]"
                     }`}
                   >
-                    {[
-                      { label: "Aniket vs Mem0", href: "/compare/aniket-vs-mem0" },
-                      { label: "Aniket vs Glean", href: "/compare/aniket-vs-glean" },
-                      { label: "Aniket vs Palantir", href: "/compare/aniket-vs-palantir" },
-                      { label: "Claude Memory vs Aniket", href: "/compare/aniket-vs-claude" },
-                      { label: "LangChain Memory vs Aniket", href: "/compare/aniket-vs-langchain" },
-                    ].map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => {
-                          sound.playClick();
-                          setActiveDropdown(null);
-                        }}
-                        className={`w-full text-left flex items-center justify-between px-3.5 py-2 text-[0.875rem] rounded-[var(--radius)] transition-colors ${
-                          pathname === item.href 
-                            ? (isDarkTheme ? "text-[#E4C090] bg-white/[0.08] font-semibold" : "text-[#B45309] bg-[#B45309]/10 font-semibold") 
-                            : (isDarkTheme ? "text-[#D6D3D1] hover:text-[#E4C090] hover:bg-white/[0.05]" : "text-[#4A3B33] hover:text-[#B45309] hover:bg-black/[0.03]")
-                        }`}
-                      >
-                        <span>{item.label}</span>
-                        {pathname === item.href && (
-                          <span className={`w-1.5 h-1.5 rounded-full ${isDarkTheme ? "bg-[#E4C090]" : "bg-[#B45309]"}`} />
-                        )}
-                      </Link>
-                    ))}
+                    <div className="space-y-0.5">
+                      {NAV_PROJECTS.map((item) => (
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          target={item.external ? "_blank" : undefined}
+                          rel={item.external ? "noopener noreferrer" : undefined}
+                          onClick={() => {
+                            sound.playClick();
+                            setActiveDropdown(null);
+                          }}
+                          className={`w-full text-left flex items-start justify-between p-2 rounded-[var(--radius)] transition-colors group ${
+                            isDarkTheme 
+                              ? "text-[#D6D3D1] hover:text-[#E4C090] hover:bg-white/[0.05]" 
+                              : "text-[#4A3B33] hover:text-[#B45309] hover:bg-black/[0.03]"
+                          }`}
+                        >
+                          <div className="flex flex-col pr-2">
+                            <div className="flex items-center gap-1.5 font-semibold text-[0.85rem]">
+                              <span>{item.name}</span>
+                              <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded border ${
+                                isDarkTheme 
+                                  ? "border-white/10 text-[#E4C090] bg-white/[0.04]" 
+                                  : "border-[#E4D9BC] text-[#B45309] bg-[#B45309]/5"
+                              }`}>
+                                {item.badge}
+                              </span>
+                            </div>
+                            <span className="text-[11.5px] text-[#78716C] mt-0.5 line-clamp-1">
+                              {item.tagline}
+                            </span>
+                          </div>
+                          <ArrowUpRight className="w-3.5 h-3.5 shrink-0 mt-1 opacity-50 group-hover:opacity-100 group-hover:text-[#B45309] transition-opacity" />
+                        </a>
+                      ))}
+                    </div>
                     <div className={`my-1.5 h-px ${isDarkTheme ? "bg-white/10" : "bg-[#E4D9BC]/70"}`} />
                     <Link
-                      href="/compare"
+                      href="/#work"
                       onClick={() => {
                         sound.playClick();
                         setActiveDropdown(null);
                       }}
-                      className={`w-full text-left flex items-center justify-between px-3.5 py-2 text-[0.875rem] font-bold rounded-[var(--radius)] transition-colors ${
+                      className={`w-full text-left flex items-center justify-between px-3 py-1.5 text-[0.8125rem] font-bold rounded-[var(--radius)] transition-colors ${
                         isDarkTheme ? "text-[#E4C090] hover:text-white hover:bg-white/[0.05]" : "text-[#B45309] hover:text-[#A16207] hover:bg-black/[0.03]"
                       }`}
                     >
-                      <span>See all comparisons</span>
+                      <span>Explore all projects &amp; case studies</span>
                       <span className="text-sm">→</span>
                     </Link>
                   </motion.div>
@@ -326,75 +437,104 @@ export default function Navbar({
               </AnimatePresence>
             </div>
 
-            {/* Resources Dropdown */}
+            {/* Services Dropdown */}
             <div
               className="relative"
-              onMouseEnter={() => setActiveDropdown('resources')}
+              onMouseEnter={() => setActiveDropdown('services')}
               onMouseLeave={() => setActiveDropdown(null)}
             >
-              <Link
-                href="/use-cases"
+              <button
+                type="button"
                 onClick={() => {
                   sound.playClick();
+                  setActiveDropdown(activeDropdown === 'services' ? null : 'services');
                 }}
                 className={`nav-link relative flex items-center gap-1 px-3 py-2 cursor-pointer transition-colors ${
-                  isResourcesActive || activeDropdown === 'resources' ? "!text-[color:var(--ink)] font-bold" : ""
+                  activeDropdown === 'services' ? "!text-[color:var(--ink)] font-bold" : ""
                 }`}
               >
-                <span>Resources</span>
+                <span>Services</span>
                 <ChevronDown className={`w-3.5 h-3.5 opacity-70 transition-transform duration-300 ${
-                  activeDropdown === 'resources' ? 'rotate-180' : ''
+                  activeDropdown === 'services' ? 'rotate-180' : ''
                 }`} />
-                {isResourcesActive && (
-                  <span className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
-                    isDarkTheme ? "bg-[#E4C090]" : "bg-[#B45309]"
-                  }`} />
-                )}
-              </Link>
+              </button>
               <AnimatePresence>
-                {activeDropdown === 'resources' && (
+                {activeDropdown === 'services' && (
                   <motion.div
                     initial={{ opacity: 0, y: -6, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -4, scale: 0.985 }}
                     transition={{ duration: 0.2 }}
                     style={{ transformOrigin: "top left" }}
-                    className={`absolute top-full left-0 mt-2 w-56 rounded-[calc(var(--radius)+2px)] border p-1.5 backdrop-blur-xl shadow-2xl z-50 transition-colors duration-300 ${
+                    className={`absolute top-full left-0 mt-2 w-80 rounded-[calc(var(--radius)+2px)] border p-2 backdrop-blur-xl shadow-2xl z-50 transition-colors duration-300 ${
                       isDarkTheme 
                         ? "border-white/[0.12] bg-[#1C1917]/95 text-[#F5F5F4]" 
                         : "border-[#E4D9BC] bg-[#FDFBF7]/95 text-[#4A3B33]"
                     }`}
                   >
-                    {[
-                      { label: "Use Cases", href: "/use-cases" },
-                      { label: "Case Studies", href: "/use-cases" },
-                      { label: "Security & Trust", href: "/security" },
-                      { label: "Creators Program", href: "/creators-program" },
-                    ].map((item) => (
-                      <Link
-                        key={item.label}
-                        href={item.href}
-                        onClick={() => {
-                          sound.playClick();
-                          setActiveDropdown(null);
-                        }}
-                        className={`w-full text-left flex items-center justify-between px-3.5 py-2 text-[0.875rem] rounded-[var(--radius)] transition-colors ${
-                          pathname === item.href 
-                            ? (isDarkTheme ? "text-[#E4C090] bg-white/[0.08] font-semibold" : "text-[#B45309] bg-[#B45309]/10 font-semibold") 
-                            : (isDarkTheme ? "text-[#D6D3D1] hover:text-[#E4C090] hover:bg-white/[0.05]" : "text-[#4A3B33] hover:text-[#B45309] hover:bg-black/[0.03]")
-                        }`}
-                      >
-                        <span>{item.label}</span>
-                        {pathname === item.href && (
-                          <span className={`w-1.5 h-1.5 rounded-full ${isDarkTheme ? "bg-[#E4C090]" : "bg-[#B45309]"}`} />
-                        )}
-                      </Link>
-                    ))}
+                    <div className="space-y-0.5">
+                      {NAV_SERVICES.map((item) => (
+                        <Link
+                          key={item.title}
+                          href={item.href}
+                          onClick={() => {
+                            sound.playClick();
+                            setActiveDropdown(null);
+                          }}
+                          className={`w-full text-left flex items-start justify-between p-2 rounded-[var(--radius)] transition-colors group ${
+                            isDarkTheme 
+                              ? "text-[#D6D3D1] hover:text-[#E4C090] hover:bg-white/[0.05]" 
+                              : "text-[#4A3B33] hover:text-[#B45309] hover:bg-black/[0.03]"
+                          }`}
+                        >
+                          <div className="flex flex-col pr-2">
+                            <div className="flex items-center gap-1.5 font-semibold text-[0.85rem]">
+                              <span>{item.title}</span>
+                              <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded border ${
+                                isDarkTheme 
+                                  ? "border-white/10 text-[#E4C090] bg-white/[0.04]" 
+                                  : "border-[#E4D9BC] text-[#B45309] bg-[#B45309]/5"
+                              }`}>
+                                {item.badge}
+                              </span>
+                            </div>
+                            <span className="text-[11.5px] text-[#78716C] mt-0.5 line-clamp-1">
+                              {item.tagline}
+                            </span>
+                          </div>
+                          <ArrowRight className="w-3.5 h-3.5 shrink-0 mt-1 opacity-50 group-hover:opacity-100 group-hover:text-[#B45309] transition-opacity" />
+                        </Link>
+                      ))}
+                    </div>
+                    <div className={`my-1.5 h-px ${isDarkTheme ? "bg-white/10" : "bg-[#E4D9BC]/70"}`} />
+                    <Link
+                      href="/#services"
+                      onClick={() => {
+                        sound.playClick();
+                        setActiveDropdown(null);
+                      }}
+                      className={`w-full text-left flex items-center justify-between px-3 py-1.5 text-[0.8125rem] font-bold rounded-[var(--radius)] transition-colors ${
+                        isDarkTheme ? "text-[#E4C090] hover:text-white hover:bg-white/[0.05]" : "text-[#B45309] hover:text-[#A16207] hover:bg-black/[0.03]"
+                      }`}
+                    >
+                      <span>View freelance workflow &amp; sprint rates</span>
+                      <span className="text-sm">→</span>
+                    </Link>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
 
+            {/* Architecture link */}
+            <Link
+              href="/#how-it-works"
+              onClick={() => sound.playClick()}
+              className="nav-link relative px-3 py-2 cursor-pointer transition-colors"
+            >
+              Architecture
+            </Link>
+
+            {/* Blog link */}
             <Link
               href="/blog"
               onClick={() => sound.playClick()}
@@ -410,35 +550,108 @@ export default function Navbar({
               )}
             </Link>
 
+            {/* Learn Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setActiveDropdown('learn')}
+              onMouseLeave={() => setActiveDropdown(null)}
+            >
+              <button
+                type="button"
+                onClick={() => {
+                  sound.playClick();
+                  setActiveDropdown(activeDropdown === 'learn' ? null : 'learn');
+                }}
+                className={`nav-link relative flex items-center gap-1 px-3 py-2 cursor-pointer transition-colors ${
+                  isLearnActive || activeDropdown === 'learn' ? "!text-[color:var(--ink)] font-bold" : ""
+                }`}
+              >
+                <span>Learn</span>
+                <ChevronDown className={`w-3.5 h-3.5 opacity-70 transition-transform duration-300 ${
+                  activeDropdown === 'learn' ? 'rotate-180' : ''
+                }`} />
+                {isLearnActive && (
+                  <span className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
+                    isDarkTheme ? "bg-[#E4C090]" : "bg-[#B45309]"
+                  }`} />
+                )}
+              </button>
+              <AnimatePresence>
+                {activeDropdown === 'learn' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -4, scale: 0.985 }}
+                    transition={{ duration: 0.2 }}
+                    style={{ transformOrigin: "top left" }}
+                    className={`absolute top-full left-0 mt-2 w-72 rounded-[calc(var(--radius)+2px)] border p-2 backdrop-blur-xl shadow-2xl z-50 transition-colors duration-300 ${
+                      isDarkTheme 
+                        ? "border-white/[0.12] bg-[#1C1917]/95 text-[#F5F5F4]" 
+                        : "border-[#E4D9BC] bg-[#FDFBF7]/95 text-[#4A3B33]"
+                    }`}
+                  >
+                    <div className="space-y-0.5">
+                      {NAV_LEARN.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => {
+                            sound.playClick();
+                            setActiveDropdown(null);
+                          }}
+                          className={`w-full text-left flex items-start justify-between p-2 rounded-[var(--radius)] transition-colors group ${
+                            pathname === item.href
+                              ? (isDarkTheme ? "text-[#E4C090] bg-white/[0.08] font-semibold" : "text-[#B45309] bg-[#B45309]/10 font-semibold")
+                              : (isDarkTheme ? "text-[#D6D3D1] hover:text-[#E4C090] hover:bg-white/[0.05]" : "text-[#4A3B33] hover:text-[#B45309] hover:bg-black/[0.03]")
+                          }`}
+                        >
+                          <div className="flex flex-col pr-2">
+                            <div className="flex items-center gap-1.5 font-semibold text-[0.85rem]">
+                              <span>{item.title}</span>
+                              <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded border ${
+                                isDarkTheme 
+                                   ? "border-white/10 text-[#E4C090] bg-white/[0.04]" 
+                                   : "border-[#E4D9BC] text-[#B45309] bg-[#B45309]/5"
+                              }`}>
+                                {item.badge}
+                              </span>
+                            </div>
+                            <span className="text-[11.5px] text-[#78716C] mt-0.5 line-clamp-1">
+                              {item.tagline}
+                            </span>
+                          </div>
+                          {pathname === item.href && (
+                            <span className={`w-1.5 h-1.5 rounded-full mt-2 shrink-0 ${isDarkTheme ? "bg-[#E4C090]" : "bg-[#B45309]"}`} />
+                          )}
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Student Offers Link */}
             <Link
-              href="/docs"
+              href="/students"
               onClick={() => sound.playClick()}
-              className={`nav-link relative px-3 py-2 cursor-pointer transition-colors ${
-                isDocsActive ? "!text-[color:var(--ink)] font-bold" : ""
+              className={`nav-link relative flex items-center gap-1.5 px-3 py-2 cursor-pointer transition-colors ${
+                isStudentsActive ? "!text-[color:var(--ink)] font-bold" : ""
               }`}
             >
-              Docs
-              {isDocsActive && (
+              <span>Students</span>
+              <span className={`text-[9.5px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full border ${
+                isDarkTheme
+                  ? "border-[#E4C090]/30 text-[#E4C090] bg-[#E4C090]/10"
+                  : "border-[#B45309]/30 text-[#B45309] bg-[#B45309]/10"
+              }`}>
+                Free
+              </span>
+              {isStudentsActive && (
                 <span className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
                   isDarkTheme ? "bg-[#E4C090]" : "bg-[#B45309]"
                 }`} />
               )}
-            </Link>
-
-            <Link
-              href="#work"
-              onClick={() => sound.playClick()}
-              className="nav-link relative px-3 py-2 cursor-pointer transition-colors"
-            >
-              Projects
-            </Link>
-
-            <Link
-              href="#services"
-              onClick={() => sound.playClick()}
-              className="nav-link relative px-3 py-2 cursor-pointer transition-colors"
-            >
-              Services
             </Link>
           </div>
 
@@ -536,69 +749,70 @@ export default function Navbar({
                     Navigation
                   </span>
                   <span className="font-mono text-[10px] text-[#A8A29E] tracking-tight">
-                    aniket.one
+                    Aniket M
                   </span>
                 </div>
 
-                {/* Truly Minimal, Clean Editorial Navigation */}
+                {/* Modern Editorial Mobile Navigation */}
                 <div className="flex flex-col divide-y divide-[#E4D9BC]/50">
-                  {/* 1. Compare */}
+                  {/* 1. Projects Accordion */}
                   <div className="py-2">
                     <button
                       type="button"
                       onClick={() => {
                         sound.playClick();
-                        setMobileExpandedSection(prev => prev === 'compare' ? null : 'compare');
+                        setMobileExpandedSection(prev => prev === 'projects' ? null : 'projects');
                       }}
                       className="w-full flex items-center justify-between py-1.5 text-left cursor-pointer group"
                     >
                       <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
-                        Compare
+                        Projects
                       </span>
                       <ChevronDown 
                         className={`w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] shrink-0 transition-transform duration-200 ${
-                          mobileExpandedSection === 'compare' ? 'rotate-180 text-[#B45309]' : ''
+                          mobileExpandedSection === 'projects' ? 'rotate-180 text-[#B45309]' : ''
                         }`} 
                       />
                     </button>
                     <AnimatePresence initial={false}>
-                      {mobileExpandedSection === 'compare' && (
+                      {mobileExpandedSection === 'projects' && (
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                          className="pl-3 mt-2 mb-1 space-y-0.5 border-l-2 border-[#B45309]/30"
+                          className="pl-3 mt-2 mb-1 space-y-1 border-l-2 border-[#B45309]/30"
                         >
-                          {[
-                            { label: "Aniket vs Mem0", href: "/compare/aniket-vs-mem0" },
-                            { label: "Aniket vs Glean", href: "/compare/aniket-vs-glean" },
-                            { label: "Aniket vs Palantir", href: "/compare/aniket-vs-palantir" },
-                            { label: "Claude Memory vs Aniket", href: "/compare/aniket-vs-claude" },
-                            { label: "LangChain Memory vs Aniket", href: "/compare/aniket-vs-langchain" },
-                          ].map((item) => (
-                            <Link
-                              key={item.href}
+                          {NAV_PROJECTS.map((item) => (
+                            <a
+                              key={item.name}
                               href={item.href}
+                              target={item.external ? "_blank" : undefined}
+                              rel={item.external ? "noopener noreferrer" : undefined}
                               onClick={() => {
                                 sound.playClick();
                                 setMobileMenuOpen(false);
                               }}
                               className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[14px] text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE] transition-colors group"
                             >
-                              <span>{item.label}</span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium text-[#4A3B33] group-hover:text-[#B45309]">{item.name}</span>
+                                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded border border-[#E4D9BC] text-[#B45309] bg-[#B45309]/5">
+                                  {item.badge}
+                                </span>
+                              </div>
                               <ArrowUpRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:text-[#B45309]" />
-                            </Link>
+                            </a>
                           ))}
                           <Link
-                            href="/compare"
+                            href="/#work"
                             onClick={() => {
                               sound.playClick();
                               setMobileMenuOpen(false);
                             }}
                             className="flex items-center justify-between py-1.5 px-2 text-[12px] font-mono font-semibold text-[#B45309] hover:underline pt-1"
                           >
-                            <span>Explore all comparisons</span>
+                            <span>Explore all projects &amp; case studies</span>
                             <ArrowRight className="w-3.5 h-3.5" />
                           </Link>
                         </motion.div>
@@ -606,41 +820,37 @@ export default function Navbar({
                     </AnimatePresence>
                   </div>
 
-                  {/* 2. Resources */}
+                  {/* 2. Services Accordion */}
                   <div className="py-2">
                     <button
                       type="button"
                       onClick={() => {
                         sound.playClick();
-                        setMobileExpandedSection(prev => prev === 'resources' ? null : 'resources');
+                        setMobileExpandedSection(prev => prev === 'services' ? null : 'services');
                       }}
                       className="w-full flex items-center justify-between py-1.5 text-left cursor-pointer group"
                     >
                       <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
-                        Resources
+                        Services
                       </span>
                       <ChevronDown 
                         className={`w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] shrink-0 transition-transform duration-200 ${
-                          mobileExpandedSection === 'resources' ? 'rotate-180 text-[#B45309]' : ''
+                          mobileExpandedSection === 'services' ? 'rotate-180 text-[#B45309]' : ''
                         }`} 
                       />
                     </button>
                     <AnimatePresence initial={false}>
-                      {mobileExpandedSection === 'resources' && (
+                      {mobileExpandedSection === 'services' && (
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                          className="pl-3 mt-2 mb-1 space-y-0.5 border-l-2 border-[#B45309]/30"
+                          className="pl-3 mt-2 mb-1 space-y-1 border-l-2 border-[#B45309]/30"
                         >
-                          {[
-                            { label: "Use Cases", href: "/use-cases" },
-                            { label: "Security & Sovereignty", href: "/security" },
-                            { label: "Creators Program", href: "/creators-program" },
-                          ].map((item) => (
+                          {NAV_SERVICES.map((item) => (
                             <Link
-                              key={item.href}
+                              key={item.title}
                               href={item.href}
                               onClick={() => {
                                 sound.playClick();
@@ -648,16 +858,47 @@ export default function Navbar({
                               }}
                               className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[14px] text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE] transition-colors group"
                             >
-                              <span>{item.label}</span>
-                              <ArrowUpRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:text-[#B45309]" />
+                              <div>
+                                <span className="font-medium text-[#4A3B33] group-hover:text-[#B45309]">{item.title}</span>
+                                <span className="block text-[11px] text-[#A8A29E]">{item.badge}</span>
+                              </div>
+                              <ArrowRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:text-[#B45309]" />
                             </Link>
                           ))}
+                          <Link
+                            href="/#services"
+                            onClick={() => {
+                              sound.playClick();
+                              setMobileMenuOpen(false);
+                            }}
+                            className="flex items-center justify-between py-1.5 px-2 text-[12px] font-mono font-semibold text-[#B45309] hover:underline pt-1"
+                          >
+                            <span>View workflow &amp; sprint guarantees</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </Link>
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
 
-                  {/* 3. Blog */}
+                  {/* 3. Architecture & Code Walkthrough */}
+                  <div className="py-2">
+                    <Link
+                      href="/#how-it-works"
+                      onClick={() => {
+                        sound.playClick();
+                        setMobileMenuOpen(false);
+                      }}
+                      className="w-full flex items-center justify-between py-1.5 text-left group"
+                    >
+                      <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
+                        Architecture &amp; Code
+                      </span>
+                      <ArrowRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-colors" />
+                    </Link>
+                  </div>
+
+                  {/* 4. Engineering Blog */}
                   <div className="py-2">
                     <Link
                       href="/blog"
@@ -668,48 +909,65 @@ export default function Navbar({
                       className="w-full flex items-center justify-between py-1.5 text-left group"
                     >
                       <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
-                        Blog
+                        Engineering Blog
                       </span>
                       <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-colors" />
                     </Link>
                   </div>
 
-                  {/* 4. Docs */}
+                  {/* 5. Student Offers (Free) */}
+                  <div className="py-2">
+                    <Link
+                      href="/students"
+                      onClick={() => {
+                        sound.playClick();
+                        setMobileMenuOpen(false);
+                      }}
+                      className="w-full flex items-center justify-between py-1.5 text-left group"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
+                          Student Offers
+                        </span>
+                        <span className="px-1.5 py-0.5 text-[10px] uppercase font-mono font-bold tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200/80 rounded-full">
+                          100% Free
+                        </span>
+                      </div>
+                      <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-colors" />
+                    </Link>
+                  </div>
+
+                  {/* 6. Learn & Docs Accordion */}
                   <div className="py-2">
                     <button
                       type="button"
                       onClick={() => {
                         sound.playClick();
-                        setMobileExpandedSection(prev => prev === 'docs' ? null : 'docs');
+                        setMobileExpandedSection(prev => prev === 'learn' ? null : 'learn');
                       }}
                       className="w-full flex items-center justify-between py-1.5 text-left cursor-pointer group"
                     >
                       <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
-                        Docs
+                        Learn &amp; Docs
                       </span>
                       <ChevronDown 
                         className={`w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] shrink-0 transition-transform duration-200 ${
-                          mobileExpandedSection === 'docs' ? 'rotate-180 text-[#B45309]' : ''
+                          mobileExpandedSection === 'learn' ? 'rotate-180 text-[#B45309]' : ''
                         }`} 
                       />
                     </button>
                     <AnimatePresence initial={false}>
-                      {mobileExpandedSection === 'docs' && (
+                      {mobileExpandedSection === 'learn' && (
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                          className="pl-3 mt-2 mb-1 space-y-0.5 border-l-2 border-[#B45309]/30"
+                          className="pl-3 mt-2 mb-1 space-y-1 border-l-2 border-[#B45309]/30"
                         >
-                          {[
-                            { label: "Overview & Quickstart", href: "/docs" },
-                            { label: "Python SDK (aniket-sdk)", href: "/docs" },
-                            { label: "Node.js SDK (@aniket/core)", href: "/docs" },
-                            { label: "Context Thesis", href: "/thesis" },
-                          ].map((item) => (
+                          {NAV_LEARN.map((item) => (
                             <Link
-                              key={item.label}
+                              key={item.href}
                               href={item.href}
                               onClick={() => {
                                 sound.playClick();
@@ -717,47 +975,16 @@ export default function Navbar({
                               }}
                               className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[14px] text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE] transition-colors group"
                             >
-                              <span>{item.label}</span>
-                              <ArrowUpRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:text-[#B45309]" />
+                              <div>
+                                <span className="font-medium text-[#4A3B33] group-hover:text-[#B45309]">{item.title}</span>
+                                <span className="block text-[11px] text-[#A8A29E]">{item.tagline}</span>
+                              </div>
+                              <ArrowRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:text-[#B45309]" />
                             </Link>
                           ))}
                         </motion.div>
                       )}
                     </AnimatePresence>
-                  </div>
-
-                  {/* 5. Projects */}
-                  <div className="py-2">
-                    <Link
-                      href="#work"
-                      onClick={() => {
-                        sound.playClick();
-                        setMobileMenuOpen(false);
-                      }}
-                      className="w-full flex items-center justify-between py-1.5 text-left group"
-                    >
-                      <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
-                        Projects &amp; Case Studies
-                      </span>
-                      <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-colors" />
-                    </Link>
-                  </div>
-
-                  {/* 6. Services */}
-                  <div className="py-2">
-                    <Link
-                      href="#services"
-                      onClick={() => {
-                        sound.playClick();
-                        setMobileMenuOpen(false);
-                      }}
-                      className="w-full flex items-center justify-between py-1.5 text-left group"
-                    >
-                      <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
-                        Freelance Services &amp; Workflow
-                      </span>
-                      <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-colors" />
-                    </Link>
                   </div>
                 </div>
 

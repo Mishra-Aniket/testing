@@ -5,36 +5,36 @@ import { sound } from "../utils/sound";
 
 const routerData = [
   {
-    eyebrow: "L01 · ROUTE",
-    title: "Any model",
-    body: "Frontier or open-weight, any model docks into the same context. Swap it or route per task without resetting a single memory.",
-    stats: [["DOCKED", "GPT"], ["SWAP TIME", "< 1s"], ["MEMORY RESET", "none"]],
-    code: 'ctx.route({ model: "gpt" })',
+    eyebrow: "01 · ARCHITECT",
+    title: "Discovery & Architecture",
+    body: "Translating business requirements into structured database schemas, modular system designs, and clear API contracts before building.",
+    stats: [["ACTIVE SPEC", "SCHEMA"], ["TIMELINE", "Days 1–3"], ["DELIVERABLE", "System Spec"]],
+    code: 'system.plan({ spec: "schema", db: "postgres" })',
     left: "19%"
   },
   {
-    eyebrow: "L02 · PERSIST",
-    title: "Sovereign context layer",
-    body: "Your institutional context lives here: owned by you, portable, and independent of any model vendor. It survives every swap.",
-    stats: [["RETAINED", "100%"], ["OWNER", "you"], ["LOCK-IN", "none"]],
-    code: 'ctx.export({ format: "open" })',
+    eyebrow: "02 · ENGINEER",
+    title: "Full-Stack Development",
+    body: "Writing clean, type-safe, maintainable code across frontend and backend. Developing fast APIs, resilient background workers, and fluid responsive interfaces.",
+    stats: [["CODEBASE", "Clean & Typed"], ["LATENCY", "< 100ms"], ["STACK", "Full-Stack"]],
+    code: 'pipeline.build({ frontend: "nextjs", backend: "fastapi" })',
     left: "50%"
   },
   {
-    eyebrow: "L03 · OPERATE",
-    title: "Agents that operate",
-    body: "Sales, support, ops and research agents keep running on the same context while the model underneath them changes.",
-    stats: [["AGENTS", "4 live"], ["DOWNTIME", "0.0s"], ["TASKS", "6,853"]],
-    code: 'agent.run({ context: ctx })',
+    eyebrow: "03 · SHIP & SCALE",
+    title: "Deployment & Production Scale",
+    body: "Rigorous automated testing, CI/CD pipelines, containerized deployment, and live cloud hosting with zero downtime and high availability.",
+    stats: [["DEPLOY", "Automated"], ["UPTIME", "99.9%"], ["RELEASE", "Zero Downtime"]],
+    code: 'release.deploy({ env: "production", status: "live" })',
     left: "81%"
   }
 ];
 
 export default function ModelSovereignty() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [selectedModel, setSelectedModel] = useState("GPT");
+  const [selectedModel, setSelectedModel] = useState("SCHEMA");
   const [isSwapping, setIsSwapping] = useState(false);
-  const [swapCount, setSwapCount] = useState(22);
+  const [swapCount, setSwapCount] = useState(24);
   const [lastSwapTime, setLastSwapTime] = useState("0.28s");
 
   const handleSelectModel = (model) => {
@@ -52,39 +52,42 @@ export default function ModelSovereignty() {
   // Determine active model display
   let activeModelName = selectedModel;
   let activeProvider = 
-    selectedModel === "Gemini" ? "GOOGLE" : 
-    selectedModel === "Claude" ? "ANTHROPIC" : 
-    selectedModel === "DeepSeek" ? "DEEPSEEK" : "OPENAI";
+    selectedModel === "FIGMA" ? "UI WIREFRAMES" : 
+    selectedModel === "APIS" ? "API CONTRACTS" : 
+    selectedModel === "STACK" ? "NEXT.JS & .NET" : "DB ARCHITECTURE";
   if (hoveredIndex === 2) {
-    activeModelName = "Gemini";
-    activeProvider = "GOOGLE";
+    activeModelName = "DEPLOY";
+    activeProvider = "PRODUCTION SCALE";
+  } else if (hoveredIndex === 1) {
+    activeModelName = "BUILD";
+    activeProvider = "FULL-STACK CODE";
   }
 
   const dynamicRouterData = [
     {
-      eyebrow: "L01 · ROUTE",
-      title: "Any model",
-      body: "Frontier or open-weight, any model docks into the same context. Swap it or route per task without resetting a single memory.",
-      stats: [["DOCKED", selectedModel], ["SWAP TIME", "< 1s"], ["MEMORY RESET", "none"]],
-      code: `ctx.route({ model: "${selectedModel.toLowerCase()}" })`,
+      eyebrow: "01 · ARCHITECT",
+      title: "Discovery & Architecture",
+      body: "Translating business requirements into structured database schemas, modular system designs, and clear API contracts before building.",
+      stats: [["ACTIVE SPEC", selectedModel], ["TIMELINE", "Days 1–3"], ["DELIVERABLE", "System Spec"]],
+      code: `system.plan({ spec: "${selectedModel.toLowerCase()}", db: "postgres" })`,
       left: "16%",
       top: "56%"
     },
     {
-      eyebrow: "L02 · PERSIST",
-      title: "Sovereign context layer",
-      body: "Your institutional context lives here: owned by you, portable, and independent of any model vendor. It survives every swap.",
-      stats: [["RETAINED", "100%"], ["OWNER", "you"], ["LOCK-IN", "none"]],
-      code: 'ctx.export({ format: "open" })',
+      eyebrow: "02 · ENGINEER",
+      title: "Full-Stack Development",
+      body: "Writing clean, type-safe, maintainable code across frontend and backend. Developing fast APIs, resilient background workers, and fluid responsive interfaces.",
+      stats: [["CODEBASE", "Clean & Typed"], ["LATENCY", "< 100ms"], ["STACK", "Full-Stack"]],
+      code: 'pipeline.build({ frontend: "nextjs", backend: "fastapi" })',
       left: "50%",
       top: "60.5%"
     },
     {
-      eyebrow: "L03 · OPERATE",
-      title: "Agents that operate",
-      body: "Sales, support, ops and research agents keep running on the same context while the model underneath them changes.",
-      stats: [["AGENTS", "4 live"], ["DOWNTIME", "0.0s"], ["TASKS", "6,853"]],
-      code: 'agent.run({ context: ctx })',
+      eyebrow: "03 · SHIP & SCALE",
+      title: "Deployment & Production Scale",
+      body: "Rigorous automated testing, CI/CD pipelines, containerized deployment, and live cloud hosting with zero downtime and high availability.",
+      stats: [["DEPLOY", "Automated"], ["UPTIME", "99.9%"], ["RELEASE", "Zero Downtime"]],
+      code: 'release.deploy({ env: "production", status: "live" })',
       left: "84%",
       top: "57%"
     }
@@ -107,7 +110,7 @@ export default function ModelSovereignty() {
       <div className="relative mx-auto max-w-[1200px] px-6 lg:px-8">
         <div className="flex justify-center mb-8">
           <p className="font-mono text-xs uppercase tracking-[0.22em] text-[#78716C] font-semibold text-center">
-            Multi-model architecture: Any LLM docks seamlessly into your system
+            Engineering Protocol: From Initial Spec to Scalable Production Software
           </p>
         </div>
 
@@ -158,40 +161,40 @@ export default function ModelSovereignty() {
               <g pointerEvents="none">
                 <rect x="24" y="33" width="7" height="7" fill={isSwapping ? "#F59E0B" : "#B45309"} className={isSwapping ? "animate-ping" : ""} />
                 <text x="37" y="40" fill="#78716C" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1.6" fontWeight="600">
-                  ANIKET // MULTI_MODEL_ENGINE
+                  ANIKET // ENGINEERING_PROTOCOL
                 </text>
                 <text x="24" y="57" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1">
-                  hot-swaps {swapCount} · memory reset 0 · latency {lastSwapTime}
+                  specs 4 · phases 3 · speed 2-4w · 0s downtime
                 </text>
                 <circle cx="298" cy="54.5" r="2.4" fill={isSwapping ? "#10B981" : "#B45309"} opacity="0.93" />
                 <text x="330" y="57" textAnchor="end" fill={isSwapping ? "#10B981" : "#A8A29E"} fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1" fontWeight={isSwapping ? "700" : "400"}>
-                  {isSwapping ? "SWAPPING" : "LIVE"}
+                  {isSwapping ? "SWITCHING" : "LIVE"}
                 </text>
                 <rect x="24" y="67" width="73.5" height="3" rx="1.5" style={{ fill: isSwapping ? "#F59E0B" : "#B45309", transition: "fill 0.3s" }} />
                 <rect x="101.5" y="67" width="73.5" height="3" rx="1.5" style={{ fill: isSwapping ? "#F59E0B" : "#E4D9BC", transition: "fill 0.3s" }} />
                 <rect x="179" y="67" width="73.5" height="3" rx="1.5" style={{ fill: "#E4D9BC", transition: "fill 0.3s" }} />
                 <rect x="256.5" y="67" width="73.5" height="3" rx="1.5" style={{ fill: "#E4D9BC", transition: "fill 0.3s" }} />
                 <text x="24" y="88" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.6" fontWeight="600" style={{ fill: isSwapping ? "#B45309" : "#B45309", transition: "fill 0.3s" }}>
-                  {isSwapping ? `⚡ HOT-SWAP IN PROGRESS: DOCKING ${activeModelName.toUpperCase()}...` : `PHASE · OPERATING ON ${activeModelName.toUpperCase()}`}
+                  {isSwapping ? `⚡ SPEC UPDATED: FOCUSING ON ${activeModelName.toUpperCase()}...` : `PHASE · ACTIVE ON ${activeModelName.toUpperCase()}`}
                 </text>
               </g>
 
-              {/* Top Right Active Model */}
+              {/* Top Right Active Focus */}
               <g 
                 role="button"
-                aria-label="Active model switcher"
+                aria-label="Active focus switcher"
                 data-custom-sound="true"
                 style={{ outline: "none" }}
                 onClick={() => {
-                  const models = ["GPT", "Claude", "Gemini", "DeepSeek"];
-                  const nextIdx = (models.indexOf(selectedModel) + 1) % models.length;
-                  handleSelectModel(models[nextIdx]);
+                  const specs = ["SCHEMA", "FIGMA", "APIS", "STACK"];
+                  const nextIdx = (specs.indexOf(selectedModel) + 1) % specs.length;
+                  handleSelectModel(specs[nextIdx]);
                 }}
                 onMouseEnter={() => sound.playClick()}
                 className="cursor-pointer group/activemodel outline-none"
               >
                 <text x="1176" y="40" textAnchor="end" fill="#A8A29E" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="2" fontWeight="600">
-                  ACTIVE MODEL
+                  ACTIVE FOCUS
                 </text>
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.g
@@ -205,7 +208,7 @@ export default function ModelSovereignty() {
                       {activeModelName}
                     </text>
                     <text x="1176" y="84" textAnchor="end" fill="#B45309" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4">
-                      {activeProvider} · CONTEXT UNCHANGED
+                      {activeProvider} · SYSTEM SPEC
                     </text>
                   </motion.g>
                 </AnimatePresence>
@@ -214,9 +217,9 @@ export default function ModelSovereignty() {
               {/* Connector Beams: L01 <-> L02 */}
               <g pointerEvents="none" opacity={hoveredIndex !== null ? 0.12 : 1} style={{ transition: "opacity 0.3s" }}>
                 <text x="379.8" y="216" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4" fontWeight="600" fill={isSwapping ? "#B45309" : "#A16207"}>
-                  {isSwapping ? "HOT-SWAP BEAM ⚡" : "CONTEXT ⇄ MODEL"}
+                  {isSwapping ? "SPEC SYNC ⚡" : "SPEC → BUILD"}
                 </text>
-                {/* Active Hot-Swap Energy Beam Pulse */}
+                {/* Active Energy Beam Pulse */}
                 {isSwapping && (
                   <line 
                     x1="346.8" 
@@ -253,7 +256,7 @@ export default function ModelSovereignty() {
               {/* Connector Beams: L02 -> L03 */}
               <g pointerEvents="none" opacity={hoveredIndex !== null ? 0.12 : 1} style={{ transition: "opacity 0.3s" }}>
                 <text x="820.2" y="216" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4" fontWeight="600" fill="#A16207">
-                  CONTEXT → AGENTS
+                  BUILD → SHIP
                 </text>
                 <line x1="787.2" y1="229" x2="853.2" y2="229" strokeWidth="1.2" stroke="rgba(180,83,9,0.5)" />
                 <line x1="787.2" y1="243" x2="853.2" y2="243" strokeWidth="1.2" stroke="rgba(180,83,9,0.5)" />
@@ -270,10 +273,10 @@ export default function ModelSovereignty() {
                 </g>
               </g>
 
-              {/* L01: Any Model Platform */}
+              {/* 01: System Architect Platform */}
               <g 
                 role="button" 
-                aria-label="L01 Any model"
+                aria-label="01 Discovery and System Architecture"
                 onMouseEnter={() => {
                   sound.playClick();
                   setHoveredIndex(0);
@@ -297,13 +300,13 @@ export default function ModelSovereignty() {
                   <circle cx="192" cy="306.04" r="2.2" fill="#B45309" />
                   <g opacity={hoveredIndex === 0 ? 0 : 1} style={{ transition: "opacity 0.2s" }}>
                     <text x="192" y="336.04" textAnchor="middle" fontSize="9" fontFamily="JetBrains Mono, monospace" letterSpacing="1.5" fontWeight="600" fill="#B45309">
-                      L01 · ROUTE
+                      01 · ARCHITECT
                     </text>
                     <text x="192" y="354.04" textAnchor="middle" fill="#4A3B33" fontSize="14" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">
-                      Any model
+                      Discovery &amp; Design
                     </text>
                     <text x="192" y="368.04" textAnchor="middle" fill="#78716C" fontSize="8.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4">
-                      click or hover chip to dock
+                      schema · wireframes · stack
                     </text>
                   </g>
                   <rect x="42" y="300.04" width="300" height="76" fill="transparent" />
@@ -332,10 +335,10 @@ export default function ModelSovereignty() {
                       <line x1="53.3" y1="-80" x2="53.3" y2="80" vectorEffect="non-scaling-stroke" />
                       <line x1="-80" y1="53.3" x2="80" y2="53.3" vectorEffect="non-scaling-stroke" />
                     </g>
-                    {/* Chip 1: GPT */}
+                    {/* Chip 1: SCHEMA */}
                     <g 
-                      onClick={(e) => { e.stopPropagation(); handleSelectModel("GPT"); }}
-                      onMouseEnter={() => handleSelectModel("GPT")}
+                      onClick={(e) => { e.stopPropagation(); handleSelectModel("SCHEMA"); }}
+                      onMouseEnter={() => handleSelectModel("SCHEMA")}
                       className="cursor-pointer group/chip"
                     >
                       <rect 
@@ -344,16 +347,16 @@ export default function ModelSovereignty() {
                         width="60" 
                         height="44" 
                         rx="4" 
-                        strokeWidth={selectedModel === "GPT" ? "2" : "1"} 
+                        strokeWidth={selectedModel === "SCHEMA" ? "2" : "1"} 
                         vectorEffect="non-scaling-stroke" 
-                        fill={selectedModel === "GPT" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
-                        stroke={selectedModel === "GPT" ? "#B45309" : "#E4D9BC"} 
+                        fill={selectedModel === "SCHEMA" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
+                        stroke={selectedModel === "SCHEMA" ? "#B45309" : "#E4D9BC"} 
                       />
                     </g>
-                    {/* Chip 2: Gemini */}
+                    {/* Chip 2: FIGMA */}
                     <g 
-                      onClick={(e) => { e.stopPropagation(); handleSelectModel("Gemini"); }}
-                      onMouseEnter={() => handleSelectModel("Gemini")}
+                      onClick={(e) => { e.stopPropagation(); handleSelectModel("FIGMA"); }}
+                      onMouseEnter={() => handleSelectModel("FIGMA")}
                       className="cursor-pointer group/chip"
                     >
                       <rect 
@@ -362,16 +365,16 @@ export default function ModelSovereignty() {
                         width="60" 
                         height="44" 
                         rx="4" 
-                        strokeWidth={selectedModel === "Gemini" ? "2" : "1"} 
+                        strokeWidth={selectedModel === "FIGMA" ? "2" : "1"} 
                         vectorEffect="non-scaling-stroke" 
-                        fill={selectedModel === "Gemini" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
-                        stroke={selectedModel === "Gemini" ? "#B45309" : "#E4D9BC"} 
+                        fill={selectedModel === "FIGMA" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
+                        stroke={selectedModel === "FIGMA" ? "#B45309" : "#E4D9BC"} 
                       />
                     </g>
-                    {/* Chip 3: Claude */}
+                    {/* Chip 3: APIS */}
                     <g 
-                      onClick={(e) => { e.stopPropagation(); handleSelectModel("Claude"); }}
-                      onMouseEnter={() => handleSelectModel("Claude")}
+                      onClick={(e) => { e.stopPropagation(); handleSelectModel("APIS"); }}
+                      onMouseEnter={() => handleSelectModel("APIS")}
                       className="cursor-pointer group/chip"
                     >
                       <rect 
@@ -380,16 +383,16 @@ export default function ModelSovereignty() {
                         width="60" 
                         height="44" 
                         rx="4" 
-                        strokeWidth={selectedModel === "Claude" ? "2" : "1"} 
+                        strokeWidth={selectedModel === "APIS" ? "2" : "1"} 
                         vectorEffect="non-scaling-stroke" 
-                        fill={selectedModel === "Claude" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
-                        stroke={selectedModel === "Claude" ? "#B45309" : "#E4D9BC"} 
+                        fill={selectedModel === "APIS" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
+                        stroke={selectedModel === "APIS" ? "#B45309" : "#E4D9BC"} 
                       />
                     </g>
-                    {/* Chip 4: DeepSeek */}
+                    {/* Chip 4: STACK */}
                     <g
-                      onClick={(e) => { e.stopPropagation(); handleSelectModel("DeepSeek"); }}
-                      onMouseEnter={() => handleSelectModel("DeepSeek")}
+                      onClick={(e) => { e.stopPropagation(); handleSelectModel("STACK"); }}
+                      onMouseEnter={() => handleSelectModel("STACK")}
                       className="cursor-pointer group/chip"
                     >
                       <rect 
@@ -398,48 +401,48 @@ export default function ModelSovereignty() {
                         width="60" 
                         height="44" 
                         rx="4" 
-                        strokeWidth={selectedModel === "DeepSeek" ? "2" : "1"} 
+                        strokeWidth={selectedModel === "STACK" ? "2" : "1"} 
                         vectorEffect="non-scaling-stroke" 
-                        fill={selectedModel === "DeepSeek" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
-                        stroke={selectedModel === "DeepSeek" ? "#B45309" : "#E4D9BC"} 
+                        fill={selectedModel === "STACK" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
+                        stroke={selectedModel === "STACK" ? "#B45309" : "#E4D9BC"} 
                       />
                     </g>
                     <line x1="43.6" x2="43.6" y1="-80" y2="80" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.5" />
                   </g>
 
-                  {/* Model Labels */}
+                  {/* Spec Labels */}
                   <g pointerEvents="none">
-                    <text x="186.6" y="213.6" textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight={selectedModel === "GPT" ? "800" : "600"} letterSpacing="1" fill={selectedModel === "GPT" ? "#B45309" : "#4A3B33"}>GPT</text>
-                    <text x="186.6" y="222.6" textAnchor="middle" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4" fill={selectedModel === "GPT" ? "#A16207" : "#78716C"}>
-                      {selectedModel === "GPT" ? "● docked" : "openai"}
+                    <text x="186.6" y="213.6" textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight={selectedModel === "SCHEMA" ? "800" : "600"} letterSpacing="1" fill={selectedModel === "SCHEMA" ? "#B45309" : "#4A3B33"}>SCHEMA</text>
+                    <text x="186.6" y="222.6" textAnchor="middle" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4" fill={selectedModel === "SCHEMA" ? "#A16207" : "#78716C"}>
+                      {selectedModel === "SCHEMA" ? "● active" : "database"}
                     </text>
                   </g>
                   <g pointerEvents="none">
-                    <text x="255" y="237.9" textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight={selectedModel === "Gemini" ? "800" : "600"} letterSpacing="1" fill={selectedModel === "Gemini" ? "#B45309" : "#4A3B33"}>GEMINI</text>
-                    <text x="255" y="246.9" textAnchor="middle" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4" fill={selectedModel === "Gemini" ? "#A16207" : "#78716C"}>
-                      {selectedModel === "Gemini" ? "● docked" : "google"}
+                    <text x="255" y="237.9" textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight={selectedModel === "FIGMA" ? "800" : "600"} letterSpacing="1" fill={selectedModel === "FIGMA" ? "#B45309" : "#4A3B33"}>FIGMA</text>
+                    <text x="255" y="246.9" textAnchor="middle" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4" fill={selectedModel === "FIGMA" ? "#A16207" : "#78716C"}>
+                      {selectedModel === "FIGMA" ? "● active" : "wireframes"}
                     </text>
                   </g>
                   <g pointerEvents="none">
-                    <text x="129" y="234.1" textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight={selectedModel === "Claude" ? "800" : "600"} letterSpacing="1" fill={selectedModel === "Claude" ? "#B45309" : "#4A3B33"}>CLAUDE</text>
-                    <text x="129" y="243.1" textAnchor="middle" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4" fill={selectedModel === "Claude" ? "#A16207" : "#78716C"}>
-                      {selectedModel === "Claude" ? "● docked" : "anthropic"}
+                    <text x="129" y="234.1" textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight={selectedModel === "APIS" ? "800" : "600"} letterSpacing="1" fill={selectedModel === "APIS" ? "#B45309" : "#4A3B33"}>APIS</text>
+                    <text x="129" y="243.1" textAnchor="middle" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4" fill={selectedModel === "APIS" ? "#A16207" : "#78716C"}>
+                      {selectedModel === "APIS" ? "● active" : "contracts"}
                     </text>
                   </g>
                   <g pointerEvents="none">
-                    <text x="197.4" y="258.4" textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight={selectedModel === "DeepSeek" ? "800" : "600"} letterSpacing="1" fill={selectedModel === "DeepSeek" ? "#B45309" : "#4A3B33"}>DEEPSEEK</text>
-                    <text x="197.4" y="267.4" textAnchor="middle" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4" fill={selectedModel === "DeepSeek" ? "#A16207" : "#78716C"}>
-                      {selectedModel === "DeepSeek" ? "● docked" : "open-weights"}
+                    <text x="197.4" y="258.4" textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight={selectedModel === "STACK" ? "800" : "600"} letterSpacing="1" fill={selectedModel === "STACK" ? "#B45309" : "#4A3B33"}>STACK</text>
+                    <text x="197.4" y="267.4" textAnchor="middle" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4" fill={selectedModel === "STACK" ? "#A16207" : "#78716C"}>
+                      {selectedModel === "STACK" ? "● active" : "frameworks"}
                     </text>
                   </g>
-                  <text x="53.2" y="238.5" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.8" fill="#A8A29E">L01</text>
+                  <text x="53.2" y="238.5" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.8" fill="#A8A29E">01</text>
                 </g>
               </g>
 
-              {/* L02: Sovereign Context Layer */}
+              {/* 02: Full-Stack Development Platform */}
               <g 
                 role="button" 
-                aria-label="L02 Sovereign context layer"
+                aria-label="02 Full-Stack Development"
                 onMouseEnter={() => {
                   sound.playClick();
                   setHoveredIndex(1);
@@ -463,13 +466,13 @@ export default function ModelSovereignty() {
                   <circle cx="600" cy="319.56" r="2.2" fill="#B45309" />
                   <g opacity={hoveredIndex === 1 ? 0 : 1} style={{ transition: "opacity 0.2s" }}>
                     <text x="600" y="349.56" textAnchor="middle" fontSize="9" fontFamily="JetBrains Mono, monospace" letterSpacing="1.5" fontWeight="600" fill="#B45309">
-                      L02 · PERSIST
+                      02 · ENGINEER
                     </text>
                     <text x="600" y="367.56" textAnchor="middle" fill="#4A3B33" fontSize="14" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">
-                      Sovereign context layer
+                      Full-Stack Development
                     </text>
                     <text x="600" y="381.56" textAnchor="middle" fill="#78716C" fontSize="8.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4">
-                      owned by you · model-agnostic
+                      clean code · resilient services · testing
                     </text>
                   </g>
                   <rect x="450" y="313.56" width="300" height="76" fill="transparent" />
@@ -483,7 +486,7 @@ export default function ModelSovereignty() {
                   <polygon points="600,169.44 787.2,236 600,302.56 412.8,236" fill="url(#svTop)" strokeWidth="1.4" stroke="#B45309" />
                   <polyline points="412.8,236 600,302.56 787.2,236" fill="none" strokeWidth="1.6" strokeLinejoin="round" stroke="#B45309" opacity="0.9" />
 
-                  {/* Surface Grid & Context Nodes */}
+                  {/* Surface Grid & Nodes */}
                   <g transform="matrix(0.9 0.32 -0.9 0.32 600 236)">
                     <rect x="-98" y="-98" width="196" height="196" rx="4" fill="none" stroke="#F1E9DA" strokeWidth="1" vectorEffect="non-scaling-stroke" />
                     <g stroke="#F6F0E4" strokeWidth="0.8">
@@ -511,23 +514,23 @@ export default function ModelSovereignty() {
                   </g>
 
                   {/* Surface Texts */}
-                  <text x="600" y="205.3" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">accounts</text>
-                  <text x="646.8" y="222" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">deals</text>
-                  <text x="693.6" y="238.6" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">policies</text>
-                  <text x="553.2" y="222" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">people</text>
-                  <text x="600" y="238.6" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="700" fill="#B45309">revenue</text>
-                  <text x="646.8" y="255.2" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">tickets</text>
-                  <text x="506.4" y="238.6" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">pricing</text>
-                  <text x="553.2" y="255.2" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">docs</text>
-                  <text x="600" y="271.9" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">decisions</text>
-                  <text x="428.8" y="238.5" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.8" fill="#A8A29E">L02</text>
+                  <text x="600" y="205.3" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">frontend</text>
+                  <text x="646.8" y="222" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">apis</text>
+                  <text x="693.6" y="238.6" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">logic</text>
+                  <text x="553.2" y="222" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">auth</text>
+                  <text x="600" y="238.6" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="700" fill="#B45309">backend</text>
+                  <text x="646.8" y="255.2" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">caching</text>
+                  <text x="506.4" y="238.6" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">workers</text>
+                  <text x="553.2" y="255.2" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">pipelines</text>
+                  <text x="600" y="271.9" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">tests</text>
+                  <text x="428.8" y="238.5" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.8" fill="#A8A29E">02</text>
                 </g>
               </g>
 
-              {/* L03: Agents that operate */}
+              {/* 03: Deployment & Production Scale Platform */}
               <g 
                 role="button" 
-                aria-label="L03 Agents that operate"
+                aria-label="03 Deployment and Production Scale"
                 onMouseEnter={() => {
                   sound.playClick();
                   setHoveredIndex(2);
@@ -551,13 +554,13 @@ export default function ModelSovereignty() {
                   <circle cx="1008" cy="306.04" r="2.2" fill="#B45309" />
                   <g opacity={hoveredIndex === 2 ? 0 : 1} style={{ transition: "opacity 0.2s" }}>
                     <text x="1008" y="336.04" textAnchor="middle" fontSize="9" fontFamily="JetBrains Mono, monospace" letterSpacing="1.5" fontWeight="600" fill="#B45309">
-                      L03 · OPERATE
+                      03 · SHIP &amp; SCALE
                     </text>
                     <text x="1008" y="354.04" textAnchor="middle" fill="#4A3B33" fontSize="14" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">
-                      Agents that operate
+                      Deployment &amp; Scale
                     </text>
                     <text x="1008" y="368.04" textAnchor="middle" fill="#78716C" fontSize="8.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4">
-                      sales · support · ops · research
+                      cloud deploy · zero downtime · scale
                     </text>
                   </g>
                   <rect x="858" y="300.04" width="300" height="76" fill="transparent" />
@@ -607,50 +610,50 @@ export default function ModelSovereignty() {
                     <circle cx="0" cy="0" r="3" fill="#B45309" />
                   </g>
 
-                  {/* Agent Department Labels */}
+                  {/* Surface Labels */}
                   <g>
-                    <text x="1007.1" y="212" textAnchor="middle" fill="#4A3B33" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="1">SALES</text>
-                    <text x="1007.1" y="221" textAnchor="middle" fill="#A16207" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.3">1,284 tasks</text>
+                    <text x="1007.1" y="212" textAnchor="middle" fill="#4A3B33" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="1">DEPLOY</text>
+                    <text x="1007.1" y="221" textAnchor="middle" fill="#A16207" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.3">ci / cd live</text>
                   </g>
                   <g>
-                    <text x="1075.5" y="236.3" textAnchor="middle" fill="#4A3B33" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="1">SUPPORT</text>
-                    <text x="1075.5" y="245.3" textAnchor="middle" fill="#A16207" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.3">3,920 tasks</text>
+                    <text x="1075.5" y="236.3" textAnchor="middle" fill="#4A3B33" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="1">CLOUD</text>
+                    <text x="1075.5" y="245.3" textAnchor="middle" fill="#A16207" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.3">edge hosting</text>
                   </g>
                   <g>
-                    <text x="949.5" y="232.5" textAnchor="middle" fill="#4A3B33" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="1">OPS</text>
-                    <text x="949.5" y="241.5" textAnchor="middle" fill="#A16207" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.3">812 tasks</text>
+                    <text x="949.5" y="232.5" textAnchor="middle" fill="#4A3B33" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="1">UPTIME</text>
+                    <text x="949.5" y="241.5" textAnchor="middle" fill="#A16207" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.3">99.9% sla</text>
                   </g>
                   <g>
-                    <text x="1017.9" y="256.8" textAnchor="middle" fill="#4A3B33" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="1">RESEARCH</text>
-                    <text x="1017.9" y="265.8" textAnchor="middle" fill="#A16207" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.3">356 tasks</text>
+                    <text x="1017.9" y="256.8" textAnchor="middle" fill="#4A3B33" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="1">MONITOR</text>
+                    <text x="1017.9" y="265.8" textAnchor="middle" fill="#A16207" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.3">telemetry</text>
                   </g>
-                  <text x="869.2" y="238.5" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.8" fill="#A8A29E">L03</text>
+                  <text x="869.2" y="238.5" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.8" fill="#A8A29E">03</text>
                 </g>
               </g>
 
               {/* Bottom Telemetry Bar */}
               <g pointerEvents="none" opacity={hoveredIndex !== null ? 0.25 : 1} style={{ transition: "opacity 0.3s" }}>
                 <g>
-                  <text x="24" y="432" fill="#78716C" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1.2">MEMORY RETAINED</text>
+                  <text x="24" y="432" fill="#78716C" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1.2">CODE INTEGRITY</text>
                   <text x="294" y="432" textAnchor="end" fill="#4A3B33" fontSize="11" fontFamily="JetBrains Mono, monospace" fontWeight="700">100%</text>
                   <rect x="24" y="442" width="270" height="3" rx="1.5" fill="#F1E9DA" />
                   <rect x="24" y="442" width="270" height="3" rx="1.5" fill="#B45309" />
                 </g>
                 <g>
-                  <text x="318" y="432" fill="#78716C" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1.2">AGENT DOWNTIME</text>
-                  <text x="588" y="432" textAnchor="end" fill="#4A3B33" fontSize="11" fontFamily="JetBrains Mono, monospace" fontWeight="700">0.0s</text>
+                  <text x="318" y="432" fill="#78716C" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1.2">SYSTEM LATENCY</text>
+                  <text x="588" y="432" textAnchor="end" fill="#4A3B33" fontSize="11" fontFamily="JetBrains Mono, monospace" fontWeight="700">&lt; 100ms</text>
                   <rect x="318" y="442" width="270" height="3" rx="1.5" fill="#F1E9DA" />
-                  <rect x="318" y="442" width="0" height="3" rx="1.5" fill="#B45309" />
+                  <rect x="318" y="442" width="40" height="3" rx="1.5" fill="#B45309" />
                 </g>
                 <g>
-                  <text x="612" y="432" fill="#78716C" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1.2">HOT-SWAPS</text>
-                  <text x="882" y="432" textAnchor="end" fill="#4A3B33" fontSize="11" fontFamily="JetBrains Mono, monospace" fontWeight="700">22</text>
+                  <text x="612" y="432" fill="#78716C" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1.2">VERIFIED COMMITS</text>
+                  <text x="882" y="432" textAnchor="end" fill="#4A3B33" fontSize="11" fontFamily="JetBrains Mono, monospace" fontWeight="700">699+</text>
                   <rect x="612" y="442" width="270" height="3" rx="1.5" fill="#F1E9DA" />
-                  <rect x="612" y="442" width="60" height="3" rx="1.5" fill="#B45309" />
+                  <rect x="612" y="442" width="270" height="3" rx="1.5" fill="#B45309" />
                 </g>
                 <g>
-                  <text x="906" y="432" fill="#78716C" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1.2">CONTEXT RESETS</text>
-                  <text x="1176" y="432" textAnchor="end" fill="#4A3B33" fontSize="11" fontFamily="JetBrains Mono, monospace" fontWeight="700">never</text>
+                  <text x="906" y="432" fill="#78716C" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1.2">PRODUCTION DOWNTIME</text>
+                  <text x="1176" y="432" textAnchor="end" fill="#4A3B33" fontSize="11" fontFamily="JetBrains Mono, monospace" fontWeight="700">0.0s</text>
                   <rect x="906" y="442" width="270" height="3" rx="1.5" fill="#F1E9DA" />
                   <rect x="906" y="442" width="0" height="3" rx="1.5" fill="#B45309" />
                 </g>
@@ -660,10 +663,10 @@ export default function ModelSovereignty() {
               <g pointerEvents="none">
                 <line x1="24" y1="484" x2="1176" y2="484" stroke="#E4D9BC" strokeWidth="1" />
                 <text x="24" y="504" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4">
-                  context_sovereignty.live · 4 models · 1 context layer · 4 agents
+                  engineering_protocol.live · 3 phases · full-stack delivery · production grade
                 </text>
                 <text x="1176" y="504" textAnchor="end" fill="#A16207" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4" fontWeight="600">
-                  HOVER A LAYER OR DOCK A MODEL
+                  HOVER A PHASE OR CLICK SPEC TO INSPECT
                 </text>
               </g>
             </svg>

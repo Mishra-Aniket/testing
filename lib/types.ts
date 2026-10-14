@@ -40,18 +40,28 @@ export interface ContactMessage {
 export interface HeroData {
   name: string;
   role: string;
+  tagline?: string;
   availability: string;
   cta_primary_text: string;
   cta_primary_url: string;
   cta_secondary_text: string;
   cta_secondary_url: string;
+  email?: string;
+  github?: string;
+  linkedin?: string;
+  twitter?: string;
 }
 
 export interface ProjectData {
   title: string;
   summary: string;
+  subtitle?: string;
+  badge?: string;
+  metrics?: string;
+  category?: string;
   problem: string;
   stack: string[];
+  highlights?: string[];
   status: 'completed' | 'in-progress' | 'maintained';
   featured: boolean;
   live_url?: string;
@@ -67,6 +77,8 @@ export interface ServiceData {
   best_for: string;
   includes: string[];
   icon?: string;
+  badge?: string;
+  tagline?: string;
 }
 
 export interface JobData {
@@ -90,12 +102,15 @@ export interface TestimonialData {
   role: string;
   company: string;
   quote: string;
+  project_type?: string;
   avatar_url?: string;
 }
 
 export interface FaqData {
   question: string;
   answer: string;
+  link_text?: string;
+  link_url?: string;
 }
 
 export interface TextData {

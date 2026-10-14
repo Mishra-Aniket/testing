@@ -7,9 +7,8 @@ import Navbar from "../components/Navbar";
 import DarkCTA from "../components/DarkCTA";
 import Footer from "../components/Footer";
 import SearchModal from "../components/SearchModal";
-import ContextAssessmentModal from "../components/ContextAssessmentModal";
 import ConstellationCanvas from "../components/ConstellationCanvas";
-import { Search, Shield, Lock, EyeOff, Server, FileCheck, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, Lock, EyeOff, Server, HardDrive, CheckCircle2, Terminal } from "lucide-react";
 import { sound } from "../utils/sound";
 
 function RevealTitle({ text }) {
@@ -41,7 +40,6 @@ function RevealTitle({ text }) {
 
 export default function SecurityClientView() {
   const [searchOpen, setSearchOpen] = useState(false);
-  const [assessmentOpen, setAssessmentOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
@@ -59,7 +57,7 @@ export default function SecurityClientView() {
     <div className="relative min-h-screen bg-[#FDFBF7] text-[#4A3B33] selection:bg-[#B45309]/20 selection:text-[#B45309]">
       <div 
         aria-hidden="true" 
-        className="fixed top-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-[#B45309] via-[#A16207] to-[#E4C090] z-[9999] pointer-events-none transition-transform duration-75 ease-out" 
+        className="fixed top-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-[#B45309] via-[#A16207] to-[#E4D9BC] z-[9999] pointer-events-none transition-transform duration-75 ease-out" 
         style={{ transformOrigin: "0%", transform: `scaleX(${scrollProgress})` }} 
       />
 
@@ -67,7 +65,7 @@ export default function SecurityClientView() {
 
       <Navbar 
         onOpenSearch={() => setSearchOpen(true)} 
-        onOpenAssessment={() => setAssessmentOpen(true)} 
+        onOpenAssessment={() => {}} 
       />
 
       <main className="relative z-10 bg-[#FDFBF7] text-[#4A3B33]">
@@ -94,7 +92,7 @@ export default function SecurityClientView() {
                   <span aria-hidden="true" className="mx-2 text-[#D6D3D1]">/</span>
                 </li>
                 <li>
-                  <span className="text-[#B45309] font-semibold">Security & Compliance</span>
+                  <span className="text-[#B45309] font-semibold">Security & Architecture</span>
                 </li>
               </ol>
             </motion.nav>
@@ -107,11 +105,11 @@ export default function SecurityClientView() {
             >
               <span className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#B45309] bg-[#B45309]/[0.08] border border-[#B45309]/20 rounded-[var(--radius)] px-3 py-1.5">
                 <span aria-hidden="true" className="h-[6px] w-[6px] bg-current" />
-                Enterprise Trust
+                Security Standards
               </span>
             </motion.div>
 
-            <RevealTitle text="Security, Privacy, and Sovereign Data Governance" />
+            <RevealTitle text="Application Security, Privacy & System Integrity" />
 
             <motion.p 
               initial={{ opacity: 0, y: 22 }}
@@ -119,7 +117,7 @@ export default function SecurityClientView() {
               transition={{ duration: 0.75, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
               className="mt-7 max-w-[68ch] text-[1.125rem] leading-[1.75] text-[#57534E]"
             >
-              Aniket AI is built from day one for mission-critical enterprise environments. We safeguard your institutional memory with zero model training, end-to-end cryptographic tracing, and strict tenant boundary isolation.
+              Every tool, browser extension, and system I build is architected with strict security-by-design: on-device data isolation, minimal OAuth scoping, zero telemetry selling, and hardened cloud pipelines.
             </motion.p>
 
             <motion.div 
@@ -138,13 +136,13 @@ export default function SecurityClientView() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="rounded-xl border border-[#E4D9BC] bg-white p-6 shadow-xs space-y-3">
               <div className="p-2.5 rounded-lg bg-[#FAF6EE] text-[#B45309] w-fit border border-[#E4D9BC]">
-                <EyeOff className="w-5 h-5" />
+                <HardDrive className="w-5 h-5" />
               </div>
               <h3 className="font-serif text-lg font-bold text-[#4A3B33]">
-                Zero Model Training
+                Local-First &amp; On-Device Isolation
               </h3>
               <p className="text-sm leading-relaxed text-[#57534E]">
-                Your company documents, agent turn traces, and memory graphs are never used to train or fine-tune public foundation models. Your context belongs 100% to you.
+                Chrome extensions (OmTabs, OmSpace) keep session data on the user&apos;s machine via Chrome Storage API. ImgWorld runs 100% on-device via WebAssembly without external image uploads.
               </p>
             </div>
 
@@ -153,10 +151,10 @@ export default function SecurityClientView() {
                 <Lock className="w-5 h-5" />
               </div>
               <h3 className="font-serif text-lg font-bold text-[#4A3B33]">
-                Encryption in Transit & Rest
+                Scoped OAuth &amp; Token Encryption
               </h3>
               <p className="text-sm leading-relaxed text-[#57534E]">
-                All data is encrypted with TLS 1.3 in transit and AES-256 at rest. Enterprise customers can bring their own KMS customer-managed keys (BYOK).
+                Automations like Centrix (500+ physical centers) and Nexus Streamer request strictly minimal Google Drive/YouTube API scopes with AES-256 encrypted token handling at rest.
               </p>
             </div>
 
@@ -165,39 +163,39 @@ export default function SecurityClientView() {
                 <Server className="w-5 h-5" />
               </div>
               <h3 className="font-serif text-lg font-bold text-[#4A3B33]">
-                Tenant Isolation & VPC
+                Hardened Cloud Infrastructure
               </h3>
               <p className="text-sm leading-relaxed text-[#57534E]">
-                Every workspace runs in dedicated tenant logical partitions. Enterprise deployments support AWS/GCP PrivateLink VPC peering directly inside your perimeter.
+                Deployed across Vercel, Docker, and edge networks with TLS 1.3 encryption, strict Content Security Policy (CSP), HSTS headers, and automated vulnerability scanning in GitHub Actions.
               </p>
             </div>
 
             <div className="rounded-xl border border-[#E4D9BC] bg-white p-6 shadow-xs space-y-3">
               <div className="p-2.5 rounded-lg bg-[#FAF6EE] text-[#B45309] w-fit border border-[#E4D9BC]">
-                <FileCheck className="w-5 h-5" />
+                <ShieldCheck className="w-5 h-5" />
               </div>
               <h3 className="font-serif text-lg font-bold text-[#4A3B33]">
-                SOC 2 Type II Audited
+                Clean Client Code Handover
               </h3>
               <p className="text-sm leading-relaxed text-[#57534E]">
-                Our infrastructure and operational processes undergo rigorous independent audits against AICPA trust services criteria for security, availability, and confidentiality.
+                For freelance software engineering contracts, all custom code is delivered clean, audited, and without proprietary vendor lock-in or hidden telemetry. 100% IP belongs to the client.
               </p>
             </div>
           </div>
 
           <div className="rounded-2xl border border-[#E4D9BC] bg-[#FAF6EE] p-8 text-center space-y-4">
             <h3 className="font-serif text-2xl font-bold text-[#4A3B33]">
-              Request our Security Whitepaper & SOC 2 Report
+              Security &amp; Vulnerability Reporting
             </h3>
             <p className="text-sm text-[#57534E] max-w-[500px] mx-auto">
-              Our enterprise security compliance packet includes our latest penetration test summary, architecture diagrams, and DPA agreements.
+              If you identify any security vulnerability or bug in any of my published Chrome extensions or web applications, please reach out directly for expedited review.
             </p>
             <a
-              href="mailto:security@aniket.one"
+              href="mailto:aniketmishra492@gmail.com"
               onClick={() => sound.playClick()}
               className="inline-flex items-center gap-2 rounded-[var(--radius)] bg-[#B45309] px-6 py-2.5 text-xs font-bold font-mono uppercase tracking-wider text-white shadow-soft hover:bg-[#A16207] transition-all"
             >
-              Contact Security Team
+              Contact Aniket Mishra
             </a>
           </div>
         </section>
@@ -211,11 +209,6 @@ export default function SecurityClientView() {
         isOpen={searchOpen}
         onOpen={() => setSearchOpen(true)}
         onClose={() => setSearchOpen(false)}
-      />
-
-      <ContextAssessmentModal
-        isOpen={assessmentOpen}
-        onClose={() => setAssessmentOpen(false)}
       />
     </div>
   );

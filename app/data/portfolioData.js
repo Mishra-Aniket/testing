@@ -21,7 +21,10 @@ export const PERSONAL_INFO = {
   github: "https://github.com/aniketmishra-0",
   linkedin: "https://www.linkedin.com/in/aniketmishra0",
   twitter: "https://x.com/aniket_mishra0",
-  location: "India · Global Remote Availability",
+  location: "Prayagraj, Uttar Pradesh, India · Global Remote Availability",
+  registeredAddress: "EWS C-2/70, Naini, Chaka, Prayagraj, UP - 211008, India",
+  udyamRegNo: "UDYAM-UP-03-0065855",
+  enterpriseType: "Micro (Services) · Govt. of India MSME",
   timezone: "IST (UTC+5:30) · Global Remote Availability",
   availability: "Available for Freelance & High-Impact Contracts",
   avgTurnaround: "2–4 Weeks for Production MVPs",
@@ -137,18 +140,18 @@ export const PROJECTS = [
   },
   {
     id: "imgworld",
-    title: "ImgWorld.buzz — Client-Side Image Tools Studio",
+    title: "ImgWorld.biz — Client-Side Image Tools Studio",
     subtitle: "Zero-Server Privacy-First Media Processing Suite",
     category: "Web Tools & Privacy",
     featured: true,
-    badge: "Live Production (ImgWorld.buzz)",
+    badge: "Live Production (ImgWorld.biz)",
     metrics: "100% On-Device · 0 Bytes Sent to Cloud · ONNX Web AI",
     description:
       "A comprehensive in-browser image editing suite running entirely on the user's hardware. Utilizes the native Canvas API, Web ImageDecoder, FaceDetector, and on-device ONNX background removal models without server uploads.",
     tags: ["React 19", "ONNX Runtime Web", "Web ImageDecoder", "Canvas API", "Vite", "Tailwind CSS"],
     githubUrl: "https://github.com/aniketmishra-0/imgWorld.biz",
-    liveUrl: "https://www.imgworld.buzz",
-    liveLabel: "Launch ImgWorld.buzz",
+    liveUrl: "https://www.imgworld.biz/",
+    liveLabel: "Launch ImgWorld.biz",
     highlights: [
       "On-device AI background removal using WebAssembly & ONNX Runtime",
       "Client-side batch image conversion, cropping, and compression",
@@ -224,71 +227,71 @@ export const SERVICES = [
     badge: "Most Popular",
     title: "2–4 Week Rapid MVP Build",
     turnaround: "14 – 28 Days",
-    tagline: "From wireframe or idea to production-ready, investor-ready digital product.",
+    tagline: "From wireframe or idea to a launched, production-ready product.",
     description:
-      "Complete full-stack engineering of your product from scratch. Includes database schema, secure authentication, Stripe billing, polished front-end, and automated cloud CI/CD deployment.",
+      "Complete full-stack development of your web product from scratch. Clean database schemas, responsive UI, authentication, payment integration, and cloud deployment.",
     deliverables: [
-      "Production Next.js 15 + TypeScript front-end",
-      "Robust PostgreSQL / Supabase backend architecture",
-      "Stripe payment gateway & subscription logic",
-      "User authentication (OAuth, magic link, RBAC)",
+      "Next.js 15, React & TypeScript front-end",
+      "PostgreSQL / Supabase database architecture",
+      "User authentication & role-based permissions",
+      "Stripe or Razorpay payment integration",
       "100% source code ownership & handover docs"
     ],
-    idealFor: "Founders looking to launch fast or pitch to investors without tech debt."
+    idealFor: "Founders looking to launch fast without accumulating technical debt."
   },
   {
-    id: "ai-agents-rag",
-    icon: "Brain",
+    id: "chrome-extensions",
+    icon: "Layers",
     badge: "High Demand",
-    title: "AI Agents & Context Pipeline",
-    turnaround: "10 – 21 Days",
-    tagline: "Give your existing app superpowers with autonomous AI workflows.",
+    title: "Custom Chrome Extensions & Tools",
+    turnaround: "7 – 14 Days",
+    tagline: "Build powerful productivity extensions and browser-based tools.",
     description:
-      "Design and deploy production-grade RAG systems, tool-calling autonomous agents, semantic caching, and multi-model LLM routing. We make AI reliable, fast, and cost-efficient.",
+      "End-to-end development of Chrome extensions in Manifest V3 (like OmTabs & OmSpace). Includes background service workers, local data persistence, custom tab workflows, and official Web Store packaging.",
     deliverables: [
-      "Dense + sparse hybrid vector search (pgvector / Pinecone)",
-      "Autonomous tool-calling agents (LangGraph / FastAPI)",
-      "Multi-model routing (Claude 3.5, GPT-4o, DeepSeek)",
-      "Cost optimization & semantic response caching",
-      "Observability dashboard for token spend & latency"
+      "Manifest V3 compliant extension architecture",
+      "Local storage & fast state persistence (chrome.storage)",
+      "Custom popup, side-panel, or new-tab dashboard UI",
+      "Biometric / passcode shield privacy mechanisms",
+      "Packaging & submission support for Chrome Web Store"
     ],
-    idealFor: "Companies wanting to embed intelligent workflows into their product."
+    idealFor: "Founders, creators, and businesses needing custom browser tools."
+  },
+  {
+    id: "api-automation",
+    icon: "Cpu",
+    badge: "Enterprise Scale",
+    title: "High-Scale APIs & Cloud Automations",
+    turnaround: "10 – 21 Days",
+    tagline: "Automate business workflows and process data/media at scale.",
+    description:
+      "High-throughput backend services and background workers built with .NET 8 / C# or Python FastAPI. Automate document syncing, media conversion, or cloud distribution (like Centrix across 500+ centers and Nexus Streamer).",
+    deliverables: [
+      "High-speed REST APIs in .NET 8 or Python FastAPI",
+      "Automated Google Drive, YouTube, or Cloud Storage sync",
+      "Background worker queues & real-time event updates",
+      "Zero-RAM streaming pipelines for large media files",
+      "Docker multi-stage containers & automated CI/CD"
+    ],
+    idealFor: "Companies needing reliable background automation and fast data pipelines."
   },
   {
     id: "perf-refactor",
-    icon: "Cpu",
-    badge: "Consulting",
-    title: "Architecture & Performance Audit",
-    turnaround: "5 – 10 Days",
-    tagline: "Fix slow queries, optimize Core Web Vitals, and scale your existing codebase.",
-    description:
-      "Deep-dive technical audit of your existing web application. We eliminate N+1 database queries, reduce bundle sizes, streamline edge caching, and refactor brittle architecture.",
-    deliverables: [
-      "Comprehensive bottleneck & latency diagnosis report",
-      "Targeted PRs for database indexing & query optimization",
-      "Next.js build & edge caching optimization",
-      "Security & vulnerability remediation plan",
-      "1-on-1 strategy call with your engineering team"
-    ],
-    idealFor: "Teams experiencing slowdowns, high cloud bills, or technical debt."
-  },
-  {
-    id: "fractional-eng",
     icon: "Shield",
-    badge: "Retainer",
-    title: "Fractional Full-Stack & AI Lead",
-    turnaround: "Monthly Sprints",
-    tagline: "Dedicated senior engineering bandwidth embedded into your product team.",
+    badge: "Consulting",
+    title: "Performance Tuning & Code Audits",
+    turnaround: "5 – 10 Days",
+    tagline: "Speed up slow web apps, eliminate bugs, and scale your code.",
     description:
-      "Direct 1-on-1 partnership without the overhead of hiring a full-time senior engineer. Weekly sprints, architecture reviews, pull request reviews, and rapid feature shipping.",
+      "Deep-dive technical review of your existing web application. We eliminate slow database queries, reduce bundle sizes, streamline caching, and refactor brittle code.",
     deliverables: [
-      "Guaranteed dedicated weekly sprint bandwidth",
-      "Daily asynchronous Slack/Discord communication",
-      "System design, PR reviews & feature implementations",
-      "Weekly video syncs & roadmap alignment",
-      "No long-term lock-in (flexible month-to-month)"
+      "Comprehensive latency and bottleneck audit report",
+      "Targeted PRs for database indexing & query optimization",
+      "Front-end build & asset caching improvements",
+      "Code refactoring for better readability & stability",
+      "1-on-1 walkthrough session with your engineering team"
     ],
-    idealFor: "Growing startups needing senior leadership to ship high-stakes features."
+    idealFor: "Teams dealing with app slowdowns, high server bills, or messy codebases."
   }
 ];
 
@@ -299,7 +302,7 @@ export const WORKFLOW_STEPS = [
     timeline: "Days 1 – 3",
     title: "Scope Definition & Tech Architecture",
     description:
-      "We jump on a deep-dive call to clarify goals, audit requirements, map database schemas, and establish clear sprint milestones. No vague estimates — you get a transparent delivery blueprint."
+      "We jump on a call to clarify goals, map out database tables, and establish clear sprint milestones. You get a transparent delivery blueprint before any code is written."
   },
   {
     step: "02",
@@ -307,15 +310,15 @@ export const WORKFLOW_STEPS = [
     timeline: "Week 1 – 2",
     title: "Rapid Sprints & Live Preview Link",
     description:
-      "I build your product in rapid, iterative sprints. You get access to a private staging environment from Week 1 to test live updates, provide feedback, and see daily progress."
+      "I build your product in rapid, iterative sprints. You get access to a private staging URL to test live updates, provide feedback, and track real progress."
   },
   {
     step: "03",
-    phase: "AI & Polish",
+    phase: "Testing & Hardening",
     timeline: "Week 2 – 3",
-    title: "AI Integration, Evals & Edge Performance",
+    title: "Testing, Optimization & Edge Polish",
     description:
-      "Integration of vector search, AI agent pipelines, payment gateways, and fluid micro-interactions. Every endpoint is stress-tested and optimized for sub-second response times."
+      "Stress testing endpoints, cross-browser verification, sub-100ms response time tuning, and edge cases. Everything is polished and hardened before release."
   },
   {
     step: "04",
@@ -323,30 +326,94 @@ export const WORKFLOW_STEPS = [
     timeline: "Week 3 – 4",
     title: "Deploy, Docs & 100% Code Handover",
     description:
-      "We launch to your production domain (Vercel, AWS, or Docker). I deliver complete documentation, environment variable guides, clean Git commit history, and 14 days of post-launch warranty."
+      "We launch to your production domain (Vercel, AWS, or Docker). You get complete documentation, environment guides, clean Git commit history, and 14 days of post-launch warranty."
   }
 ];
 
 export const CLIENT_TESTIMONIALS = [
   {
-    quote: "Aniket turned our complex vision into a live, beautifully polished MVP in just 18 days. The speed was incredible, but what impressed me most was the zero-technical-debt code quality. Our investors were blown away.",
-    author: "Rahul S.",
+    quote: "Centrix completely streamlined our daily operations across 500+ physical centers. Pairing lecture recordings with whiteboard notes and syncing directly to Google Drive saved petabytes in bandwidth and eliminated hours of manual work.",
+    author: "Centrix Operations Team",
+    role: "500+ Centers Scaled",
+    company: "Physics Wallah Vidyapeeth",
+    projectType: "Enterprise Automation"
+  },
+  {
+    quote: "OmTabs solved a major daily frustration with browser tab overload. The custom tab renaming and privacy shield work instantly with zero lag. It feels like a native browser feature.",
+    author: "Verified Chrome User",
+    role: "Power User Review",
+    company: "Chrome Web Store",
+    projectType: "Chrome Extension"
+  },
+  {
+    quote: "Aniket shipped our full-stack MVP in less than 3 weeks. Communication was clear every day, the code was strictly typed with zero shortcuts, and the handover was completely seamless.",
+    author: "SaaS Startup Founder",
     role: "Founder & CEO",
-    company: "Stealth AI Platform",
+    company: "Direct Client Sprint",
     projectType: "Full-Stack MVP"
-  },
-  {
-    quote: "Finding an engineer who understands both modern UI craftsmanship and low-level AI vector pipelines is rare. Aniket rebuilt our retrieval engine and cut p95 response times by over 60%. Absolute 10/10 experience.",
-    author: "David M.",
-    role: "Head of Engineering",
-    company: "Workflow SaaS",
-    projectType: "AI Agent Integration"
-  },
-  {
-    quote: "Communication was frictionless from Day 1. Clear daily async updates, high agency, and complete transparency. It felt like having a co-founder building alongside us.",
-    author: "Sneha P.",
-    role: "Product Lead",
-    company: "FinTech Scaleup",
-    projectType: "Next.js & API Architecture"
   }
 ];
+
+export const STUDENT_OFFERS = [
+  {
+    id: "mentorship",
+    title: "1-on-1 Engineering & Career Guidance",
+    badge: "100% Free",
+    highlight: "30-Min Direct 1-on-1 Session",
+    tagline: "Break into modern full-stack & AI engineering without getting lost in tutorial hell.",
+    description: "Stuck on your project architecture, tech stack selection, or breaking into modern engineering? Book a direct session with zero charges. We will review your roadmaps, solve blockers, and give you production perspective.",
+    perks: [
+      "Architecture & system design walkthrough for your college or side project",
+      "Resume, portfolio & GitHub audit with honest, actionable feedback",
+      "Career roadmap for modern full-stack, AI agents, and systems engineering"
+    ],
+    actionLabel: "Book Free Session",
+    actionUrl: "mailto:aniketmishra492@gmail.com?subject=Student%20Mentorship%20Request%20-%20[Your%20Name]&body=Hi%20Aniket,%20I%20am%20a%20student%20looking%20for%20guidance%20on...",
+  },
+  {
+    id: "code-review",
+    title: "Free PR & Architecture Code Review",
+    badge: "Zero Cost",
+    highlight: "Production-Grade Engineering Feedback",
+    tagline: "Get your GitHub repo reviewed like it's being reviewed at a top tech company.",
+    description: "Building your college final-year project, hackathon MVP, or open-source tool? Share your GitHub repository for a comprehensive architectural, security, and performance review.",
+    perks: [
+      "Identification of performance bottlenecks, memory leaks & security flaws",
+      "Database schema normalization & REST/GraphQL API design improvements",
+      "Actionable refactoring suggestions directly on your GitHub pull request"
+    ],
+    actionLabel: "Submit Repo for Review",
+    actionUrl: "mailto:aniketmishra492@gmail.com?subject=Student%20Code%20Review%20Request%20-%20[Repository%20Link]&body=Hi%20Aniket,%20here%20is%20my%20project%20repo%20for%20review...",
+  },
+  {
+    id: "templates",
+    title: "Open-Source Production Starters & Boilerplates",
+    badge: "Instant Access",
+    highlight: "Next.js 15 + FastAPI + MV3",
+    tagline: "Clean, production-ready boilerplates with zero setup friction.",
+    description: "Pre-configured, battle-tested production templates for Next.js 15, Chrome Extensions (Manifest V3), and Python FastAPI microservices so you can start building immediately.",
+    perks: [
+      "Full source code with permissive MIT license",
+      "Integrated Tailwind CSS, TypeScript & dark themes pre-configured",
+      "Ready-to-deploy configs for Vercel, Docker & cloud providers"
+    ],
+    actionLabel: "Explore Open Source Starters",
+    actionUrl: "https://github.com/aniketmishra-0",
+  },
+  {
+    id: "student-discount",
+    title: "80% Off on MVP Architecture for Student Startups",
+    badge: "Subsidized Grant",
+    highlight: "For Student Founders & Builders",
+    tagline: "Heavily subsidized engineering to help student founders ship their first product.",
+    description: "Are you a student building a real venture or launching your first SaaS/mobile app? Get heavily subsidized, high-impact MVP engineering sprints to help you launch fast with full source code ownership.",
+    perks: [
+      "Rapid 2–4 week MVP turnaround from design to production deployment",
+      "Direct 1-on-1 engineering with 100% intellectual property handover",
+      "Assistance with investor technical demos, cloud setup & initial user launch"
+    ],
+    actionLabel: "Apply for Student Grant",
+    actionUrl: "mailto:aniketmishra492@gmail.com?subject=Student%20Founder%20Grant%20Application&body=Hi%20Aniket,%20we%20are%20building%20[Project%20Name]...",
+  },
+];
+

@@ -11,6 +11,23 @@ export async function requireOwner() {
   const supabase = await createServerSupabaseClient();
   const { data: { user }, error } = await supabase.auth.getUser();
 
+  // Allow dev testing bypass only in development mode
+  if (process.env.NODE_ENV === 'development') {
+    const { cookies } = await import('next/headers');
+    const cookieStore = await cookies();
+    if (cookieStore.get('dev_owner_session')?.value === 'true') {
+      const mockOwner = {
+        id: 'dev-owner-id',
+        email: OWNER_EMAIL || 'owner@aniket.one',
+        app_metadata: {},
+        user_metadata: {},
+        aud: 'authenticated',
+        created_at: new Date().toISOString(),
+      };
+      return { supabase, user: mockOwner as unknown as typeof user };
+    }
+  }
+
   if (error || !user || !OWNER_EMAIL || user.email !== OWNER_EMAIL) {
     redirect('/admin/login');
   }

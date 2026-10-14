@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import PartnerMarquee from "./components/PartnerMarquee";
-import ContextThesis from "./components/ContextThesis";
 import ModelSovereignty from "./components/ModelSovereignty";
 import CodeWalkthrough from "./components/CodeWalkthrough";
 import FAQ from "./components/FAQ";
@@ -12,9 +11,9 @@ import DarkCTA from "./components/DarkCTA";
 import Footer from "./components/Footer";
 import FeaturedProjects from "./components/FeaturedProjects";
 import ServicesWorkflow from "./components/ServicesWorkflow";
-import ConstellationCanvas from "./components/ConstellationCanvas";
 import SearchModal from "./components/SearchModal";
 import ContextAssessmentModal from "./components/ContextAssessmentModal";
+
 export default function Home() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [assessmentOpen, setAssessmentOpen] = useState(false);
@@ -60,17 +59,14 @@ export default function Home() {
           </p>
           <h3>Freelance, Contract &amp; Technical Advisory</h3>
           <p>
-            Available for freelance projects, technical consulting, and contract engineering. Headquartered in Bangalore, India. Contact hello@aniket.one to discuss project scopes and timelines.
+            Available for freelance projects, technical consulting, and contract engineering. Registered MSME Enterprise (UDYAM-UP-03-0065855), Prayagraj, Uttar Pradesh, India. Contact aniketmishra492@gmail.com to discuss project scopes and timelines.
           </p>
         </section>
 
         {/* 2. Partner Marquee with Developer Teams */}
         <PartnerMarquee />
 
-        {/* 3. The Context Thesis, Technical Case & Business Case */}
-        <ContextThesis />
-
-        {/* 4. Featured Projects & Production Systems (Driven by app/data/portfolioData.js) */}
+        {/* 3. Featured Projects & Production Systems (Driven by app/data/portfolioData.js) */}
         <FeaturedProjects />
 
         {/* 5. Freelance Services, 4-Week Delivery Protocol & Founder Testimonials */}
@@ -79,13 +75,13 @@ export default function Home() {
         {/* 6. Model Sovereignty 3D Router Graphic (Claude, GPT, Gemini) */}
         <ModelSovereignty />
 
-        {/* 5. 4 Engineering Primitives / Code Walkthrough (includes the Accuracy Terrain benchmark, as on the original) */}
+        {/* 7. 4 Engineering Primitives / Code Walkthrough */}
         <CodeWalkthrough />
 
-        {/* 6. FAQ */}
+        {/* 8. FAQ */}
         <FAQ />
 
-        {/* 7. Dark CTA + Request API Access */}
+        {/* 9. Dark CTA + Request API Access */}
         <DarkCTA />
       </main>
 

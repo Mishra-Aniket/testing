@@ -2,9 +2,9 @@ import React from "react";
 import BlogClientView from "./BlogClientView";
 
 export const metadata = {
-  title: "Engineering Blog - Aniket AI | Context Tracing & Agent Systems",
+  title: "Engineering Blog & Technical Deep-Dives — Aniket Mishra",
   description:
-    "Engineering walkthroughs, architecture benchmarks, and technical guides on debugging AI agents, context set arithmetic, and institutional knowledge graphs.",
+    "Engineering guides, architecture deep-dives, and performance case studies by Aniket Mishra on scaling enterprise ingestion pipelines, Manifest V3 Chrome extensions, and cloud streaming.",
   alternates: {
     canonical: "https://aniket.one/blog"
   }

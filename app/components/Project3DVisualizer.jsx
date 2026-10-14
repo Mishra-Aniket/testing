@@ -439,7 +439,7 @@ export default function Project3DVisualizer({ projectId }) {
 
           <line x1="16" y1="168" x2="324" y2="168" stroke="#E4D9BC" strokeWidth="0.8" strokeDasharray="2 4" />
           <text x="16" y="162" fill="#78716C" fontSize="7" fontFamily="JetBrains Mono, monospace">
-            LIVE PRODUCTION: WWW.IMGWORLD.BUZZ · REACT 19 + VITE
+            LIVE PRODUCTION: WWW.IMGWORLD.BIZ · REACT 19 + VITE
           </text>
           <text x="324" y="162" textAnchor="end" fill="#059669" fontSize="7" fontFamily="JetBrains Mono, monospace" fontWeight="600">
             STRICT ZERO TELEMETRY

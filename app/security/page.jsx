@@ -2,9 +2,9 @@ import React from "react";
 import SecurityClientView from "./SecurityClientView";
 
 export const metadata = {
-  title: "Security & SOC 2 Compliance - Aniket AI | Enterprise Context Layer",
+  title: "Security & Architecture Standards — Aniket Mishra",
   description:
-    "Aniket AI Enterprise Security: SOC 2 Type II compliance, Zero-Training Commitment, Tenant-Isolated Clusters, and End-to-End Cryptographic Auditability.",
+    "Security architecture across Aniket Mishra's applications, Chrome extensions, and systems. Zero data selling, on-device local storage, scoped OAuth APIs, and hardened full-stack deployments.",
   alternates: {
     canonical: "https://aniket.one/security"
   }

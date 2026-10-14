@@ -9,28 +9,29 @@ const SIMULATION_OUTPUTS = {
     { text: "$ curl -I https://aniket.one/dashboard", color: "text-[#B45309]" },
     { text: "[12ms] HTTP/2 200 OK (Edge CDN Cache Hit)", color: "text-[#059669]" },
     { text: "[24ms] Hydrating React Server Components (Zero JS bundle bloat)", color: "text-[#059669]" },
-    { text: "[45ms] Database query resolved via Neon Serverless Postgres pool", color: "text-[#2563EB]" },
-    { text: "✓ Lighthouse Score: 99/100 (TTFB < 45ms)", color: "text-[#10B981] font-bold" }
+    { text: "[38ms] Database query resolved via Connection Pool", color: "text-[#2563EB]" },
+    { text: "✓ Lighthouse Score: 99/100 (TTFB < 40ms)", color: "text-[#10B981] font-bold" }
   ],
   1: [
-    { text: "$ python run_agent.py --query 'Process user request'", color: "text-[#B45309]" },
-    { text: "[15ms] Embedding generated via text-embedding-3-small", color: "text-[#059669]" },
-    { text: "[38ms] Hybrid vector retrieval over company knowledge docs", color: "text-[#2563EB]" },
-    { text: "[89ms] Tool invoked: 'query_db' with verified arguments", color: "text-[#7C3AED]" },
-    { text: "✓ Completed in 142ms: Zero hallucinations, full source audit", color: "text-[#10B981] font-bold" }
+    { text: "$ chrome-ext test --extension=OmTabs --mv3", color: "text-[#B45309]" },
+    { text: "[4ms] Manifest V3 background service worker registered", color: "text-[#059669]" },
+    { text: "[8ms] Local tab titles loaded from chrome.storage.local", color: "text-[#2563EB]" },
+    { text: "[11ms] Instant tab title rename & biometric shield verified", color: "text-[#7C3AED]" },
+    { text: "✓ Verified Chrome Web Store Build: Sub-10ms response time", color: "text-[#10B981] font-bold" }
   ],
   2: [
-    { text: "$ telemetry.query({ window: 'last_24h' })", color: "text-[#B45309]" },
-    { text: "[8ms] Ingesting OpenTelemetry traces across 12 microservices", color: "text-[#059669]" },
-    { text: "[22ms] Error budget: 100% compliant (0.00% error rate)", color: "text-[#2563EB]" },
-    { text: "✓ All systems optimal: P99 latency < 95ms", color: "text-[#10B981] font-bold" }
+    { text: "$ dotnet run --project Centrix.Worker --center=PW-502", color: "text-[#B45309]" },
+    { text: "[14ms] OBS video write stability confirmed (zero file corruption)", color: "text-[#059669]" },
+    { text: "[28ms] Matched MaxHub whiteboard PDF with confidence score 99.4%", color: "text-[#2563EB]" },
+    { text: "[52ms] Direct chunked resumable stream opened to Google Drive API v3", color: "text-[#7C3AED]" },
+    { text: "✓ Processed 20,000+ daily center lectures: Zero cloud egress cost", color: "text-[#10B981] font-bold" }
   ],
   3: [
-    { text: "$ git push origin main", color: "text-[#B45309]" },
-    { text: "[10s] CI checks passed (Lint, TypeScript, Unit Tests)", color: "text-[#059669]" },
-    { text: "[18s] Docker multi-stage container built & tagged", color: "text-[#2563EB]" },
-    { text: "[24s] Instant edge deployment propagated to 35 global PoPs", color: "text-[#7C3AED]" },
-    { text: "✓ Deployed to Production: Zero downtime rollout complete", color: "text-[#10B981] font-bold" }
+    { text: "$ imgworld test --file=sample_photo.jpg --mode=client-only", color: "text-[#B45309]" },
+    { text: "[15ms] Image loaded directly into browser memory via ImageBitmap", color: "text-[#059669]" },
+    { text: "[32ms] WebAssembly transform executed on local device CPU", color: "text-[#2563EB]" },
+    { text: "[48ms] WebP compressed output generated (0 bytes sent to server)", color: "text-[#7C3AED]" },
+    { text: "✓ 100% Private: Zero server uploads, instant on-device processing", color: "text-[#10B981] font-bold" }
   ]
 };
 
@@ -39,7 +40,7 @@ function HighlightedCode({ code }) {
   return (
     <div>
       {lines.map((line, lineIdx) => {
-        if (line.trim().startsWith("//")) {
+        if (line.trim().startsWith("//") || line.trim().startsWith("#")) {
           return (
             <div key={lineIdx} className="text-[#8C827A] italic leading-relaxed">
               {line}
@@ -47,26 +48,23 @@ function HighlightedCode({ code }) {
           );
         }
 
-        const parts = line.split(/(\/\/[^\n]*|".*?"|'.*?'|`.*?`|\bconst\b|\bawait\b|\blet\b|\bfunction\b|\breturn\b|\baniket\b|\bctx\b|\btrace\b|\bcontext\b|\bDate\b)/g);
+        const parts = line.split(/(\/\/[^\n]*|#[^\n]*|".*?"|'.*?'|`.*?`|\bconst\b|\bawait\b|\blet\b|\bfunction\b|\breturn\b|\bpublic\b|\basync\b|\bTask\b|\bvar\b|\bchrome\b|\bdocument\b|\baniket\b|\bctx\b)/g);
 
         return (
           <div key={lineIdx} className="leading-relaxed">
             {parts.map((part, pIdx) => {
               if (!part) return null;
-              if (part.startsWith("//")) {
+              if (part.startsWith("//") || part.startsWith("#")) {
                 return <span key={pIdx} className="text-[#8C827A] italic">{part}</span>;
               }
               if (part.startsWith('"') || part.startsWith("'") || part.startsWith("`")) {
                 return <span key={pIdx} className="text-[#059669] font-medium">{part}</span>;
               }
-              if (["const", "await", "let", "function", "return"].includes(part)) {
+              if (["const", "await", "let", "function", "return", "public", "async", "Task", "var"].includes(part)) {
                 return <span key={pIdx} className="text-[#B45309] font-semibold">{part}</span>;
               }
-              if (["aniket", "ctx", "trace", "context"].includes(part)) {
+              if (["chrome", "document", "aniket", "ctx"].includes(part)) {
                 return <span key={pIdx} className="text-[#2563EB] font-semibold">{part}</span>;
-              }
-              if (part === "Date") {
-                return <span key={pIdx} className="text-[#7C3AED] font-semibold">{part}</span>;
               }
               return <span key={pIdx} className="text-[#4A3B33]">{part}</span>;
             })}
@@ -81,60 +79,68 @@ const STEPS = [
   {
     id: "01",
     title: "How do I build high-performance Full-Stack Web Apps?",
-    desc: "Built with Next.js 15, App Router, React Server Components, and edge API caching. We achieve sub-100ms first paint times, smooth client animations, and 99+ Lighthouse performance scores.",
-    file: "app_architecture.ts",
-    code: `// Clean, scalable Next.js 15 App Architecture
-export async function getClientDashboard(workspaceId: string) {
+    desc: "Built with Next.js 15, App Router, React Server Components, and edge database caching. Achieves sub-50ms database queries, smooth client interactivity, and 99+ Lighthouse performance scores.",
+    file: "app_router_query.ts",
+    code: `// Fast Next.js 15 Server Query with Supabase & Connection Pool
+export async function getWorkspaceDashboard(workspaceId: string) {
   const data = await db.query.projects.findMany({
     where: eq(projects.workspaceId, workspaceId),
-    with: { analytics: true, aiMetrics: true }
+    with: { metrics: true, userRoles: true }
   });
-  return { success: true, data, p95: "< 45ms" };
+  return { success: true, data, p95Latency: "< 45ms" };
 }`
   },
   {
     id: "02",
-    title: "How do custom AI Agents & RAG pipelines integrate?",
-    desc: "No naive vector dumps. We implement hybrid semantic retrieval, smart reranking, and dynamic tool orchestration with LangChain, LlamaIndex, and OpenAI/Claude APIs.",
-    file: "agent_pipeline.py",
-    code: `# Autonomous Agent Pipeline with Hybrid Retrieval
-agent = AgentExecutor.create(
-    llm=ChatAnthropic(model="claude-3-5-sonnet"),
-    tools=[vector_search, postgres_query, api_caller],
-    memory=ConversationSummaryBufferMemory(max_token_limit=2000)
-)
-result = await agent.arun("Analyze Q3 telemetry and draft client report")`
+    title: "How are Chrome Extensions engineered in Manifest V3?",
+    desc: "Architected for OmTabs and OmSpace on the Chrome Web Store. Using background service workers, local session storage, and biometric shields with zero browser slowdown.",
+    file: "omtabs_service_worker.ts",
+    code: `// OmTabs Chrome Extension (Manifest V3) Background Service Worker
+chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+  if (changeInfo.status === "complete" && tab.url) {
+    const { customTabs } = await chrome.storage.local.get("customTabs");
+    const activeLabel = customTabs?.[tab.url]?.customTitle;
+    if (activeLabel) {
+      await chrome.scripting.executeScript({
+        target: { tabId },
+        func: (title) => { document.title = title; },
+        args: [activeLabel]
+      });
+    }
+  }
+});`
   },
   {
     id: "03",
-    title: "How do we track performance & prevent regressions?",
-    desc: "Every API call, database query, and LLM inference is tracked with OpenTelemetry and custom tracing. You get complete transparency into latency, token spend, and user journeys.",
-    file: "telemetry_audit.ts",
-    code: `// Real-time latency & error tracing
-const trace = await telemetry.record({
-  endpoint: "/api/v1/generate",
-  durationMs: 82,
-  tokensUsed: 420,
-  cacheHit: true
-});
-// Zero latency spikes, 100% auditability`
+    title: "How does Centrix automate Google Drive sync for 500+ centers?",
+    desc: "Engineered for Physics Wallah Vidyapeeth centers across India. Real-time file write detection for OBS recordings and whiteboard notes, matching timetables and uploading to Google Drive with zero server RAM waste.",
+    file: "centrix_ingestion_pipeline.cs",
+    code: `// Centrix .NET 8 Automated Lecture Ingestion Pipeline
+public async Task ProcessLectureSyncAsync(string centerId, string batchCode)
+{
+    var recording = await _fileWatcher.DetectStableWriteAsync("*.mp4", timeoutMs: 800);
+    var notes = await _documentWatcher.FindMatchingNotesAsync(batchCode);
+    
+    // Direct chunked resumable upload to Google Drive v3
+    var uploadJob = await _driveService.CreateResumableSessionAsync(recording, notes);
+    await uploadJob.StreamChunksAsync(progress => NotifyCenterHud(centerId, progress));
+}`
   },
   {
     id: "04",
-    title: "How do we deploy and scale seamlessly to production?",
-    desc: "Automated GitHub Actions CI/CD pipelines, Docker containerized services, and multi-region edge deployments on Vercel and AWS with automatic SSL and zero-downtime rollouts.",
-    file: "deploy_pipeline.yml",
-    code: `# GitHub Actions Production Deployment
-name: Production Release
-on: [push]
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - run: npm run build && npm run test
-      - run: docker build -t app:latest .
-      - run: ./deploy-to-cluster.sh --env=production`
+    title: "How does ImgWorld.buzz process images 100% on-device?",
+    desc: "Client-side privacy-first web tools. Images are processed directly inside the user's browser using WebAssembly and native Canvas APIs, meaning photos never touch external cloud servers.",
+    file: "imgworld_processor.ts",
+    code: `// ImgWorld.buzz 100% Client-Side Web Worker Processing
+export async function processImageOnDevice(file: File): Promise<Blob> {
+  const bitmap = await createImageBitmap(file);
+  const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
+  const ctx = canvas.getContext("2d");
+  
+  ctx?.drawImage(bitmap, 0, 0);
+  // Transform & compress on-device via WebAssembly (Zero cloud upload)
+  return await canvas.convertToBlob({ type: "image/webp", quality: 0.88 });
+}`
   }
 ];
 
@@ -213,11 +219,11 @@ export default function CodeWalkthrough() {
             <h2 id="fixes-heading" className="text-[clamp(1.875rem,3.6vw,2.875rem)] leading-[1.14] tracking-[-0.028em] font-bold text-[#4A3B33] text-balance lg:col-span-7 font-serif">
               How I architect, code &amp; ship{" "}
               <span className="text-[#B45309] italic font-normal">high-performance</span>{" "}
-              digital products.
+              apps &amp; systems.
             </h2>
             <div className="lg:col-span-5 lg:pb-1.5">
               <p className="text-[1.0625rem] leading-[1.75] text-[#57534E]">
-                From snappy frontends and reactive microservices to custom RAG pipelines and production cloud deployments — explore the code patterns and engineering primitives I build into client applications.
+                From production Chrome extensions and full-stack web applications to automated Google Drive ingestion pipelines — explore the actual code patterns and engineering logic behind my apps.
               </p>
             </div>
           </div>

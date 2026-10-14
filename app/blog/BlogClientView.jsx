@@ -7,9 +7,8 @@ import Navbar from "../components/Navbar";
 import DarkCTA from "../components/DarkCTA";
 import Footer from "../components/Footer";
 import SearchModal from "../components/SearchModal";
-import ContextAssessmentModal from "../components/ContextAssessmentModal";
 import ConstellationCanvas from "../components/ConstellationCanvas";
-import { Search, Calendar, Clock, ArrowRight, Terminal } from "lucide-react";
+import { Calendar, Clock, ArrowRight, BookOpen, Layers } from "lucide-react";
 import { sound } from "../utils/sound";
 
 function RevealTitle({ text }) {
@@ -41,40 +40,49 @@ function RevealTitle({ text }) {
 
 const ARTICLES = [
   {
-    slug: "context-tracing-walkthrough",
-    tag: "Walkthrough",
-    date: "June 2026",
-    readTime: "8 min read",
-    title: "How do you debug what an agent can't see? Context Tracing with Aniket Sovereign Layer",
-    excerpt:
-      "When an agent hallucinates or makes a bad operational call, teams struggle to determine whether the model failed or the retrieval pipeline withheld critical context. Here is how cryptographic turn tracing solves the opacity problem.",
-    author: "Aniket Systems Architecture Team"
-  },
-  {
-    slug: "context-arithmetic-set-theory",
-    tag: "Architecture",
-    date: "May 2026",
+    slug: "scaling-centrix-500-centers",
+    tag: "Enterprise Architecture",
+    date: "October 2026",
     readTime: "6 min read",
-    title: "Context Arithmetic: Query-Time Set Operations over Enterprise Knowledge",
+    title: "Scaling Centrix: Edge-First Lecture Ingestion Across 500+ Physical Centers",
     excerpt:
-      "Why cosine similarity over flat embeddings fails on real-world contracts and accounting rules, and how set operations (∩ ∪ − rank) prune 82% of tokens with zero drift.",
-    author: "Deep Learning Research Lab"
+      "How we engineered an automated ingestion engine for Physics Wallah Vidyapeeth centers pairing OBS capture card recordings with interactive flat panel notes, weighted timetable matching, and direct chunked Google Drive uploads.",
+    author: "Aniket Mishra"
   },
   {
-    slug: "multi-model-hot-swap-guide",
-    tag: "Production Guide",
-    date: "April 2026",
-    readTime: "5 min read",
-    title: "Zero-Downtime Model Swaps: Decoupling LLM Reasoning from Institutional State",
+    slug: "building-manifest-v3-extensions",
+    tag: "Browser Engineering",
+    date: "September 2026",
+    readTime: "7 min read",
+    title: "Building Production Chrome Extensions in Manifest V3: OmTabs & OmSpace Case Study",
     excerpt:
-      "A hands-on walkthrough hot-swapping from OpenAI GPT-4o to Anthropic Claude 3.5 Sonnet across 50 live production customer agents without wiping state.",
-    author: "Platform Infrastructure Team"
+      "Navigating background service worker lifecycles, chrome.storage.local synchronization, WebAuthn biometric shields, and fast DOM injection without degrading browser frame rates.",
+    author: "Aniket Mishra"
+  },
+  {
+    slug: "zero-ram-video-streaming-pipeline",
+    tag: "Cloud Pipelines",
+    date: "August 2026",
+    readTime: "5 min read",
+    title: "Zero-RAM Media Streaming: Piping Multi-Gigabyte Videos from Drive to YouTube via Node Streams",
+    excerpt:
+      "How Nexus Streamer bypasses server memory bottlenecks using chunk-by-chunk stream transforms and live Server-Sent Events (SSE) telemetry to upload high-res video assets seamlessly.",
+    author: "Aniket Mishra"
+  },
+  {
+    slug: "client-side-ai-image-processing",
+    tag: "Web Performance & AI",
+    date: "July 2026",
+    readTime: "6 min read",
+    title: "Client-Side AI & Image Processing: Running ONNX & WebAssembly in the Browser",
+    excerpt:
+      "Architecting privacy-first web tools where user photos never leave their machine. Implementing on-device background removal and batch conversions using WebAssembly and Web ImageDecoder.",
+    author: "Aniket Mishra"
   }
 ];
 
 export default function BlogClientView() {
   const [searchOpen, setSearchOpen] = useState(false);
-  const [assessmentOpen, setAssessmentOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
@@ -92,7 +100,7 @@ export default function BlogClientView() {
     <div className="relative min-h-screen bg-[#FDFBF7] text-[#4A3B33] selection:bg-[#B45309]/20 selection:text-[#B45309]">
       <div 
         aria-hidden="true" 
-        className="fixed top-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-[#B45309] via-[#A16207] to-[#E4C090] z-[9999] pointer-events-none transition-transform duration-75 ease-out" 
+        className="fixed top-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-[#B45309] via-[#A16207] to-[#E4D9BC] z-[9999] pointer-events-none transition-transform duration-75 ease-out" 
         style={{ transformOrigin: "0%", transform: `scaleX(${scrollProgress})` }} 
       />
 
@@ -100,14 +108,14 @@ export default function BlogClientView() {
 
       <Navbar 
         onOpenSearch={() => setSearchOpen(true)} 
-        onOpenAssessment={() => setAssessmentOpen(true)} 
+        onOpenAssessment={() => {}} 
       />
 
       <main className="relative z-10 bg-[#FDFBF7] text-[#4A3B33]">
         <header className="relative overflow-hidden bg-[#FDFBF7]">
           <div aria-hidden="true" className="plate-grid absolute inset-0 opacity-40 pointer-events-none" />
 
-          <div className="relative mx-auto px-6 lg:px-8 pt-32 md:pt-40 pb-12 md:pb-16 max-w-[1200px]">
+          <div className="relative mx-auto px-6 lg:px-8 pt-32 md:pt-40 pb-12 md:pb-16 max-w-[848px]">
             <motion.nav 
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -127,7 +135,7 @@ export default function BlogClientView() {
                   <span aria-hidden="true" className="mx-2 text-[#D6D3D1]">/</span>
                 </li>
                 <li>
-                  <span className="text-[#B45309] font-semibold">Blog</span>
+                  <span className="text-[#B45309] font-semibold">Engineering Blog</span>
                 </li>
               </ol>
             </motion.nav>
@@ -140,11 +148,11 @@ export default function BlogClientView() {
             >
               <span className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#B45309] bg-[#B45309]/[0.08] border border-[#B45309]/20 rounded-[var(--radius)] px-3 py-1.5">
                 <span aria-hidden="true" className="h-[6px] w-[6px] bg-current" />
-                Engineering & Architecture
+                Technical Notes &amp; Systems Insights
               </span>
             </motion.div>
 
-            <RevealTitle text="Engineering Blog & Technical Deep Dives" />
+            <RevealTitle text="Technical Deep-Dives & Engineering Notes" />
 
             <motion.p 
               initial={{ opacity: 0, y: 22 }}
@@ -152,7 +160,7 @@ export default function BlogClientView() {
               transition={{ duration: 0.75, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
               className="mt-7 max-w-[68ch] text-[1.125rem] leading-[1.75] text-[#57534E]"
             >
-              Deep technical breakdowns of autonomous agent state management, Context Tracing, ontological set arithmetic, and sovereign enterprise infrastructure.
+              Real-world case studies, architecture blueprints, and lessons learned from engineering production Chrome extensions, automated media pipelines, and scalable full-stack applications.
             </motion.p>
 
             <motion.div 
@@ -167,49 +175,45 @@ export default function BlogClientView() {
         </header>
 
         {/* Articles List */}
-        <section className="relative mx-auto px-6 lg:px-8 pb-24 md:pb-32 max-w-[1200px] space-y-8">
-          {ARTICLES.map((art, idx) => (
-            <motion.article
-              key={art.slug}
-              initial={{ opacity: 0, y: 24 }}
+        <section className="relative mx-auto px-6 lg:px-8 pb-24 md:pb-32 max-w-[848px] space-y-10">
+          {ARTICLES.map((article, idx) => (
+            <motion.article 
+              key={article.slug}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-30px" }}
-              transition={{ duration: 0.65, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
-              className="rounded-2xl border border-[#E4D9BC] bg-white p-7 sm:p-10 shadow-[var(--shadow-soft)] transition-all hover:border-[#E4C090] hover:shadow-[var(--shadow-soft-lg)]"
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: idx * 0.08 }}
+              className="group relative rounded-xl border border-[#E4D9BC] bg-white p-7 sm:p-9 shadow-xs hover:border-[#B45309] hover:shadow-[var(--shadow-soft-lg)] transition-all duration-300"
             >
-              <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-[#78716C] mb-4">
-                <span className="px-2.5 py-1 rounded bg-[#FAF6EE] text-[#B45309] border border-[#E4D9BC] font-semibold">
-                  {art.tag}
+              <div className="flex flex-wrap items-center gap-3 mb-4 text-xs font-mono text-[#78716C]">
+                <span className="px-2.5 py-1 rounded bg-[#FAF6EE] text-[#B45309] font-semibold border border-[#E4D9BC]">
+                  {article.tag}
                 </span>
-                <span className="flex items-center gap-1">
-                  <Calendar className="w-3.5 h-3.5 text-[#A8A29E]" /> {art.date}
+                <span className="flex items-center gap-1.5">
+                  <Calendar className="w-3.5 h-3.5" />
+                  {article.date}
                 </span>
-                <span className="flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5 text-[#A8A29E]" /> {art.readTime}
+                <span>•</span>
+                <span className="flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5" />
+                  {article.readTime}
                 </span>
               </div>
 
-              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#4A3B33] mb-4 hover:text-[#B45309] transition-colors">
-                {art.title}
+              <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#4A3B33] mb-3 group-hover:text-[#B45309] transition-colors leading-snug">
+                {article.title}
               </h2>
 
-              <p className="text-[1.0625rem] leading-[1.75] text-[#57534E] mb-6">
-                {art.excerpt}
+              <p className="text-sm sm:text-[15px] leading-relaxed text-[#57534E] mb-6">
+                {article.excerpt}
               </p>
 
-              {/* Interactive Code Snippet Preview in First Article */}
-              {idx === 0 && (
-                <div className="mb-6 rounded-xl bg-[#1C1917] p-4 text-xs font-mono text-[#E4C090] space-y-1.5 shadow-inner">
-                  <div className="text-[#78716C]">// Inspecting Cryptographic Provenance Trace #A-4821</div>
-                  <div className="text-emerald-400">const trace = await aniket.trace.get(sessionId, turnIndex);</div>
-                  <div className="text-[#A8A29E]">console.log(trace.rulesApplied); // [&quot;arr_v2&quot;, &quot;exclude_superseded&quot;]</div>
-                </div>
-              )}
-
-              <div className="flex items-center justify-between pt-4 border-t border-[#E4D9BC]/50 font-mono text-xs">
-                <span className="text-[#78716C]">By {art.author}</span>
-                <span className="text-[#B45309] font-bold flex items-center gap-1.5 group cursor-pointer">
-                  Read Walkthrough <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+              <div className="flex items-center justify-between pt-4 border-t border-[#E4D9BC]/60">
+                <span className="text-xs font-mono text-[#78716C]">
+                  By <strong className="text-[#4A3B33]">{article.author}</strong>
+                </span>
+                <span className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-[#B45309] group-hover:translate-x-1 transition-transform">
+                  Read Case Study <ArrowRight className="w-3.5 h-3.5" />
                 </span>
               </div>
             </motion.article>
@@ -225,11 +229,6 @@ export default function BlogClientView() {
         isOpen={searchOpen}
         onOpen={() => setSearchOpen(true)}
         onClose={() => setSearchOpen(false)}
-      />
-
-      <ContextAssessmentModal
-        isOpen={assessmentOpen}
-        onClose={() => setAssessmentOpen(false)}
       />
     </div>
   );

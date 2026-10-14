@@ -27,7 +27,7 @@ export const viewport = {
 export const metadata = {
   title: 'Aniket Mishra | Full-Stack & AI Systems Engineer',
   description: 'Portfolio & engineering showcase of Aniket Mishra. Building high-performance full-stack web products, autonomous AI agent pipelines, and bespoke client architectures.',
-  keywords: 'Aniket Mishra, Full-Stack Engineer, AI Systems, Next.js 15, FastAPI, React, Freelance Software Engineer, Autonomous Agents, RAG, Web Development, Bangalore',
+  keywords: 'Aniket Mishra, Full-Stack Engineer, AI Systems, Next.js 15, FastAPI, React, Freelance Software Engineer, Autonomous Agents, RAG, Web Development, Prayagraj, India',
   icons: {
     icon: '/logo.png',
   },

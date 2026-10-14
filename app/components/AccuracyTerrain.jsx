@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useMemo } from "react";
 import { sound } from "../utils/sound";
+import { X, ArrowUpRight } from "lucide-react";
 
 // 12 Months of real GitHub contribution timeline across both accounts
 const MONTHS = [
@@ -29,6 +30,9 @@ const SERIES = [
     width: 3.4,
     total: 699,
     repos: 64,
+    peak: "173 / mo",
+    peakMonth: "May 2026",
+    tag: "Unified Metrics",
     points: MONTHS.map((m) => m.combined),
     url: "https://github.com/aniketmishra-0",
     panel: {
@@ -48,6 +52,9 @@ const SERIES = [
     width: 2.5,
     total: 601,
     repos: 35,
+    peak: "173 / mo",
+    peakMonth: "May 2026",
+    tag: "Production Systems",
     points: MONTHS.map((m) => m.aniket0),
     url: "https://github.com/aniketmishra-0",
     panel: {
@@ -67,6 +74,9 @@ const SERIES = [
     width: 2.2,
     total: 98,
     repos: 29,
+    peak: "35 / mo",
+    peakMonth: "Jan 2026",
+    tag: "OSS Architecture",
     points: MONTHS.map((m) => m.mishra),
     url: "https://github.com/Mishra-Aniket",
     panel: {
@@ -109,8 +119,13 @@ export default function AccuracyTerrain() {
   const defaultParked = (6 / (MONTHS.length - 1)) * 520;
   const [parked, setParked] = useState(defaultParked);
   const [scrub, setScrub] = useState(null);
-  const [hovered, setHovered] = useState(null); // null or series index 0, 1, 2
+  const [selectedSeries, setSelectedSeries] = useState(null); // null or 0, 1, 2 (pinned open)
+  const [hoveredSeries, setHoveredSeries] = useState(null); // null or 0, 1, 2 (transient hover)
   const [filterAccount, setFilterAccount] = useState("all"); // "all", "aniket0", "mishra"
+
+  // Active series index for inspection panel and isolation
+  const activeIdx = hoveredSeries !== null ? hoveredSeries : selectedSeries;
+  const activeSeries = activeIdx !== null ? SERIES[activeIdx] : null;
 
   // Current position N along isometric axis (0 to 520)
   const N = scrub !== null ? scrub : parked;
@@ -122,9 +137,6 @@ export default function AccuracyTerrain() {
   const interpolatedValues = useMemo(() => {
     return SERIES.map((s) => interpolateSeries(s.points, N));
   }, [N]);
-
-  // Active series for the inspection panel
-  const activeSeries = hovered !== null ? SERIES[hovered] : null;
 
   // Pointer move handler using SVG CTM inverse projection
   const handlePointerMove = (e) => {
@@ -190,7 +202,8 @@ export default function AccuracyTerrain() {
               onClick={() => {
                 sound.playClick();
                 setFilterAccount("all");
-                setHovered(null);
+                setSelectedSeries(null);
+                setHoveredSeries(null);
               }}
               className={`px-3 py-1 rounded-lg font-mono text-xs font-semibold transition-all cursor-pointer ${
                 filterAccount === "all"
@@ -204,7 +217,8 @@ export default function AccuracyTerrain() {
               onClick={() => {
                 sound.playClick();
                 setFilterAccount("aniket0");
-                setHovered(1);
+                setSelectedSeries(1);
+                setHoveredSeries(null);
               }}
               className={`px-3 py-1 rounded-lg font-mono text-xs font-semibold transition-all cursor-pointer ${
                 filterAccount === "aniket0"
@@ -218,7 +232,8 @@ export default function AccuracyTerrain() {
               onClick={() => {
                 sound.playClick();
                 setFilterAccount("mishra");
-                setHovered(2);
+                setSelectedSeries(2);
+                setHoveredSeries(null);
               }}
               className={`px-3 py-1 rounded-lg font-mono text-xs font-semibold transition-all cursor-pointer ${
                 filterAccount === "mishra"
@@ -298,8 +313,8 @@ export default function AccuracyTerrain() {
               })}
 
               <text x="744" y="82" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4" fontWeight="600" style={{ fill: "#B45309" }}>
-                {hovered !== null
-                  ? `ISOLATING: ${SERIES[hovered].label.toUpperCase()}`
+                {activeIdx !== null
+                  ? `ISOLATING: ${SERIES[activeIdx].label.toUpperCase()}`
                   : scrub !== null
                   ? `SCRUBBING: ${currentMonthData.month.toUpperCase()}`
                   : "RESTING AT MAY 2026 PEAK SPRINT (173 COMMITS)"}
@@ -307,7 +322,7 @@ export default function AccuracyTerrain() {
             </g>
 
             {/* Top-Left series hint */}
-            <g pointerEvents="none" opacity={hovered === null ? 1 : 0} style={{ transition: "opacity 0.25s" }}>
+            <g pointerEvents="none" opacity={activeIdx === null ? 1 : 0} style={{ transition: "opacity 0.25s" }}>
               <rect x="24" y="32" width="7" height="7" fill="none" stroke="#E4C090" strokeWidth="1" />
               <text x="38" y="39" fill="#A8A29E" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1.6" fontWeight="600">
                 HOVER TO SCRUB TIMELINE · CLICK SERIES TO INSPECT
@@ -434,18 +449,16 @@ export default function AccuracyTerrain() {
               const pts = s.points.map((val, idx) => u(p(idx), s.v, (val / 200) * 180));
               const wallPts = [...pts, u(520, s.v), u(0, s.v)];
               const pathD = `M${pts.map((pt) => `${pt.x},${pt.y}`).join(" L")}`;
-              const isDimmed = (hovered !== null && hovered !== sIdx) || (filterAccount !== "all" && filterAccount !== s.key && s.key !== "combined");
+              const isDimmed = (activeIdx !== null && activeIdx !== sIdx) || (filterAccount !== "all" && filterAccount !== s.key && s.key !== "combined");
 
               return (
                 <g
                   key={s.key}
                   opacity={isDimmed ? 0.15 : 1}
                   style={{ transition: "opacity 0.3s", cursor: "pointer" }}
-                  onMouseEnter={() => setHovered(sIdx)}
-                  onMouseLeave={() => setHovered(null)}
                   onClick={() => {
                     sound.playClick();
-                    setHovered(sIdx);
+                    setSelectedSeries(selectedSeries === sIdx ? null : sIdx);
                   }}
                 >
                   {/* Extruded gradient wall */}
@@ -515,7 +528,7 @@ export default function AccuracyTerrain() {
               {SERIES.map((s, sIdx) => {
                 const val = interpolatedValues[sIdx];
                 const pt = u(N, s.v, (val / 200) * 180);
-                const isDimmed = (hovered !== null && hovered !== sIdx) || (filterAccount !== "all" && filterAccount !== s.key && s.key !== "combined");
+                const isDimmed = (activeIdx !== null && activeIdx !== sIdx) || (filterAccount !== "all" && filterAccount !== s.key && s.key !== "combined");
                 return (
                   <g key={s.key} opacity={isDimmed ? 0.15 : 1} style={{ transition: "opacity 0.3s" }}>
                     <circle cx={pt.x} cy={pt.y} r="4.8" fill={s.color} stroke="#FFFFFF" strokeWidth="1.5" filter="url(#bmGlow)" />
@@ -549,18 +562,18 @@ export default function AccuracyTerrain() {
               {/* Series Rows */}
               {SERIES.map((s, sIdx) => {
                 const yPos = 146 + 54 * sIdx;
-                const isDimmed = (hovered !== null && hovered !== sIdx) || (filterAccount !== "all" && filterAccount !== s.key && s.key !== "combined");
-                const isSelected = hovered === sIdx;
+                const isDimmed = (activeIdx !== null && activeIdx !== sIdx) || (filterAccount !== "all" && filterAccount !== s.key && s.key !== "combined");
+                const isSelected = activeIdx === sIdx;
                 const currentVal = Math.round(interpolatedValues[sIdx]);
 
                 return (
                   <g
                     key={s.key}
-                    onMouseEnter={() => setHovered(sIdx)}
-                    onMouseLeave={() => setHovered(null)}
+                    onMouseEnter={() => setHoveredSeries(sIdx)}
+                    onMouseLeave={() => setHoveredSeries(null)}
                     onClick={() => {
                       sound.playClick();
-                      setHovered(sIdx);
+                      setSelectedSeries(selectedSeries === sIdx ? null : sIdx);
                     }}
                     opacity={isDimmed ? 0.35 : 1}
                     style={{ cursor: "pointer", outline: "none", transition: "opacity 0.3s" }}
@@ -626,69 +639,114 @@ export default function AccuracyTerrain() {
             </g>
           </svg>
 
-          {/* Floating Detail Inspection Modal when hovering a series */}
+          {/* Floating Detail Inspection Modal when series is active */}
           {activeSeries && (
             <div
-              className="hidden md:block absolute left-[26%] top-[2%] -translate-x-1/2 w-[48%] min-w-[420px] z-30 pointer-events-auto transition-all duration-200"
-              onMouseEnter={() => setHovered(SERIES.findIndex((s) => s.key === activeSeries.key))}
-              onMouseLeave={() => setHovered(null)}
+              className="absolute top-2 left-2 right-2 sm:right-auto sm:top-4 sm:left-4 z-30 max-w-[420px] sm:w-[400px] pointer-events-auto transition-all duration-200 animate-in fade-in"
+              onMouseEnter={() => setHoveredSeries(activeIdx)}
+              onMouseLeave={() => setHoveredSeries(null)}
+              role="dialog"
+              aria-label={`${activeSeries.label} telemetry details`}
             >
-              <div className="relative overflow-hidden rounded-lg border border-[#E4D9BC] bg-white/95 backdrop-blur-md shadow-[0_16px_36px_-12px_rgba(74,59,51,0.25)]">
-                <div className="absolute inset-y-0 left-0 w-[3px]" style={{ background: activeSeries.color }} />
-                <div className="grid grid-cols-[1.3fr_1fr] gap-4 p-4">
-                  {/* Left Column: Eyebrow, Title, Description */}
-                  <div>
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="font-mono text-[9.5px] font-bold uppercase tracking-[0.16em]" style={{ color: activeSeries.color }}>
-                        {activeSeries.panel.eyebrow}
-                      </span>
-                      <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.14em] text-[#059669] font-semibold">
-                        <span className="h-1.5 w-1.5 rounded-full" style={{ background: activeSeries.color }} />
-                        VERIFIED DATA
-                      </span>
-                    </div>
-                    <h4 className="mt-1.5 text-[14.5px] font-bold leading-snug text-[#4A3B33] font-serif">
-                      {activeSeries.panel.title}
-                    </h4>
-                    <p className="mt-1 text-[11px] leading-[1.6] text-[#57534E]">
-                      {activeSeries.panel.body}
-                    </p>
-                    <div className="mt-2.5">
-                      <a
-                        href={activeSeries.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => sound.playClick()}
-                        className="inline-flex items-center gap-1 font-mono text-[10.5px] font-bold text-[#B45309] hover:underline"
-                      >
-                        Inspect {activeSeries.label} on GitHub ↗
-                      </a>
-                    </div>
+              <div className="relative overflow-hidden rounded-xl border border-[#E4D9BC] bg-[#FDFBF7]/95 backdrop-blur-md shadow-[0_20px_40px_-15px_rgba(74,59,51,0.22)] p-4 sm:p-4.5">
+                {/* Accent indicator on left edge */}
+                <div
+                  className="absolute inset-y-0 left-0 w-[4px]"
+                  style={{ background: activeSeries.color }}
+                />
+
+                {/* Top Row: Eyebrow + Verified Badge + Close Button */}
+                <div className="flex items-center justify-between gap-2 pl-1.5">
+                  <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+                    <span
+                      className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] px-2 py-0.5 rounded bg-white border border-[#E4D9BC] truncate"
+                      style={{ color: activeSeries.color }}
+                    >
+                      {activeSeries.panel.eyebrow}
+                    </span>
+                    <span className="inline-flex items-center gap-1 font-mono text-[8.5px] uppercase tracking-wider text-[#059669] font-bold bg-[#ECFDF5] px-1.5 py-0.5 rounded border border-[#A7F3D0]">
+                      <span
+                        className="h-1.5 w-1.5 rounded-full animate-pulse"
+                        style={{ background: activeSeries.color }}
+                      />
+                      VERIFIED DATA
+                    </span>
                   </div>
 
-                  {/* Right Column: Key-Value Stats and Code */}
-                  <div className="border-l border-[#F1E9DA] pl-4 flex flex-col justify-between">
-                    <dl className="space-y-1.5 font-mono">
-                      <div className="flex items-baseline justify-between gap-3">
-                        <dt className="text-[9px] uppercase tracking-[0.14em] text-[#A8A29E]">TOTAL COMMITS</dt>
-                        <dd className="text-[12px] font-bold tabular-nums text-[#4A3B33]">{activeSeries.total}+</dd>
-                      </div>
-                      <div className="flex items-baseline justify-between gap-3">
-                        <dt className="text-[9px] uppercase tracking-[0.14em] text-[#A8A29E]">REPOSITORIES</dt>
-                        <dd className="text-[12px] font-bold tabular-nums text-[#059669]">{activeSeries.repos} Repos</dd>
-                      </div>
-                      <div className="flex items-baseline justify-between gap-3">
-                        <dt className="text-[9px] uppercase tracking-[0.14em] text-[#A8A29E]">PEAK MONTH</dt>
-                        <dd className="text-[11px] font-bold tabular-nums text-[#B45309]">173 Commits</dd>
-                      </div>
-                    </dl>
+                  {/* Dismiss / Close button */}
+                  <button
+                    onClick={() => {
+                      sound.playClick();
+                      setSelectedSeries(null);
+                      setHoveredSeries(null);
+                    }}
+                    className="p-1 rounded-md text-[#78716C] hover:text-[#4A3B33] hover:bg-[#F1E9DA] transition-colors cursor-pointer shrink-0"
+                    title="Close details"
+                    aria-label="Close details"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
 
-                    {activeSeries.panel.code && (
-                      <div className="mt-2.5 overflow-hidden text-ellipsis whitespace-nowrap rounded-md border border-[#F1E9DA] bg-[#F8F4EE] px-2 py-1 font-mono text-[9px] text-[#57534E]">
-                        <span style={{ color: activeSeries.color }}>▸</span> {activeSeries.panel.code}
-                      </div>
-                    )}
+                {/* Title and Description */}
+                <div className="mt-2.5 pl-1.5">
+                  <h4 className="text-[14.5px] sm:text-[15.5px] font-bold leading-snug text-[#4A3B33] font-serif">
+                    {activeSeries.panel.title}
+                  </h4>
+                  <p className="mt-1 text-[11px] leading-[1.6] text-[#57534E] font-sans">
+                    {activeSeries.panel.body}
+                  </p>
+                </div>
+
+                {/* Horizontal 3-Stat Metric Grid - Zero Clipping & Balanced Layout */}
+                <div className="mt-3.5 grid grid-cols-3 divide-x divide-[#E4D9BC] rounded-lg border border-[#E4D9BC] bg-white/90 py-2.5 px-1 text-center font-mono shadow-2xs">
+                  <div className="px-1">
+                    <span className="block text-[8px] uppercase tracking-wider text-[#A8A29E] font-bold">
+                      Total Commits
+                    </span>
+                    <span className="block text-[13px] font-extrabold tabular-nums text-[#4A3B33] mt-0.5">
+                      {activeSeries.total}+
+                    </span>
+                    <span className="block text-[8px] text-[#78716C] font-sans">Verified</span>
                   </div>
+                  <div className="px-1">
+                    <span className="block text-[8px] uppercase tracking-wider text-[#A8A29E] font-bold">
+                      Repositories
+                    </span>
+                    <span className="block text-[13px] font-extrabold tabular-nums text-[#059669] mt-0.5">
+                      {activeSeries.repos} Repos
+                    </span>
+                    <span className="block text-[8px] text-[#78716C] font-sans">Public</span>
+                  </div>
+                  <div className="px-1">
+                    <span className="block text-[8px] uppercase tracking-wider text-[#A8A29E] font-bold">
+                      Peak Sprint
+                    </span>
+                    <span className="block text-[13px] font-extrabold tabular-nums text-[#B45309] mt-0.5">
+                      {activeSeries.peak}
+                    </span>
+                    <span className="block text-[8px] text-[#78716C] font-sans">
+                      {activeSeries.peakMonth}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Footer Strip */}
+                <div className="mt-3 pt-2.5 border-t border-[#F1E9DA] flex items-center justify-between gap-2 pl-1.5">
+                  <a
+                    href={activeSeries.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => sound.playClick()}
+                    className="inline-flex items-center gap-1 font-mono text-[10.5px] font-bold text-[#B45309] hover:text-[#92400E] hover:underline"
+                  >
+                    <span>Open {activeSeries.label} on GitHub</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </a>
+
+                  <span className="font-mono text-[9px] font-semibold text-[#78716C] bg-[#F4EFE6] px-2 py-0.5 rounded border border-[#E4D9BC]/70 truncate">
+                    {activeSeries.tag}
+                  </span>
                 </div>
               </div>
             </div>

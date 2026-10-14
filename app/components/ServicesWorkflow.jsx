@@ -7,6 +7,7 @@ import {
   Brain, 
   Cpu, 
   Shield, 
+  Layers,
   Clock, 
   Check, 
   ArrowRight, 
@@ -21,11 +22,14 @@ const ICON_MAP = {
   Rocket: Rocket,
   Brain: Brain,
   Cpu: Cpu,
-  Shield: Shield
+  Shield: Shield,
+  Layers: Layers
 };
 
 export default function ServicesWorkflow() {
   const [activeStep, setActiveStep] = useState(0);
+  const services = SERVICES;
+  const testimonials = CLIENT_TESTIMONIALS;
 
   // High-performance IntersectionObserver: updates active service step on scroll with ZERO thread lag
   useEffect(() => {
@@ -46,18 +50,20 @@ export default function ServicesWorkflow() {
       }
     );
 
-    SERVICES.forEach((s, idx) => {
+    services.forEach((s, idx) => {
       const el = document.getElementById(`service-${s.id}`);
       if (el) observer.observe(el);
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [services]);
 
   const scrollToService = (idx) => {
     sound.playClick();
     setActiveStep(idx);
-    const el = document.getElementById(`service-${SERVICES[idx].id}`);
+    const targetService = services[idx];
+    if (!targetService) return;
+    const el = document.getElementById(`service-${targetService.id}`);
     if (el) {
       if (typeof window !== "undefined" && window.__lenis) {
         window.__lenis.scrollTo(el, { offset: -120, duration: 1.0 });
@@ -97,7 +103,7 @@ export default function ServicesWorkflow() {
         {/* Mobile Sticky Horizontal Tabs */}
         <div className="lg:hidden sticky top-14 md:top-20 z-30 -mx-4 px-4 py-2.5 bg-[#FAF6EE]/95 backdrop-blur-md border-y border-[#E4D9BC]/70 mb-8">
           <div className="flex gap-2 overflow-x-auto no-scrollbar py-0.5">
-            {SERVICES.map((srv, idx) => (
+            {services.map((srv, idx) => (
               <button
                 key={srv.id}
                 onClick={() => scrollToService(idx)}
@@ -121,7 +127,7 @@ export default function ServicesWorkflow() {
             <div className="sticky top-28 md:top-32 w-full">
               {/* Progress Bars */}
               <div className="mb-8 flex gap-1.5" aria-hidden="true">
-                {SERVICES.map((s, idx) => (
+                {services.map((s, idx) => (
                   <div key={s.id} className="relative h-[3px] flex-1 overflow-hidden rounded-full bg-[#E4D9BC]">
                     <div
                       className="absolute inset-0 origin-left bg-[#B45309] transition-transform duration-300"
@@ -133,7 +139,7 @@ export default function ServicesWorkflow() {
 
               {/* Step Navigation Buttons */}
               <nav className="flex flex-col gap-2">
-                {SERVICES.map((srv, idx) => {
+                {services.map((srv, idx) => {
                   const isActive = activeStep === idx;
                   return (
                     <button
@@ -194,7 +200,7 @@ export default function ServicesWorkflow() {
 
           {/* Right Column: ALL Services Stacked Continuously (Scroll down to view every service) */}
           <div className="lg:col-span-8 flex flex-col gap-14">
-            {SERVICES.map((srv, idx) => {
+            {services.map((srv, idx) => {
               const IconComponent = ICON_MAP[srv.icon] || Rocket;
               return (
                 <div
@@ -329,7 +335,7 @@ export default function ServicesWorkflow() {
         </div>
 
         {/* Section 3: Founder Testimonials */}
-        {CLIENT_TESTIMONIALS && CLIENT_TESTIMONIALS.length > 0 && (
+        {testimonials && testimonials.length > 0 && (
           <div className="pt-16 border-t border-[#E4D9BC]">
             <div className="mb-10 text-center">
               <span className="inline-flex items-center gap-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] leading-none text-[#B45309] mb-3">
@@ -342,7 +348,7 @@ export default function ServicesWorkflow() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {CLIENT_TESTIMONIALS.map((t, idx) => (
+              {testimonials.map((t, idx) => (
                 <div
                   key={idx}
                   className="rounded-[var(--radius)] border bg-white border-[#E4D9BC] shadow-[var(--shadow-soft)] p-7 flex flex-col justify-between transition-all duration-300 hover:border-[#E4C090] hover:-translate-y-1"

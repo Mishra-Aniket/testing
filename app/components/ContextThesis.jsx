@@ -16,18 +16,18 @@ export default function ContextThesis() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end">
             <h2 id="why-context-heading" className="text-[clamp(1.875rem,3.6vw,2.875rem)] leading-[1.14] tracking-[-0.028em] font-bold text-[#4A3B33] text-balance lg:col-span-7">
-              Frameworks evolve. Solid architecture &amp;{' '}
-              <span className="text-[#B45309]">craftsmanship</span> compound.
+              Frameworks evolve. Clean code &amp;{' '}
+              <span className="text-[#B45309]">reliable architecture</span> compound.
             </h2>
             <div className="lg:col-span-5 lg:pb-1.5">
               <p className="text-[1.0625rem] leading-[1.75] text-[#57534E]">
-                I don&apos;t just build templates — I build resilient, full-stack digital products. Every project combines crisp UI performance, robust backend systems, and context-aware AI pipelines engineered to scale from Day 1.
+                I build production-grade web applications, browser extensions, and backend pipelines. Every project is engineered for speed, clean maintenance, and real daily use from Day 1.
               </p>
             </div>
           </div>
         </div>
 
-        {/* 2-Column Split Cards with exact rounded-[var(--radius)] */}
+        {/* 2-Column Split Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-16">
           {/* Left Quote Card */}
           <div className="lg:col-span-6 flex">
@@ -37,17 +37,17 @@ export default function ContextThesis() {
                   “
                 </span>
                 <p className="mt-8 text-[1.375rem] sm:text-[1.625rem] lg:text-[1.75rem] font-bold text-[#4A3B33] leading-[1.35] tracking-[-0.02em]">
-                  Anyone can call an LLM API. The true edge lies in building{' '}
-                  <span className="text-[#B45309]">reliable, observable systems</span> with
-                  delightful user experience that genuinely move business needles.
+                  Anyone can spin up a quick demo. The real craft lies in building{' '}
+                  <span className="text-[#B45309]">software that actually handles high volume</span>,
+                  edge cases, and daily production use without breaking.
                 </p>
               </div>
               <div className="mt-10 pt-6 border-t border-[#E4D9BC]/60">
                 <Link
-                  href="#how-it-works"
+                  href="#services"
                   className="group inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-[#B45309] font-semibold hover:text-[#A16207]"
                 >
-                  Explore Engineering Workflow
+                  Explore Services &amp; Workflow
                   <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
@@ -63,13 +63,13 @@ export default function ContextThesis() {
                 The Engineering Standard
               </span>
               <h3 className="mb-3 text-[1.3125rem] font-bold leading-snug tracking-[-0.015em] text-[#4A3B33]">
-                Sub-100ms speed. Clean code. Zero technical debt.
+                Fast response times. Clean code. Zero shortcuts.
               </h3>
               <p className="mb-6 text-[0.9375rem] leading-[1.7] text-[#57534E]">
-                Strict TypeScript, modular Next.js app architecture, reactive state management, and optimized asset pipelines. Every component is designed to render instantly and handle high concurrency without degradation.
+                Next.js 15 and TypeScript on the front-end, high-throughput .NET 8 / C# and Python on the backend. Everything is typed, tested, and optimized for sub-100ms response times.
               </p>
               <ul className="mt-auto flex flex-wrap gap-2">
-                {['Next.js 15 & React', 'Tailwind & 3D WebGL', 'FastAPI & Node.js', 'PostgreSQL & Redis', 'Sub-100ms Latency'].map((tag) => (
+                {['Next.js 15 & React', 'TypeScript', '.NET 8 / C#', 'Python FastAPI', 'PostgreSQL & Supabase', 'Sub-100ms Latency'].map((tag) => (
                   <li key={tag}>
                     <span className="inline-flex items-center font-mono text-[10.5px] tracking-[0.04em] text-[#57534E] bg-[#F8F4EE] border border-[#E4D9BC] rounded-[var(--radius)] px-2.5 py-1.5 transition-colors duration-200 group-hover:bg-white group-hover:border-[#E4C090]">
                       {tag}
@@ -86,13 +86,13 @@ export default function ContextThesis() {
                 The Freelance &amp; Client Guarantee
               </span>
               <h3 className="mb-3 text-[1.3125rem] font-bold leading-snug tracking-[-0.015em] text-[#4A3B33]">
-                Rapid turnaround without sacrificing technical excellence.
+                Direct collaboration. Fast turnaround. Full code ownership.
               </h3>
               <p className="mb-6 text-[0.9375rem] leading-[1.7] text-[#57534E]">
-                Whether you need a SaaS MVP launched in 2–4 weeks, an AI agent system integrated with your existing data, or a mission-critical web application overhaul — you get transparent weekly sprints, direct Slack/Discord communication, and clean documentation.
+                You work directly with me — no account managers or bloated agency costs. You get working staging links every week, direct communication on Slack or WhatsApp, clean documentation, and 100% source code ownership.
               </p>
               <ul className="mt-auto flex flex-wrap gap-2">
-                {['2–4 Week MVP Sprints', 'Direct 1-on-1 Communication', 'Docker & Cloud CI/CD', 'Full Source Handover'].map((tag) => (
+                {['2–4 Week MVP Sprints', 'Direct 1-on-1 Access', 'Weekly Staging Previews', '100% IP Handover'].map((tag) => (
                   <li key={tag}>
                     <span className="inline-flex items-center font-mono text-[10.5px] tracking-[0.04em] text-[#57534E] bg-[#F8F4EE] border border-[#E4D9BC] rounded-[var(--radius)] px-2.5 py-1.5 transition-colors duration-200 group-hover:bg-white group-hover:border-[#E4C090]">
                       {tag}
