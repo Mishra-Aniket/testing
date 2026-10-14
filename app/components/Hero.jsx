@@ -6,12 +6,13 @@ import { ArrowRight, Copy, Check, Terminal, Code2 } from 'lucide-react';
 import StackDiagram from './StackDiagram';
 import ConstellationCanvas from './ConstellationCanvas';
 import { sound } from '../utils/sound';
+import { PERSONAL_INFO } from '../data/portfolioData';
 
 const QUICKSTART_TABS = [
   {
     id: 'npm',
     label: 'TypeScript / Node',
-    command: 'git clone https://github.com/Mishra-Aniket/aniket.one',
+    command: 'git clone https://github.com/aniketmishra-0/aniket.one',
     snippet: `// Hire Aniket for high-impact Full-Stack & AI Systems\nconst engineer = await hire({ role: "Full-Stack & AI", availability: "Immediate" });\nawait engineer.ship({ product: "AI-Powered SaaS", timeline: "2-4 Weeks" });`
   },
   {
@@ -29,6 +30,13 @@ const QUICKSTART_TABS = [
 ];
 
 export default function Hero({ onOpenAssessment }) {
+  const availability = PERSONAL_INFO.availability || 'Available for Freelance & Contract';
+  const name = PERSONAL_INFO.name || 'Aniket Mishra';
+  const role = PERSONAL_INFO.title || 'Full-Stack & AI Systems Engineer';
+  const tagline = PERSONAL_INFO.tagline || 'Engineering Next-Gen Web & AI Products for Ambitious Teams.';
+  const ctaPrimaryText = 'Hire Me / Work Together';
+  const ctaPrimaryUrl = '#get-access';
+
   const [activeTab, setActiveTab] = useState(0);
   const [copied, setCopied] = useState(false);
   const [showCode, setShowCode] = useState(false);
@@ -63,7 +71,7 @@ export default function Hero({ onOpenAssessment }) {
               <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-[#E4D9BC] bg-white shadow-xs">
                 <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#B45309] font-bold">
-                  Available for Freelance &amp; Contract
+                  {availability}
                 </span>
               </span>
               <span className="font-mono text-[11px] text-[#78716C]">Remote Worldwide</span>
@@ -77,17 +85,17 @@ export default function Hero({ onOpenAssessment }) {
 
             {/* Subtitle */}
             <p className="text-[1.0625rem] font-light text-[#57534E] leading-[1.75] mb-10 max-w-[29rem]">
-              Hi, I&apos;m <strong className="font-semibold text-[#4A3B33]">Aniket Mishra</strong>. I architect hyper-performant web applications, custom agentic AI systems, and interactive 3D web interfaces for ambitious teams and startups.
+              Hi, I&apos;m <strong className="font-semibold text-[#4A3B33]">{name}</strong>. I architect hyper-performant web applications, custom agentic AI systems, and interactive 3D web interfaces for ambitious teams and startups.
             </p>
 
             {/* CTAs with exact rounded-[var(--radius)] architectural micro-corners */}
             <div className="flex flex-wrap gap-3 mb-10">
               <Link
-                href="#get-access"
+                href={ctaPrimaryUrl}
                 onClick={() => sound.playClick()}
                 className="group inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius)] font-bold text-sm tracking-wide px-7 py-3.5 transition-all duration-200 active:translate-y-0 active:scale-[0.985] bg-[#B45309] text-white shadow-[var(--shadow-soft)] hover:bg-[#A16207] hover:shadow-[var(--shadow-soft-lg)] hover:-translate-y-px"
               >
-                Hire Me / Work Together
+                {ctaPrimaryText}
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
               <button

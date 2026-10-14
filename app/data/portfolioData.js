@@ -14,100 +14,204 @@
 
 export const PERSONAL_INFO = {
   name: "Aniket Mishra",
-  handle: "Mishra-Aniket",
-  title: "Full-Stack & AI Systems Engineer",
-  tagline: "Engineering Next-Gen Web & AI Products for Founders and Fast-Moving Teams.",
-  email: "hello@aniket.one",
-  github: "https://github.com/Mishra-Aniket",
+  handle: "aniketmishra-0",
+  title: "Full-Stack, AI & Systems Engineer",
+  tagline: "Engineering Next-Gen Web, Edge & Automation Products for High-Growth Teams.",
+  email: "aniketmishra492@gmail.com",
+  github: "https://github.com/aniketmishra-0",
   linkedin: "https://www.linkedin.com/in/aniketmishra0",
-  twitter: "https://x.com/aniketmishra0",
-  location: "Bangalore, India",
+  twitter: "https://x.com/aniket_mishra0",
+  location: "India · Global Remote Availability",
   timezone: "IST (UTC+5:30) · Global Remote Availability",
-  availability: "Available for Freelance & Contract Sprints",
+  availability: "Available for Freelance & High-Impact Contracts",
   avgTurnaround: "2–4 Weeks for Production MVPs",
   stats: [
-    { label: "Production MVPs Shipped", value: "14+" },
-    { label: "Average Turnaround", value: "2–4 Wks" },
-    { label: "Code Ownership & IP", value: "100%" },
-    { label: "System Uptime & SLA", value: "99.9%" }
+    { label: "Daily Enterprise Lectures Handled", value: "20,000+" },
+    { label: "PW Centers & Operations Scaled", value: "500+" },
+    { label: "Production Tools Shipped", value: "10+" },
+    { label: "Cloud Egress Cost Saved", value: "100%" }
   ]
 };
 
 export const PROJECTS = [
   {
-    id: "agentic-rag-engine",
-    title: "Autonomous Context & RAG Engine",
-    subtitle: "Enterprise-Grade Multi-Agent Memory & Retrieval",
-    category: "AI Systems",
+    id: "centrix",
+    title: "Centrix — Autonomous Lecture Ingestion",
+    subtitle: "Edge-First Operations Platform for 500+ PW Centers",
+    category: "Enterprise & Edge Systems",
     featured: true,
-    badge: "Production Deployed",
-    metrics: "Sub-300ms p95 · 100k+ embeddings · Zero context drift",
+    badge: "Production Deployed (Physics Wallah)",
+    metrics: "500+ Centers · 10,000–20,000 Lectures/Day · Zero Cloud Egress Cost",
     description:
-      "Engineered an autonomous multi-agent pipeline with hybrid semantic search (dense vector + sparse BM25), reranking, and persistent cross-session graph memory. Eliminates LLM hallucinations and vendor lock-in.",
-    tags: ["Next.js 15", "Python / FastAPI", "PostgreSQL", "pgvector", "LangGraph", "Docker"],
-    githubUrl: "https://github.com/Mishra-Aniket",
-    liveUrl: "https://aniket.one/#router",
+      "Engineered an edge-first automated ingestion engine for Physics Wallah Vidyapeeth centers across India. Automatically pairs OBS/capture card recordings with MaxHub interactive flat panel notes, matches timetables using confidence scoring, and executes chunked resumable uploads directly to Google Drive with zero central bandwidth cost.",
+    tags: [".NET 8 (C#)", "React 18", "TypeScript", "SQLite WAL", "Google Drive API v3", "Tailwind CSS"],
+    githubUrl: "https://github.com/aniketmishra-0/Centrix",
+    liveUrl: "https://github.com/aniketmishra-0/Centrix",
+    liveLabel: "View Architecture & Repo",
     highlights: [
-      "Dynamic prompt routing across Claude 3.5, GPT-4o, and Gemini 1.5",
-      "Async pipeline with Redis queue handling high concurrency",
-      "Full OpenTelemetry tracing for prompt latency & token spend"
+      "Sub-second write stability detection for OBS .mkv/.mp4 & MaxHub .pdf notes",
+      "Weighted multi-factor confidence engine for automated timetable slot matching",
+      "Direct chunked resumable upload to Google Drive saving petabytes in egress costs"
     ]
   },
   {
-    id: "realtime-saas-platform",
-    title: "HyperScale Analytics & Workflow Hub",
-    subtitle: "High-Throughput Collaborative Workspace",
-    category: "Full-Stack Web",
+    id: "qpic",
+    title: "Qpic — Smart Exam Paper Splitter & OCR Studio",
+    subtitle: "3-Tier Detection Engine & Cross-Platform Desktop App",
+    category: "AI & Document Intelligence",
     featured: true,
-    badge: "Client MVP (3 Weeks)",
-    metrics: "2.4k DAU · < 45ms edge latency · 60fps canvas",
+    badge: "Open Source / Production",
+    metrics: "14-Stage Pipeline · Sub-2s per Paper · Bilingual Auto-Stitch",
     description:
-      "Architected and shipped a full-stack SaaS platform from Figma wireframes to production deployment in under 21 days. Features real-time multi-tenant collaboration, automated billing, and live telemetry dashboards.",
-    tags: ["TypeScript", "Next.js", "Tailwind CSS", "Supabase", "Stripe API", "Framer Motion"],
-    githubUrl: "https://github.com/Mishra-Aniket",
-    liveUrl: "https://aniket.one/#how-it-works",
+      "FastAPI and Flutter desktop app that parses complex MCQ exam PDFs, detects questions via a 3-tier pipeline (native text layer → Tesseract OCR → Claude vision fallback), crops/stitches multi-page questions, and automatically extracts answer keys to CSV/JSON.",
+    tags: ["Python (FastAPI)", "Flutter / Dart", "PyMuPDF", "OpenCV", "Tesseract OCR", "Claude AI"],
+    githubUrl: "https://github.com/aniketmishra-0/Qpic",
+    liveUrl: "https://github.com/aniketmishra-0/Qpic",
+    liveLabel: "Inspect Engine & GitHub",
     highlights: [
-      "End-to-end type safety with TypeScript & Zod schemas",
-      "Realtime WebSockets sync with optimistic client updates",
-      "Automated Stripe billing, team roles & RBAC access control"
+      "14-stage document processing pipeline with deskew, denoise, and auto-binarization",
+      "Bilingual side-by-side Hindi & English column detection and auto-stitching",
+      "Bundled Python sidecar engine running seamlessly inside native Flutter desktop app"
     ]
   },
   {
-    id: "interactive-3d-visualizer",
-    title: "Isometric 3D Systems Canvas",
-    subtitle: "Hardware-Accelerated WebGL & SVG Architecture",
-    category: "Creative Dev",
+    id: "thumbcraft",
+    title: "ThumbCraft — 1-Click EdTech Thumbnail Studio",
+    subtitle: "Automated YouTube & App Asset Generator",
+    category: "GenAI & Creative Tools",
     featured: true,
-    badge: "Showcase",
-    metrics: "60 FPS steady · 0 external 3D bundle bloat",
+    badge: "Live Production Tool",
+    metrics: "1-Click Generation · 100+ PW Presets · Zero Server Lag",
     description:
-      "A bespoke isometric 3D interactive layer visualizer built using pure mathematical projection, SVG matrix transformations, and reactive state. Demonstrates deep craftsmanship in creative front-end engineering.",
-    tags: ["React 19", "SVG 3D Transforms", "Web Audio API", "Framer Motion", "Tailwind"],
-    githubUrl: "https://github.com/Mishra-Aniket",
-    liveUrl: "https://aniket.one/#hero",
+      "High-speed thumbnail generation studio for educators and creators. Features Google Gemini GenAI integration, automated typography placement, Physics Wallah faculty/batch asset presets, and Google Sheets batch export.",
+    tags: ["React 19", "Google GenAI SDK", "HTML5 Canvas", "Vite", "Tailwind CSS", "JSZip"],
+    githubUrl: "https://github.com/aniketmishra-0/thumbcraft",
+    liveUrl: "https://github.com/aniketmishra-0/thumbcraft",
+    liveLabel: "Explore Studio Code",
     highlights: [
-      "Zero heavyweight Three.js bundle overhead (~0KB extra JS)",
-      "Synthesized Web Audio clicks & frequency feedback",
-      "Touch-optimized gesture navigation for mobile viewports"
+      "Direct browser HTML5 Canvas rendering for instant zero-latency export",
+      "Automated batch thumbnail generation synchronized from Google Sheets",
+      "Built-in faculty library, chapter tagging, and high-CTR layout presets"
     ]
   },
   {
-    id: "microservice-api-gateway",
-    title: "Distributed Edge Gateway & Auth Engine",
-    subtitle: "Low-Latency High-Availability API Microservice",
-    category: "Backend & Cloud",
+    id: "radialmenu",
+    title: "RadialMenu — Windows Radial App Launcher",
+    subtitle: "Modern Circular Power-User Launcher for Windows 10/11",
+    category: "Desktop & Systems",
+    featured: true,
+    badge: "Open Source (.NET 8 / WPF)",
+    metrics: "Sub-5ms Hotkey Launch · 60 FPS WPF · Fuzzy Search HUD",
+    description:
+      "A modern circular application launcher and fuzzy search HUD for Windows 10/11 built with C# and WPF. Brings macOS-style radial aesthetics with global hotkeys, 8 configurable app slots, and lightning-fast keyboard navigation.",
+    tags: [".NET 8", "C#", "WPF", "Windows API", "XAML"],
+    githubUrl: "https://github.com/aniketmishra-0/RedialWin",
+    liveUrl: "https://github.com/aniketmishra-0/RedialWin",
+    liveLabel: "Download on GitHub",
+    highlights: [
+      "Global hotkey registration with instant hardware-accelerated rendering",
+      "Fuzzy search indexing across all installed Windows applications",
+      "Glassmorphism blur effects with low RAM and CPU footprint"
+    ]
+  },
+  {
+    id: "imgworld",
+    title: "imgworld.biz — Client-Side Image Tools Studio",
+    subtitle: "Zero-Server Privacy-First Media Processing Suite",
+    category: "Web Tools & Privacy",
+    featured: true,
+    badge: "Live Production Site",
+    metrics: "100% On-Device · 0 Bytes Sent to Cloud · ONNX Web AI",
+    description:
+      "A comprehensive in-browser image editing suite running entirely on the user's hardware. Utilizes the native Canvas API, Web ImageDecoder, FaceDetector, and on-device ONNX background removal models without server uploads.",
+    tags: ["React 19", "ONNX Runtime Web", "Web ImageDecoder", "Canvas API", "Vite", "Tailwind CSS"],
+    githubUrl: "https://github.com/aniketmishra-0/imgWorld.biz",
+    liveUrl: "https://imgworld.biz",
+    liveLabel: "Launch Live Site (imgworld.biz)",
+    highlights: [
+      "On-device AI background removal using WebAssembly & ONNX Runtime",
+      "Client-side batch image conversion, cropping, and compression",
+      "Zero telemetry and strict user data privacy compliance"
+    ]
+  },
+  {
+    id: "officemobile",
+    title: "Office Mobile — Google Sheet to Mobile Interface",
+    subtitle: "Instant Dynamic Forms & Viewer for Spreadsheets",
+    category: "Cloud & Productivity",
+    featured: true,
+    badge: "Live Web Application",
+    metrics: "1-Click Setup · Real-time OAuth 2.0 · Live PWA",
+    description:
+      "Transforms any Google Spreadsheet into an intuitive, mobile-first data entry and viewing PWA. Authenticates via Google OAuth 2.0, parses column schemas, and generates instant entry forms without requiring code or third-party database setups.",
+    tags: ["Next.js", "React", "Google Sheets API", "OAuth 2.0", "Tailwind CSS", "Vercel"],
+    githubUrl: "https://github.com/aniketmishra-0",
+    liveUrl: "https://officemobile.vercel.app",
+    liveLabel: "Launch App (officemobile.vercel.app)",
+    highlights: [
+      "Instant dynamic form generation from any public or private Google Sheet",
+      "Bi-directional real-time row reading and writing with zero backend lag",
+      "Lightweight, mobile-responsive PWA optimized for fieldwork and operations"
+    ]
+  },
+  {
+    id: "pw-qc-assistant",
+    title: "PW Automation & QC Assistant (v3.6.0)",
+    subtitle: "Internal Chrome Extension for PenPencil Admin",
+    category: "Browser Automation & Ops",
     featured: false,
-    badge: "Open Source",
-    metrics: "12k req/sec · 99.99% uptime · Distributed rate limits",
+    badge: "Internal Enterprise Tool",
+    metrics: "v3.6.0 Stable · 4 hrs → 15 mins · 1,000+ Batches",
     description:
-      "High-performance edge reverse proxy and authentication gateway with JWT token verification, token bucket rate limiting, and distributed Redis session storage.",
-    tags: ["Go / Python", "Redis", "Cloudflare Workers", "PostgreSQL", "Docker Compose"],
-    githubUrl: "https://github.com/Mishra-Aniket",
-    liveUrl: "https://aniket.one/#primitives",
+      "Manifest V3 Chrome Extension developed for Physics Wallah academic operations. Automates batch scheduling, QA validation, student attendance auditing, and test management directly on the PenPencil Admin portal.",
+    tags: ["Chrome Extensions (MV3)", "JavaScript", "Google Apps Script", "DOM Automation"],
+    githubUrl: "https://github.com/aniketmishra-0",
+    liveUrl: "https://github.com/aniketmishra-0",
+    liveLabel: "Extension Overview",
     highlights: [
-      "Sliding-window distributed rate limiting across edge nodes",
-      "Automatic failover and health check telemetry",
-      "Clean OpenAPI / Swagger automated documentation"
+      "Automates complex multi-step batch scheduling on PenPencil Admin",
+      "Real-time error flagging and fatal mistake prevention for operators",
+      "Integrated with Google Sheets MIS reporting pipelines"
+    ]
+  },
+  {
+    id: "omtabs",
+    title: "OmTabs — Chrome Tab Management & Privacy Shield",
+    subtitle: "Custom Tab Renaming, Biometric Lock & Tab Organization",
+    category: "Productivity Tools",
+    featured: false,
+    badge: "Chrome Web Store Tool",
+    metrics: "Sub-10ms Rename · Biometric Shield · Zero Latency",
+    description:
+      "Chrome extension that enables power users to rename open browser tabs with custom titles, protect sensitive tabs with biometric/passcode shields, and organize work sessions effortlessly.",
+    tags: ["Chrome Extension (MV3)", "JavaScript", "WebAuthn / Biometrics", "CSS3"],
+    githubUrl: "https://github.com/aniketmishra-0",
+    liveUrl: "https://github.com/aniketmishra-0",
+    liveLabel: "Inspect Extension",
+    highlights: [
+      "Instant tab title customization with keyboard shortcuts (Alt+Shift+R)",
+      "Shield lock privacy mechanism to hide sensitive tabs when stepping away",
+      "Persistent session memory with zero browser slowdown"
+    ]
+  },
+  {
+    id: "nexus-streamer",
+    title: "Nexus — Autonomous Drive to YouTube Matrix",
+    subtitle: "Zero-RAM Cloud-to-Cloud Video Streamer",
+    category: "Cloud & Media Streaming",
+    featured: false,
+    badge: "Cloud Pipeline",
+    metrics: "Zero-RAM Streaming · Real-Time SSE · Resumable Uploads",
+    description:
+      "Automated streaming pipeline that bridges Google Drive and YouTube. Streams multi-gigabyte video files directly to YouTube as Unlisted assets with chunk-by-chunk Node.js stream transforms and live Server-Sent Events (SSE) telemetry.",
+    tags: ["Node.js", "Express", "Google YouTube API", "SSE", "Docker"],
+    githubUrl: "https://github.com/aniketmishra-0",
+    liveUrl: "https://github.com/aniketmishra-0",
+    liveLabel: "View Pipeline",
+    highlights: [
+      "Zero-gravity memory footprint using Node.js stream pipelines",
+      "Real-time live progress broadcasting via Server-Sent Events (SSE)",
+      "Automated metadata tagging and unlisted asset provisioning"
     ]
   }
 ];

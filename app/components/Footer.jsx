@@ -42,7 +42,7 @@ export default function Footer() {
     {
       title: "CODE & OSS",
       links: [
-        { label: "GitHub Profile", href: "https://github.com/Mishra-Aniket" },
+        { label: "GitHub Profile", href: "https://github.com/aniketmishra-0" },
         { label: "Architecture Specs", href: "/#thesis" },
         { label: "API Reference", href: "/#primitives" },
         { label: "llms.txt", href: "/llms.txt" },
@@ -121,11 +121,11 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://github.com/Mishra-Aniket"
+                href="https://github.com/aniketmishra-0"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="GitHub: Mishra-Aniket"
-                title="GitHub: Mishra-Aniket"
+                aria-label="GitHub: aniketmishra-0"
+                title="GitHub: aniketmishra-0"
                 className="flex h-9 w-9 items-center justify-center rounded-[6px] border border-white/[0.08] text-[#A8A29E] transition-all hover:border-[#E4C090]/50 hover:text-[#E4C090] hover:scale-105"
               >
                 <svg viewBox="0 0 24 24" fill="currentColor" className="h-[15px] w-[15px]">

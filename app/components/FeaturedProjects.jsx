@@ -9,6 +9,7 @@ import Project3DVisualizer from "./Project3DVisualizer";
 
 export default function FeaturedProjects() {
   const [activeStep, setActiveStep] = useState(0);
+  const projects = PROJECTS;
 
   // High-performance IntersectionObserver: updates active step on scroll without thread lag
   useEffect(() => {
@@ -29,18 +30,20 @@ export default function FeaturedProjects() {
       }
     );
 
-    PROJECTS.forEach((p, idx) => {
+    projects.forEach((p, idx) => {
       const el = document.getElementById(`project-${p.id}`);
       if (el) observer.observe(el);
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [projects]);
 
   const scrollToProject = (idx) => {
     sound.playClick();
     setActiveStep(idx);
-    const el = document.getElementById(`project-${PROJECTS[idx].id}`);
+    const targetProject = projects[idx];
+    if (!targetProject) return;
+    const el = document.getElementById(`project-${targetProject.id}`);
     if (el) {
       if (typeof window !== "undefined" && window.__lenis) {
         window.__lenis.scrollTo(el, { offset: -120, duration: 1.0 });
@@ -80,7 +83,7 @@ export default function FeaturedProjects() {
         {/* Mobile Sticky Horizontal Tabs */}
         <div className="lg:hidden sticky top-14 md:top-20 z-30 -mx-4 px-4 py-2.5 bg-[#FDFBF7]/95 backdrop-blur-md border-y border-[#E4D9BC]/70 mb-8">
           <div className="flex gap-2 overflow-x-auto no-scrollbar py-0.5">
-            {PROJECTS.map((project, idx) => (
+            {projects.map((project, idx) => (
               <button
                 key={project.id}
                 onClick={() => scrollToProject(idx)}
@@ -104,7 +107,7 @@ export default function FeaturedProjects() {
             <div className="sticky top-28 md:top-32 w-full">
               {/* Progress Bars */}
               <div className="mb-8 flex gap-1.5" aria-hidden="true">
-                {PROJECTS.map((p, idx) => (
+                {projects.map((p, idx) => (
                   <div key={p.id} className="relative h-[3px] flex-1 overflow-hidden rounded-full bg-[#F1E9DA]">
                     <div
                       className="absolute inset-0 origin-left bg-[#B45309] transition-transform duration-300"
@@ -116,7 +119,7 @@ export default function FeaturedProjects() {
 
               {/* Step Navigation Buttons matching Image 3 */}
               <nav className="flex flex-col gap-2">
-                {PROJECTS.map((project, idx) => {
+                {projects.map((project, idx) => {
                   const isActive = activeStep === idx;
                   return (
                     <button
@@ -177,7 +180,7 @@ export default function FeaturedProjects() {
 
           {/* Right Column: ALL Projects Stacked Continuously (Scroll down to view every project) */}
           <div className="lg:col-span-8 flex flex-col gap-14">
-            {PROJECTS.map((project, idx) => (
+            {projects.map((project, idx) => (
               <article
                 key={project.id}
                 id={`project-${project.id}`}
@@ -250,10 +253,12 @@ export default function FeaturedProjects() {
                 <div className="flex items-center justify-between gap-3 pt-2">
                   <a
                     href={project.liveUrl}
+                    target={project.liveUrl?.startsWith("http") ? "_blank" : undefined}
+                    rel={project.liveUrl?.startsWith("http") ? "noopener noreferrer" : undefined}
                     onClick={() => sound.playClick()}
                     className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-[#B45309] hover:text-[#92400E] transition-colors"
                   >
-                    <span>Interactive Demo</span>
+                    <span>{project.liveLabel || "Launch App / Demo"}</span>
                     <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </a>
 
