@@ -11,6 +11,22 @@ const LAYERS = STACK_LAYERS;
 export default function StackDiagram() {
   const [hoveredLayer, setHoveredLayer] = useState(null);
 
+  // Auto-highlight layer when navigated via hash (e.g. #stack-l01)
+  useEffect(() => {
+    const handleHash = () => {
+      if (typeof window === "undefined") return;
+      const hash = window.location.hash.toLowerCase();
+      if (hash.includes("l00") || hash.includes("data") || hash.includes("database")) setHoveredLayer(0);
+      else if (hash.includes("l01") || hash.includes("engine") || hash.includes("backend")) setHoveredLayer(1);
+      else if (hash.includes("l02") || hash.includes("automation") || hash.includes("pipeline")) setHoveredLayer(2);
+      else if (hash.includes("l03") || hash.includes("ui") || hash.includes("frontend")) setHoveredLayer(3);
+      else if (hash.includes("l04") || hash.includes("edge") || hash.includes("agent")) setHoveredLayer(4);
+    };
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
+
   const getOffsetY = (idx) => {
     if (hoveredLayer === null) return 0;
     if (idx > hoveredLayer) return -26;

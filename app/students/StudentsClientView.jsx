@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
@@ -14,15 +14,18 @@ import {
   Sparkles, 
   CheckCircle2, 
   ArrowRight, 
-  MessageSquare, 
   Code2, 
   BookOpen, 
-  Gift, 
+  FileText,
   Mail,
-  ExternalLink
+  ExternalLink,
+  Layers,
+  Download,
+  Terminal,
+  FolderGit2
 } from "lucide-react";
 import { sound } from "../utils/sound";
-import { STUDENT_OFFERS } from "../data/portfolioData";
+import { STUDENT_OFFERS, STUDENT_RESOURCES } from "../data/portfolioData";
 
 function RevealTitle({ text }) {
   const words = text.split(" ");
@@ -55,6 +58,7 @@ export default function StudentsClientView() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [assessmentOpen, setAssessmentOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -66,6 +70,48 @@ export default function StudentsClientView() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Handle auto-scroll and highlight on hash navigation (e.g. #student-mentorship, #resource-fullstack-ai-roadmap)
+  useEffect(() => {
+    const handleHash = () => {
+      if (typeof window === "undefined") return;
+      const hash = window.location.hash;
+      if (hash && hash.length > 1) {
+        const targetId = hash.slice(1);
+        const el = document.getElementById(targetId);
+        if (el) {
+          setTimeout(() => {
+            if (window.__lenis) {
+              window.__lenis.scrollTo(el, { offset: -100, duration: 1.0 });
+            } else {
+              el.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+            el.classList.add("ring-2", "ring-[#B45309]", "ring-offset-4", "transition-all", "duration-500");
+            setTimeout(() => {
+              el.classList.remove("ring-2", "ring-[#B45309]", "ring-offset-4");
+            }, 2500);
+          }, 120);
+        }
+      }
+    };
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
+
+  // Filter resources by category
+  const categories = useMemo(() => {
+    const set = new Set(["All"]);
+    (STUDENT_RESOURCES || []).forEach(r => {
+      if (r.category) set.add(r.category);
+    });
+    return Array.from(set);
+  }, []);
+
+  const filteredResources = useMemo(() => {
+    if (selectedCategory === "All") return STUDENT_RESOURCES || [];
+    return (STUDENT_RESOURCES || []).filter(r => r.category === selectedCategory);
+  }, [selectedCategory]);
 
   return (
     <div className="relative min-h-screen bg-[#FDFBF7] text-[#4A3B33] selection:bg-[#B45309]/20 selection:text-[#B45309]">
@@ -97,37 +143,38 @@ export default function StudentsClientView() {
               </div>
 
               {/* Title */}
-              <RevealTitle text="Free Perks, Mentorship &amp; Grants for Student Builders." />
+              <RevealTitle text="Free Resources, Mentorship &amp; Grants for Student Builders." />
 
               {/* Subtitle */}
               <p className="mt-6 text-[1.125rem] leading-[1.75] text-[#57534E] font-light max-w-2xl">
-                I believe talent is everywhere, but real-world engineering feedback is rare. If you are an active college student, self-taught learner, or campus founder, access direct engineering mentorship, free code reviews, and subsidized build sprints.
+                Real-world engineering feedback, production roadmaps, and boilerplate starters for college students, self-taught coders, and campus founders — 100% free with zero corporate fluff.
               </p>
 
               {/* Action Buttons */}
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <a
-                  href="#offers"
+                  href="#resources"
                   onClick={() => sound.playClick()}
                   className="inline-flex items-center gap-2 rounded-[var(--radius)] bg-[#B45309] px-6 py-3 font-mono text-xs font-bold text-white shadow-xs hover:bg-[#A16207] transition-all cursor-pointer"
                 >
-                  <span>Explore 4 Student Perks</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>Explore Free Resources ({STUDENT_RESOURCES?.length || 0})</span>
                 </a>
-                <Link
-                  href="/#work"
+                <a
+                  href="#offers"
                   onClick={() => sound.playClick()}
                   className="inline-flex items-center gap-2 rounded-[var(--radius)] bg-white px-5 py-3 font-mono text-xs font-semibold text-[#4A3B33] border border-[#E4D9BC] shadow-xs hover:border-[#B45309]/50 transition-all cursor-pointer"
                 >
-                  <span>View Proof of Work</span>
-                </Link>
+                  <Sparkles className="w-3.5 h-3.5 text-[#B45309]" />
+                  <span>Student Perks &amp; Grants ({STUDENT_OFFERS?.length || 0})</span>
+                </a>
               </div>
 
               {/* Quick Trust Counters */}
               <div className="mt-12 pt-8 border-t border-[#E4D9BC]/70 grid grid-cols-2 sm:grid-cols-4 gap-6 font-mono">
                 <div>
                   <div className="text-2xl font-bold text-[#4A3B33]">100% Free</div>
-                  <div className="text-[11px] text-[#78716C] uppercase tracking-wider mt-0.5">Mentorship &amp; Reviews</div>
+                  <div className="text-[11px] text-[#78716C] uppercase tracking-wider mt-0.5">Resources &amp; Reviews</div>
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-[#B45309]">48-Hour</div>
@@ -146,28 +193,136 @@ export default function StudentsClientView() {
           </div>
         </section>
 
-        {/* Offers Grid Section */}
-        <section id="offers" className="py-20 md:py-28 bg-[#FDFBF7]">
+        {/* SECTION 1: FREE DEVELOPER RESOURCES & LEARNING TOOLKITS */}
+        <section id="resources" className="py-20 md:py-28 bg-[#FAF6EE]/50 border-b border-[#E4D9BC]/80 scroll-mt-24">
+          <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+              <div>
+                <span className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B45309]">
+                  <BookOpen className="w-3.5 h-3.5" />
+                  Free Toolkits &amp; Guides
+                </span>
+                <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#4A3B33] mt-2 mb-3">
+                  Free Student Developer Resources
+                </h2>
+                <p className="text-[1rem] text-[#57534E] max-w-2xl leading-relaxed">
+                  Curated roadmaps, production starters, architecture cheatsheets, and developer templates. 100% open and free to use.
+                </p>
+              </div>
+
+              {/* Category Filter Chips */}
+              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 md:pb-0">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => {
+                      sound.playClick();
+                      setSelectedCategory(cat);
+                    }}
+                    className={`font-mono text-xs px-3 py-1.5 rounded-full border transition-all cursor-pointer whitespace-nowrap ${
+                      selectedCategory === cat
+                        ? "bg-[#B45309] text-white border-[#B45309] shadow-xs"
+                        : "bg-white text-[#78716C] border-[#E4D9BC] hover:border-[#B45309]/50 hover:text-[#4A3B33]"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Grid of Resources */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+              {filteredResources.map((res, idx) => (
+                <div
+                  key={res.id}
+                  id={`resource-${res.id}`}
+                  className="scroll-mt-32 group relative rounded-[var(--radius)] border border-[#E4D9BC] bg-white p-7 sm:p-9 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-soft-lg)] hover:border-[#B45309]/50 transition-all duration-300 flex flex-col justify-between"
+                >
+                  <div>
+                    {/* Header: Category & Badge */}
+                    <div className="flex items-center justify-between gap-3 mb-4">
+                      <span className="font-mono text-xs font-bold text-[#B45309] bg-[#B45309]/10 px-2.5 py-1 rounded border border-[#B45309]/20">
+                        {res.category.toUpperCase()}
+                      </span>
+                      <span className="font-mono text-[10.5px] font-bold uppercase tracking-wider text-[#059669] bg-[#059669]/10 px-2.5 py-1 rounded border border-[#059669]/20">
+                        {res.badge}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="font-serif text-2xl font-bold text-[#4A3B33] mb-2 group-hover:text-[#B45309] transition-colors">
+                      {res.title}
+                    </h3>
+
+                    {/* Tagline */}
+                    <p className="font-mono text-xs text-[#78716C] mb-4">
+                      {res.tagline}
+                    </p>
+
+                    {/* Description */}
+                    <p className="text-[0.9375rem] leading-[1.7] text-[#57534E] mb-6">
+                      {res.description}
+                    </p>
+
+                    {/* Tags */}
+                    {res.tags && res.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mb-6">
+                        {res.tags.map((t, tIdx) => (
+                          <span 
+                            key={tIdx} 
+                            className="font-mono text-[10.5px] text-[#78716C] bg-[#FAF6EE] border border-[#E4D9BC] px-2 py-0.5 rounded"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Action Link */}
+                  <div className="pt-4 border-t border-[#E4D9BC]/60">
+                    <a
+                      href={res.downloadOrOpenUrl}
+                      target={res.downloadOrOpenUrl.startsWith("http") ? "_blank" : undefined}
+                      rel={res.downloadOrOpenUrl.startsWith("http") ? "noopener noreferrer" : undefined}
+                      onClick={() => sound.playClick()}
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius)] bg-[#FAF6EE] border border-[#E4D9BC] py-3 px-4 font-mono text-xs font-bold text-[#4A3B33] group-hover:bg-[#B45309] group-hover:text-white group-hover:border-[#B45309] transition-all cursor-pointer"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      <span>{res.actionLabel}</span>
+                      <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION 2: STUDENT PERKS & OFFERS */}
+        <section id="offers" className="py-20 md:py-28 bg-[#FDFBF7] scroll-mt-24">
           <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
             <div className="mb-14">
               <span className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B45309]">
                 <Sparkles className="w-3.5 h-3.5" />
-                What You Get
+                Mentorship &amp; Grants
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#4A3B33] mt-2 mb-4">
-                Available Student Offers &amp; Builder Perks
+                Student Perks &amp; Builder Offers
               </h2>
               <p className="text-[1rem] text-[#57534E] max-w-2xl leading-relaxed">
-                All initiatives are completely free or heavily subsidized. Just reach out with your student ID or project link — zero corporate gatekeeping.
+                Direct engineering mentorship, free GitHub code reviews, open-source production templates, and subsidized MVP build grants.
               </p>
             </div>
 
-            {/* Grid of 4 Offers */}
+            {/* Grid of Offers */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
               {STUDENT_OFFERS.map((offer, idx) => (
                 <div
                   key={offer.id}
-                  className="group relative rounded-[var(--radius)] border border-[#E4D9BC] bg-white p-7 sm:p-9 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-soft-lg)] hover:border-[#B45309]/50 transition-all duration-300 flex flex-col justify-between"
+                  id={`student-${offer.id}`}
+                  className="scroll-mt-32 group relative rounded-[var(--radius)] border border-[#E4D9BC] bg-white p-7 sm:p-9 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-soft-lg)] hover:border-[#B45309]/50 transition-all duration-300 flex flex-col justify-between"
                 >
                   <div>
                     {/* Header: Number & Badge */}

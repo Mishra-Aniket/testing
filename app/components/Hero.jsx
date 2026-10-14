@@ -110,7 +110,7 @@ export default function Hero({ onOpenAssessment }) {
           </div>
 
           {/* Right Column: 3D Stack Diagram */}
-          <div className="lg:col-span-6 relative">
+          <div id="stack" className="lg:col-span-6 relative scroll-mt-32">
             <StackDiagram />
           </div>
         </div>

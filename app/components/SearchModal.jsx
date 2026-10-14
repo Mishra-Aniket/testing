@@ -23,6 +23,7 @@ import {
   PROJECTS,
   SERVICES,
   STUDENT_OFFERS,
+  STUDENT_RESOURCES,
   STACK_LAYERS,
   FAQS,
   SITE_PAGES
@@ -43,14 +44,14 @@ const ICON_MAP = {
   Mail
 };
 
-// 6 Core Quick Navigation links when search is empty
+// Core Quick Navigation links when search input is empty
 const QUICK_LINKS = [
   {
     id: "quick-work",
     label: "Featured Projects",
     subtitle: "OmTabs, OmSpace, Centrix, ImgWorld & Open-Source Tools",
     badge: "Work",
-    href: "#work",
+    href: "/#work",
     external: false,
     icon: Folder
   },
@@ -59,7 +60,7 @@ const QUICK_LINKS = [
     label: "Engineering Services",
     subtitle: "Full-Stack MVP Sprint, Architecture & System Audits",
     badge: "Services",
-    href: "#services",
+    href: "/#services",
     external: false,
     icon: Rocket
   },
@@ -68,34 +69,34 @@ const QUICK_LINKS = [
     label: "Core Tech Stack",
     subtitle: "Next.js, React, TypeScript, .NET 8, FastAPI, PostgreSQL",
     badge: "Stack",
-    href: "#stack",
+    href: "/#stack",
     external: false,
     icon: Layers
   },
   {
-    id: "quick-students",
-    label: "Student Initiatives",
-    subtitle: "Free guidance, project reviews & mentorship for engineering students",
-    badge: "Students",
-    href: "/students",
+    id: "quick-resources",
+    label: "Free Student Resources",
+    subtitle: "Curated roadmaps, production starters & architecture cheatsheets",
+    badge: "Free",
+    href: "/students#resources",
     external: false,
-    icon: GraduationCap
+    icon: BookOpen
   },
   {
-    id: "quick-walkthrough",
-    label: "Architecture & Code Walkthrough",
-    subtitle: "Deep-dive interactive architecture breakdown",
-    badge: "Deep Dive",
-    href: "#walkthrough",
+    id: "quick-students",
+    label: "Student Perks & Grants",
+    subtitle: "1-on-1 mentorship, GitHub code reviews & subsidized MVP grants",
+    badge: "Students",
+    href: "/students#offers",
     external: false,
-    icon: Cpu
+    icon: GraduationCap
   },
   {
     id: "quick-contact",
     label: "Contact & Hire Aniket",
     subtitle: "Direct email, calendar invite & MSME registered business details",
     badge: "Contact",
-    href: "#contact",
+    href: "/#get-access",
     external: false,
     icon: Mail
   }
@@ -164,81 +165,95 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
     };
   }, [isOpen]);
 
-  // Build the complete search index dynamically from portfolioData.js
+  // Build the complete search index dynamically with exact element destinations
   const allSearchItems = useMemo(() => {
     const list = [];
 
-    // 1. Projects
+    // 1. Projects -> Exact project cards (#project-${p.id})
     (PROJECTS || []).forEach((p) => {
       list.push({
         id: `proj-${p.id}`,
         label: p.title,
         subtitle: p.subtitle || p.metrics || "Project",
         badge: "Project",
-        href: p.liveUrl && p.liveUrl.startsWith("http") ? p.liveUrl : "#work",
-        external: p.liveUrl && p.liveUrl.startsWith("http"),
+        href: `/#project-${p.id}`,
+        external: false,
         icon: Folder,
         keywords: `${p.title} ${p.subtitle} ${p.category} ${p.tags?.join(" ")} ${p.description} ${p.metrics}`.toLowerCase()
       });
     });
 
-    // 2. Services
+    // 2. Services -> Exact service cards (#service-${s.id})
     (SERVICES || []).forEach((s) => {
       list.push({
         id: `srv-${s.id}`,
         label: s.title,
         subtitle: s.tagline || s.turnaround || "Service",
         badge: "Service",
-        href: "#services",
+        href: `/#service-${s.id}`,
         external: false,
         icon: Rocket,
         keywords: `${s.title} ${s.tagline} ${s.deliverables?.join(" ")} ${s.description} ${s.turnaround}`.toLowerCase()
       });
     });
 
-    // 3. Tech Stack Layers
+    // 3. Tech Stack Layers -> Exact layer in 3D Stack Diagram (#stack-${sl.id})
     (STACK_LAYERS || []).forEach((sl) => {
       list.push({
         id: `stack-${sl.id || sl.idx}`,
         label: sl.title,
         subtitle: (sl.techs || []).slice(0, 4).join(" · "),
         badge: "Stack",
-        href: "#stack",
+        href: `/#stack-${sl.id || "stack"}`,
         external: false,
         icon: Layers,
         keywords: `${sl.title} ${sl.techs?.join(" ")} ${sl.body} ${sl.keywords?.join(" ")}`.toLowerCase()
       });
     });
 
-    // 4. Student Initiatives
+    // 4. Student Resources -> Exact resource cards on /students (#resource-${r.id})
+    (STUDENT_RESOURCES || []).forEach((r) => {
+      list.push({
+        id: `res-${r.id}`,
+        label: r.title,
+        subtitle: `${r.category} · ${r.tagline || r.badge}`,
+        badge: "Free Resource",
+        href: `/students#resource-${r.id}`,
+        external: false,
+        icon: BookOpen,
+        keywords: `${r.title} ${r.category} ${r.tagline} ${r.description} ${r.tags?.join(" ")}`.toLowerCase()
+      });
+    });
+
+    // 5. Student Offers & Perks -> Exact offer cards on /students (#student-${st.id})
     (STUDENT_OFFERS || []).forEach((st) => {
       list.push({
         id: `student-${st.id}`,
         label: st.title,
         subtitle: st.highlight || st.tagline || "Free",
-        badge: "Student",
-        href: st.actionUrl?.startsWith("mailto") ? st.actionUrl : "/students",
-        external: st.actionUrl?.startsWith("mailto"),
+        badge: "Student Perk",
+        href: `/students#student-${st.id}`,
+        external: false,
         icon: GraduationCap,
         keywords: `${st.title} ${st.highlight} ${st.tagline} ${st.description}`.toLowerCase()
       });
     });
 
-    // 5. Frequently Asked Questions
-    (FAQS || []).forEach((f) => {
+    // 6. Frequently Asked Questions -> Exact FAQ item (#faq-${idx})
+    (FAQS || []).forEach((f, idx) => {
       list.push({
-        id: `faq-${f.id || f.q}`,
+        id: `faq-${idx}`,
         label: f.q,
         subtitle: f.a,
         badge: "FAQ",
-        href: f.href || "#faq",
+        href: `/#faq-${idx}`,
         external: false,
         icon: HelpCircle,
         keywords: `${f.q} ${f.a} ${f.keywords?.join(" ")}`.toLowerCase()
       });
     });
 
-    // 6. Navigation Routes & Profiles
+    // 7. Navigation Routes & Profiles
     (SITE_PAGES || []).forEach((pg) => {
       let IconCmp = FileText;
       if (pg.icon) {
@@ -281,8 +296,22 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
       return;
     }
 
-    if (item.href.startsWith("#")) {
-      const targetId = item.href.slice(1);
+    const url = item.href;
+    const hashIdx = url.indexOf("#");
+    const targetHash = hashIdx !== -1 ? url.substring(hashIdx) : null;
+    const targetId = targetHash ? targetHash.slice(1) : null;
+    const targetPath = hashIdx !== -1 ? url.substring(0, hashIdx) : url;
+
+    const currentPath = typeof window !== "undefined" ? window.location.pathname.replace(/\/+$/, "") || "/" : "/";
+    const normalizedTargetPath = targetPath.replace(/\/+$/, "") || "/";
+
+    const isSamePage =
+      targetPath === "" ||
+      (targetPath === "/" && (currentPath === "/" || currentPath.endsWith("/testing"))) ||
+      currentPath === normalizedTargetPath ||
+      currentPath.endsWith(normalizedTargetPath);
+
+    if (isSamePage && targetId) {
       const el = document.getElementById(targetId);
       if (el) {
         setTimeout(() => {
@@ -290,15 +319,23 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
             window.__lenis.start();
             window.__lenis.scrollTo(el, { offset: -96, duration: 1.0 });
           } else {
-            el.scrollIntoView({ behavior: "smooth" });
+            el.scrollIntoView({ behavior: "smooth", block: "center" });
           }
+
+          // Pulse highlight ring
+          el.classList.add("ring-2", "ring-[#B45309]", "ring-offset-4", "transition-all", "duration-500");
+          setTimeout(() => {
+            el.classList.remove("ring-2", "ring-[#B45309]", "ring-offset-4");
+          }, 2500);
         }, 80);
-      } else {
-        window.location.hash = item.href;
+
+        window.history.pushState(null, "", targetHash);
+        return;
       }
-    } else {
-      window.location.href = item.href;
     }
+
+    // Navigate to destination route with hash
+    window.location.href = url;
   };
 
   const handleKeyDown = (e) => {
@@ -340,7 +377,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
         >
           <Search className="w-4 h-4 text-[#B45309] shrink-0" />
           <span className="truncate max-w-[240px] sm:max-w-none">
-            Search projects, stack, services…
+            Search projects, stack, resources…
           </span>
           <kbd className="hidden sm:inline-flex ml-2 rounded border border-[#E4D9BC] bg-[#F8F4EE] px-1.5 py-0.5 font-mono text-[11px] text-[#78716C]">
             ⌘ K
@@ -391,7 +428,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                       setQuery(e.target.value);
                       setSelectedIndex(0);
                     }}
-                    placeholder="Search projects, services, stack, FAQs, pages…"
+                    placeholder="Search projects, stack, resources, offers, FAQs…"
                     className="w-full bg-transparent text-sm text-[#4A3B33] placeholder-[#A8A29E] outline-none font-sans"
                   />
                   {query ? (
@@ -489,7 +526,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                     <span>esc close</span>
                   </div>
                   <span className="text-[10px] text-[#78716C]">
-                    Click row to jump
+                    Click row to jump directly
                   </span>
                 </div>
               </motion.div>

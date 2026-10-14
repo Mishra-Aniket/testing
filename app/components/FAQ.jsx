@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronDown, ArrowRight, HelpCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { sound } from "../utils/sound";
@@ -12,6 +12,23 @@ const FAQ_ITEMS = FAQS;
 export default function FAQ() {
   // First item open by default for immediate context
   const [openIndex, setOpenIndex] = useState(0);
+
+  // Auto-open FAQ when targeted by URL hash (e.g. #faq-2)
+  useEffect(() => {
+    const handleHash = () => {
+      if (typeof window === "undefined") return;
+      const hash = window.location.hash;
+      if (hash && hash.startsWith("#faq-")) {
+        const idx = parseInt(hash.replace("#faq-", ""), 10);
+        if (!isNaN(idx) && idx >= 0 && idx < FAQ_ITEMS.length) {
+          setOpenIndex(idx);
+        }
+      }
+    };
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
 
   const toggleItem = (idx) => {
     sound.playClick();
@@ -47,7 +64,8 @@ export default function FAQ() {
             return (
               <div 
                 key={idx}
-                className={`transition-colors duration-200 ${
+                id={`faq-${idx}`}
+                className={`scroll-mt-32 transition-colors duration-200 ${
                   isOpen ? "bg-[#FAF6EE]/70" : "bg-transparent hover:bg-black/[0.015]"
                 }`}
               >

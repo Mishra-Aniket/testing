@@ -417,6 +417,73 @@ export const STUDENT_OFFERS = [
   },
 ];
 
+/**
+ * ==============================================================================
+ * STUDENT FREE RESOURCES & LEARNING TOOLKITS
+ * ==============================================================================
+ * 💡 TIPS FOR USER:
+ * Yahan aap aasani se naye free resources add ya edit kar sakte hain:
+ * - title: Resource ka naam
+ * - category: Roadmap | Starter Kit | Cheatsheet | Template | Tool
+ * - badge: Free / Open Source / PDF
+ * - tagline: Short single-line punchline
+ * - description: Detailed overview
+ * - tags: Key technologies
+ * - downloadOrOpenUrl: GitHub repo, Drive link, PDF, ya tool URL
+ * - actionLabel: Button text (e.g. "Download Free PDF", "Clone Repo", "Open Guide")
+ * ==============================================================================
+ */
+export const STUDENT_RESOURCES = [
+  {
+    id: "fullstack-ai-roadmap",
+    title: "Modern Full-Stack & AI Systems Engineering Roadmap (2026)",
+    category: "Roadmap",
+    badge: "100% Free",
+    tagline: "From JavaScript basics to Next.js 15, FastAPI, .NET 8, and LLM Orchestration.",
+    description: "A battle-tested, zero-fluff engineering guide designed to take you from syntax to shipping production-grade distributed architectures with real database integrity.",
+    tags: ["Next.js 15", "FastAPI", "PostgreSQL", "Docker", "System Design"],
+    downloadOrOpenUrl: "https://github.com/aniketmishra-0",
+    actionLabel: "View Roadmap on GitHub",
+    featured: true
+  },
+  {
+    id: "mv3-chrome-boilerplate",
+    title: "Chrome Extension MV3 Production Starter Kit",
+    category: "Starter Kit",
+    badge: "Open Source",
+    tagline: "The exact architectural template used for OmTabs & OmSpace extensions.",
+    description: "Pre-configured Manifest V3 boilerplate with React 19, Tailwind CSS, background service workers, local session storage, and biometric lock hooks.",
+    tags: ["Chrome MV3", "React 19", "Tailwind CSS", "WebAuthn"],
+    downloadOrOpenUrl: "https://github.com/aniketmishra-0",
+    actionLabel: "Get Boilerplate (MIT)",
+    featured: true
+  },
+  {
+    id: "system-design-cheatsheet",
+    title: "High-Throughput Microservices & SQL Cheatsheet",
+    category: "Cheatsheet",
+    badge: "Free Guide",
+    tagline: "Database indexing, SQLite WAL mode, chunked resumable uploads & Redis caching.",
+    description: "Compact production cheatsheet summarizing latency optimization patterns, SQL indexing best practices, and lessons learned scaling Centrix across 500+ centers.",
+    tags: [".NET 8", "SQLite WAL", "Redis", "Resumable Uploads"],
+    downloadOrOpenUrl: "https://github.com/aniketmishra-0",
+    actionLabel: "Read Architecture Cheatsheet",
+    featured: true
+  },
+  {
+    id: "developer-portfolio-template",
+    title: "Proof-of-Work Developer Portfolio Template",
+    category: "Template",
+    badge: "Figma & Next.js",
+    tagline: "Showcase real engineering metrics, architecture breakdowns, and interactive telemetry.",
+    description: "Clean, editorial developer portfolio template designed to highlight proof-of-work, system telemetry, and case studies instead of generic skill bars.",
+    tags: ["Portfolio", "Next.js", "Tailwind CSS", "Proof of Work"],
+    downloadOrOpenUrl: "https://github.com/aniketmishra-0",
+    actionLabel: "Clone Portfolio Starter",
+    featured: true
+  }
+];
+
 export const STACK_LAYERS = [
   {
     id: "l00",
