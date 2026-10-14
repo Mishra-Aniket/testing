@@ -151,6 +151,31 @@ export default function Navbar({
   const [soundActive, setSoundActive] = useState(true);
   const [isVisible, setIsVisible] = useState(true);
 
+  // Dual GitHub Profiles Hover & Direct Open Both State
+  const [githubHovered, setGithubHovered] = useState(false);
+  const githubTimeoutRef = useRef(null);
+
+  const handleGithubMouseEnter = () => {
+    if (githubTimeoutRef.current) clearTimeout(githubTimeoutRef.current);
+    setGithubHovered(true);
+  };
+
+  const handleGithubMouseLeave = () => {
+    githubTimeoutRef.current = setTimeout(() => {
+      setGithubHovered(false);
+    }, 180);
+  };
+
+  const handleOpenBothGithub = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    sound.playClick();
+    window.open("https://github.com/aniketmishra-0", "_blank", "noopener,noreferrer");
+    window.open("https://github.com/Mishra-Aniket", "_blank", "noopener,noreferrer");
+  };
+
   const lastScrollY = useRef(0);
   const accumulatedDelta = useRef(0);
 
@@ -657,20 +682,126 @@ export default function Navbar({
 
           {/* Right CTA */}
           <div className="hidden lg:flex items-center gap-2.5">
-            {/* GitHub Star / Profile Pill */}
-            <a
-              href="https://github.com/aniketmishra-0"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => sound.playClick()}
-              className="nav-btn-ghost inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[var(--radius)] font-mono text-[11px] font-semibold border shadow-xs transition-all duration-200"
-              title="GitHub: @aniketmishra-0"
+            {/* GitHub Dual Profiles Pill + Hover Menu */}
+            <div
+              className="relative"
+              onMouseEnter={handleGithubMouseEnter}
+              onMouseLeave={handleGithubMouseLeave}
             >
-              <svg viewBox="0 0 24 24" fill="currentColor" className="w-3.5 h-3.5">
-                <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-              </svg>
-              <span>GitHub</span>
-            </a>
+              <button
+                type="button"
+                onClick={handleOpenBothGithub}
+                className="nav-btn-ghost inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[var(--radius)] font-mono text-[11px] font-semibold border shadow-xs transition-all duration-200 cursor-pointer group/ghbtn select-none"
+                title="Click to open both GitHub profiles in new tabs (Hover to pick)"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-3.5 h-3.5">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                </svg>
+                <span>GitHub</span>
+                <span className="inline-flex items-center justify-center px-1 rounded text-[9.5px] font-bold bg-[#B45309]/10 text-[#B45309] leading-tight">
+                  2
+                </span>
+                <ChevronDown className="w-3 h-3 text-[#78716C] transition-transform duration-200 group-hover/ghbtn:rotate-180" />
+              </button>
+
+              {/* Floating Hover Card */}
+              <AnimatePresence>
+                {githubHovered && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                    transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute top-full right-0 pt-2 w-72 z-50 pointer-events-auto"
+                    onMouseEnter={handleGithubMouseEnter}
+                    onMouseLeave={handleGithubMouseLeave}
+                  >
+                    <div className="p-2.5 rounded-xl border border-[#E4D9BC] bg-[#FDFBF7] shadow-[0_16px_36px_-6px_rgba(74,59,51,0.22)] text-[#4A3B33]">
+                      <div className="flex items-center justify-between px-2 py-1 mb-1.5 border-b border-[#E4D9BC]/60">
+                        <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-[#78716C]">
+                          2 GitHub Accounts
+                        </span>
+                        <span className="font-mono text-[9px] font-bold text-[#B45309] bg-[#B45309]/10 px-1.5 py-0.5 rounded">
+                          Click = Both
+                        </span>
+                      </div>
+
+                      <div className="space-y-1">
+                        {/* Profile 1 */}
+                        <a
+                          href="https://github.com/aniketmishra-0"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            sound.playClick();
+                          }}
+                          className="flex items-center justify-between p-2 rounded-lg hover:bg-[#FAF6EE] border border-transparent hover:border-[#E4D9BC]/80 transition-all group/item"
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <div className="w-7 h-7 rounded-lg bg-[#FAF6EE] border border-[#E4D9BC] flex items-center justify-center shrink-0 text-[#4A3B33] group-hover/item:text-[#B45309] group-hover/item:border-[#B45309]">
+                              <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                                <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                              </svg>
+                            </div>
+                            <div className="min-w-0">
+                              <div className="font-mono text-xs font-bold text-[#4A3B33] group-hover/item:text-[#B45309] truncate">
+                                @aniketmishra-0
+                              </div>
+                              <div className="text-[10px] text-[#78716C] font-mono truncate">
+                                Primary · 699+ Commits
+                              </div>
+                            </div>
+                          </div>
+                          <ArrowUpRight className="w-3.5 h-3.5 text-[#A8A29E] group-hover/item:text-[#B45309] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-transform shrink-0" />
+                        </a>
+
+                        {/* Profile 2 */}
+                        <a
+                          href="https://github.com/Mishra-Aniket"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            sound.playClick();
+                          }}
+                          className="flex items-center justify-between p-2 rounded-lg hover:bg-[#FAF6EE] border border-transparent hover:border-[#E4D9BC]/80 transition-all group/item"
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <div className="w-7 h-7 rounded-lg bg-[#FAF6EE] border border-[#E4D9BC] flex items-center justify-center shrink-0 text-[#4A3B33] group-hover/item:text-[#B45309] group-hover/item:border-[#B45309]">
+                              <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                                <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                              </svg>
+                            </div>
+                            <div className="min-w-0">
+                              <div className="font-mono text-xs font-bold text-[#4A3B33] group-hover/item:text-[#B45309] truncate">
+                                @Mishra-Aniket
+                              </div>
+                              <div className="text-[10px] text-[#78716C] font-mono truncate">
+                                Enterprise &amp; Systems
+                              </div>
+                            </div>
+                          </div>
+                          <ArrowUpRight className="w-3.5 h-3.5 text-[#A8A29E] group-hover/item:text-[#B45309] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-transform shrink-0" />
+                        </a>
+                      </div>
+
+                      {/* Action Button: Open Both Tabs */}
+                      <div className="mt-2 pt-1.5 border-t border-[#E4D9BC]/60">
+                        <button
+                          type="button"
+                          onClick={handleOpenBothGithub}
+                          className="w-full flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg bg-[#FAF6EE] hover:bg-[#B45309] text-[#B45309] hover:text-white border border-[#E4D9BC] hover:border-[#B45309] text-[11px] font-mono font-semibold transition-all cursor-pointer"
+                        >
+                          <span>Open Both in Tabs</span>
+                          <ArrowUpRight className="w-3 h-3" />
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             {/* Audio Toggle Button */}
             <button
@@ -992,18 +1123,17 @@ export default function Navbar({
                 <div className="pt-3 pb-6 flex flex-col gap-3 shrink-0 border-t border-[#E4D9BC]/60">
                   {/* Social profiles bar */}
                   <div className="grid grid-cols-3 gap-2">
-                    <a
-                      href="https://github.com/aniketmishra-0"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => sound.playClick()}
-                      className="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border border-[#E4D9BC] bg-white hover:border-[#B45309] hover:bg-[#FAF6EE] text-[#4A3B33] font-mono text-xs shadow-2xs transition-all active:scale-[0.98]"
+                    <button
+                      type="button"
+                      onClick={handleOpenBothGithub}
+                      className="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border border-[#E4D9BC] bg-white hover:border-[#B45309] hover:bg-[#FAF6EE] text-[#4A3B33] font-mono text-xs shadow-2xs transition-all active:scale-[0.98] cursor-pointer"
+                      title="Open both GitHub profiles in new tabs"
                     >
                       <svg className="w-3.5 h-3.5 fill-current text-[#4A3B33]" viewBox="0 0 24 24">
                         <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
                       </svg>
-                      <span>GitHub</span>
-                    </a>
+                      <span>GitHub (2)</span>
+                    </button>
                     <a
                       href="https://www.linkedin.com/in/aniketmishra0"
                       target="_blank"

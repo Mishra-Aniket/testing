@@ -42,7 +42,8 @@ export default function Footer() {
     {
       title: "CODE & OSS",
       links: [
-        { label: "GitHub Profile", href: "https://github.com/aniketmishra-0" },
+        { label: "GitHub (@aniketmishra-0)", href: "https://github.com/aniketmishra-0" },
+        { label: "GitHub (@Mishra-Aniket)", href: "https://github.com/Mishra-Aniket" },
         { label: "Architecture Specs", href: "/#thesis" },
         { label: "API Reference", href: "/#primitives" },
         { label: "llms.txt", href: "/llms.txt" },
