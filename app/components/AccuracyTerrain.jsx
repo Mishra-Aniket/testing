@@ -1,57 +1,85 @@
 "use client";
 
 import React, { useState, useRef, useMemo } from "react";
+import { sound } from "../utils/sound";
 
-// Checkpoint data from getalchemystai.com
-const CHECKPOINTS = [8, 32, 64, 96, 115];
+// 12 Months of real GitHub contribution timeline across both accounts
+const MONTHS = [
+  { label: "Nov 25", month: "November 2025", aniket0: 5, mishra: 20, combined: 25 },
+  { label: "Dec 25", month: "December 2025", aniket0: 65, mishra: 6, combined: 71 },
+  { label: "Jan 26", month: "January 2026", aniket0: 138, mishra: 35, combined: 173 },
+  { label: "Feb 26", month: "February 2026", aniket0: 30, mishra: 0, combined: 30 },
+  { label: "Mar 26", month: "March 2026", aniket0: 44, mishra: 0, combined: 44 },
+  { label: "Apr 26", month: "April 2026", aniket0: 20, mishra: 2, combined: 22 },
+  { label: "May 26", month: "May 2026", aniket0: 173, mishra: 0, combined: 173 },
+  { label: "Jun 26", month: "June 2026", aniket0: 114, mishra: 1, combined: 115 },
+  { label: "Jul 26", month: "July 2026", aniket0: 0, mishra: 0, combined: 0 },
+  { label: "Aug 26", month: "August 2026", aniket0: 2, mishra: 1, combined: 3 },
+  { label: "Sep 26", month: "September 2026", aniket0: 9, mishra: 5, combined: 14 },
+  { label: "Oct 26", month: "October 2026", aniket0: 1, mishra: 28, combined: 29 },
+];
 
 const SERIES = [
   {
-    key: "aniket",
-    label: "Aniket",
+    key: "combined",
+    label: "Combined Velocity",
+    badge: "All Commits",
     color: "#B45309",
-    v: 0,
-    width: 3,
-    points: [92, 92.5, 91.8, 92.2, 92],
+    v: 0, // Frontmost 3D ribbon
+    width: 3.4,
+    total: 699,
+    repos: 64,
+    points: MONTHS.map((m) => m.combined),
+    url: "https://github.com/aniketmishra-0",
     panel: {
-      eyebrow: "SERIES · ANIKET",
-      title: "Deterministic context",
-      body: "Accuracy holds near 92% at every length because only in-scope, current context ever reaches the model.",
-      code: "ctx.search({ scope, recall, rank })"
+      eyebrow: "CROSS-PROFILE AGGREGATE",
+      title: "Consolidated Engineering Velocity",
+      body: "Combined output across @aniketmishra-0 and @Mishra-Aniket. Encompasses enterprise lecture pipelines, document intelligence, Chrome extensions, and full-stack web applications.",
+      code: "git.aggregate({ accounts: 2, repos: 64, contributions: 699 })",
+      highlight: "Peak velocity: 173 commits in a single month"
     }
   },
   {
-    key: "vectordb",
-    label: "Vector DB",
-    color: "#A16207",
-    v: 70,
-    width: 2.2,
-    points: [88, 85, 78, 70, 63],
+    key: "aniket0",
+    label: "aniketmishra-0",
+    badge: "Primary / Systems",
+    color: "#059669",
+    v: 70, // Middle 3D ribbon
+    width: 2.5,
+    total: 601,
+    repos: 35,
+    points: MONTHS.map((m) => m.aniket0),
+    url: "https://github.com/aniketmishra-0",
     panel: {
-      eyebrow: "SERIES · VECTOR DB",
-      title: "Top-K similarity",
-      body: "Nearest-neighbour recall keeps pulling stale and off-scope chunks as the conversation grows, so accuracy decays steadily.",
-      code: "index.query({ topK: 10 })"
+      eyebrow: "PRIMARY PROFILE · PRODUCTION & OPS",
+      title: "Enterprise Systems & Public Releases",
+      body: "Houses Centrix (.NET 8/Drive API for 500+ PW centers), Qpic (Python/FastAPI/Flutter), OmTabs & OmSpace extensions, ImgWorld, and RadialMenu releases.",
+      code: "https://github.com/aniketmishra-0",
+      highlight: "601 verified contributions · 35 public repositories"
     }
   },
   {
-    key: "fullctx",
-    label: "Full-context GPT-4o",
-    color: "#A8A29E",
-    v: 140,
+    key: "mishra",
+    label: "Mishra-Aniket",
+    badge: "OSS / R&D",
+    color: "#6366F1",
+    v: 140, // Backmost 3D ribbon
     width: 2.2,
-    points: [90, 88, 72, 55, 41],
+    total: 98,
+    repos: 29,
+    points: MONTHS.map((m) => m.mishra),
+    url: "https://github.com/Mishra-Aniket",
     panel: {
-      eyebrow: "SERIES · FULL CONTEXT",
-      title: "Stuff the window",
-      body: "Pasting the entire history into the prompt dilutes attention. Past 64K tokens the model loses the thread.",
-      code: "messages: [...history]"
+      eyebrow: "SECONDARY PROFILE · OSS & ARCHITECTURE",
+      title: "Core Web, R&D & Explorations",
+      body: "Houses foundational experiments, architecture blueprints, TypeScript utilities, and independent open-source web systems.",
+      code: "https://github.com/Mishra-Aniket",
+      highlight: "98 verified contributions · 29 public repositories"
     }
   }
 ];
 
-// Exact isometric matrix transformation from getalchemystai.com
-// IA = 0.9, IB = 0.32
+// Isometric matrix transformation constants
 const IA = 0.9;
 const IB = 0.32;
 const u = (e, t, n = 0) => ({
@@ -61,55 +89,50 @@ const u = (e, t, n = 0) => ({
 
 const m = (pts) => pts.map((p) => `${p.x},${p.y}`).join(" ");
 
-const p = (e) =>
-  ((e - CHECKPOINTS[0]) / (CHECKPOINTS[CHECKPOINTS.length - 1] - CHECKPOINTS[0])) * 520;
+// Map month index (0 to 11) to X distance (0 to 520) along isometric axis
+const p = (idx) => (idx / (MONTHS.length - 1)) * 520;
 
+// Continuous interpolation across months
 function interpolateSeries(points, N) {
-  for (let n = 0; n < CHECKPOINTS.length - 1; n++) {
-    const i = p(CHECKPOINTS[n]);
-    const s = p(CHECKPOINTS[n + 1]);
-    if (N <= s) {
-      const a = Math.max(0, Math.min(1, (N - i) / (s - i)));
-      return points[n] + (points[n + 1] - points[n]) * a;
-    }
-  }
-  return points[points.length - 1];
+  const step = 520 / (MONTHS.length - 1);
+  const idx = Math.min(Math.floor(N / step), MONTHS.length - 2);
+  const frac = Math.max(0, Math.min(1, (N - idx * step) / step));
+  return points[idx] + (points[idx + 1] - points[idx]) * frac;
 }
 
-const Y_TICKS = [40, 55, 70, 85, 100];
+const Y_TICKS = [0, 50, 100, 150, 200];
 
 export default function AccuracyTerrain() {
   const svgRef = useRef(null);
 
-  // Parked default: matches the original site's resting scrub position (60K tokens)
-  const [parked, setParked] = useState(253);
+  // Default resting scrub position: May 2026 (index 6, where peak 173 contributions occurred)
+  const defaultParked = (6 / (MONTHS.length - 1)) * 520;
+  const [parked, setParked] = useState(defaultParked);
   const [scrub, setScrub] = useState(null);
   const [hovered, setHovered] = useState(null); // null or series index 0, 1, 2
+  const [filterAccount, setFilterAccount] = useState("all"); // "all", "aniket0", "mishra"
 
-  // Current token position N along isometric axis (0 to 520)
+  // Current position N along isometric axis (0 to 520)
   const N = scrub !== null ? scrub : parked;
-  const currentTokens = Math.round(
-    CHECKPOINTS[0] + (N / 520) * (CHECKPOINTS[CHECKPOINTS.length - 1] - CHECKPOINTS[0])
-  );
+  const monthFloat = (N / 520) * (MONTHS.length - 1);
+  const nearestMonthIdx = Math.round(monthFloat);
+  const currentMonthData = MONTHS[Math.max(0, Math.min(MONTHS.length - 1, nearestMonthIdx))];
 
-  // Live interpolated accuracy values
-  const accuracies = useMemo(() => {
+  // Live interpolated values
+  const interpolatedValues = useMemo(() => {
     return SERIES.map((s) => interpolateSeries(s.points, N));
   }, [N]);
-
-  const lead = (accuracies[0] - Math.max(accuracies[1], accuracies[2])).toFixed(1);
 
   // Active series for the inspection panel
   const activeSeries = hovered !== null ? SERIES[hovered] : null;
 
-  // Exact pointer move handler from getalchemystai.com using SVG CTM inverse projection
+  // Pointer move handler using SVG CTM inverse projection
   const handlePointerMove = (e) => {
     const svg = svgRef.current;
     if (!svg) return;
     const ctm = svg.getScreenCTM();
     if (!ctm) return;
 
-    // Project client coordinate into exact SVG viewBox coordinate (0-960, 0-684)
     const pt = new DOMPoint(e.clientX, e.clientY).matrixTransform(ctm.inverse());
 
     // Bounds of the isometric chart area in SVG space
@@ -118,7 +141,6 @@ export default function AccuracyTerrain() {
       return;
     }
 
-    // Inverse projection along center axis
     const s = Math.max(0, Math.min(520, (pt.x - 220) / IA + 70));
     setScrub(s);
   };
@@ -129,24 +151,95 @@ export default function AccuracyTerrain() {
 
   return (
     <div id="accuracy-terrain" className="relative w-full select-none">
-      <div className="relative mx-auto px-4 sm:px-6 lg:px-8 max-w-[1200px] pb-24 md:pb-32">
-        {/* Section Eyebrow */}
+      <div className="relative mx-auto px-4 sm:px-6 lg:px-8 max-w-[1200px] pb-20 md:pb-28">
+        {/* Section Header */}
         <div className="text-center mb-8 md:mb-12">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#78716C] font-semibold">
-            Illustrative · accuracy vs conversation context
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#E4D9BC] bg-white text-[#B45309] font-mono text-[11px] font-bold tracking-wider uppercase mb-3 shadow-2xs">
+            <span className="w-2 h-2 rounded-full bg-[#B45309] animate-pulse" />
+            <span>Real GitHub Contribution Terrain · 2 Active Profiles</span>
+          </div>
+          <h2 className="text-[clamp(1.75rem,3.2vw,2.5rem)] leading-tight font-serif font-bold text-[#4A3B33] text-balance">
+            699+ Contributions &amp;{" "}
+            <span className="text-[#B45309] italic font-normal">64 Repositories</span>.
+          </h2>
+          <p className="mt-2 text-sm text-[#78716C] max-w-2xl mx-auto font-sans">
+            Live 3D telemetry visualized across both GitHub accounts:{" "}
+            <a
+              href="https://github.com/aniketmishra-0"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono font-semibold text-[#059669] hover:underline"
+            >
+              @aniketmishra-0
+            </a>{" "}
+            (Production Systems) and{" "}
+            <a
+              href="https://github.com/Mishra-Aniket"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono font-semibold text-[#6366F1] hover:underline"
+            >
+              @Mishra-Aniket
+            </a>{" "}
+            (OSS &amp; Core).
           </p>
+
+          {/* Quick Profile Filter Pills */}
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-5">
+            <button
+              onClick={() => {
+                sound.playClick();
+                setFilterAccount("all");
+                setHovered(null);
+              }}
+              className={`px-3 py-1 rounded-lg font-mono text-xs font-semibold transition-all cursor-pointer ${
+                filterAccount === "all"
+                  ? "bg-[#B45309] text-white shadow-xs"
+                  : "bg-white text-[#78716C] border border-[#E4D9BC] hover:text-[#4A3B33]"
+              }`}
+            >
+              All Activity (699 Total)
+            </button>
+            <button
+              onClick={() => {
+                sound.playClick();
+                setFilterAccount("aniket0");
+                setHovered(1);
+              }}
+              className={`px-3 py-1 rounded-lg font-mono text-xs font-semibold transition-all cursor-pointer ${
+                filterAccount === "aniket0"
+                  ? "bg-[#059669] text-white shadow-xs"
+                  : "bg-white text-[#78716C] border border-[#E4D9BC] hover:text-[#059669]"
+              }`}
+            >
+              @aniketmishra-0 (601 Commits · 35 Repos)
+            </button>
+            <button
+              onClick={() => {
+                sound.playClick();
+                setFilterAccount("mishra");
+                setHovered(2);
+              }}
+              className={`px-3 py-1 rounded-lg font-mono text-xs font-semibold transition-all cursor-pointer ${
+                filterAccount === "mishra"
+                  ? "bg-[#6366F1] text-white shadow-xs"
+                  : "bg-white text-[#78716C] border border-[#E4D9BC] hover:text-[#6366F1]"
+              }`}
+            >
+              @Mishra-Aniket (98 Commits · 29 Repos)
+            </button>
+          </div>
         </div>
 
-        {/* 3D Terrain Container (Borderless & seamless on page, exactly like getalchemystai.com) */}
+        {/* 3D Terrain Container */}
         <div className="relative w-full max-w-5xl mx-auto aspect-[240/171] select-none">
-          {/* SVG 3D Isometric Projection */}
           <svg
             ref={svgRef}
             viewBox="0 0 960 684"
             className="w-full h-full block overflow-visible"
             preserveAspectRatio="xMidYMid meet"
             role="img"
-            aria-label="Isometric chart of accuracy vs conversation context tokens."
+            aria-label="Isometric 3D chart of real GitHub contributions across two accounts."
             onPointerMove={handlePointerMove}
             onMouseMove={handlePointerMove}
             onTouchMove={handlePointerMove}
@@ -168,7 +261,7 @@ export default function AccuracyTerrain() {
               </filter>
               {SERIES.map((s) => (
                 <linearGradient key={s.key} id={`bmWall-${s.key}`} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor={s.color} stopOpacity={s.key === "aniket" ? 0.34 : 0.26} />
+                  <stop offset="0%" stopColor={s.color} stopOpacity={s.key === "combined" ? 0.36 : 0.28} />
                   <stop offset="100%" stopColor={s.color} stopOpacity="0.04" />
                 </linearGradient>
               ))}
@@ -176,52 +269,52 @@ export default function AccuracyTerrain() {
 
             {/* Top-Right HUD Header */}
             <g pointerEvents="none">
-              <rect x="752" y="33" width="7" height="7" fill="#B45309" />
-              <text x="765" y="40" fill="#78716C" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1.6" fontWeight="600">
-                ANIKET // ACCURACY_TERRAIN
+              <rect x="744" y="28" width="7" height="7" fill="#B45309" />
+              <text x="757" y="35" fill="#78716C" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1.6" fontWeight="600">
+                GITHUB // VELOCITY_TERRAIN
               </text>
-              <text x="752" y="57" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1">
-                {currentTokens}K tokens · illustrative
+              <text x="744" y="52" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1">
+                {currentMonthData.month.toUpperCase()} · {currentMonthData.combined} COMMITS
               </text>
-              <text x="936" y="57" textAnchor="end" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1">
-                LIVE
+              <text x="936" y="52" textAnchor="end" fill="#059669" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1" fontWeight="700">
+                VERIFIED
               </text>
-              <circle cx="904" cy="54.5" r="2.4" fill="#B45309" opacity="0.95" />
+              <circle cx="882" cy="49.5" r="2.4" fill="#059669" opacity="0.95" />
 
-              {/* Progress Checkpoint Segments */}
-              {CHECKPOINTS.map((cp, idx) => {
-                const fill = p(cp) <= N + 0.5 ? "#B45309" : "#E4D9BC";
+              {/* Progress Checkpoint Segments along months */}
+              {MONTHS.map((mObj, idx) => {
+                const fill = p(idx) <= N + 0.5 ? "#B45309" : "#E4D9BC";
                 return (
                   <rect
-                    key={cp}
-                    x={752 + idx * 37.6}
-                    y="67"
-                    width="33.6"
+                    key={mObj.label}
+                    x={744 + idx * 16}
+                    y="62"
+                    width="13"
                     height="3"
                     rx="1.5"
-                    style={{ fill, transition: "fill 0.3s" }}
+                    style={{ fill, transition: "fill 0.25s" }}
                   />
                 );
               })}
 
-              <text x="752" y="88" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.6" fontWeight="600" style={{ fill: "#B45309", transition: "fill 0.3s" }}>
+              <text x="744" y="82" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4" fontWeight="600" style={{ fill: "#B45309" }}>
                 {hovered !== null
-                  ? `PHASE · ISOLATING ${SERIES[hovered].label.toUpperCase()}`
+                  ? `ISOLATING: ${SERIES[hovered].label.toUpperCase()}`
                   : scrub !== null
-                  ? `PHASE · SCRUBBING · ${currentTokens}K`
-                  : "PHASE · PARKED · HOVER TO SCRUB"}
+                  ? `SCRUBBING: ${currentMonthData.month.toUpperCase()}`
+                  : "RESTING AT MAY 2026 PEAK SPRINT (173 COMMITS)"}
               </text>
             </g>
 
-            {/* Top-Left series hint (shows when not inspecting) */}
+            {/* Top-Left series hint */}
             <g pointerEvents="none" opacity={hovered === null ? 1 : 0} style={{ transition: "opacity 0.25s" }}>
               <rect x="24" y="32" width="7" height="7" fill="none" stroke="#E4C090" strokeWidth="1" />
               <text x="38" y="39" fill="#A8A29E" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1.6" fontWeight="600">
-                HOVER A SERIES TO INSPECT IT
+                HOVER TO SCRUB TIMELINE · CLICK SERIES TO INSPECT
               </text>
             </g>
 
-            {/* 3D Back Walls & Accuracy Y-Grid */}
+            {/* 3D Back Walls & Y-Grid (Contributions Count: 0 to 200) */}
             <g pointerEvents="none">
               <polygon
                 points={m([u(-24, -24), u(544, -24), u(544, -24, 180), u(-24, -24, 180)])}
@@ -240,7 +333,7 @@ export default function AccuracyTerrain() {
 
               {/* Grid Lines */}
               {Y_TICKS.slice(1).map((val) => {
-                const n = (val - 40) * 3;
+                const n = (val / 200) * 180;
                 return (
                   <g key={val} stroke="#E4D9BC" strokeWidth="1" strokeDasharray="3 4">
                     <line x1={u(-24, -24, n).x} y1={u(-24, -24, n).y} x2={u(544, -24, n).x} y2={u(544, -24, n).y} />
@@ -251,10 +344,10 @@ export default function AccuracyTerrain() {
 
               {/* Y-axis Labels */}
               {Y_TICKS.map((val) => {
-                const pt = u(-24, 164, (val - 40) * 3);
+                const pt = u(-24, 164, (val / 200) * 180);
                 return (
                   <text key={val} x={pt.x - 7} y={pt.y + 3} textAnchor="end" fill="#78716C" fontSize="8.5" fontFamily="JetBrains Mono, monospace" fontWeight="500">
-                    {val}%
+                    {val}
                   </text>
                 );
               })}
@@ -262,14 +355,14 @@ export default function AccuracyTerrain() {
               {(() => {
                 const pt = u(-24, 164, 90);
                 return (
-                  <text x={pt.x - 40} y={pt.y} textAnchor="middle" fill="#57534E" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="2" fontWeight="600" transform={`rotate(-90 ${pt.x - 40} ${pt.y})`}>
-                    ACCURACY
+                  <text x={pt.x - 38} y={pt.y} textAnchor="middle" fill="#57534E" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="2" fontWeight="600" transform={`rotate(-90 ${pt.x - 38} ${pt.y})`}>
+                    COMMITS / MO
                   </text>
                 );
               })()}
             </g>
 
-            {/* 3D Isometric Ground Plane & Token X-Grid */}
+            {/* 3D Isometric Ground Plane & Monthly Timeline Grid */}
             <g pointerEvents="none">
               <polygon
                 points={`${u(-24, 164).x},${u(-24, 164).y} ${u(544, 164).x},${u(544, 164).y} ${u(544, 164).x},${u(544, 164).y + 10} ${u(-24, 164).x},${u(-24, 164).y + 10}`}
@@ -286,12 +379,12 @@ export default function AccuracyTerrain() {
                 strokeWidth="1"
               />
 
-              {/* Checkpoint grid lines on ground */}
-              {CHECKPOINTS.map((cp) => {
-                const n = p(cp);
+              {/* Monthly grid lines on ground */}
+              {MONTHS.map((mObj, idx) => {
+                const n = p(idx);
                 return (
                   <line
-                    key={cp}
+                    key={mObj.label}
                     x1={u(n, -24).x}
                     y1={u(n, -24).y}
                     x2={u(n, 164).x}
@@ -316,12 +409,12 @@ export default function AccuracyTerrain() {
                 />
               ))}
 
-              {/* Token labels along bottom edge */}
-              {CHECKPOINTS.map((cp) => {
-                const pt = u(p(cp), 164);
+              {/* Monthly labels along bottom edge */}
+              {MONTHS.map((mObj, idx) => {
+                const pt = u(p(idx), 164);
                 return (
-                  <text key={cp} x={pt.x - 6} y={pt.y + 24} textAnchor="middle" fill="#78716C" fontSize="8.5" fontFamily="JetBrains Mono, monospace" fontWeight="500">
-                    {cp}K
+                  <text key={mObj.label} x={pt.x - 6} y={pt.y + 22} textAnchor="middle" fill="#78716C" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="500">
+                    {mObj.label}
                   </text>
                 );
               })}
@@ -329,8 +422,8 @@ export default function AccuracyTerrain() {
               {(() => {
                 const pt = u(260, 164);
                 return (
-                  <text x={pt.x - 18} y={pt.y + 46} textAnchor="middle" fill="#57534E" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="2" fontWeight="600" transform={`rotate(19.6 ${pt.x - 18} ${pt.y + 46})`}>
-                    CONVERSATION TOKENS
+                  <text x={pt.x - 18} y={pt.y + 44} textAnchor="middle" fill="#57534E" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="2" fontWeight="600" transform={`rotate(19.6 ${pt.x - 18} ${pt.y + 44})`}>
+                    CONTRIBUTION TIMELINE (2025–2026)
                   </text>
                 );
               })()}
@@ -338,10 +431,10 @@ export default function AccuracyTerrain() {
 
             {/* 3D Wall Series Curves */}
             {SERIES.map((s, sIdx) => {
-              const pts = s.points.map((t, idx) => u(p(CHECKPOINTS[idx]), s.v, (t - 40) * 3));
+              const pts = s.points.map((val, idx) => u(p(idx), s.v, (val / 200) * 180));
               const wallPts = [...pts, u(520, s.v), u(0, s.v)];
               const pathD = `M${pts.map((pt) => `${pt.x},${pt.y}`).join(" L")}`;
-              const isDimmed = hovered !== null && hovered !== sIdx;
+              const isDimmed = (hovered !== null && hovered !== sIdx) || (filterAccount !== "all" && filterAccount !== s.key && s.key !== "combined");
 
               return (
                 <g
@@ -350,13 +443,17 @@ export default function AccuracyTerrain() {
                   style={{ transition: "opacity 0.3s", cursor: "pointer" }}
                   onMouseEnter={() => setHovered(sIdx)}
                   onMouseLeave={() => setHovered(null)}
+                  onClick={() => {
+                    sound.playClick();
+                    setHovered(sIdx);
+                  }}
                 >
                   {/* Extruded gradient wall */}
                   <polygon
                     points={m(wallPts)}
                     fill={`url(#bmWall-${s.key})`}
                     stroke={s.color}
-                    strokeOpacity="0.25"
+                    strokeOpacity="0.3"
                     strokeWidth="1"
                   />
                   {/* Curved stroke */}
@@ -368,13 +465,13 @@ export default function AccuracyTerrain() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                  {/* Checkpoint Circles */}
+                  {/* Monthly Checkpoint Dots */}
                   {pts.map((pt, cIdx) => (
                     <circle
                       key={cIdx}
                       cx={pt.x}
                       cy={pt.y}
-                      r={s.key === "aniket" ? 3.6 : 3}
+                      r={s.key === "combined" ? 3.6 : 3}
                       fill="#FFFFFF"
                       stroke={s.color}
                       strokeWidth="1.8"
@@ -384,19 +481,17 @@ export default function AccuracyTerrain() {
               );
             })}
 
-            {/* DYNAMIC REAL-TIME SLICE PLANE AT CURRENT TOKEN POSITION N */}
+            {/* DYNAMIC REAL-TIME SLICE PLANE AT CURRENT POSITION N */}
             <g pointerEvents="none">
-              {/* Vertical plane */}
               <polygon
                 points={m([u(N, -24), u(N, 164), u(N, 164, 180), u(N, -24, 180)])}
                 fill="#B45309"
-                fillOpacity="0.05"
+                fillOpacity="0.06"
                 stroke="#B45309"
-                strokeOpacity="0.35"
+                strokeOpacity="0.4"
                 strokeWidth="1"
                 strokeDasharray="4 3"
               />
-              {/* Ground slice line */}
               <line
                 x1={u(N, -24).x}
                 y1={u(N, -24).y}
@@ -405,27 +500,29 @@ export default function AccuracyTerrain() {
                 stroke="#B45309"
                 strokeWidth="1.4"
               />
-              {/* Token tag at top */}
+
+              {/* Tag at top of slice plane */}
               {(() => {
                 const pt = u(N, -24, 192);
                 return (
                   <text x={pt.x} y={pt.y} textAnchor="middle" fill="#B45309" fontSize="8.5" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="1">
-                    {currentTokens}K
+                    {currentMonthData.label} ({Math.round(interpolatedValues[0])} COMMITS)
                   </text>
                 );
               })()}
 
-              {/* 3 Live Indicator Dots & Percentages on the curves */}
+              {/* 3 Live Indicator Dots on the curves */}
               {SERIES.map((s, sIdx) => {
-                const pt = u(N, s.v, (accuracies[sIdx] - 40) * 3);
-                const isDimmed = hovered !== null && hovered !== sIdx;
+                const val = interpolatedValues[sIdx];
+                const pt = u(N, s.v, (val / 200) * 180);
+                const isDimmed = (hovered !== null && hovered !== sIdx) || (filterAccount !== "all" && filterAccount !== s.key && s.key !== "combined");
                 return (
                   <g key={s.key} opacity={isDimmed ? 0.15 : 1} style={{ transition: "opacity 0.3s" }}>
-                    <circle cx={pt.x} cy={pt.y} r="4.6" fill={s.color} stroke="#FFFFFF" strokeWidth="1.5" filter="url(#bmGlow)" />
+                    <circle cx={pt.x} cy={pt.y} r="4.8" fill={s.color} stroke="#FFFFFF" strokeWidth="1.5" filter="url(#bmGlow)" />
                     <text
                       x={pt.x + 9}
                       y={pt.y - 6}
-                      fill={s.key === "fullctx" ? "#57534E" : s.color}
+                      fill={s.color}
                       fontSize="8.5"
                       fontFamily="JetBrains Mono, monospace"
                       fontWeight="700"
@@ -433,7 +530,7 @@ export default function AccuracyTerrain() {
                       strokeWidth="3"
                       paintOrder="stroke"
                     >
-                      {accuracies[sIdx].toFixed(1)}%
+                      {Math.round(val)} commits
                     </text>
                   </g>
                 );
@@ -442,129 +539,152 @@ export default function AccuracyTerrain() {
 
             {/* LIVE READOUT SIDEBAR ON RIGHT */}
             <g>
-              <text x="752" y="132" fill="#A8A29E" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="2" fontWeight="600">
-                LIVE READOUT
+              <text x="744" y="118" fill="#A8A29E" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="2" fontWeight="600">
+                LIVE READOUT // {currentMonthData.month.toUpperCase()}
               </text>
-              <text x="936" y="132" textAnchor="end" fill="#B45309" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1" fontWeight="700">
-                {currentTokens}K TOKENS
+              <text x="936" y="118" textAnchor="end" fill="#B45309" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1" fontWeight="700">
+                {Math.round(interpolatedValues[0])} TOTAL
               </text>
 
-              {/* Series rows */}
+              {/* Series Rows */}
               {SERIES.map((s, sIdx) => {
-                const yPos = 160 + 52 * sIdx;
-                const isDimmed = hovered !== null && hovered !== sIdx;
+                const yPos = 146 + 54 * sIdx;
+                const isDimmed = (hovered !== null && hovered !== sIdx) || (filterAccount !== "all" && filterAccount !== s.key && s.key !== "combined");
                 const isSelected = hovered === sIdx;
+                const currentVal = Math.round(interpolatedValues[sIdx]);
 
                 return (
                   <g
                     key={s.key}
                     onMouseEnter={() => setHovered(sIdx)}
                     onMouseLeave={() => setHovered(null)}
+                    onClick={() => {
+                      sound.playClick();
+                      setHovered(sIdx);
+                    }}
                     opacity={isDimmed ? 0.35 : 1}
                     style={{ cursor: "pointer", outline: "none", transition: "opacity 0.3s" }}
                     role="button"
                     tabIndex={0}
-                    aria-label={`${s.label}: ${s.panel.body}`}
                   >
                     <rect
-                      x="744"
+                      x="736"
                       y={yPos - 16}
-                      width="200"
-                      height="44"
+                      width="208"
+                      height="46"
                       rx="6"
                       fill={isSelected ? "#FFFBF5" : "transparent"}
                       stroke={isSelected ? "#E4C090" : "transparent"}
                     />
-                    <line x1="752" y1={yPos - 4} x2="764" y2={yPos - 4} stroke={s.color} strokeWidth={s.width} strokeLinecap="round" />
-                    <text x="772" y={yPos} fill="#4A3B33" fontSize="11.5" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight={sIdx === 0 ? 700 : 600}>
+                    <line x1="744" y1={yPos - 4} x2="756" y2={yPos - 4} stroke={s.color} strokeWidth={s.width} strokeLinecap="round" />
+                    <text x="764" y={yPos} fill="#4A3B33" fontSize="11" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight={sIdx === 0 ? 700 : 600}>
                       {s.label}
                     </text>
-                    <text x="936" y={yPos} textAnchor="end" fill={sIdx === 2 ? "#57534E" : s.color} fontSize="11" fontFamily="JetBrains Mono, monospace" fontWeight="700">
-                      {accuracies[sIdx].toFixed(1)}%
+                    <text x="936" y={yPos} textAnchor="end" fill={s.color} fontSize="11" fontFamily="JetBrains Mono, monospace" fontWeight="700">
+                      {currentVal}
                     </text>
-                    <rect x="752" y={yPos + 10} width="184" height="3" rx="1.5" fill="#F1E9DA" />
-                    <rect x="752" y={yPos + 10} width={Math.max(0, ((accuracies[sIdx] - 40) / 60) * 184)} height="3" rx="1.5" fill={s.color} />
+
+                    {/* Progress Bar for the month */}
+                    <rect x="744" y={yPos + 10} width="192" height="3" rx="1.5" fill="#F1E9DA" />
+                    <rect x="744" y={yPos + 10} width={Math.max(0, Math.min(192, (currentVal / 180) * 192))} height="3" rx="1.5" fill={s.color} />
                   </g>
                 );
               })}
 
-              {/* Lead counter */}
+              {/* Total Aggregate Summary Box */}
               <g pointerEvents="none">
-                <line x1="752" y1="318" x2="936" y2="318" stroke="#F1E9DA" strokeWidth="1" />
-                <text x="752" y="340" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.6" fontWeight="600">
-                  ANIKET LEAD
+                <line x1="744" y1="316" x2="936" y2="316" stroke="#F1E9DA" strokeWidth="1" />
+
+                <text x="744" y="336" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.6" fontWeight="600">
+                  TOTAL VERIFIED OUTPUT
                 </text>
-                <text x="752" y="370" fill="#B45309" fontSize="24" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">
-                  +{lead}pt
+                <text x="744" y="366" fill="#B45309" fontSize="24" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">
+                  699+ Commits
                 </text>
-                <text x="752" y="388" fill="#78716C" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.6">
-                  vs best baseline at {currentTokens}K tokens
+                <text x="744" y="384" fill="#059669" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600">
+                  64 Repositories Across Both Accounts
+                </text>
+
+                <text x="744" y="408" fill="#78716C" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.6">
+                  Peak Month: 173 contributions (May 2026)
+                </text>
+                <text x="744" y="420" fill="#78716C" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.6">
+                  Sustained Sprint: 138 commits (Jan 2026)
                 </text>
               </g>
             </g>
 
-            {/* Bottom Strip */}
+            {/* Bottom Telemetry Strip */}
             <g pointerEvents="none">
               <line x1="16" y1="646" x2="936" y2="646" stroke="#E4D9BC" strokeWidth="1" />
               <text x="16" y="666" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4">
-                accuracy_terrain.live · 3 series · 5 checkpoints · illustrative
+                github_velocity_terrain.live · 2 profiles (@aniketmishra-0 &amp; @Mishra-Aniket) · verified data
               </text>
               <text x="936" y="666" textAnchor="end" fill="#B45309" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4" fontWeight="600">
-                HOVER THE TERRAIN TO SCRUB
+                MOVE POINTER ACROSS TERRAIN TO SCRUB TIMELINE
               </text>
             </g>
           </svg>
 
-          {/* Floating Detail Inspection Card (hidden on mobile touch to prevent stuck overlap, visible on md+) */}
+          {/* Floating Detail Inspection Modal when hovering a series */}
           {activeSeries && (
             <div
-              className="hidden md:block absolute left-[25.4%] top-[1.2%] -translate-x-1/2 w-[46%] min-w-[400px] z-30 pointer-events-auto transition-all duration-200"
+              className="hidden md:block absolute left-[26%] top-[2%] -translate-x-1/2 w-[48%] min-w-[420px] z-30 pointer-events-auto transition-all duration-200"
               onMouseEnter={() => setHovered(SERIES.findIndex((s) => s.key === activeSeries.key))}
               onMouseLeave={() => setHovered(null)}
             >
-              <div className="relative overflow-hidden rounded-lg border border-[#E4D9BC] bg-white/95 backdrop-blur-sm shadow-[0_12px_32px_-16px_rgba(74,59,51,0.28)]">
-                <div className="absolute inset-y-0 left-0 w-[2px]" style={{ background: activeSeries.color }} />
-                <div className="grid grid-cols-[1.25fr_1fr] gap-4 p-4">
+              <div className="relative overflow-hidden rounded-lg border border-[#E4D9BC] bg-white/95 backdrop-blur-md shadow-[0_16px_36px_-12px_rgba(74,59,51,0.25)]">
+                <div className="absolute inset-y-0 left-0 w-[3px]" style={{ background: activeSeries.color }} />
+                <div className="grid grid-cols-[1.3fr_1fr] gap-4 p-4">
                   {/* Left Column: Eyebrow, Title, Description */}
                   <div>
                     <div className="flex items-center justify-between gap-3">
-                      <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.16em]" style={{ color: activeSeries.color }}>
+                      <span className="font-mono text-[9.5px] font-bold uppercase tracking-[0.16em]" style={{ color: activeSeries.color }}>
                         {activeSeries.panel.eyebrow}
                       </span>
-                      <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.14em] text-[#A8A29E]">
+                      <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.14em] text-[#059669] font-semibold">
                         <span className="h-1.5 w-1.5 rounded-full" style={{ background: activeSeries.color }} />
-                        ILLUSTRATIVE
+                        VERIFIED DATA
                       </span>
                     </div>
-                    <h4 className="mt-1.5 text-[14px] font-bold leading-snug text-[#4A3B33] font-serif">
+                    <h4 className="mt-1.5 text-[14.5px] font-bold leading-snug text-[#4A3B33] font-serif">
                       {activeSeries.panel.title}
                     </h4>
-                    <p className="mt-1 text-[11px] leading-[1.55] text-[#57534E]">
+                    <p className="mt-1 text-[11px] leading-[1.6] text-[#57534E]">
                       {activeSeries.panel.body}
                     </p>
+                    <div className="mt-2.5">
+                      <a
+                        href={activeSeries.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => sound.playClick()}
+                        className="inline-flex items-center gap-1 font-mono text-[10.5px] font-bold text-[#B45309] hover:underline"
+                      >
+                        Inspect {activeSeries.label} on GitHub ↗
+                      </a>
+                    </div>
                   </div>
 
                   {/* Right Column: Key-Value Stats and Code */}
-                  <div className="border-l border-[#F1E9DA] pl-4">
-                    <dl className="space-y-1 font-mono">
+                  <div className="border-l border-[#F1E9DA] pl-4 flex flex-col justify-between">
+                    <dl className="space-y-1.5 font-mono">
                       <div className="flex items-baseline justify-between gap-3">
-                        <dt className="text-[9px] uppercase tracking-[0.14em] text-[#A8A29E]">AT 8K</dt>
-                        <dd className="text-[11px] font-semibold tabular-nums text-[#4A3B33]">{activeSeries.points[0].toFixed(1)}%</dd>
+                        <dt className="text-[9px] uppercase tracking-[0.14em] text-[#A8A29E]">TOTAL COMMITS</dt>
+                        <dd className="text-[12px] font-bold tabular-nums text-[#4A3B33]">{activeSeries.total}+</dd>
                       </div>
                       <div className="flex items-baseline justify-between gap-3">
-                        <dt className="text-[9px] uppercase tracking-[0.14em] text-[#A8A29E]">AT 115K</dt>
-                        <dd className="text-[11px] font-semibold tabular-nums text-[#4A3B33]">{activeSeries.points[4].toFixed(1)}%</dd>
+                        <dt className="text-[9px] uppercase tracking-[0.14em] text-[#A8A29E]">REPOSITORIES</dt>
+                        <dd className="text-[12px] font-bold tabular-nums text-[#059669]">{activeSeries.repos} Repos</dd>
                       </div>
                       <div className="flex items-baseline justify-between gap-3">
-                        <dt className="text-[9px] uppercase tracking-[0.14em] text-[#A8A29E]">CHANGE</dt>
-                        <dd className="text-[11px] font-semibold tabular-nums text-[#B45309]">
-                          {activeSeries.points[4] - activeSeries.points[0] >= 0 ? "+" : "−"}
-                          {Math.abs(activeSeries.points[4] - activeSeries.points[0]).toFixed(0)}pt
-                        </dd>
+                        <dt className="text-[9px] uppercase tracking-[0.14em] text-[#A8A29E]">PEAK MONTH</dt>
+                        <dd className="text-[11px] font-bold tabular-nums text-[#B45309]">173 Commits</dd>
                       </div>
                     </dl>
+
                     {activeSeries.panel.code && (
-                      <div className="mt-2 overflow-hidden text-ellipsis whitespace-nowrap rounded-md border border-[#F1E9DA] bg-[#F8F4EE] px-2 py-1 font-mono text-[9px] text-[#57534E]">
+                      <div className="mt-2.5 overflow-hidden text-ellipsis whitespace-nowrap rounded-md border border-[#F1E9DA] bg-[#F8F4EE] px-2 py-1 font-mono text-[9px] text-[#57534E]">
                         <span style={{ color: activeSeries.color }}>▸</span> {activeSeries.panel.code}
                       </div>
                     )}
@@ -573,6 +693,30 @@ export default function AccuracyTerrain() {
               </div>
             </div>
           )}
+        </div>
+
+        {/* Action Buttons to open both profiles */}
+        <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
+          <a
+            href="https://github.com/aniketmishra-0"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => sound.playClick()}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius)] bg-white border border-[#E4D9BC] font-mono text-xs font-semibold text-[#4A3B33] shadow-xs hover:border-[#059669] hover:text-[#059669] transition-all"
+          >
+            <span className="w-2 h-2 rounded-full bg-[#059669]" />
+            <span>Open @aniketmishra-0 Profile (35 Repos · 601 Commits) ↗</span>
+          </a>
+          <a
+            href="https://github.com/Mishra-Aniket"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => sound.playClick()}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius)] bg-white border border-[#E4D9BC] font-mono text-xs font-semibold text-[#4A3B33] shadow-xs hover:border-[#6366F1] hover:text-[#6366F1] transition-all"
+          >
+            <span className="w-2 h-2 rounded-full bg-[#6366F1]" />
+            <span>Open @Mishra-Aniket Profile (29 Repos · 98 Commits) ↗</span>
+          </a>
         </div>
       </div>
     </div>
