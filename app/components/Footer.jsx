@@ -69,20 +69,23 @@ export default function Footer() {
       ]
     }
   ];
+
   return (
-    <footer data-theme="dark" className="relative bg-[#1C1917] text-[#F5F5F4] overflow-hidden pt-16 pb-20 border-t border-white/[0.08]">
-      {/* Background subtle grid */}
+    <footer data-theme="dark" className="relative bg-[#1C1917] text-[#F5F5F4] overflow-hidden pt-16 pb-12 sm:pb-16 border-t border-white/[0.08]">
+      {/* Background subtle large grid matching Image 2 (getalchemystai.com) */}
       <div 
         aria-hidden="true" 
-        className="absolute inset-0 opacity-10 pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: "linear-gradient(#E4D9BC 1px, transparent 1px), linear-gradient(90deg, #E4D9BC 1px, transparent 1px)",
-          backgroundSize: "48px 48px"
+          backgroundImage: "linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px)",
+          backgroundSize: "140px 140px",
+          maskImage: "radial-gradient(ellipse 90% 70% at 50% 40%, #000 30%, transparent 95%)",
+          WebkitMaskImage: "radial-gradient(ellipse 90% 70% at 50% 40%, #000 30%, transparent 95%)"
         }}
       />
 
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-x-8 gap-y-12 pb-16 md:grid-cols-4 lg:grid-cols-8 lg:pb-20">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-12 pb-14 md:grid-cols-4 lg:grid-cols-8 lg:pb-16">
           {/* Brand Info Column */}
           <div className="col-span-2 md:col-span-4 lg:col-span-2 lg:pr-10">
             <a href="/" className="mb-6 inline-flex items-center gap-2 group">
@@ -189,17 +192,7 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Giant Watermark Signature Typography */}
-        <div 
-          aria-hidden="true" 
-          className="relative w-full py-8 md:py-12 flex justify-center items-center select-none pointer-events-none overflow-hidden"
-        >
-          <span className="font-serif italic font-bold text-[clamp(4rem,12vw,10.5rem)] leading-none tracking-tight text-white/[0.08] whitespace-nowrap">
-            𝓐𝓷𝓲𝓴𝓮𝓽 𝓜
-          </span>
-        </div>
-
-        {/* Bottom Bar */}
+        {/* Bottom Bar: Copyright & Legal */}
         <div className="relative pt-6 border-t border-white/[0.08] flex items-center justify-between flex-wrap gap-4 text-xs text-[#78716C] font-mono">
           <div>
             © 2026 Aniket Mishra. Registered MSME Enterprise (UDYAM-UP-03-0065855). All rights reserved.
@@ -223,6 +216,16 @@ export default function Footer() {
               <ArrowUp className="w-4 h-4" />
             </button>
           </div>
+        </div>
+
+        {/* Bottom Giant Brand Monolith Typography matching getalchemystai.com (Image 2) */}
+        <div 
+          aria-hidden="true" 
+          className="relative w-full pt-10 pb-0 -mb-8 sm:-mb-14 md:-mb-20 flex justify-center items-end select-none pointer-events-none overflow-hidden"
+        >
+          <span className="font-sans font-black text-[clamp(4.5rem,16vw,14rem)] leading-[0.78] tracking-[-0.04em] text-white/[0.04] uppercase whitespace-nowrap">
+            Aniket M
+          </span>
         </div>
       </div>
     </footer>

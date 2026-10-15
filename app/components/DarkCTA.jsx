@@ -113,13 +113,16 @@ export default function DarkCTA({ showStats = false }) {
 
   return (
     <div data-theme="dark" id="dark-cta-section" className="relative w-full bg-[#1C1917] text-[#F5F5F4] overflow-hidden">
-      {/* Background grid */}
+      {/* Background subtle large grid matching Image 2 */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 opacity-15 pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: "linear-gradient(#E4D9BC 1px, transparent 1px), linear-gradient(90deg, #E4D9BC 1px, transparent 1px)",
-          backgroundSize: "48px 48px"
+          backgroundImage:
+            "linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px)",
+          backgroundSize: "140px 140px",
+          maskImage: "radial-gradient(ellipse 90% 75% at 50% 50%, #000 30%, transparent 95%)",
+          WebkitMaskImage: "radial-gradient(ellipse 90% 75% at 50% 50%, #000 30%, transparent 95%)"
         }}
       />
 

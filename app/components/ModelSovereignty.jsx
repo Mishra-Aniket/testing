@@ -100,10 +100,12 @@ export default function ModelSovereignty() {
       {/* Grid background matching original site */}
       <div 
         aria-hidden="true" 
-        className="absolute inset-0 opacity-25 pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: "linear-gradient(#E4D9BC 1px, transparent 1px), linear-gradient(90deg, #E4D9BC 1px, transparent 1px)",
-          backgroundSize: "48px 48px"
+          backgroundImage: "linear-gradient(to right, rgba(228, 217, 188, 0.4) 1px, transparent 1px), linear-gradient(to bottom, rgba(228, 217, 188, 0.4) 1px, transparent 1px)",
+          backgroundSize: "140px 140px",
+          maskImage: "radial-gradient(ellipse 90% 80% at 50% 50%, #000 30%, transparent 95%)",
+          WebkitMaskImage: "radial-gradient(ellipse 90% 80% at 50% 50%, #000 30%, transparent 95%)"
         }}
       />
 
