@@ -92,6 +92,7 @@ export default function Footer() {
       >
         <MonogramAM 
           className="h-[78%] sm:h-[84%] max-h-[500px] w-auto max-w-[92vw] text-[#E4C090]/[0.07] sm:text-[#E4C090]/[0.09]"
+          strokeWidth={1}
         />
       </div>
 

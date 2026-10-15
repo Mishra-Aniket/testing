@@ -374,7 +374,7 @@ export default function Navbar({
           >
           {/* Logo */}
           <Link href="/" onClick={() => sound.playClick()} className="relative flex items-center gap-2 group shrink-0">
-            <MonogramAM className={`h-7 sm:h-8 w-auto transform transition-transform group-hover:scale-105 duration-200 ${
+            <MonogramAM className={`h-7.5 sm:h-8.5 w-auto transform transition-transform group-hover:scale-105 duration-200 ${
               isDarkTheme ? "text-[#E4C090]" : "text-[#B45309]"
             }`} />
             <span className="flex items-baseline tracking-tight">
