@@ -913,7 +913,7 @@ export default function Navbar({
                     Navigation
                   </span>
                   <span className="flex items-center gap-1.5 tracking-tight">
-                    <MonogramAM className={`h-4.5 w-auto ${isDarkTheme ? "text-[#E4C090]" : "text-[#B45309]"}`} />
+                    <MonogramAM className={`h-5 w-auto ${isDarkTheme ? "text-[#E4C090]" : "text-[#B45309]"}`} />
                     <span className={`font-sans font-bold text-xs tracking-tight ${
                       isDarkTheme ? "text-white" : "text-[#4A3B33]"
                     }`}>

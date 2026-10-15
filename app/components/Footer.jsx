@@ -91,7 +91,7 @@ export default function Footer() {
         className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden z-0"
       >
         <MonogramAM 
-          className="w-[90vw] max-w-[850px] lg:max-w-[1050px] h-auto text-[#E4C090]/[0.06] sm:text-[#E4C090]/[0.07] transform -translate-y-4 sm:-translate-y-8"
+          className="h-[78%] sm:h-[84%] max-h-[500px] w-auto max-w-[92vw] text-[#E4C090]/[0.07] sm:text-[#E4C090]/[0.09]"
         />
       </div>
 

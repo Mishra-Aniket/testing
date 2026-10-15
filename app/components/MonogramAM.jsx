@@ -1,11 +1,19 @@
 import React from "react";
 
-export default function MonogramAM({ className = "h-7 w-auto", ...props }) {
+export default function MonogramAM({ 
+  className = "h-7 w-auto", 
+  strokeWidth = 10,
+  ...props 
+}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 627 500"
       fill="currentColor"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinejoin="round"
+      strokeLinecap="round"
       aria-hidden="true"
       className={className}
       {...props}
