@@ -183,6 +183,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
   const pathname = usePathname() || "";
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [isInputFocused, setIsInputFocused] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const [studentOffers, setStudentOffers] = useState([]);
@@ -349,7 +350,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
 
   // Keyboard shortcut listener for ⌘K / Ctrl K and Escape
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleGlobalKeyDown = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         if (isOpen) {
@@ -359,11 +360,20 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
         }
       }
       if (e.key === "Escape" && isOpen) {
+        // If search input is focused (e.g. mobile virtual keyboard is open or user is typing),
+        // pressing Escape or Android back button should blur the input to dismiss the keyboard,
+        // without closing the entire search modal!
+        if (inputRef.current && (document.activeElement === inputRef.current || inputRef.current.contains(document.activeElement))) {
+          e.preventDefault();
+          e.stopPropagation();
+          inputRef.current.blur();
+          return;
+        }
         onClose();
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", handleGlobalKeyDown);
+    return () => window.removeEventListener("keydown", handleGlobalKeyDown);
   }, [isOpen, onOpen, onClose]);
 
   // Click outside to close (without darkening the screen)
@@ -373,6 +383,14 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
       if (modalRef.current && !modalRef.current.contains(e.target)) {
         const dockEl = document.querySelector('[data-bottom-search-dock="true"]');
         if (dockEl && dockEl.contains(e.target)) return;
+
+        // If keyboard is open on mobile, tapping outside should dismiss keyboard first,
+        // keeping search results visible!
+        if (inputRef.current && (document.activeElement === inputRef.current || inputRef.current.contains(document.activeElement))) {
+          inputRef.current.blur();
+          return;
+        }
+
         onClose();
       }
     };
@@ -381,6 +399,35 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [isOpen, onClose]);
+
+  // Mobile Android back gesture / back button navigation handling
+  useEffect(() => {
+    if (!isOpen || typeof window === "undefined") return;
+
+    // Push dummy history state so hardware back button can be intercepted without navigating away
+    window.history.pushState({ aniketSearchModal: true }, "");
+
+    const handlePopState = () => {
+      // If user pressed back while input was focused (virtual keyboard is up),
+      // just dismiss the keyboard and keep search modal open
+      if (inputRef.current && (document.activeElement === inputRef.current || inputRef.current.contains(document.activeElement))) {
+        inputRef.current.blur();
+        window.history.pushState({ aniketSearchModal: true }, "");
+        return;
+      }
+      // If input was already blurred, close the modal
+      onClose();
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+      if (window.history.state?.aniketSearchModal) {
+        window.history.back();
+      }
     };
   }, [isOpen, onClose]);
 
@@ -741,6 +788,8 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                       ref={inputRef}
                       type="text"
                       value={query}
+                      onFocus={() => setIsInputFocused(true)}
+                      onBlur={() => setIsInputFocused(false)}
                       onChange={(e) => {
                         setQuery(e.target.value);
                         setSelectedIndex(0);
@@ -761,16 +810,37 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                           setQuery("");
                           inputRef.current?.focus();
                         }}
-                        className="text-[#A8A29E] hover:text-[#F5F5F4] p-0.5 cursor-pointer"
+                        className="text-[#A8A29E] hover:text-[#F5F5F4] p-0.5 cursor-pointer shrink-0"
                       >
                         <X className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                    {isInputFocused && (
+                      <button
+                        type="button"
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          inputRef.current?.blur();
+                        }}
+                        className="sm:hidden text-[10.5px] font-mono font-bold uppercase tracking-wider text-[#E4C090] bg-[#E4C090]/15 border border-[#E4C090]/30 hover:bg-[#E4C090]/25 px-2 py-0.5 rounded cursor-pointer shrink-0 transition-colors"
+                        title="Dismiss keyboard"
+                      >
+                        Done
                       </button>
                     )}
                   </div>
                 </div>
 
                 {/* Sub-heading Label: Quick links / Search results */}
-                <div className="px-4 pt-2 pb-1 text-xs font-mono font-medium text-[#78716C] shrink-0">
+                <div 
+                  onClick={() => {
+                    if (inputRef.current && (document.activeElement === inputRef.current || inputRef.current.contains(document.activeElement))) {
+                      inputRef.current.blur();
+                    }
+                  }}
+                  className="px-4 pt-2 pb-1 text-xs font-mono font-medium text-[#78716C] shrink-0 select-none"
+                >
                   {query.trim()
                     ? isStudentsPage
                       ? `Found ${displayedItems.length} student grants`
@@ -785,6 +855,16 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                   ref={scrollContainerRef}
                   onWheel={(e) => e.stopPropagation()}
                   onTouchMove={(e) => e.stopPropagation()}
+                  onTouchStart={() => {
+                    if (inputRef.current && (document.activeElement === inputRef.current || inputRef.current.contains(document.activeElement))) {
+                      inputRef.current.blur();
+                    }
+                  }}
+                  onScroll={() => {
+                    if (inputRef.current && (document.activeElement === inputRef.current || inputRef.current.contains(document.activeElement))) {
+                      inputRef.current.blur();
+                    }
+                  }}
                   data-lenis-prevent="true"
                   data-lenis-prevent-wheel="true"
                   data-lenis-prevent-touch="true"

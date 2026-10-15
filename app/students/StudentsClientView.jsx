@@ -10,7 +10,6 @@ import SearchModal from "../components/SearchModal";
 import ContextAssessmentModal from "../components/ContextAssessmentModal";
 import ConstellationCanvas from "../components/ConstellationCanvas";
 import { 
-  GraduationCap, 
   Sparkles, 
   CheckCircle2, 
   ArrowRight, 
@@ -133,13 +132,6 @@ export default function StudentsClientView() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
               {/* Left Column: Headline, Description & CTAs */}
               <div className="lg:col-span-6 space-y-6">
-                {/* Category Eyebrow Pill */}
-                <div>
-                  <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E4C090]/15 border border-[#E4C090]/40 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#E4C090]">
-                    <GraduationCap className="w-3.5 h-3.5" />
-                    // STUDENT BUILDER VAULT · 140+ ZERO-COST SOFTWARE GRANTS
-                  </span>
-                </div>
 
                 {/* Title */}
                 <RevealTitle text="Ship Real Software On A College Budget — 100% Free." />
