@@ -3,272 +3,217 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { sound } from '../utils/sound';
-import { 
-  Layers, 
-  Cpu, 
-  Database, 
-  Globe, 
-  Radio, 
-  ShieldCheck, 
-  Terminal, 
-  Zap, 
-  ArrowUpRight,
-  Sparkles
-} from 'lucide-react';
 
-// Bespoke 4-Layer Architecture specifically built for Aniket Mishra
-const ARCHITECTURE_LAYERS = [
-  {
-    id: "l00",
-    number: "01",
-    tag: "L01 // STORAGE & CACHE",
-    title: "Distributed Data & Cache",
-    techs: ["PostgreSQL", "Supabase", "Redis", "SQLite WAL"],
-    metrics: "Sub-1ms in-memory cache · WAL zero-corruption",
-    description: "ACID-compliant relational schemas with Redis caching and SQLite Write-Ahead Logging for high-concurrency offline and edge resilience.",
-    stats: [
-      { label: "TRANSACTIONS", value: "ACID Compliant" },
-      { label: "CACHE HIT", value: "< 2ms Latency" },
-      { label: "STORAGE", value: "Postgres + WAL" }
-    ],
-    code: 'db.wal_mode = "NORMAL"; redis.cache("query_v2");',
-    color: "#B45309"
-  },
-  {
-    id: "l01",
-    number: "02",
-    tag: "L02 // BACKEND CORE",
-    title: "High-Throughput Microservices",
-    techs: [".NET 8 (C#)", "Python (FastAPI)", "REST", "JWT Auth"],
-    metrics: "< 80ms p95 latency · Multi-tenant security",
-    description: "High-throughput asynchronous API microservices built with .NET 8 / C# and FastAPI. Strict type safety, connection pooling, and resilient worker threads.",
-    stats: [
-      { label: "FRAMEWORKS", value: ".NET 8 + FastAPI" },
-      { label: "LATENCY", value: "< 80ms p95" },
-      { label: "AUTH", value: "JWT + OAuth2" }
-    ],
-    code: 'services.AddScoped<IPipelineService, Engine>();',
-    color: "#D97706"
-  },
-  {
-    id: "l02",
-    number: "03",
-    tag: "L03 // INGESTION & PIPELINE",
-    title: "Centrix Automation & Streaming",
-    techs: ["Chunked Uploads", "Google Drive API", "SSE Streams", "OBS Sync"],
-    metrics: "Scaled across 500+ centers · 20,000+ lectures/day",
-    description: "Real-time edge ingestion engine matching lecture recordings with interactive notes and executing chunked resumable uploads with zero cloud egress cost.",
-    stats: [
-      { label: "THROUGHPUT", value: "20,000 Lectures/Day" },
-      { label: "SCALE", value: "500+ PW Centers" },
-      { label: "EGRESS COST", value: "0% (Zero Cloud Bill)" }
-    ],
-    code: 'pipeline.StreamChunkedUpload(session, driveToken);',
-    color: "#059669"
-  },
-  {
-    id: "l03",
-    number: "04",
-    tag: "L04 // CLIENT & EXTENSIONS",
-    title: "Next.js 15 & Chrome Extensions (MV3)",
-    techs: ["Next.js 15", "React 19", "OmTabs MV3", "Tailwind CSS"],
-    metrics: "Official Chrome Web Store · Biometric Auth · Sub-10ms UI",
-    description: "Ultra-responsive client-side web applications and official Chrome extensions with biometric privacy locks, persistent state memory, and zero UI stutter.",
-    stats: [
-      { label: "WEB STORE", value: "Official Extension" },
-      { label: "SPEED", value: "< 10ms Rename" },
-      { label: "UI ENGINE", value: "Next.js 15 + React 19" }
-    ],
-    code: 'chrome.tabs.update(activeTabId, { title: customTitle });',
-    color: "#2563EB"
-  }
-];
+import { STACK_LAYERS } from '../data/portfolioData';
+
+const LAYERS = STACK_LAYERS;
 
 export default function StackDiagram() {
-  const [hoveredIdx, setHoveredIdx] = useState(null);
+  const [hoveredLayer, setHoveredLayer] = useState(null);
 
   // Auto-highlight layer when navigated via hash (e.g. #stack-l01)
   useEffect(() => {
     const handleHash = () => {
       if (typeof window === "undefined") return;
       const hash = window.location.hash.toLowerCase();
-      if (hash.includes("l00") || hash.includes("data") || hash.includes("database")) setHoveredIdx(0);
-      else if (hash.includes("l01") || hash.includes("backend") || hash.includes("engine")) setHoveredIdx(1);
-      else if (hash.includes("l02") || hash.includes("pipeline") || hash.includes("centrix")) setHoveredIdx(2);
-      else if (hash.includes("l03") || hash.includes("client") || hash.includes("omtabs")) setHoveredIdx(3);
+      if (hash.includes("l00") || hash.includes("data") || hash.includes("database")) setHoveredLayer(0);
+      else if (hash.includes("l01") || hash.includes("engine") || hash.includes("backend")) setHoveredLayer(1);
+      else if (hash.includes("l02") || hash.includes("automation") || hash.includes("pipeline")) setHoveredLayer(2);
+      else if (hash.includes("l03") || hash.includes("ui") || hash.includes("frontend")) setHoveredLayer(3);
+      else if (hash.includes("l04") || hash.includes("edge") || hash.includes("agent")) setHoveredLayer(4);
     };
     handleHash();
     window.addEventListener("hashchange", handleHash);
     return () => window.removeEventListener("hashchange", handleHash);
   }, []);
 
-  const activeData = hoveredIdx !== null ? ARCHITECTURE_LAYERS[hoveredIdx] : null;
+  const getOffsetY = (idx) => {
+    if (hoveredLayer === null) return 0;
+    if (idx > hoveredLayer) return -26;
+    if (idx < hoveredLayer) return 26;
+    return -4;
+  };
+
+  const LAYER_Y = [582, 470, 372, 274, 176];
+  const cardTopPercent = hoveredLayer !== null
+    ? Math.min(82, Math.max(18, (LAYER_Y[hoveredLayer] + getOffsetY(hoveredLayer)) / 720 * 100))
+    : 50;
+
+  const activeData = hoveredLayer !== null ? LAYERS[hoveredLayer] : null;
 
   return (
-    <div className="relative w-full select-none">
-      {/* 1. TOP ENGINEERING COCKPIT TELEMETRY BAR */}
-      <div className="mb-4 rounded-xl border border-[#E4D9BC] bg-white p-3.5 sm:p-4 shadow-[var(--shadow-soft)]">
-        <div className="flex items-center justify-between gap-3 flex-wrap">
-          <div className="flex items-center gap-2.5">
-            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[#FAF6EE] border border-[#E4D9BC] text-[#B45309]">
-              <Cpu className="w-3.5 h-3.5" />
-            </span>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#B45309]">
-                  ANIKET // FULL-STACK SYSTEM ENGINE
-                </span>
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              </div>
-              <div className="font-mono text-[11px] text-[#78716C] mt-0.5">
-                4-Layer Production Architecture · High Concurrency
+    <div className="relative w-full aspect-[8/9] select-none">
+      <svg
+        viewBox="0 0 640 720"
+        className="w-full h-full block overflow-visible"
+        preserveAspectRatio="xMidYMid meet"
+        role="img"
+        aria-label="Aniket engineering architecture stack"
+      >
+<defs><linearGradient id="ksTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#FFFFFF"></stop><stop offset="100%" stopColor="#FBF6EE"></stop></linearGradient><radialGradient id="ksHalo"><stop offset="0%" stopColor="#B45309" stopOpacity="0.22"></stop><stop offset="60%" stopColor="#B45309" stopOpacity="0.07"></stop><stop offset="100%" stopColor="#B45309" stopOpacity="0"></stop></radialGradient><filter id="ksGlow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="2.6" result="b"></feGaussianBlur><feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter><filter id="ksBlur" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="9"></feGaussianBlur></filter><filter id="ksShadow" x="-10%" y="-20%" width="120%" height="160%"><feDropShadow dx="0" dy="3" stdDeviation="4" floodColor="hsl(28 18% 25%)" floodOpacity="0.14"></feDropShadow></filter><clipPath id="ksClipA"><circle cx="-20" cy="0" r="34"></circle></clipPath></defs><g pointerEvents="none"><rect x="394" y="33" width="7" height="7" fill="#B45309"></rect><text x="407" y="40" fill="#78716C" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1.6" fontWeight="600">ANIKET // TECH_STACK</text><text x="394" y="57" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1">build #2026 · fullstack & ai</text><text x="626" y="57" textAnchor="end" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1">LIVE</text><circle cx="594" cy="54.5" r="2.4" fill="#B45309" opacity="0.9306186791727669"></circle><rect x="394" y="67" width="29" height="3" rx="1.5" style={{"fill": "rgb(180, 83, 9)", "transition": "fill 0.3s"}}></rect><rect x="427" y="67" width="29" height="3" rx="1.5" style={{"fill": "rgb(180, 83, 9)", "transition": "fill 0.3s"}}></rect><rect x="460" y="67" width="29" height="3" rx="1.5" style={{"fill": "rgb(180, 83, 9)", "transition": "fill 0.3s"}}></rect><rect x="493" y="67" width="29" height="3" rx="1.5" style={{"fill": "rgb(180, 83, 9)", "transition": "fill 0.3s"}}></rect><rect x="526" y="67" width="29" height="3" rx="1.5" style={{"fill": "rgb(180, 83, 9)", "transition": "fill 0.3s"}}></rect><rect x="559" y="67" width="29" height="3" rx="1.5" style={{"fill": "rgb(180, 83, 9)", "transition": "fill 0.3s"}}></rect><rect x="592" y="67" width="29" height="3" rx="1.5" style={{"fill": "rgb(180, 83, 9)", "transition": "fill 0.3s"}}></rect><text x="394" y="88" fill="#B45309" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.6" fontWeight="600">PHASE · PRODUCTION</text></g><g pointerEvents="none" opacity={hoveredLayer !== null ? 0.3 : 1} style={{"transition": "opacity 0.3s"}}><path d="M58,128.07999999999998 H48 V528.92 H58" fill="none" stroke="#B45309" strokeWidth="1" opacity="0.55"></path><text x="38" y="328.5" textAnchor="middle" transform="rotate(-90 38 328.5)" fill="#B45309" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="3" fontWeight="600">FULL-STACK & AI ENGINE</text><path d="M58,536.08 H48 V640.92 H58" fill="none" stroke="#A8A29E" strokeWidth="1" opacity="0.7"></path><text x="38" y="588.5" textAnchor="middle" transform="rotate(-90 38 588.5)" fill="#A8A29E" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="3" fontWeight="600">FOUNDATION</text></g><g><g
+            tabIndex="0"
+            role="button"
+            aria-label="L00 Database and storage"
+            onMouseEnter={() => {
+              sound.playClick();
+              setHoveredLayer(0);
+            }}
+            onMouseLeave={() => setHoveredLayer(null)}
+            onClick={() => {
+              sound.playClick();
+              setHoveredLayer(0);
+            }}
+            style={{
+                cursor: 'pointer',
+                outline: 'none',
+                transform: `translateY(${getOffsetY(0)}px)`,
+                filter: hoveredLayer === 0 ? 'drop-shadow(0 8px 16px rgba(180, 83, 9, 0.25))' : 'none',
+                opacity: hoveredLayer === null ? 1 : (hoveredLayer === 0 ? 1 : 0.38),
+                transition: 'transform 0.38s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1), filter 0.35s'
+            }}
+        ><g><line x1="360.4" y1="582" x2="384" y2="582" strokeWidth="1" style={{"stroke": "rgb(228, 192, 144)", "transition": "stroke 0.3s"}}></line><circle cx="360.4" cy="582" r="2.2" style={{"fill": "rgb(180, 83, 9)", "transition": "fill 0.3s"}}></circle><g opacity={hoveredLayer === 0 ? 0 : 1} style={{"transition": "opacity 0.2s"}}><text x="394" y="569" fontSize="9" fontFamily="JetBrains Mono, monospace" letterSpacing="1.5" fontWeight="600" style={{"fill": "rgb(180, 83, 9)", "transition": "fill 0.3s"}}>L00 · DATA</text><text x="394" y="586" fill="#4A3B33" fontSize="14" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">Database & Storage</text><text x="394" y="600" fill="#78716C" fontSize="8.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4">postgres · redis · vector · supabase</text></g><rect x="380" y="552" width="254" height="60" fill="transparent"></rect></g><g style={{"transform": "translateY(-0.423384px)", "transformOrigin": "50% 50%", "transformBox": "fill-box"}}><g style={{"transform": "none", "transformOrigin": "50% 50%", "transformBox": "fill-box"}}><ellipse cx="214" cy="608" rx="126.36000000000001" ry="35.9424" fill="#4A3B33" opacity="0.07" filter="url(#ksBlur)"></ellipse><ellipse cx="214" cy="586" rx="162.4" ry="67.92" fill="url(#ksHalo)" opacity="0.4"></ellipse><polygon points="73.6,582 214,631.92 214,640.92 73.6,591" fill="#E7E5E4"></polygon><polygon points="214,631.92 354.4,582 354.4,591 214,640.92" fill="#D6D3D1"></polygon><polygon points="214,532.08 354.4,582 214,631.92 73.6,582" fill="url(#ksTop)" strokeWidth="1.4" style={{"stroke": "rgb(180, 83, 9)", "transition": "stroke 0.35s"}}></polygon><polyline points="73.6,582 214,631.92 354.4,582" fill="none" strokeWidth="1.6" strokeLinejoin="round" style={{"stroke": "#B45309", "opacity": "0", "transition": "opacity 0.35s"}}></polyline><g transform="matrix(0.9 0.32 -0.9 0.32 214 582)"><rect x="-72" y="-72" width="144" height="144" rx="4" fill="none" stroke="#F1E9DA" strokeWidth="1" vectorEffect="non-scaling-stroke"></rect><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="-52" y1="-72" x2="-52" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="-52" x2="72" y2="-52" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="-26" y1="-72" x2="-26" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="-26" x2="72" y2="-26" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="0" y1="-72" x2="0" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="0" x2="72" y2="0" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="26" y1="-72" x2="26" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="26" x2="72" y2="26" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="52" y1="-72" x2="52" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="52" x2="72" y2="52" vectorEffect="non-scaling-stroke"></line></g><g><rect x="-70" y="-43" width="40" height="36" rx="3" vectorEffect="non-scaling-stroke" strokeWidth="1" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgba(180, 83, 9, 0.12)", "stroke": "rgb(180, 83, 9)"}}></rect><circle cx="-37" cy="-14" r="2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "#A8A29E"}} opacity="0.9981442176416749"></circle></g><g><rect x="-20" y="-43" width="40" height="36" rx="3" vectorEffect="non-scaling-stroke" strokeWidth="1" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgba(180, 83, 9, 0.12)", "stroke": "rgb(180, 83, 9)"}}></rect><circle cx="13" cy="-14" r="2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "#A8A29E"}} opacity="0.408798781587393"></circle></g><g><rect x="30" y="-43" width="40" height="36" rx="3" vectorEffect="non-scaling-stroke" strokeWidth="1" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgba(180, 83, 9, 0.12)", "stroke": "rgb(180, 83, 9)"}}></rect><circle cx="63" cy="-14" r="2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "#A8A29E"}} opacity="0.35048298600886485"></circle></g><g><rect x="-70" y="7" width="40" height="36" rx="3" vectorEffect="non-scaling-stroke" strokeWidth="1" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "#FFFFFF", "stroke": "#E4D9BC"}}></rect><circle cx="-37" cy="36" r="2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "#A8A29E"}} opacity="0.9981442176416749"></circle></g><g><rect x="-20" y="7" width="40" height="36" rx="3" vectorEffect="non-scaling-stroke" strokeWidth="1" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "#FFFFFF", "stroke": "#E4D9BC"}}></rect><circle cx="13" cy="36" r="2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "#A8A29E"}} opacity="0.408798781587393"></circle></g><g><rect x="30" y="7" width="40" height="36" rx="3" vectorEffect="non-scaling-stroke" strokeWidth="1" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "#FFFFFF", "stroke": "#E4D9BC"}}></rect><circle cx="63" cy="36" r="2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "#A8A29E"}} opacity="0.35048298600886485"></circle></g><line x1="39.30545454545455" x2="39.30545454545455" y1="-72" y2="72" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.5"></line><circle cx="0" cy="0" r="7" fill="#FDFBF7" strokeWidth="1.2" vectorEffect="non-scaling-stroke" style={{"stroke": "rgb(180, 83, 9)", "transition": "stroke 0.35s"}}></circle><circle cx="0" cy="0" r="3" style={{"fill": "rgb(180, 83, 9)", "opacity": "1", "transition": "opacity 0.35s"}}></circle></g><text x="191.5" y="560.8" textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1" style={{"transition": "fill 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)"}}>PGSQL</text><text x="236.5" y="576.8" textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1" style={{"transition": "fill 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)"}}>REDIS</text><text x="281.5" y="592.8" textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1" style={{"transition": "fill 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)"}}>VECTOR</text><text x="146.5" y="576.8" textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1" style={{"transition": "fill 0.4s, opacity 0.4s", "fill": "#78716C"}}>SUPA</text><text x="191.5" y="592.8" textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1" style={{"transition": "fill 0.4s, opacity 0.4s", "fill": "#78716C"}}>DOCKER</text><text x="236.5" y="608.8" textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1" style={{"transition": "fill 0.4s, opacity 0.4s", "fill": "#78716C"}}>CLOUD</text><text x="89.6" y="584.5" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.8" fill="#A8A29E">L00</text></g></g></g><g pointerEvents="none" opacity={hoveredLayer !== null ? 0.12 : 1} style={{"transition": "opacity 0.3s"}}><line x1="214" y1="582" x2="214" y2="470" stroke="#E4C090" strokeWidth="1" strokeDasharray="2 5"></line><g><line x1="147.39999999999998" y1="577.52" x2="147.39999999999998" y2="465.52" strokeWidth="1" style={{"stroke": "rgba(180, 83, 9, 0.45)", "transition": "stroke 0.35s"}}></line><circle cx="147.39999999999998" r="2.2" cy="479.44999999999993" opacity="0.37312499999999904" style={{"fill": "#E4C090", "transition": "fill 0.35s"}} filter="url(#ksGlow)"></circle><circle cx="147.39999999999998" r="2.2" cy="535.4499999999999" opacity="1" style={{"fill": "#E4C090", "transition": "fill 0.35s"}} filter="url(#ksGlow)"></circle></g><g><line x1="280.6" y1="586.48" x2="280.6" y2="474.48" strokeWidth="1" style={{"stroke": "rgba(180, 83, 9, 0.45)", "transition": "stroke 0.35s"}}></line><circle cx="280.6" r="2.2" cy="516.41" opacity="1" style={{"fill": "#E4C090", "transition": "fill 0.35s"}} filter="url(#ksGlow)"></circle><circle cx="280.6" r="2.2" cy="572.41" opacity="0.376875000000001" style={{"fill": "#E4C090", "transition": "fill 0.35s"}} filter="url(#ksGlow)"></circle></g></g></g><g><g
+            tabIndex="0"
+            role="button"
+            aria-label="L01 Backend & Services"
+            onMouseEnter={() => {
+              sound.playClick();
+              setHoveredLayer(1);
+            }}
+            onMouseLeave={() => setHoveredLayer(null)}
+            onClick={() => {
+              sound.playClick();
+              setHoveredLayer(1);
+            }}
+            style={{
+                cursor: 'pointer',
+                outline: 'none',
+                transform: `translateY(${getOffsetY(1)}px)`,
+                filter: hoveredLayer === 1 ? 'drop-shadow(0 8px 16px rgba(180, 83, 9, 0.25))' : 'none',
+                opacity: hoveredLayer === null ? 1 : (hoveredLayer === 1 ? 1 : 0.38),
+                transition: 'transform 0.38s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1), filter 0.35s'
+            }}
+        ><g><line x1="360.4" y1="470" x2="384" y2="470" strokeWidth="1" style={{"stroke": "rgb(228, 192, 144)", "transition": "stroke 0.3s"}}></line><circle cx="360.4" cy="470" r="2.2" style={{"fill": "rgb(180, 83, 9)", "transition": "fill 0.3s"}}></circle><g opacity={hoveredLayer === 1 ? 0 : 1} style={{"transition": "opacity 0.2s"}}><text x="394" y="457" fontSize="9" fontFamily="JetBrains Mono, monospace" letterSpacing="1.5" fontWeight="600" style={{"fill": "rgb(180, 83, 9)", "transition": "fill 0.3s"}}>L01 · ENGINE</text><text x="394" y="474" fill="#4A3B33" fontSize="14" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">Backend & Services</text><text x="394" y="488" fill="#78716C" fontSize="8.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4">.net 8 · fastapi · node · auth</text></g><rect x="380" y="440" width="254" height="60" fill="transparent"></rect></g><g style={{"transform": "translateY(-1.84234px)", "transformOrigin": "50% 50%", "transformBox": "fill-box"}}><g style={{"transform": "none", "transformOrigin": "50% 50%", "transformBox": "fill-box"}}><ellipse cx="214" cy="496" rx="126.36000000000001" ry="35.9424" fill="#4A3B33" opacity="0.07" filter="url(#ksBlur)"></ellipse><ellipse cx="214" cy="474" rx="162.4" ry="67.92" fill="url(#ksHalo)" opacity="0.4"></ellipse><polygon points="73.6,470 214,519.92 214,528.92 73.6,479" fill="#F1E9DA"></polygon><polygon points="214,519.92 354.4,470 354.4,479 214,528.92" fill="#E4C090"></polygon><polygon points="214,420.08 354.4,470 214,519.92 73.6,470" fill="url(#ksTop)" strokeWidth="1.4" style={{"stroke": "rgb(180, 83, 9)", "transition": "stroke 0.35s"}}></polygon><polyline points="73.6,470 214,519.92 354.4,470" fill="none" strokeWidth="1.6" strokeLinejoin="round" style={{"stroke": "rgb(180, 83, 9)", "opacity": "0.9", "transition": "opacity 0.35s"}}></polyline><g transform="matrix(0.9 0.32 -0.9 0.32 214 470)"><rect x="-72" y="-72" width="144" height="144" rx="4" fill="none" stroke="#F1E9DA" strokeWidth="1" vectorEffect="non-scaling-stroke"></rect><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="-52" y1="-72" x2="-52" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="-52" x2="72" y2="-52" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="-26" y1="-72" x2="-26" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="-26" x2="72" y2="-26" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="0" y1="-72" x2="0" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="0" x2="72" y2="0" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="26" y1="-72" x2="26" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="26" x2="72" y2="26" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="52" y1="-72" x2="52" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="52" x2="72" y2="52" vectorEffect="non-scaling-stroke"></line></g><g transform="rotate(-45)"><line x1="0" y1="-78" x2="-36" y2="-54" vectorEffect="non-scaling-stroke" strokeWidth="1" stroke="#E4D9BC"></line><line x1="-36" y1="-54" x2="-72" y2="-20" vectorEffect="non-scaling-stroke" strokeWidth="1" stroke="#E4D9BC"></line><line x1="-72" y1="-20" x2="-42" y2="36" vectorEffect="non-scaling-stroke" strokeWidth="1" stroke="#E4D9BC"></line><line x1="-42" y1="36" x2="0" y2="66" vectorEffect="non-scaling-stroke" strokeWidth="1" stroke="#E4D9BC"></line><line x1="0" y1="66" x2="42" y2="36" vectorEffect="non-scaling-stroke" strokeWidth="1" stroke="#E4D9BC"></line><line x1="42" y1="36" x2="72" y2="-20" vectorEffect="non-scaling-stroke" strokeWidth="1" stroke="#E4D9BC"></line><line x1="72" y1="-20" x2="36" y2="-54" vectorEffect="non-scaling-stroke" strokeWidth="1" stroke="#E4D9BC"></line><line x1="36" y1="-54" x2="0" y2="-78" vectorEffect="non-scaling-stroke" strokeWidth="1" stroke="#E4D9BC"></line><line x1="-12.525732825189227" y1="-3.47937022921923" x2="-72" y2="-20" vectorEffect="non-scaling-stroke" strokeWidth="1.6" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "stroke": "rgb(180, 83, 9)"}}></line><line x1="12.525732825189227" y1="-3.47937022921923" x2="72" y2="-20" vectorEffect="non-scaling-stroke" strokeWidth="1.6" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "stroke": "rgb(180, 83, 9)"}}></line><line x1="0" y1="-13" x2="0" y2="-78" vectorEffect="non-scaling-stroke" strokeWidth="1.6" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "stroke": "rgb(180, 83, 9)"}}></line><line x1="0" y1="13" x2="0" y2="66" vectorEffect="non-scaling-stroke" strokeWidth="1" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "stroke": "#E4D9BC"}}></line><circle cx="0" cy="0" r="13" fill="none" vectorEffect="non-scaling-stroke" strokeWidth="1" strokeDasharray="2 2.5" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "stroke": "rgb(180, 83, 9)"}}></circle><circle cx="-72" cy="-20" r="5.5" vectorEffect="non-scaling-stroke" strokeWidth="1.2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)", "stroke": "rgb(180, 83, 9)"}}></circle><circle cx="72" cy="-20" r="5.5" vectorEffect="non-scaling-stroke" strokeWidth="1.2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)", "stroke": "rgb(180, 83, 9)"}}></circle><circle cx="-36" cy="-54" r="4.2" vectorEffect="non-scaling-stroke" strokeWidth="1.2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "#FFFFFF", "stroke": "#E4C090"}}></circle><circle cx="36" cy="-54" r="4.2" vectorEffect="non-scaling-stroke" strokeWidth="1.2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "#FFFFFF", "stroke": "#E4C090"}}></circle><circle cx="-42" cy="36" r="4.2" vectorEffect="non-scaling-stroke" strokeWidth="1.2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "#FFFFFF", "stroke": "#E4C090"}}></circle><circle cx="42" cy="36" r="4.2" vectorEffect="non-scaling-stroke" strokeWidth="1.2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "#FFFFFF", "stroke": "#E4C090"}}></circle><circle cx="0" cy="-78" r="5.5" vectorEffect="non-scaling-stroke" strokeWidth="1.2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)", "stroke": "rgb(180, 83, 9)"}}></circle><circle cx="0" cy="66" r="4.2" vectorEffect="non-scaling-stroke" strokeWidth="1.2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "#FFFFFF", "stroke": "#E4C090"}}></circle></g><line x1="8.668800000000005" x2="8.668800000000005" y1="-72" y2="72" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.5"></line><circle cx="0" cy="0" r="7" fill="#FDFBF7" strokeWidth="1.2" vectorEffect="non-scaling-stroke" style={{"stroke": "rgb(180, 83, 9)", "transition": "stroke 0.35s"}}></circle><circle cx="0" cy="0" r="3" style={{"fill": "rgb(180, 83, 9)", "opacity": "1", "transition": "opacity 0.35s"}}></circle></g><text x="122.35896115822342" y="451.9490332008122" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="0.5" style={{"transition": "fill 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)", "opacity": "1"}}>api</text><text x="305.64103884177655" y="451.9490332008122" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="0.5" style={{"transition": "fill 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)", "opacity": "1"}}>auth</text><text x="223" y="437.20122948316754" textAnchor="start" fontSize="7" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="0.5" style={{"transition": "fill 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)", "opacity": "1"}}>cache</text><text x="89.6" y="472.5" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.8" fill="#A8A29E">L01</text></g></g></g><g pointerEvents="none" opacity="1" style={{"transition": "opacity 0.3s"}}><line x1="214" y1="470" x2="214" y2="372" stroke="#E4C090" strokeWidth="1" strokeDasharray="2 5"></line><g><line x1="147.39999999999998" y1="465.52" x2="147.39999999999998" y2="367.52" strokeWidth="1" style={{"stroke": "rgba(180, 83, 9, 0.45)", "transition": "stroke 0.35s"}}></line><circle cx="147.39999999999998" r="2.2" cy="388.89624999999995" opacity="0.654374999999999" style={{"fill": "#E4C090", "transition": "fill 0.35s"}} filter="url(#ksGlow)"></circle><circle cx="147.39999999999998" r="2.2" cy="437.89624999999995" opacity="0.8456250000000011" style={{"fill": "#E4C090", "transition": "fill 0.35s"}} filter="url(#ksGlow)"></circle></g><g><line x1="280.6" y1="474.48" x2="280.6" y2="376.48" strokeWidth="1" style={{"stroke": "rgba(180, 83, 9, 0.45)", "transition": "stroke 0.35s"}}></line><circle cx="280.6" r="2.2" cy="422.35625" opacity="1" style={{"fill": "#E4C090", "transition": "fill 0.35s"}} filter="url(#ksGlow)"></circle><circle cx="280.6" r="2.2" cy="471.35625" opacity="0.09562500000000097" style={{"fill": "#E4C090", "transition": "fill 0.35s"}} filter="url(#ksGlow)"></circle></g></g></g><g><g
+            tabIndex="0"
+            role="button"
+            aria-label="L02 Automation & Pipelines"
+            onMouseEnter={() => {
+              sound.playClick();
+              setHoveredLayer(2);
+            }}
+            onMouseLeave={() => setHoveredLayer(null)}
+            onClick={() => {
+              sound.playClick();
+              setHoveredLayer(2);
+            }}
+            style={{
+                cursor: 'pointer',
+                outline: 'none',
+                transform: `translateY(${getOffsetY(2)}px)`,
+                filter: hoveredLayer === 2 ? 'drop-shadow(0 8px 16px rgba(180, 83, 9, 0.25))' : 'none',
+                opacity: hoveredLayer === null ? 1 : (hoveredLayer === 2 ? 1 : 0.38),
+                transition: 'transform 0.38s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1), filter 0.35s'
+            }}
+        ><g><line x1="360.4" y1="372" x2="384" y2="372" strokeWidth="1" style={{"stroke": "rgb(228, 192, 144)", "transition": "stroke 0.3s"}}></line><circle cx="360.4" cy="372" r="2.2" style={{"fill": "rgb(180, 83, 9)", "transition": "fill 0.3s"}}></circle><g opacity={hoveredLayer === 2 ? 0 : 1} style={{"transition": "opacity 0.2s"}}><text x="394" y="359" fontSize="9" fontFamily="JetBrains Mono, monospace" letterSpacing="1.5" fontWeight="600" style={{"fill": "rgb(180, 83, 9)", "transition": "fill 0.3s"}}>L02 · AUTOMATION</text><text x="394" y="376" fill="#4A3B33" fontSize="14" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">Pipelines &amp; Integrations</text><text x="394" y="390" fill="#78716C" fontSize="8.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4">media · drive sync · streaming · qc</text></g><rect x="380" y="342" width="254" height="60" fill="transparent"></rect></g><g style={{"transform": "translateY(-2.48287px)", "transformOrigin": "50% 50%", "transformBox": "fill-box"}}><g style={{"transform": "none", "transformOrigin": "50% 50%", "transformBox": "fill-box"}}><ellipse cx="214" cy="398" rx="126.36000000000001" ry="35.9424" fill="#4A3B33" opacity="0.07" filter="url(#ksBlur)"></ellipse><ellipse cx="214" cy="376" rx="162.4" ry="67.92" fill="url(#ksHalo)" opacity="0.4"></ellipse><polygon points="73.6,372 214,421.92 214,430.92 73.6,381" fill="#F1E9DA"></polygon><polygon points="214,421.92 354.4,372 354.4,381 214,430.92" fill="#E4C090"></polygon><polygon points="214,322.08 354.4,372 214,421.92 73.6,372" fill="url(#ksTop)" strokeWidth="1.4" style={{"stroke": "rgb(180, 83, 9)", "transition": "stroke 0.35s"}}></polygon><polyline points="73.6,372 214,421.92 354.4,372" fill="none" strokeWidth="1.6" strokeLinejoin="round" style={{"stroke": "rgb(180, 83, 9)", "opacity": "0.9", "transition": "opacity 0.35s"}}></polyline><g transform="matrix(0.9 0.32 -0.9 0.32 214 372)"><rect x="-72" y="-72" width="144" height="144" rx="4" fill="none" stroke="#F1E9DA" strokeWidth="1" vectorEffect="non-scaling-stroke"></rect><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="-52" y1="-72" x2="-52" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="-52" x2="72" y2="-52" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="-26" y1="-72" x2="-26" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="-26" x2="72" y2="-26" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="0" y1="-72" x2="0" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="0" x2="72" y2="0" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="26" y1="-72" x2="26" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="26" x2="72" y2="26" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="52" y1="-72" x2="52" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="52" x2="72" y2="52" vectorEffect="non-scaling-stroke"></line></g><g transform="rotate(-45)"><circle cx="-20" cy="0" r="34" vectorEffect="non-scaling-stroke" strokeWidth="1.2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgba(228, 192, 144, 0.14)", "stroke": "rgb(180, 83, 9)"}}></circle><circle cx="20" cy="0" r="34" vectorEffect="non-scaling-stroke" strokeWidth="1.2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgba(228, 192, 144, 0.14)", "stroke": "rgb(180, 83, 9)"}}></circle><circle cx="20" cy="0" r="34" clipPath="url(#ksClipA)" fill="#B45309" opacity="0.2964907444053097"></circle><rect x="-48" y="39" width="96" height="6" rx="2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "#EFE6D6"}}></rect><rect x="-35" y="48" width="70" height="6" rx="2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "#EFE6D6"}}></rect><rect x="-23" y="57" width="46" height="6" rx="2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "#EFE6D6"}}></rect><rect x="-11" y="66" width="22" height="6" rx="2" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)"}}></rect></g><line x1="-15.402857142857158" x2="-15.402857142857158" y1="-72" y2="72" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.5"></line><circle cx="0" cy="0" r="7" fill="#FDFBF7" strokeWidth="1.2" vectorEffect="non-scaling-stroke" style={{"stroke": "rgb(180, 83, 9)", "transition": "stroke 0.35s"}}></circle><circle cx="0" cy="0" r="3" style={{"fill": "rgb(180, 83, 9)", "opacity": "1", "transition": "opacity 0.35s"}}></circle></g><text x="168.17948057911173" y="374.5" textAnchor="middle" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1" fontWeight="600" style={{"transition": "fill 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)"}}>STREAM</text><text x="259.8205194208883" y="374.5" textAnchor="middle" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1" fontWeight="600" style={{"transition": "fill 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)"}}>DRIVE</text><text x="214" y="413" textAnchor="middle" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.2" fontWeight="600" style={{"transition": "fill 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)"}}>SYNC</text><text x="89.6" y="374.5" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.8" fill="#A8A29E">L02</text></g></g></g><g pointerEvents="none" opacity={hoveredLayer !== null ? 0.12 : 1} style={{"transition": "opacity 0.3s"}}><line x1="214" y1="372" x2="214" y2="274" stroke="#E4C090" strokeWidth="1" strokeDasharray="2 5"></line><g><line x1="147.39999999999998" y1="367.52" x2="147.39999999999998" y2="269.52" strokeWidth="1" style={{"stroke": "rgba(180, 83, 9, 0.45)", "transition": "stroke 0.35s"}}></line><circle cx="147.39999999999998" r="2.2" cy="300.08374999999995" opacity="0.9356249999999989" style={{"fill": "#E4C090", "transition": "fill 0.35s"}} filter="url(#ksGlow)"></circle><circle cx="147.39999999999998" r="2.2" cy="349.08374999999995" opacity="0.5643750000000011" style={{"fill": "#E4C090", "transition": "fill 0.35s"}} filter="url(#ksGlow)"></circle></g><g><line x1="280.6" y1="376.48" x2="280.6" y2="278.48" strokeWidth="1" style={{"stroke": "rgba(180, 83, 9, 0.45)", "transition": "stroke 0.35s"}}></line><circle cx="280.6" r="2.2" cy="333.54375" opacity="1" style={{"fill": "#E4C090", "transition": "fill 0.35s"}} filter="url(#ksGlow)"></circle><circle cx="280.6" r="2.2" cy="284.54375000000005" opacity="0.18562500000000037" style={{"fill": "#E4C090", "transition": "fill 0.35s"}} filter="url(#ksGlow)"></circle></g></g></g><g><g
+            tabIndex="0"
+            role="button"
+            aria-label="L03 Interactive UI"
+            onMouseEnter={() => {
+              sound.playClick();
+              setHoveredLayer(3);
+            }}
+            onMouseLeave={() => setHoveredLayer(null)}
+            onClick={() => {
+              sound.playClick();
+              setHoveredLayer(3);
+            }}
+            style={{
+                cursor: 'pointer',
+                outline: 'none',
+                transform: `translateY(${getOffsetY(3)}px)`,
+                filter: hoveredLayer === 3 ? 'drop-shadow(0 8px 16px rgba(180, 83, 9, 0.25))' : 'none',
+                opacity: hoveredLayer === null ? 1 : (hoveredLayer === 3 ? 1 : 0.38),
+                transition: 'transform 0.38s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1), filter 0.35s'
+            }}
+        ><g><line x1="360.4" y1="274" x2="384" y2="274" strokeWidth="1" style={{"stroke": "rgb(228, 192, 144)", "transition": "stroke 0.3s"}}></line><circle cx="360.4" cy="274" r="2.2" style={{"fill": "rgb(180, 83, 9)", "transition": "fill 0.3s"}}></circle><g opacity={hoveredLayer === 3 ? 0 : 1} style={{"transition": "opacity 0.2s"}}><text x="394" y="261" fontSize="9" fontFamily="JetBrains Mono, monospace" letterSpacing="1.5" fontWeight="600" style={{"fill": "rgb(180, 83, 9)", "transition": "fill 0.3s"}}>L03 · INTERACTION</text><text x="394" y="278" fill="#4A3B33" fontSize="14" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">Interactive Frontend</text><text x="394" y="292" fill="#78716C" fontSize="8.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4">next.js 15 · react · chrome mv3</text></g><rect x="380" y="244" width="254" height="60" fill="transparent"></rect></g><g style={{"transform": "translateY(-2.3187px)", "transformOrigin": "50% 50%", "transformBox": "fill-box"}}><g style={{"transform": "none", "transformOrigin": "50% 50%", "transformBox": "fill-box"}}><ellipse cx="214" cy="300" rx="126.36000000000001" ry="35.9424" fill="#4A3B33" opacity="0.07" filter="url(#ksBlur)"></ellipse><ellipse cx="214" cy="278" rx="162.4" ry="67.92" fill="url(#ksHalo)" opacity="0.4"></ellipse><polygon points="73.6,274 214,323.92 214,332.92 73.6,283" fill="#F1E9DA"></polygon><polygon points="214,323.92 354.4,274 354.4,283 214,332.92" fill="#E4C090"></polygon><polygon points="214,224.07999999999998 354.4,274 214,323.92 73.6,274" fill="url(#ksTop)" strokeWidth="1.4" style={{"stroke": "rgb(180, 83, 9)", "transition": "stroke 0.35s"}}></polygon><polyline points="73.6,274 214,323.92 354.4,274" fill="none" strokeWidth="1.6" strokeLinejoin="round" style={{"stroke": "rgb(180, 83, 9)", "opacity": "0.9", "transition": "opacity 0.35s"}}></polyline><g transform="matrix(0.9 0.32 -0.9 0.32 214 274)"><rect x="-72" y="-72" width="144" height="144" rx="4" fill="none" stroke="#F1E9DA" strokeWidth="1" vectorEffect="non-scaling-stroke"></rect><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="-52" y1="-72" x2="-52" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="-52" x2="72" y2="-52" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="-26" y1="-72" x2="-26" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="-26" x2="72" y2="-26" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="0" y1="-72" x2="0" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="0" x2="72" y2="0" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="26" y1="-72" x2="26" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="26" x2="72" y2="26" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="52" y1="-72" x2="52" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="52" x2="72" y2="52" vectorEffect="non-scaling-stroke"></line></g><line x1="-31" y1="-42" x2="24" y2="0" vectorEffect="non-scaling-stroke" strokeWidth="1.4" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "stroke": "rgb(180, 83, 9)"}}></line><line x1="-31" y1="0" x2="24" y2="0" vectorEffect="non-scaling-stroke" strokeWidth="1.4" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "stroke": "rgb(180, 83, 9)"}}></line><line x1="-31" y1="42" x2="24" y2="0" vectorEffect="non-scaling-stroke" strokeWidth="1.4" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "stroke": "rgb(180, 83, 9)"}}></line><rect x="-61" y="-54" width="30" height="24" rx="3" vectorEffect="non-scaling-stroke" strokeWidth="1" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgb(255, 255, 255)", "stroke": "rgb(228, 192, 144)"}}></rect><rect x="-61" y="-12" width="30" height="24" rx="3" vectorEffect="non-scaling-stroke" strokeWidth="1" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgb(255, 255, 255)", "stroke": "rgb(228, 192, 144)"}}></rect><rect x="-61" y="30" width="30" height="24" rx="3" vectorEffect="non-scaling-stroke" strokeWidth="1" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgb(255, 255, 255)", "stroke": "rgb(228, 192, 144)"}}></rect><rect x="24" y="-16" width="40" height="32" rx="4" vectorEffect="non-scaling-stroke" strokeWidth="1.4" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgba(180, 83, 9, 0.14)", "stroke": "rgb(180, 83, 9)"}}></rect><line x1="-34.81548387096773" x2="-34.81548387096773" y1="-72" y2="72" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.5"></line><circle cx="0" cy="0" r="7" fill="#FDFBF7" strokeWidth="1.2" vectorEffect="non-scaling-stroke" style={{"stroke": "rgb(180, 83, 9)", "transition": "stroke 0.35s"}}></circle><circle cx="0" cy="0" r="3" style={{"fill": "rgb(180, 83, 9)", "opacity": "1", "transition": "opacity 0.35s"}}></circle></g><text x="210.4" y="248.44" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" style={{"transition": "fill 0.4s, opacity 0.4s", "fill": "#78716C"}}>react</text><text x="172.6" y="261.88" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" style={{"transition": "fill 0.4s, opacity 0.4s", "fill": "#78716C"}}>canvas</text><text x="134.8" y="275.32000000000005" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" style={{"transition": "fill 0.4s, opacity 0.4s", "fill": "#78716C"}}>framer</text><text x="253.6" y="291.08" textAnchor="middle" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="0.5" style={{"transition": "fill 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)"}}>design</text><text x="89.6" y="276.5" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.8" fill="#A8A29E">L03</text></g></g></g><g pointerEvents="none" opacity={hoveredLayer !== null ? 0.12 : 1} style={{"transition": "opacity 0.3s"}}><line x1="214" y1="274" x2="214" y2="176" stroke="#E4C090" strokeWidth="1" strokeDasharray="2 5"></line><g><line x1="147.39999999999998" y1="269.52" x2="147.39999999999998" y2="171.52" strokeWidth="1" style={{"stroke": "rgba(180, 83, 9, 0.45)", "transition": "stroke 0.35s"}}></line><circle cx="147.39999999999998" r="2.2" cy="211.27124999999995" opacity="1" style={{"fill": "#E4C090", "transition": "fill 0.35s"}} filter="url(#ksGlow)"></circle><circle cx="147.39999999999998" r="2.2" cy="260.27124999999995" opacity="0.283125000000001" style={{"fill": "#E4C090", "transition": "fill 0.35s"}} filter="url(#ksGlow)"></circle></g><g><line x1="280.6" y1="278.48" x2="280.6" y2="180.48" strokeWidth="1" style={{"stroke": "rgba(180, 83, 9, 0.45)", "transition": "stroke 0.35s"}}></line><circle cx="280.6" r="2.2" cy="244.73125" opacity="1" style={{"fill": "#E4C090", "transition": "fill 0.35s"}} filter="url(#ksGlow)"></circle><circle cx="280.6" r="2.2" cy="195.73125" opacity="0.46687500000000026" style={{"fill": "#E4C090", "transition": "fill 0.35s"}} filter="url(#ksGlow)"></circle></g></g></g><g><g
+            tabIndex="0"
+            role="button"
+            aria-label="L04 DevOps and Cloud Scale"
+            onMouseEnter={() => {
+              sound.playClick();
+              setHoveredLayer(4);
+            }}
+            onMouseLeave={() => setHoveredLayer(null)}
+            onClick={() => {
+              sound.playClick();
+              setHoveredLayer(4);
+            }}
+            style={{
+                cursor: 'pointer',
+                outline: 'none',
+                transform: `translateY(${getOffsetY(4)}px)`,
+                filter: hoveredLayer === 4 ? 'drop-shadow(0 8px 16px rgba(180, 83, 9, 0.25))' : 'none',
+                opacity: hoveredLayer === null ? 1 : (hoveredLayer === 4 ? 1 : 0.38),
+                transition: 'transform 0.38s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1), filter 0.35s'
+            }}
+        ><g><line x1="360.4" y1="176" x2="384" y2="176" strokeWidth="1" style={{"stroke": "rgb(228, 192, 144)", "transition": "stroke 0.3s"}}></line><circle cx="360.4" cy="176" r="2.2" style={{"fill": "rgb(180, 83, 9)", "transition": "fill 0.3s"}}></circle><g opacity={hoveredLayer === 4 ? 0 : 1} style={{"transition": "opacity 0.2s"}}><text x="394" y="163" fontSize="9" fontFamily="JetBrains Mono, monospace" letterSpacing="1.5" fontWeight="600" style={{"fill": "rgb(180, 83, 9)", "transition": "fill 0.3s"}}>L04 · PRODUCTION</text><text x="394" y="180" fill="#4A3B33" fontSize="14" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">DevOps &amp; Cloud Scale</text><text x="394" y="194" fill="#78716C" fontSize="8.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4">ci/cd · docker · edge · vercel</text></g><rect x="380" y="146" width="254" height="60" fill="transparent"></rect></g><g style={{"transform": "translateY(-1.67188px)", "transformOrigin": "50% 50%", "transformBox": "fill-box"}}><g style={{"transform": "none", "transformOrigin": "50% 50%", "transformBox": "fill-box"}}><ellipse cx="214" cy="202" rx="126.36000000000001" ry="35.9424" fill="#4A3B33" opacity="0.07" filter="url(#ksBlur)"></ellipse><ellipse cx="214" cy="180" rx="162.4" ry="67.92" fill="url(#ksHalo)" opacity="0.4"></ellipse><polygon points="73.6,176 214,225.92000000000002 214,234.92000000000002 73.6,185" fill="#F1E9DA"></polygon><polygon points="214,225.92000000000002 354.4,176 354.4,185 214,234.92000000000002" fill="#E4C090"></polygon><polygon points="214,126.08 354.4,176 214,225.92000000000002 73.6,176" fill="url(#ksTop)" strokeWidth="1.4" style={{"stroke": "rgb(180, 83, 9)", "transition": "stroke 0.35s"}}></polygon><polyline points="73.6,176 214,225.92000000000002 354.4,176" fill="none" strokeWidth="1.6" strokeLinejoin="round" style={{"stroke": "rgb(180, 83, 9)", "opacity": "0.9", "transition": "opacity 0.35s"}}></polyline><g transform="matrix(0.9 0.32 -0.9 0.32 214 176)"><rect x="-72" y="-72" width="144" height="144" rx="4" fill="none" stroke="#F1E9DA" strokeWidth="1" vectorEffect="non-scaling-stroke"></rect><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="-52" y1="-72" x2="-52" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="-52" x2="72" y2="-52" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="-26" y1="-72" x2="-26" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="-26" x2="72" y2="-26" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="0" y1="-72" x2="0" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="0" x2="72" y2="0" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="26" y1="-72" x2="26" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="26" x2="72" y2="26" vectorEffect="non-scaling-stroke"></line></g><g stroke="#F6F0E4" strokeWidth="0.8"><line x1="52" y1="-72" x2="52" y2="72" vectorEffect="non-scaling-stroke"></line><line x1="-72" y1="52" x2="72" y2="52" vectorEffect="non-scaling-stroke"></line></g><rect x="-58" y="-44" width="116" height="88" rx="4" fill="#FFFFFF" vectorEffect="non-scaling-stroke" strokeWidth="1" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "stroke": "rgb(228, 192, 144)"}}></rect><g><rect x="-48" y="-32" width="92" height="4" rx="1.5" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)", "opacity": "1"}}></rect><circle cx="50" cy="-30" r="2.4" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)", "opacity": "1"}}></circle></g><g><rect x="-48" y="-20" width="70" height="4" rx="1.5" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgb(228, 217, 188)", "opacity": "0.35"}}></rect></g><g><rect x="-48" y="-8" width="96" height="4" rx="1.5" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)", "opacity": "1"}}></rect><circle cx="54" cy="-6" r="2.4" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)", "opacity": "1"}}></circle></g><g><rect x="-48" y="4" width="52" height="4" rx="1.5" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgb(228, 217, 188)", "opacity": "0.35"}}></rect></g><g><rect x="-48" y="16" width="84" height="4" rx="1.5" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)", "opacity": "1"}}></rect><circle cx="42" cy="18" r="2.4" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgb(180, 83, 9)", "opacity": "1"}}></circle></g><g><rect x="-48" y="28" width="60" height="4" rx="1.5" style={{"transition": "fill 0.4s, stroke 0.4s, opacity 0.4s", "fill": "rgb(228, 217, 188)", "opacity": "0.35"}}></rect></g><line x1="-50.8023529411765" x2="-50.8023529411765" y1="-72" y2="72" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.5"></line><circle cx="0" cy="0" r="7" fill="#FDFBF7" strokeWidth="1.2" vectorEffect="non-scaling-stroke" style={{"stroke": "rgb(180, 83, 9)", "transition": "stroke 0.35s"}}></circle><circle cx="0" cy="0" r="3" style={{"fill": "rgb(180, 83, 9)", "opacity": "1", "transition": "opacity 0.35s"}}></circle></g><text x="89.6" y="178.5" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.8" fill="#A8A29E">L04</text></g></g></g></g><g pointerEvents="none" opacity={hoveredLayer !== null ? 0.12 : 1} style={{"transition": "opacity 0.3s"}}><line x1="214" y1="176" x2="214" y2="98" strokeWidth="1" strokeDasharray="2 5" style={{"stroke": "rgb(180, 83, 9)", "transition": "stroke 0.35s"}}></line><circle cx="214" r="3.5" fill="#B45309" filter="url(#ksGlow)" cy="98" opacity="0"></circle></g><g pointerEvents="none"><g filter="url(#ksShadow)"><rect x="64" y="24" width="300" height="74" rx="8" fill="#FFFFFF" strokeWidth="1.4" style={{"stroke": "rgb(180, 83, 9)", "transition": "stroke 0.35s"}}></rect></g><rect x="74" y="36" width="62" height="18" rx="4" fill="rgba(180,83,9,0.08)" stroke="rgba(180,83,9,0.25)" strokeWidth="1"></rect><circle cx="83" cy="45" r="2.5" fill="#10B981"></circle><text x="111" y="48" textAnchor="middle" fill="#B45309" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="1.2">LIVE PIPELINE</text><text x="144" y="49" fill="#4A3B33" fontSize="11.5" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">Centrix &amp; OmTabs Production Engine</text><line x1="74" y1="62" x2="354" y2="62" stroke="#F1E9DA" strokeWidth="1"></line><g opacity="1" style={{"transform": "none", "transformOrigin": "50% 50%", "transformBox": "fill-box"}}><text x="74" y="84" fill="#B45309" fontSize="12.5" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">500+ CENTERS</text><text x="166" y="83" fill="#78716C" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.3">&lt;80ms p95 · 20K+ Ops/Day · 100% Code Handover</text><circle cx="348" cy="80" r="7" fill="#B45309"></circle><path d="M344.5,80 l2.4,2.4 l4.6,-4.8" fill="none" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"></path></g></g><g pointerEvents="none"><line x1="16" y1="678" x2="626" y2="678" stroke="#E4D9BC" strokeWidth="1"></line><text x="16" y="698" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4">aniket_stack.live · 5 layers · full-stack &amp; systems</text><text x="626" y="698" textAnchor="end" fill="#A16207" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4" fontWeight="600">HOVER A LAYER TO INSPECT</text></g>      </svg>
+
+      {/* Interactive Telemetry Card (Opens ONLY on hover, locked inside container) */}
+      <AnimatePresence>
+        {activeData && (
+          <motion.div
+            key={activeData.idx}
+            initial={{ opacity: 0, x: 14, y: '-50%' }}
+            animate={{ opacity: 1, x: 0, y: '-50%' }}
+            exit={{ opacity: 0, x: 8, y: '-50%' }}
+            transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
+            style={{ top: `${cardTopPercent}%`, right: 0 }}
+            className="absolute right-0 z-30 pointer-events-none w-[40%] min-w-[208px]"
+          >
+            <div className="relative overflow-hidden rounded-lg border border-[#E4D9BC] bg-white/95 backdrop-blur-sm shadow-[0_12px_32px_-16px_rgba(74,59,51,0.28)]">
+              <div className="absolute inset-y-0 left-0 w-[2px] bg-[#B45309]" />
+              <div className="p-4">
+                {/* Eyebrow & LIVE indicator */}
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.16em] text-[#B45309]">
+                    {activeData.idx}
+                  </span>
+                  <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.14em] text-[#A8A29E]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#B45309] animate-pulse" />
+                    live
+                  </span>
+                </div>
+
+                {/* Title */}
+                <h4 className="mt-2 text-[15px] font-bold leading-snug text-[#4A3B33] font-serif">
+                  {activeData.title}
+                </h4>
+
+                {/* Body */}
+                <p className="mt-1.5 text-[11.5px] leading-[1.6] text-[#57534E]">
+                  {activeData.body}
+                </p>
+
+                {/* Vertical Key-Value Stats */}
+                <dl className="mt-3 space-y-1.5 border-t border-[#F1E9DA] pt-3">
+                  {activeData.stats.map(([k, v]) => (
+                    <div key={k} className="flex items-baseline justify-between gap-3">
+                      <dt className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#A8A29E]">{k}</dt>
+                      <dd className="font-mono text-[11px] font-semibold tabular-nums text-[#4A3B33]">{v}</dd>
+                    </div>
+                  ))}
+                </dl>
+
+                {/* Code snippet pill */}
+                {activeData.code && (
+                  <div className="mt-3 rounded-md border border-[#F1E9DA] bg-[#F8F4EE] px-2.5 py-1.5 font-mono text-[10px] text-[#57534E]">
+                    <span className="text-[#B45309]">▸</span> {activeData.code}
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-
-          <div className="flex items-center gap-2 font-mono text-[10.5px]">
-            <span className="bg-[#FAF6EE] text-[#4A3B33] border border-[#E4D9BC] px-2 py-0.5 rounded">
-              p95: &lt;80ms
-            </span>
-            <span className="bg-[#059669]/10 text-[#059669] border border-[#059669]/20 px-2 py-0.5 rounded font-bold">
-              20K+ Ops/Day
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. MAIN 3D ARCHITECTURAL STACK CONTAINER */}
-      <div className="relative rounded-2xl border border-[#E4D9BC] bg-gradient-to-b from-[#FDFBF7] to-[#FAF6EE] p-4 sm:p-6 shadow-[0_20px_50px_rgba(74,59,51,0.08)] overflow-hidden">
-        {/* Subtle engineering grid backdrop */}
-        <div 
-          aria-hidden="true" 
-          className="absolute inset-0 opacity-40 pointer-events-none"
-          style={{
-            backgroundImage: "linear-gradient(to right, rgba(228, 217, 188, 0.4) 1px, transparent 1px), linear-gradient(to bottom, rgba(228, 217, 188, 0.4) 1px, transparent 1px)",
-            backgroundSize: "28px 28px"
-          }}
-        />
-
-        {/* 4 Interactive Vertical Slices / Layers */}
-        <div className="relative z-10 flex flex-col gap-3">
-          {ARCHITECTURE_LAYERS.map((layer, idx) => {
-            const isHovered = hoveredIdx === idx;
-            const isAnyHovered = hoveredIdx !== null;
-
-            return (
-              <div
-                key={layer.id}
-                id={`stack-${layer.id}`}
-                onMouseEnter={() => {
-                  sound.playClick();
-                  setHoveredIdx(idx);
-                }}
-                onMouseLeave={() => setHoveredIdx(null)}
-                onClick={() => {
-                  sound.playClick();
-                  setHoveredIdx(hoveredIdx === idx ? null : idx);
-                }}
-                className={`group relative rounded-xl border p-4 transition-all duration-300 cursor-pointer select-none ${
-                  isHovered
-                    ? "bg-white border-[#B45309] shadow-[0_12px_28px_-8px_rgba(180,83,9,0.22)] -translate-y-1 scale-[1.01]"
-                    : isAnyHovered
-                    ? "bg-white/70 border-[#E4D9BC]/80 opacity-60 hover:opacity-100"
-                    : "bg-white/90 border-[#E4D9BC] hover:border-[#B45309]/60 hover:shadow-sm"
-                }`}
-              >
-                {/* Accent border highlight */}
-                <div 
-                  className={`absolute left-0 top-0 bottom-0 w-1.5 rounded-l-xl transition-colors ${
-                    isHovered ? "bg-[#B45309]" : "bg-[#E4D9BC]"
-                  }`} 
-                />
-
-                <div className="pl-2">
-                  {/* Top Bar of Layer */}
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-[10.5px] font-bold text-[#B45309]">
-                        {layer.tag}
-                      </span>
-                      <span className="h-1 w-1 rounded-full bg-[#E4D9BC]" />
-                      <span className="font-mono text-[10px] text-[#78716C]">
-                        {layer.metrics}
-                      </span>
-                    </div>
-
-                    <ArrowUpRight className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                      isHovered ? "text-[#B45309] translate-x-0.5 -translate-y-0.5" : "text-[#A8A29E]"
-                    }`} />
-                  </div>
-
-                  {/* Layer Title */}
-                  <h3 className="font-serif text-[1.0625rem] sm:text-[1.125rem] font-bold text-[#4A3B33] mb-2 group-hover:text-[#B45309] transition-colors">
-                    {layer.title}
-                  </h3>
-
-                  {/* Tech Stack Pills */}
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    {layer.techs.map((tech, tIdx) => (
-                      <span
-                        key={tIdx}
-                        className={`font-mono text-[10.5px] px-2 py-0.5 rounded border transition-colors ${
-                          isHovered
-                            ? "bg-[#FAF6EE] text-[#B45309] border-[#B45309]/30 font-medium"
-                            : "bg-[#FDFBF7] text-[#57534E] border-[#E4D9BC]"
-                        }`}
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Expanded Telemetry Preview when hovered */}
-                  <AnimatePresence>
-                    {isHovered && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="mt-3 pt-3 border-t border-[#E4D9BC]/60 space-y-2">
-                          <p className="text-xs leading-relaxed text-[#57534E]">
-                            {layer.description}
-                          </p>
-                          <div className="grid grid-cols-3 gap-2 pt-1 font-mono">
-                            {layer.stats.map((s, sIdx) => (
-                              <div key={sIdx} className="bg-[#FAF6EE] p-1.5 rounded border border-[#E4D9BC]/60">
-                                <div className="text-[9px] text-[#78716C] uppercase">{s.label}</div>
-                                <div className="text-[10.5px] font-bold text-[#4A3B33] truncate mt-0.5">{s.value}</div>
-                              </div>
-                            ))}
-                          </div>
-                          <div className="rounded bg-[#1C1917] px-2.5 py-1.5 font-mono text-[10px] text-[#E4C090] flex items-center gap-2">
-                            <span className="text-[#B45309]">▸</span>
-                            <span className="truncate">{layer.code}</span>
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Bottom Rail Hints */}
-        <div className="mt-4 pt-3 border-t border-[#E4D9BC]/70 flex items-center justify-between text-[10.5px] font-mono text-[#78716C] relative z-10">
-          <span className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#B45309]" />
-            Live System Layers · Ready for Production
-          </span>
-          <span className="text-[#B45309] font-medium hidden sm:inline">
-            Click or hover to inspect specs
-          </span>
-        </div>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
