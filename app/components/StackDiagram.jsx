@@ -9,9 +9,22 @@ const LAYERS = STACK_LAYERS;
 
 export default function StackDiagram() {
   const [hoveredLayer, setHoveredLayer] = useState(null);
+  const [isHoveringCard, setIsHoveringCard] = useState(false);
+  const isHoveringCardRef = useRef(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 });
   const containerRef = useRef(null);
+
+  const handleCardMouseEnter = () => {
+    isHoveringCardRef.current = true;
+    setIsHoveringCard(true);
+  };
+
+  const handleCardMouseLeave = () => {
+    isHoveringCardRef.current = false;
+    setIsHoveringCard(false);
+    setHoveredLayer(null);
+  };
 
   // Auto-highlight layer when navigated via hash (e.g. #stack-l01)
   useEffect(() => {
@@ -52,7 +65,11 @@ export default function StackDiagram() {
   const handleMouseLeave = () => {
     setTilt({ x: 0, y: 0 });
     setGlare({ x: 50, y: 50, opacity: 0 });
-    setHoveredLayer(null);
+    setTimeout(() => {
+      if (!isHoveringCardRef.current) {
+        setHoveredLayer(null);
+      }
+    }, 120);
   };
 
   const getOffsetY = (idx) => {
@@ -345,17 +362,7 @@ export default function StackDiagram() {
             tabIndex="0"
             role="button"
             aria-label="L00 Database and storage"
-            onMouseEnter={() => {
-              sound.playClick();
-              setHoveredLayer(0);
-            }}
-            onMouseLeave={() => setHoveredLayer(null)}
-            onClick={() => {
-              sound.playClick();
-              setHoveredLayer(0);
-            }}
             style={{
-              cursor: 'pointer',
               outline: 'none',
               transform: `translateY(${getOffsetY(0)}px)`,
               filter: hoveredLayer === 0 ? 'drop-shadow(0 10px 22px rgba(180, 83, 9, 0.28))' : 'none',
@@ -364,7 +371,7 @@ export default function StackDiagram() {
             }}
           >
             {/* Right Side Annotation Label */}
-            <g>
+            <g pointerEvents="none">
               <line x1="365" y1="584" x2="390" y2="584" stroke="#E4C090" strokeWidth="1" />
               <circle cx="365" cy="584" r="2.5" fill="#B45309" />
               <g opacity={hoveredLayer === 0 ? 0 : 1} style={{ transition: 'opacity 0.2s' }}>
@@ -378,11 +385,22 @@ export default function StackDiagram() {
                   postgresql · redis · supabase · wal
                 </text>
               </g>
-              <rect x="380" y="554" width="254" height="60" fill="transparent" />
             </g>
 
             {/* 3D Rounded Glassmorphic Slab */}
-            <g>
+            <g
+              className="cursor-pointer"
+              onMouseEnter={() => {
+                if (hoveredLayer !== 0) {
+                  sound.playClick();
+                  setHoveredLayer(0);
+                }
+              }}
+              onClick={() => {
+                sound.playClick();
+                setHoveredLayer(0);
+              }}
+            >
               {/* Floor Ambient Glow */}
               <ellipse cx="218" cy="616" rx="140" ry="42" fill="url(#slabGlow)" filter="url(#ksFloorBlur)" opacity={hoveredLayer === 0 ? 0.9 : 0.45} />
 
@@ -487,17 +505,7 @@ export default function StackDiagram() {
             tabIndex="0"
             role="button"
             aria-label="L01 Backend & Services"
-            onMouseEnter={() => {
-              sound.playClick();
-              setHoveredLayer(1);
-            }}
-            onMouseLeave={() => setHoveredLayer(null)}
-            onClick={() => {
-              sound.playClick();
-              setHoveredLayer(1);
-            }}
             style={{
-              cursor: 'pointer',
               outline: 'none',
               transform: `translateY(${getOffsetY(1)}px)`,
               filter: hoveredLayer === 1 ? 'drop-shadow(0 10px 22px rgba(180, 83, 9, 0.28))' : 'none',
@@ -506,7 +514,7 @@ export default function StackDiagram() {
             }}
           >
             {/* Right Side Annotation Label */}
-            <g>
+            <g pointerEvents="none">
               <line x1="365" y1="474" x2="390" y2="474" stroke="#E4C090" strokeWidth="1" />
               <circle cx="365" cy="474" r="2.5" fill="#B45309" />
               <g opacity={hoveredLayer === 1 ? 0 : 1} style={{ transition: 'opacity 0.2s' }}>
@@ -520,11 +528,22 @@ export default function StackDiagram() {
                   .net 8 (c#) · fastapi · node · jwt
                 </text>
               </g>
-              <rect x="380" y="444" width="254" height="60" fill="transparent" />
             </g>
 
             {/* 3D Rounded Glassmorphic Slab */}
-            <g>
+            <g
+              className="cursor-pointer"
+              onMouseEnter={() => {
+                if (hoveredLayer !== 1) {
+                  sound.playClick();
+                  setHoveredLayer(1);
+                }
+              }}
+              onClick={() => {
+                sound.playClick();
+                setHoveredLayer(1);
+              }}
+            >
               <ellipse cx="218" cy="506" rx="140" ry="42" fill="url(#slabGlow)" filter="url(#ksFloorBlur)" opacity={hoveredLayer === 1 ? 0.9 : 0.45} />
 
               <g transform="matrix(0.894 0.36 -0.894 0.36 218 482)">
@@ -630,17 +649,7 @@ export default function StackDiagram() {
             tabIndex="0"
             role="button"
             aria-label="L02 Automation & Pipelines"
-            onMouseEnter={() => {
-              sound.playClick();
-              setHoveredLayer(2);
-            }}
-            onMouseLeave={() => setHoveredLayer(null)}
-            onClick={() => {
-              sound.playClick();
-              setHoveredLayer(2);
-            }}
             style={{
-              cursor: 'pointer',
               outline: 'none',
               transform: `translateY(${getOffsetY(2)}px)`,
               filter: hoveredLayer === 2 ? 'drop-shadow(0 10px 22px rgba(180, 83, 9, 0.28))' : 'none',
@@ -649,7 +658,7 @@ export default function StackDiagram() {
             }}
           >
             {/* Right Side Annotation Label */}
-            <g>
+            <g pointerEvents="none">
               <line x1="365" y1="372" x2="390" y2="372" stroke="#E4C090" strokeWidth="1" />
               <circle cx="365" cy="372" r="2.5" fill="#B45309" />
               <g opacity={hoveredLayer === 2 ? 0 : 1} style={{ transition: 'opacity 0.2s' }}>
@@ -663,11 +672,22 @@ export default function StackDiagram() {
                   500+ centers · drive sync · streaming
                 </text>
               </g>
-              <rect x="380" y="342" width="254" height="60" fill="transparent" />
             </g>
 
             {/* 3D Rounded Glassmorphic Slab */}
-            <g>
+            <g
+              className="cursor-pointer"
+              onMouseEnter={() => {
+                if (hoveredLayer !== 2) {
+                  sound.playClick();
+                  setHoveredLayer(2);
+                }
+              }}
+              onClick={() => {
+                sound.playClick();
+                setHoveredLayer(2);
+              }}
+            >
               <ellipse cx="218" cy="404" rx="140" ry="42" fill="url(#slabGlow)" filter="url(#ksFloorBlur)" opacity={hoveredLayer === 2 ? 0.9 : 0.45} />
 
               <g transform="matrix(0.894 0.36 -0.894 0.36 218 380)">
@@ -765,17 +785,7 @@ export default function StackDiagram() {
             tabIndex="0"
             role="button"
             aria-label="L03 Interactive UI"
-            onMouseEnter={() => {
-              sound.playClick();
-              setHoveredLayer(3);
-            }}
-            onMouseLeave={() => setHoveredLayer(null)}
-            onClick={() => {
-              sound.playClick();
-              setHoveredLayer(3);
-            }}
             style={{
-              cursor: 'pointer',
               outline: 'none',
               transform: `translateY(${getOffsetY(3)}px)`,
               filter: hoveredLayer === 3 ? 'drop-shadow(0 10px 22px rgba(180, 83, 9, 0.28))' : 'none',
@@ -784,7 +794,7 @@ export default function StackDiagram() {
             }}
           >
             {/* Right Side Annotation Label */}
-            <g>
+            <g pointerEvents="none">
               <line x1="365" y1="270" x2="390" y2="270" stroke="#E4C090" strokeWidth="1" />
               <circle cx="365" cy="270" r="2.5" fill="#B45309" />
               <g opacity={hoveredLayer === 3 ? 0 : 1} style={{ transition: 'opacity 0.2s' }}>
@@ -798,11 +808,22 @@ export default function StackDiagram() {
                   next.js 15 · react · chrome mv3 · omtabs
                 </text>
               </g>
-              <rect x="380" y="240" width="254" height="60" fill="transparent" />
             </g>
 
             {/* 3D Rounded Glassmorphic Slab */}
-            <g>
+            <g
+              className="cursor-pointer"
+              onMouseEnter={() => {
+                if (hoveredLayer !== 3) {
+                  sound.playClick();
+                  setHoveredLayer(3);
+                }
+              }}
+              onClick={() => {
+                sound.playClick();
+                setHoveredLayer(3);
+              }}
+            >
               <ellipse cx="218" cy="302" rx="140" ry="42" fill="url(#slabGlow)" filter="url(#ksFloorBlur)" opacity={hoveredLayer === 3 ? 0.9 : 0.45} />
 
               <g transform="matrix(0.894 0.36 -0.894 0.36 218 278)">
@@ -905,17 +926,7 @@ export default function StackDiagram() {
             tabIndex="0"
             role="button"
             aria-label="L04 DevOps and Cloud Scale"
-            onMouseEnter={() => {
-              sound.playClick();
-              setHoveredLayer(4);
-            }}
-            onMouseLeave={() => setHoveredLayer(null)}
-            onClick={() => {
-              sound.playClick();
-              setHoveredLayer(4);
-            }}
             style={{
-              cursor: 'pointer',
               outline: 'none',
               transform: `translateY(${getOffsetY(4)}px)`,
               filter: hoveredLayer === 4 ? 'drop-shadow(0 10px 22px rgba(180, 83, 9, 0.28))' : 'none',
@@ -924,7 +935,7 @@ export default function StackDiagram() {
             }}
           >
             {/* Right Side Annotation Label */}
-            <g>
+            <g pointerEvents="none">
               <line x1="365" y1="168" x2="390" y2="168" stroke="#E4C090" strokeWidth="1" />
               <circle cx="365" cy="168" r="2.5" fill="#B45309" />
               <g opacity={hoveredLayer === 4 ? 0 : 1} style={{ transition: 'opacity 0.2s' }}>
@@ -938,11 +949,22 @@ export default function StackDiagram() {
                   ci/cd · docker · edge · vercel
                 </text>
               </g>
-              <rect x="380" y="138" width="254" height="60" fill="transparent" />
             </g>
 
             {/* 3D Rounded Glassmorphic Slab */}
-            <g>
+            <g
+              className="cursor-pointer"
+              onMouseEnter={() => {
+                if (hoveredLayer !== 4) {
+                  sound.playClick();
+                  setHoveredLayer(4);
+                }
+              }}
+              onClick={() => {
+                sound.playClick();
+                setHoveredLayer(4);
+              }}
+            >
               <ellipse cx="218" cy="200" rx="140" ry="42" fill="url(#slabGlow)" filter="url(#ksFloorBlur)" opacity={hoveredLayer === 4 ? 0.9 : 0.45} />
 
               <g transform="matrix(0.894 0.36 -0.894 0.36 218 176)">
@@ -1037,7 +1059,9 @@ export default function StackDiagram() {
               exit={{ opacity: 0, x: 8, y: '-50%' }}
               transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
               style={{ top: `${cardTopPercent}%`, right: 0 }}
-              className="absolute right-0 z-30 pointer-events-none w-[42%] min-w-[216px]"
+              onMouseEnter={handleCardMouseEnter}
+              onMouseLeave={handleCardMouseLeave}
+              className="absolute right-0 z-30 pointer-events-auto w-[42%] min-w-[216px] cursor-default"
             >
               <div className="relative overflow-hidden rounded-xl border border-[#E4D9BC] bg-white/95 backdrop-blur-md shadow-[0_16px_36px_-12px_rgba(74,59,51,0.25)]">
                 <div className="absolute inset-y-0 left-0 w-[3px] bg-[#B45309]" />
