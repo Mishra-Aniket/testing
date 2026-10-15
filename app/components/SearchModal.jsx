@@ -18,7 +18,15 @@ import {
   Rocket,
   GraduationCap,
   HelpCircle,
-  FileText
+  FileText,
+  Sparkles,
+  Zap,
+  Bot,
+  Code2,
+  Cloud,
+  Palette,
+  Globe,
+  Database
 } from "lucide-react";
 import {
   PROJECTS,
@@ -96,6 +104,80 @@ const QUICK_LINKS = [
   }
 ];
 
+// Contextual Quick links when on the /students page
+const STUDENT_QUICK_LINKS = [
+  {
+    id: "sq-all",
+    label: "Explore All 140+ Software Grants",
+    sublabel: "Browse entire indexed directory of developer discounts",
+    icon: Sparkles,
+    action: { category: "All", search: "" }
+  },
+  {
+    id: "sq-github-pack",
+    label: "GitHub Student Developer Pack (80+ Tools)",
+    sublabel: "Official core developer pack via GitHub Education",
+    icon: GraduationCap,
+    action: { category: "Developer Tools", search: "" }
+  },
+  {
+    id: "sq-ai",
+    label: "AI & Neural Pipelines",
+    sublabel: "GitHub Copilot, OpenAI, Hugging Face & GPU compute",
+    icon: Bot,
+    action: { category: "AI & ML", search: "" }
+  },
+  {
+    id: "sq-dev-tools",
+    label: "IDEs & Core Tooling",
+    sublabel: "JetBrains Suite, GitKraken, Termius, Postman",
+    icon: Code2,
+    action: { category: "Developer Tools", search: "" }
+  },
+  {
+    id: "sq-cloud",
+    label: "Cloud, Edge & Compute",
+    sublabel: "AWS Educate, Azure, DigitalOcean & serverless hosts",
+    icon: Cloud,
+    action: { category: "Cloud & Infra", search: "" }
+  },
+  {
+    id: "sq-prod",
+    label: "Productivity & Ops",
+    sublabel: "Notion for Education, Linear, Miro, Airtable",
+    icon: Zap,
+    action: { category: "Productivity", search: "" }
+  },
+  {
+    id: "sq-design",
+    label: "UI/UX & Creative Suite",
+    sublabel: "Figma Pro for Students, Canva Pro, Adobe CC",
+    icon: Palette,
+    action: { category: "Design & 3D", search: "" }
+  },
+  {
+    id: "sq-web",
+    label: "Domains & Public Web",
+    sublabel: "Free .me & .tech domains, Namecheap, SSL certs",
+    icon: Globe,
+    action: { category: "Web & Domains", search: "" }
+  },
+  {
+    id: "sq-db",
+    label: "Databases & Analytics",
+    sublabel: "MongoDB Atlas, Tableau Desktop, Datadog",
+    icon: Database,
+    action: { category: "Database & Data", search: "" }
+  },
+  {
+    id: "sq-faq",
+    label: "Frequently Asked Questions for Students",
+    sublabel: "Verification, renewals, and student grant policies",
+    icon: HelpCircle,
+    href: "/students#faq"
+  }
+];
+
 export default function SearchModal({ isOpen, onOpen, onClose }) {
   const router = useRouter();
   const pathname = usePathname() || "";
@@ -103,12 +185,29 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [studentOffers, setStudentOffers] = useState([]);
 
   const [isOverDark, setIsOverDark] = useState(false);
 
   // Dark styling applies on the /students page or dynamically when over a dark background section
   const isPageDark = pathname.includes("/students");
+  const isStudentsPage = isPageDark;
   const isDockDark = isPageDark || isOverDark;
+
+  // On students page, load the 148 verified offers for smart student-only search
+  useEffect(() => {
+    if (isStudentsPage && studentOffers.length === 0) {
+      const basePath = getRuntimeBasePath();
+      fetch(`${basePath}/data/pack-offers.json`)
+        .then((res) => res.json())
+        .then((json) => {
+          if (json?.offers && Array.isArray(json.offers)) {
+            setStudentOffers(json.offers);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [isStudentsPage, studentOffers.length]);
 
   const dockRef = useRef(null);
   const inputRef = useRef(null);
@@ -320,8 +419,28 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
     };
   }, [isOpen]);
 
-  // Build the complete search index dynamically with clean single-line labels
+  // Build the complete search index dynamically
   const allSearchItems = useMemo(() => {
+    // When on the /students page, restrict search exclusively to student deals and perks
+    if (isStudentsPage) {
+      const studentItems = [];
+      (studentOffers || []).forEach((o, idx) => {
+        studentItems.push({
+          id: `deal-${o.domain || o.name}-${idx}`,
+          label: o.name,
+          sublabel: o.offer || o.about || o.domain,
+          category: o.category,
+          favicon: o.favicon || o.logo,
+          domain: o.domain,
+          href: o.link,
+          isStudentDeal: true,
+          name: o.name,
+          keywords: `${o.name} ${o.offer || ""} ${o.about || ""} ${o.category || ""} ${o.domain || ""}`.toLowerCase()
+        });
+      });
+      return studentItems;
+    }
+
     const list = [];
 
     // 1. Projects -> Exact project cards (#project-${p.id})
@@ -357,29 +476,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
       });
     });
 
-    // 4. Student Resources -> Exact resource cards on /students (#resource-${r.id})
-    (STUDENT_RESOURCES || []).forEach((r) => {
-      list.push({
-        id: `res-${r.id}`,
-        label: `${r.title} · ${r.category}`,
-        href: `/students#resource-${r.id}`,
-        icon: BookOpen,
-        keywords: `${r.title} ${r.category} ${r.tagline} ${r.description} ${r.tags?.join(" ")}`.toLowerCase()
-      });
-    });
-
-    // 5. Student Offers & Perks -> Exact offer cards on /students (#student-${st.id})
-    (STUDENT_OFFERS || []).forEach((st) => {
-      list.push({
-        id: `student-${st.id}`,
-        label: `${st.title} (${st.badge})`,
-        href: `/students#student-${st.id}`,
-        icon: GraduationCap,
-        keywords: `${st.title} ${st.highlight} ${st.tagline} ${st.description}`.toLowerCase()
-      });
-    });
-
-    // 6. Frequently Asked Questions -> Exact FAQ item (#faq-${idx})
+    // 4. Frequently Asked Questions -> Exact FAQ item (#faq-${idx})
     (FAQS || []).forEach((f, idx) => {
       list.push({
         id: `faq-${idx}`,
@@ -390,7 +487,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
       });
     });
 
-    // 7. Site Navigation Pages
+    // 5. Site Navigation Pages
     (SITE_PAGES || []).forEach((pg) => {
       let IconCmp = FileText;
       if (pg.icon) {
@@ -406,24 +503,53 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
     });
 
     return list;
-  }, []);
+  }, [isStudentsPage, studentOffers]);
 
-  // Filter items when query is present; otherwise show QUICK_LINKS
+  // Filter items when query is present; otherwise show contextual quick links
   const displayedItems = useMemo(() => {
     const cleanQ = query.trim().toLowerCase();
     if (!cleanQ) {
-      return QUICK_LINKS;
+      return isStudentsPage ? STUDENT_QUICK_LINKS : QUICK_LINKS;
     }
 
     const terms = cleanQ.split(/\s+/).filter(Boolean);
     return allSearchItems.filter((item) =>
       terms.every((term) => item.keywords.includes(term))
     );
-  }, [query, allSearchItems]);
+  }, [query, isStudentsPage, allSearchItems]);
 
   const handleItemClick = (item) => {
     sound.playClick();
     onClose();
+
+    // 1. If it's a student quick-action filter (e.g. click category chip from empty search)
+    if (item.action) {
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(
+          new CustomEvent("aniket_filter_perks", {
+            detail: item.action
+          })
+        );
+      }
+      return;
+    }
+
+    // 2. If it's a student grant/deal
+    if (item.isStudentDeal) {
+      // Open the official vendor grant page in a new tab
+      if (item.href) {
+        window.open(item.href, "_blank", "noopener,noreferrer");
+      }
+      // Also filter on-page so the user sees the card right under them
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(
+          new CustomEvent("aniket_filter_perks", {
+            detail: { search: item.name, category: "All" }
+          })
+        );
+      }
+      return;
+    }
 
     if (item.external) {
       window.open(item.href, "_blank", "noopener,noreferrer");
@@ -523,7 +649,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
               onOpen();
             }
           }}
-          aria-label="Search pages or ask Aniket"
+          aria-label={isStudentsPage ? "Search 140+ student software deals & perks" : "Search pages or ask Aniket"}
           className={`inline-flex shrink-0 items-center justify-center whitespace-nowrap border py-2 outline-none transition-[background-color,border-color,color,box-shadow,transform] duration-300 cursor-pointer select-none active:translate-y-px h-11 gap-2.5 rounded-lg px-4 sm:px-6 text-xs sm:text-sm font-semibold backdrop-blur-md hover:-translate-y-px ${
             isDockDark
               ? "bg-[#1C1917]/95 text-[#F5F5F4] border-white/[0.16] hover:bg-[#25211E] shadow-[0_12px_36px_rgba(0,0,0,0.7)]"
@@ -532,7 +658,9 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
         >
           <Search className={`w-4 h-4 shrink-0 transition-colors duration-300 ${isDockDark ? "text-[#E4C090]" : "text-[#B45309]"}`} />
           <span className="truncate max-w-[240px] sm:max-w-none">
-            Search or Ask &ldquo;What projects has Aniket built?&rdquo;
+            {isStudentsPage
+              ? "Search 140+ student software deals, tools & perks..."
+              : 'Search or Ask "What projects has Aniket built?"'}
           </span>
           <kbd className={`hidden sm:inline-flex ml-2 rounded border px-1.5 py-0.5 font-mono text-[11px] transition-colors duration-300 ${
             isDockDark 
@@ -581,7 +709,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                   isDockDark ? "border-white/[0.08]" : "border-[#E4D9BC]/60"
                 }`}>
                   <h2 className={`text-sm font-medium ${isDockDark ? "text-[#F5F5F4]" : "text-[#4A3B33]"}`}>
-                    Explore Aniket
+                    {isStudentsPage ? "Student Perks & Software Grants" : "Explore Aniket"}
                   </h2>
                   <button
                     type="button"
@@ -598,7 +726,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                   </button>
                 </div>
 
-                {/* Input Group: Exact orange/amber border input */}
+                {/* Input Group */}
                 <div className="p-3 pb-1 shrink-0">
                   <div
                     onClick={() => inputRef.current?.focus()}
@@ -617,7 +745,11 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                         setQuery(e.target.value);
                         setSelectedIndex(0);
                       }}
-                      placeholder="Find a page or ask a question…"
+                      placeholder={
+                        isStudentsPage
+                          ? "Search 140+ student tools, perks, or stacks (e.g. Copilot, AWS, Notion)..."
+                          : "Find a page or ask a question…"
+                      }
                       className={`w-full bg-transparent text-[13.5px] placeholder-[#A8A29E] outline-none font-sans ${
                         isDockDark ? "text-[#F5F5F4]" : "text-[#4A3B33]"
                       }`}
@@ -639,7 +771,13 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
 
                 {/* Sub-heading Label: Quick links / Search results */}
                 <div className="px-4 pt-2 pb-1 text-xs font-mono font-medium text-[#78716C] shrink-0">
-                  {query.trim() ? "Search results" : "Quick links"}
+                  {query.trim()
+                    ? isStudentsPage
+                      ? `Found ${displayedItems.length} student grants`
+                      : "Search results"
+                    : isStudentsPage
+                    ? "Explore by Discipline"
+                    : "Quick links"}
                 </div>
 
                 {/* Scrollable Items List */}
@@ -681,14 +819,40 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                                 : "text-[#57534E] hover:bg-[#F3ECE0]/70"
                           }`}
                         >
-                          <Icon className={`w-4 h-4 shrink-0 transition-colors ${
-                            isSelected 
-                              ? isDockDark ? "text-[#E4C090]" : "text-[#B45309]" 
-                              : "text-[#78716C]"
-                          }`} />
-                          <span className="flex-1 truncate text-[13.5px]">
-                            {item.label}
-                          </span>
+                          {item.favicon ? (
+                            /* eslint-disable-next-line @next/next/no-img-element */
+                            <img
+                              src={item.favicon}
+                              alt=""
+                              className="w-4 h-4 rounded object-contain shrink-0"
+                              onError={(e) => {
+                                e.currentTarget.style.display = "none";
+                              }}
+                            />
+                          ) : (
+                            <Icon className={`w-4 h-4 shrink-0 transition-colors ${
+                              isSelected 
+                                ? isDockDark ? "text-[#E4C090]" : "text-[#B45309]" 
+                                : "text-[#78716C]"
+                            }`} />
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span className="truncate text-[13.5px] font-medium">
+                                {item.label}
+                              </span>
+                              {item.category && (
+                                <span className="font-mono text-[9.5px] uppercase tracking-wider px-1.5 py-0.2 rounded bg-white/[0.08] text-[#E4C090] shrink-0 border border-white/[0.1]">
+                                  {item.category}
+                                </span>
+                              )}
+                            </div>
+                            {item.sublabel && (
+                              <p className="text-[11px] text-[#A8A29E] truncate font-sans mt-0.5">
+                                {item.sublabel}
+                              </p>
+                            )}
+                          </div>
                           <ArrowUpRight className="w-3.5 h-3.5 text-[#A8A29E] shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                         </div>
                       );

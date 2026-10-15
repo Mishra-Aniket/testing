@@ -10,8 +10,8 @@ import { FAQS } from "../data/portfolioData";
 const FAQ_ITEMS = FAQS;
 
 export default function FAQ() {
-  // First item open by default for immediate context
-  const [openIndex, setOpenIndex] = useState(0);
+  // All items collapsed by default until user clicks
+  const [openIndex, setOpenIndex] = useState(null);
 
   // Auto-open FAQ when targeted by URL hash (e.g. #faq-2)
   useEffect(() => {
