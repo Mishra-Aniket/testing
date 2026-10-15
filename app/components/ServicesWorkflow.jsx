@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
 import { 
   Rocket, 
   Brain, 
@@ -32,26 +31,48 @@ export default function ServicesWorkflow() {
   const services = SERVICES;
   const testimonials = CLIENT_TESTIMONIALS;
 
-  const activeService = services[activeStep] || services[0];
-  const IconComponent = ICON_MAP[activeService.icon] || Rocket;
+  // High-performance IntersectionObserver: updates active service step on scroll with ZERO thread lag
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const indexStr = entry.target.getAttribute("data-service-index");
+            if (indexStr !== null) {
+              setActiveStep(parseInt(indexStr, 10));
+            }
+          }
+        });
+      },
+      {
+        rootMargin: "-20% 0px -40% 0px",
+        threshold: 0.15
+      }
+    );
 
-  const handleSelectService = (idx) => {
+    services.forEach((s) => {
+      const el = document.getElementById(`service-${s.id}`);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [services]);
+
+  const scrollToService = (idx) => {
     sound.playClick();
     setActiveStep(idx);
-
-    if (typeof window !== "undefined") {
-      const container = document.getElementById("services-container");
-      if (container) {
-        const rect = container.getBoundingClientRect();
-        // Only scroll if the section is scrolled too far above or below the viewport
-        if (rect.top < 60 || rect.top > 350) {
-          const targetY = rect.top + window.scrollY - 100;
-          if (window.__lenis) {
-            window.__lenis.scrollTo(targetY, { duration: 0.5 });
-          } else {
-            window.scrollTo({ top: targetY, behavior: "smooth" });
-          }
-        }
+    const targetService = services[idx];
+    if (!targetService) return;
+    const el = document.getElementById(`service-${targetService.id}`);
+    if (el) {
+      // Calibrated offset to align top of target card flush with sticky desktop nav (top-28 = 112px)
+      // or mobile header (108px), without double-subtracting CSS scroll margins
+      const navOffset = typeof window !== "undefined" && window.innerWidth >= 1024 ? 112 : 108;
+      if (typeof window !== "undefined" && window.__lenis) {
+        window.__lenis.scrollTo(el, { offset: -navOffset, duration: 0.8 });
+      } else {
+        const targetY = el.getBoundingClientRect().top + window.scrollY - navOffset;
+        window.scrollTo({ top: targetY, behavior: "smooth" });
       }
     }
   };
@@ -89,7 +110,7 @@ export default function ServicesWorkflow() {
               <button
                 key={srv.id}
                 type="button"
-                onClick={() => handleSelectService(idx)}
+                onClick={() => scrollToService(idx)}
                 className={`shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all cursor-pointer ${
                   activeStep === idx
                     ? "bg-[#B45309] text-white shadow-xs"
@@ -103,18 +124,18 @@ export default function ServicesWorkflow() {
           </div>
         </div>
 
-        {/* Two Column Layout (Matching Image 3): Left Navigation + Single Active Sprint Card on Right */}
-        <div id="services-container" className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-24 md:mb-32">
-          {/* Left Column Navigation (Desktop) matching Image 3 */}
+        {/* Two Column Layout: Sticky Navigation (Left) + Continuous Scrolling Services (Right) */}
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 mb-24 md:mb-32">
+          {/* Sticky Navigation (Desktop) matching Image 3 */}
           <div className="hidden lg:block lg:col-span-4">
-            <div className="w-full">
+            <div className="sticky top-28 md:top-32 w-full">
               {/* Progress Bars */}
               <div className="mb-8 flex gap-1.5" aria-hidden="true">
                 {services.map((s, idx) => (
                   <button
                     key={s.id}
                     type="button"
-                    onClick={() => handleSelectService(idx)}
+                    onClick={() => scrollToService(idx)}
                     aria-label={`Jump to sprint ${idx + 1}`}
                     className="relative h-[3px] flex-1 overflow-hidden rounded-full bg-[#E4D9BC] cursor-pointer"
                   >
@@ -134,7 +155,7 @@ export default function ServicesWorkflow() {
                     <button
                       key={srv.id}
                       type="button"
-                      onClick={() => handleSelectService(idx)}
+                      onClick={() => scrollToService(idx)}
                       className={`w-full text-left p-3.5 rounded-[var(--radius)] transition-all duration-200 cursor-pointer flex items-start gap-3.5 group border ${
                         isActive
                           ? "bg-white border-[#E4D9BC] shadow-xs"
@@ -188,107 +209,92 @@ export default function ServicesWorkflow() {
             </div>
           </div>
 
-          {/* Right Column: Single Active Sprint Card (Image 3 Style) */}
-          <div className="lg:col-span-8">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeService.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-                className="group relative rounded-[var(--radius)] border bg-white border-[#E4D9BC] shadow-[var(--shadow-soft)] p-7 sm:p-9 lg:p-10 transition-all duration-300 hover:shadow-[var(--shadow-soft-lg)] hover:border-[#E4C090]"
-              >
-                {/* Step Header */}
-                <div className="flex items-center justify-between gap-4 mb-5">
-                  <div className="flex items-center gap-3">
-                    <span className="font-mono text-xs font-bold text-[#B45309] bg-[#B45309]/10 px-2.5 py-1 rounded border border-[#B45309]/20">
-                      0{activeStep + 1} // SPRINT
-                    </span>
-                    <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#FAF6EE] border border-[#E4D9BC] text-[#B45309]">
-                      <IconComponent className="w-4 h-4" />
-                    </span>
-                    <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#B45309] bg-[#B45309]/10 px-2 py-0.5 rounded border border-[#B45309]/20">
-                      {activeService.badge}
-                    </span>
+          {/* Right Column: ALL Services Stacked Continuously (Scroll down to view every service) */}
+          <div className="lg:col-span-8 flex flex-col gap-14">
+            {services.map((srv, idx) => {
+              const IconComponent = ICON_MAP[srv.icon] || Rocket;
+              return (
+                <div
+                  key={srv.id}
+                  id={`service-${srv.id}`}
+                  data-service-index={idx}
+                  className="group relative rounded-[var(--radius)] border bg-white border-[#E4D9BC] shadow-[var(--shadow-soft)] p-7 sm:p-9 lg:p-10 transition-all duration-300 hover:shadow-[var(--shadow-soft-lg)] hover:border-[#E4C090]"
+                >
+                  {/* Step Header */}
+                  <div className="flex items-center justify-between gap-4 mb-5">
+                    <div className="flex items-center gap-3">
+                      <span className="font-mono text-xs font-bold text-[#B45309] bg-[#B45309]/10 px-2.5 py-1 rounded border border-[#B45309]/20">
+                        0{idx + 1} // SPRINT
+                      </span>
+                      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#FAF6EE] border border-[#E4D9BC] text-[#B45309]">
+                        <IconComponent className="w-4 h-4" />
+                      </span>
+                      <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#B45309] bg-[#B45309]/10 px-2 py-0.5 rounded border border-[#B45309]/20">
+                        {srv.badge}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 font-mono text-xs text-[#78716C] bg-[#FAF6EE] px-2.5 py-1 rounded border border-[#E4D9BC]">
+                      <Clock className="w-3.5 h-3.5 text-[#B45309]" />
+                      <span>{srv.turnaround}</span>
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-1.5 font-mono text-xs text-[#78716C] bg-[#FAF6EE] px-2.5 py-1 rounded border border-[#E4D9BC]">
-                    <Clock className="w-3.5 h-3.5 text-[#B45309]" />
-                    <span>{activeService.turnaround}</span>
-                  </div>
-                </div>
+                  {/* Title & Tagline */}
+                  <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#4A3B33] mb-2 group-hover:text-[#B45309] transition-colors">
+                    {srv.title}
+                  </h3>
+                  <p className="font-mono text-xs text-[#78716C] mb-5">
+                    {srv.tagline}
+                  </p>
 
-                {/* Title & Tagline */}
-                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#4A3B33] mb-2 group-hover:text-[#B45309] transition-colors">
-                  {activeService.title}
-                </h3>
-                <p className="font-mono text-xs text-[#78716C] mb-5">
-                  {activeService.tagline}
-                </p>
-
-                {/* Frameless 3D Blueprint Diagram */}
-                <div className="mb-6">
-                  <Service3DVisualizer serviceId={activeService.id} />
-                </div>
-
-                {/* Description */}
-                <p className="text-[0.9375rem] leading-[1.7] text-[#57534E] mb-6">
-                  {activeService.description}
-                </p>
-
-                {/* Deliverables List */}
-                <div className="mb-6 pt-5 border-t border-[#E4D9BC]/60">
-                  <div className="font-mono text-[10.5px] font-semibold uppercase tracking-wider text-[#78716C] mb-3">
-                    Guaranteed Deliverables:
-                  </div>
-                  <ul className="space-y-2">
-                    {activeService.deliverables.map((item, dIdx) => (
-                      <li key={dIdx} className="flex items-start gap-2.5 text-xs text-[#57534E]">
-                        <Check className="w-3.5 h-3.5 text-[#B45309] shrink-0 mt-0.5" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Footer Row */}
-                <div className="pt-5 border-t border-[#E4D9BC]/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="text-xs text-[#78716C] italic">
-                    <span className="font-semibold text-[#4A3B33] not-italic">Best For: </span>
-                    {activeService.idealFor}
+                  {/* Frameless 3D Blueprint Diagram (Pure floating vector graphic, NO inner box!) */}
+                  <div className="mb-6">
+                    <Service3DVisualizer serviceId={srv.id} />
                   </div>
 
-                  <Link
-                    href="#get-access"
-                    onClick={() => sound.playClick()}
-                    className="inline-flex items-center justify-center gap-2 rounded-[var(--radius)] bg-[#B45309] text-white py-2.5 px-5 font-mono text-xs font-bold hover:bg-[#A16207] shadow-xs transition-all duration-200 shrink-0"
-                  >
-                    <span>Inquire About Scope</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+                  {/* Description */}
+                  <p className="text-[0.9375rem] leading-[1.7] text-[#57534E] mb-6">
+                    {srv.description}
+                  </p>
 
-            {/* Mobile Guarantee Box */}
-            <div className="lg:hidden mt-6 p-4 rounded-xl border border-[#E4D9BC] bg-white/80 shadow-xs">
-              <div className="font-serif font-bold text-xs text-[#4A3B33] mb-1">
-                100% IP &amp; Code Ownership
-              </div>
-              <div className="font-mono text-[10.5px] text-[#78716C] mb-3">
-                All repositories, environment secrets, and documentation transferred directly to your organization.
-              </div>
-              <Link
-                href="#get-access"
-                onClick={() => sound.playClick()}
-                className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-[#B45309] hover:text-[#92400E]"
-              >
-                Schedule Scope Call →
-              </Link>
-            </div>
+                  {/* Deliverables List */}
+                  <div className="mb-6 pt-5 border-t border-[#E4D9BC]/60">
+                    <div className="font-mono text-[10.5px] font-semibold uppercase tracking-wider text-[#78716C] mb-3">
+                      Guaranteed Deliverables:
+                    </div>
+                    <ul className="space-y-2">
+                      {srv.deliverables.map((item, dIdx) => (
+                        <li key={dIdx} className="flex items-start gap-2.5 text-xs text-[#57534E]">
+                          <Check className="w-3.5 h-3.5 text-[#B45309] shrink-0 mt-0.5" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="pt-5 border-t border-[#E4D9BC]/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="text-xs text-[#78716C] italic">
+                      <span className="font-semibold text-[#4A3B33] not-italic">Best For: </span>
+                      {srv.idealFor}
+                    </div>
+
+                    <Link
+                      href="#get-access"
+                      onClick={() => sound.playClick()}
+                      className="inline-flex items-center justify-center gap-2 rounded-[var(--radius)] bg-[#B45309] text-white py-2.5 px-5 font-mono text-xs font-bold hover:bg-[#A16207] shadow-xs transition-all duration-200 shrink-0"
+                    >
+                      <span>Inquire About Scope</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
+
+
 
         {/* Section 2: 4-Week Client Delivery Protocol */}
         <div className="mb-20 pt-16 border-t border-[#E4D9BC]">

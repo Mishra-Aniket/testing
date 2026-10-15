@@ -45,10 +45,11 @@ export default function FeaturedProjects() {
     if (!targetProject) return;
     const el = document.getElementById(`project-${targetProject.id}`);
     if (el) {
+      const navOffset = typeof window !== "undefined" && window.innerWidth >= 1024 ? 112 : 108;
       if (typeof window !== "undefined" && window.__lenis) {
-        window.__lenis.scrollTo(el, { offset: -120, duration: 1.0 });
+        window.__lenis.scrollTo(el, { offset: -navOffset, duration: 0.8 });
       } else {
-        const targetY = el.getBoundingClientRect().top + window.scrollY - 120;
+        const targetY = el.getBoundingClientRect().top + window.scrollY - navOffset;
         window.scrollTo({ top: targetY, behavior: "smooth" });
       }
     }
@@ -185,7 +186,7 @@ export default function FeaturedProjects() {
                 key={project.id}
                 id={`project-${project.id}`}
                 data-project-index={idx}
-                className="scroll-mt-32 group relative rounded-[var(--radius)] border bg-white border-[#E4D9BC] shadow-[var(--shadow-soft)] p-7 sm:p-9 lg:p-10 transition-all duration-300 hover:shadow-[var(--shadow-soft-lg)] hover:border-[#E4C090]"
+                className="group relative rounded-[var(--radius)] border bg-white border-[#E4D9BC] shadow-[var(--shadow-soft)] p-7 sm:p-9 lg:p-10 transition-all duration-300 hover:shadow-[var(--shadow-soft-lg)] hover:border-[#E4C090]"
               >
                 {/* Step Index & Badge Header */}
                 <div className="flex items-center justify-between gap-3 mb-4">

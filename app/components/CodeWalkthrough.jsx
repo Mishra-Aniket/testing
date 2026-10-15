@@ -193,10 +193,11 @@ export default function CodeWalkthrough() {
     setActiveStep(idx);
     const el = document.getElementById(`step-${STEPS[idx].id}`);
     if (el) {
+      const navOffset = typeof window !== "undefined" && window.innerWidth >= 1024 ? 112 : 108;
       if (typeof window !== "undefined" && window.__lenis) {
-        window.__lenis.scrollTo(el, { offset: -120, duration: 1.0 });
+        window.__lenis.scrollTo(el, { offset: -navOffset, duration: 0.8 });
       } else {
-        const targetY = el.getBoundingClientRect().top + window.scrollY - 120;
+        const targetY = el.getBoundingClientRect().top + window.scrollY - navOffset;
         window.scrollTo({ top: targetY, behavior: "smooth" });
       }
     }
@@ -303,7 +304,6 @@ export default function CodeWalkthrough() {
               <div 
                 key={step.id} 
                 id={`step-${step.id}`}
-                className="scroll-mt-32"
               >
                 <div className="group relative rounded-[6px] border bg-white border-[#E4D9BC] shadow-[0_1px_3px_rgba(0,0,0,0.06),0_1px_2px_rgba(0,0,0,0.04)] p-7 sm:p-9 lg:p-10 transition-all duration-300 hover:border-[#E4C090] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)]">
                   {/* Header */}
