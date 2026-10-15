@@ -72,7 +72,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer data-theme="dark" className="relative bg-[#1C1917] text-[#F5F5F4] overflow-hidden pt-16 pb-8 sm:pb-12 border-t border-white/[0.08]">
+    <footer data-theme="dark" className="relative bg-[#1C1917] text-[#F5F5F4] overflow-hidden pt-16 pb-12 sm:pb-16 border-t border-white/[0.08]">
       {/* Background subtle large grid matching Image 2 (getalchemystai.com) */}
       <div 
         aria-hidden="true" 
@@ -84,6 +84,16 @@ export default function Footer() {
           WebkitMaskImage: "radial-gradient(ellipse 90% 70% at 50% 40%, #000 30%, transparent 95%)"
         }}
       />
+
+      {/* Giant Full-Footer Luxury Monogram AM Watermark */}
+      <div 
+        aria-hidden="true" 
+        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden z-0"
+      >
+        <MonogramAM 
+          className="w-[90vw] max-w-[850px] lg:max-w-[1050px] h-auto text-[#E4C090]/[0.06] sm:text-[#E4C090]/[0.07] transform -translate-y-4 sm:-translate-y-8"
+        />
+      </div>
 
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-x-8 gap-y-12 pb-14 md:grid-cols-4 lg:grid-cols-8 lg:pb-16">
@@ -219,19 +229,6 @@ export default function Footer() {
             >
               <ArrowUp className="w-4 h-4" />
             </button>
-          </div>
-        </div>
-
-        {/* Bottom Giant Brand Monolith Typography */}
-        <div 
-          aria-hidden="true" 
-          className="relative w-full pt-4 sm:pt-6 pb-4 sm:pb-8 flex justify-center items-center select-none pointer-events-none"
-        >
-          <div className="flex items-center justify-center gap-3 sm:gap-6 tracking-[-0.03em] whitespace-nowrap leading-none">
-            <span className="font-sans font-black uppercase text-white/[0.08] sm:text-white/[0.09] text-[clamp(2.8rem,9.5vw,8rem)]">
-              ANIKET
-            </span>
-            <MonogramAM className="h-[clamp(3.5rem,12vw,9.5rem)] w-auto text-[#E4C090]/[0.28] sm:text-[#E4C090]/[0.32]" />
           </div>
         </div>
       </div>
