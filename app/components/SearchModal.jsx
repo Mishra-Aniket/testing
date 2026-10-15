@@ -42,7 +42,7 @@ const ICON_MAP = {
   Mail
 };
 
-// 1:1 Clean Quick links matching getalchemystai.com (single-line items)
+// 1:1 Clean Quick links matching getalchemystai.com (Image 2)
 const QUICK_LINKS = [
   {
     id: "quick-home",
@@ -52,43 +52,43 @@ const QUICK_LINKS = [
   },
   {
     id: "quick-work",
-    label: "Featured Projects",
+    label: "Projects",
     href: "/#work",
     icon: Folder
   },
   {
     id: "quick-services",
-    label: "Engineering Services",
+    label: "Services",
     href: "/#services",
     icon: Rocket
   },
   {
     id: "quick-stack",
-    label: "Core Tech Stack",
+    label: "Tech Stack",
     href: "/#stack",
     icon: Layers
   },
   {
     id: "quick-students",
-    label: "Student Resources & Perks",
+    label: "Students",
     href: "/students",
     icon: GraduationCap
   },
   {
     id: "quick-walkthrough",
-    label: "Code Walkthrough & Architecture",
+    label: "Architecture",
     href: "/#how-it-works",
     icon: Cpu
   },
   {
     id: "quick-faq",
-    label: "Frequently Asked Questions",
+    label: "FAQ",
     href: "/#faq",
     icon: HelpCircle
   },
   {
     id: "quick-contact",
-    label: "Contact & Hire Aniket",
+    label: "Contact",
     href: "/#get-access",
     icon: Mail
   }
@@ -133,12 +133,11 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onOpen, onClose]);
 
-  // Click outside to close (since there is no heavy black backdrop)
+  // Click outside to close (without darkening the screen)
   useEffect(() => {
     if (!isOpen) return;
     const handleClickOutside = (e) => {
       if (modalRef.current && !modalRef.current.contains(e.target)) {
-        // Check if click was on the bottom dock trigger
         const dockEl = document.querySelector('[data-bottom-search-dock="true"]');
         if (dockEl && dockEl.contains(e.target)) return;
         onClose();
@@ -344,7 +343,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
 
   return (
     <>
-      {/* 1. FLOATING BOTTOM SEARCH DOCK TRIGGER BUTTON (Always visible at the bottom) */}
+      {/* 1. FLOATING BOTTOM SEARCH DOCK TRIGGER BUTTON */}
       <div
         data-bottom-search-dock="true"
         className={`fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 z-40 -translate-x-1/2 max-w-[calc(100vw-2rem)] transition-[opacity,transform] duration-250 ease-out will-change-[transform,opacity] ${
@@ -364,11 +363,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
             }
           }}
           aria-label="Search pages or ask Aniket"
-          className={`inline-flex shrink-0 items-center justify-center whitespace-nowrap border py-2 outline-none transition-all cursor-pointer select-none active:translate-y-px h-11 gap-2.5 rounded-lg px-4 sm:px-6 text-xs sm:text-sm font-semibold shadow-[var(--shadow-soft)] hover:-translate-y-px ${
-            isOpen
-              ? "bg-[#FAF6EE] text-[#4A3B33] border-[#B45309] ring-1 ring-[#B45309]"
-              : "bg-white text-[#4A3B33] border-[#E4D9BC] hover:bg-[#F8F4EE]"
-          }`}
+          className="inline-flex shrink-0 items-center justify-center whitespace-nowrap border py-2 outline-none transition-all cursor-pointer select-none active:translate-y-px h-11 gap-2.5 rounded-lg px-4 sm:px-6 text-xs sm:text-sm font-semibold shadow-[var(--shadow-soft)] hover:-translate-y-px bg-white text-[#4A3B33] border-[#E4D9BC] hover:bg-[#F8F4EE]"
         >
           <Search className="w-4 h-4 text-[#B45309] shrink-0" />
           <span className="truncate max-w-[240px] sm:max-w-none">
@@ -380,132 +375,143 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
         </button>
       </div>
 
-      {/* 2. EXACT 1:1 POPOVER SEARCH MODAL (Anchored directly above the bottom trigger dock, matching getalchemystai.com) */}
+      {/* 2. EXACT 1:1 POPOVER SEARCH MODAL (Matching Image 2 getalchemystai.com) */}
       <AnimatePresence>
         {isOpen && (
-          <div
-            className="fixed inset-0 z-50 pointer-events-none"
-            data-lenis-prevent="true"
-          >
-            {/* Modal Card anchored at the bottom, floating 12px directly above the bottom dock */}
-            <motion.div
-              ref={modalRef}
-              initial={{ opacity: 0, y: 12, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.98 }}
-              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-              className="pointer-events-auto absolute bottom-[calc(max(1rem,env(safe-area-inset-bottom))+3.5rem)] left-1/2 -translate-x-1/2 w-[min(36rem,calc(100vw-2rem))] overflow-hidden rounded-xl border border-[#E4D9BC] bg-[#FDFBF7] shadow-[0_20px_50px_rgba(74,59,51,0.18)] text-[#4A3B33] flex flex-col"
-              onKeyDown={handleKeyDown}
+          <>
+            {/* Transparent click-outside dismiss backdrop (Zero dark overlay, background remains 100% visible) */}
+            <div
+              className="fixed inset-0 z-40 bg-transparent cursor-default"
+              onClick={() => {
+                sound.playClick();
+                onClose();
+              }}
+            />
+
+            {/* Centered flex wrapper anchored directly above the bottom dock */}
+            <div
+              className="fixed inset-x-0 bottom-[calc(max(1rem,env(safe-area-inset-bottom))+3.5rem)] z-50 flex justify-center px-3 sm:px-4 pointer-events-none"
               data-lenis-prevent="true"
             >
-              {/* Header Row: Title & Close Button */}
-              <div className="flex items-center justify-between gap-3 border-b border-[#E4D9BC]/70 px-4 py-2.5 bg-transparent shrink-0">
-                <h2 className="text-sm font-medium text-[#4A3B33]">
-                  Explore Aniket
-                </h2>
-                <button
-                  type="button"
-                  onClick={() => {
-                    sound.playClick();
-                    onClose();
-                  }}
-                  className="rounded p-1 text-[#78716C] hover:bg-black/5 hover:text-[#4A3B33] transition-colors cursor-pointer"
-                  aria-label="Close search"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-
-              {/* Input Group: Bordered search input matching Image 1 */}
-              <div className="p-3 pb-1 shrink-0">
-                <div className="flex items-center gap-2.5 rounded-lg border border-[#E4D9BC] bg-white px-3 py-2 shadow-2xs focus-within:border-[#B45309] focus-within:ring-1 focus-within:ring-[#B45309] transition-all">
-                  <Search className="w-4 h-4 text-[#78716C] shrink-0 opacity-70" />
-                  <input
-                    ref={inputRef}
-                    type="text"
-                    value={query}
-                    onChange={(e) => {
-                      setQuery(e.target.value);
-                      setSelectedIndex(0);
+              <motion.div
+                ref={modalRef}
+                initial={{ opacity: 0, y: 8, scale: 0.99 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 6, scale: 0.99 }}
+                transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+                className="pointer-events-auto w-full max-w-[490px] overflow-hidden rounded-xl border border-[#E4D9BC] bg-[#FDFBF7] shadow-[0_16px_40px_rgba(74,59,51,0.14)] text-[#4A3B33] flex flex-col"
+                onKeyDown={handleKeyDown}
+                data-lenis-prevent="true"
+              >
+                {/* Header Row: Title & Close Button matching Image 2 */}
+                <div className="flex items-center justify-between gap-3 border-b border-[#E4D9BC]/60 px-4 py-2.5 bg-transparent shrink-0">
+                  <h2 className="text-sm font-medium text-[#4A3B33]">
+                    Explore Aniket
+                  </h2>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      sound.playClick();
+                      onClose();
                     }}
-                    placeholder="Find a page or ask a question…"
-                    className="w-full bg-transparent text-sm text-[#4A3B33] placeholder-[#A8A29E] outline-none font-sans"
-                  />
-                  {query && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setQuery("");
-                        inputRef.current?.focus();
+                    className="rounded p-1 text-[#78716C] hover:bg-black/5 hover:text-[#4A3B33] transition-colors cursor-pointer"
+                    aria-label="Close search"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Input Group: Exact orange/amber border input matching Image 2 */}
+                <div className="p-3 pb-1 shrink-0">
+                  <div className="flex items-center gap-2.5 rounded-lg border border-[#B45309] bg-white px-3 py-2 shadow-2xs transition-all">
+                    <Search className="w-4 h-4 text-[#78716C] shrink-0 opacity-70" />
+                    <input
+                      ref={inputRef}
+                      type="text"
+                      value={query}
+                      onChange={(e) => {
+                        setQuery(e.target.value);
+                        setSelectedIndex(0);
                       }}
-                      className="text-[#A8A29E] hover:text-[#4A3B33] p-0.5 cursor-pointer"
-                    >
-                      <X className="w-3.5 h-3.5" />
-                    </button>
+                      placeholder="Find a page or ask a question…"
+                      className="w-full bg-transparent text-[13.5px] text-[#4A3B33] placeholder-[#A8A29E] outline-none font-sans"
+                    />
+                    {query && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setQuery("");
+                          inputRef.current?.focus();
+                        }}
+                        className="text-[#A8A29E] hover:text-[#4A3B33] p-0.5 cursor-pointer"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Sub-heading Label: Quick links / Search results */}
+                <div className="px-4 pt-2 pb-1 text-xs font-mono font-medium text-[#78716C] shrink-0">
+                  {query.trim() ? "Search results" : "Quick links"}
+                </div>
+
+                {/* Scrollable Items List: Clean single-line rows with Home selected by default */}
+                <div
+                  ref={scrollContainerRef}
+                  onWheel={(e) => e.stopPropagation()}
+                  onTouchMove={(e) => e.stopPropagation()}
+                  data-lenis-prevent="true"
+                  data-lenis-prevent-wheel="true"
+                  data-lenis-prevent-touch="true"
+                  className="max-h-[min(22rem,calc(100dvh-14rem))] overflow-y-auto overscroll-contain px-2 py-1 space-y-0.5 touch-pan-y"
+                  style={{
+                    WebkitOverflowScrolling: "touch",
+                    overscrollBehavior: "contain",
+                    scrollbarWidth: "none"
+                  }}
+                >
+                  {displayedItems.length === 0 ? (
+                    <div className="py-8 text-center text-xs text-[#78716C] font-mono">
+                      No results found for &ldquo;{query}&rdquo;
+                    </div>
+                  ) : (
+                    displayedItems.map((item, idx) => {
+                      const Icon = item.icon || FileText;
+                      const isSelected = selectedIndex === idx;
+
+                      return (
+                        <div
+                          key={item.id}
+                          onClick={() => handleItemClick(item)}
+                          onMouseEnter={() => setSelectedIndex(idx)}
+                          className={`group relative flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors cursor-pointer select-none ${
+                            isSelected
+                              ? "bg-[#F3ECE0] text-[#4A3B33] font-medium"
+                              : "text-[#57534E] hover:bg-[#F3ECE0]/70"
+                          }`}
+                        >
+                          <Icon className={`w-4 h-4 shrink-0 transition-colors ${
+                            isSelected ? "text-[#B45309]" : "text-[#78716C]"
+                          }`} />
+                          <span className="flex-1 truncate text-[13.5px]">
+                            {item.label}
+                          </span>
+                          <ArrowUpRight className="w-3.5 h-3.5 text-[#A8A29E] shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                        </div>
+                      );
+                    })
                   )}
                 </div>
-              </div>
 
-              {/* Sub-heading Label: Quick links / Search results */}
-              <div className="px-4 pt-2 pb-1 text-xs font-mono font-medium text-[#78716C] shrink-0">
-                {query.trim() ? "Search results" : "Quick links"}
-              </div>
-
-              {/* Scrollable Items List: Clean single-line rows matching Image 1 */}
-              <div
-                ref={scrollContainerRef}
-                onWheel={(e) => e.stopPropagation()}
-                onTouchMove={(e) => e.stopPropagation()}
-                data-lenis-prevent="true"
-                data-lenis-prevent-wheel="true"
-                data-lenis-prevent-touch="true"
-                className="max-h-[min(24rem,calc(100dvh-14rem))] overflow-y-auto overscroll-contain px-2 py-1 space-y-0.5 touch-pan-y"
-                style={{
-                  WebkitOverflowScrolling: "touch",
-                  overscrollBehavior: "contain",
-                  scrollbarWidth: "none"
-                }}
-              >
-                {displayedItems.length === 0 ? (
-                  <div className="py-8 text-center text-xs text-[#78716C] font-mono">
-                    No results found for &ldquo;{query}&rdquo;
-                  </div>
-                ) : (
-                  displayedItems.map((item, idx) => {
-                    const Icon = item.icon || FileText;
-                    const isSelected = selectedIndex === idx;
-
-                    return (
-                      <div
-                        key={item.id}
-                        onClick={() => handleItemClick(item)}
-                        onMouseEnter={() => setSelectedIndex(idx)}
-                        className={`group relative flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors cursor-pointer select-none ${
-                          isSelected
-                            ? "bg-[#F3ECE0] text-[#4A3B33] font-medium"
-                            : "text-[#57534E] hover:bg-[#F3ECE0]/70"
-                        }`}
-                      >
-                        <Icon className={`w-4 h-4 shrink-0 transition-colors ${
-                          isSelected ? "text-[#B45309]" : "text-[#78716C]"
-                        }`} />
-                        <span className="flex-1 truncate text-[13.5px]">
-                          {item.label}
-                        </span>
-                        <ArrowUpRight className="w-3.5 h-3.5 text-[#A8A29E] shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                      </div>
-                    );
-                  })
-                )}
-              </div>
-
-              {/* Footer Row: Keyboard navigation hints matching Image 1 */}
-              <div className="flex items-center justify-between border-t border-[#E4D9BC]/70 px-4 py-2 text-xs text-[#78716C] font-mono shrink-0 bg-transparent">
-                <span>↑ ↓ navigate · Enter select</span>
-                <span>Esc close</span>
-              </div>
-            </motion.div>
-          </div>
+                {/* Footer Row: Keyboard navigation hints */}
+                <div className="flex items-center justify-between border-t border-[#E4D9BC]/60 px-4 py-2 text-xs text-[#78716C] font-mono shrink-0 bg-transparent">
+                  <span>↑ ↓ navigate · Enter select</span>
+                  <span>Esc close</span>
+                </div>
+              </motion.div>
+            </div>
+          </>
         )}
       </AnimatePresence>
     </>
