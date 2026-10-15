@@ -6,10 +6,10 @@ export default function Service3DVisualizer({ serviceId }) {
   // 1. Rapid MVP: 4-Tier 3D Isometric Rounded Glassmorphic Architecture
   if (serviceId === "mvp-build") {
     const tiers = [
-      { id: 4, name: "L04 · NEXT.JS 15 CLIENT", y: 38, fill: "url(#svcGlassTop4)", stroke: "#B45309", sub: "Interactive UI & 3D Web" },
-      { id: 3, name: "L03 · API & MICROSERVICES", y: 68, fill: "url(#svcGlassTop3)", stroke: "#E4C090", sub: ".NET 8 · FastAPI · JWT" },
-      { id: 2, name: "L02 · STORAGE & CACHE", y: 98, fill: "url(#svcGlassTop2)", stroke: "#E4C090", sub: "PostgreSQL · Redis WAL" },
-      { id: 1, name: "L01 · CLOUD & DEVOPS", y: 128, fill: "url(#svcGlassTop1)", stroke: "#C4A885", sub: "Docker · Vercel Edge · CI/CD" },
+      { id: 1, name: "L01 · CLOUD & DEVOPS", y: 132, fill: "url(#svcGlassTop1)", stroke: "#CBBFA3" },
+      { id: 2, name: "L02 · STORAGE & CACHE", y: 102, fill: "url(#svcGlassTop2)", stroke: "#D4B895" },
+      { id: 3, name: "L03 · API & MICROSERVICES", y: 72, fill: "url(#svcGlassTop3)", stroke: "#E4C090" },
+      { id: 4, name: "L04 · NEXT.JS 15 CLIENT", y: 42, fill: "url(#svcGlassTop4)", stroke: "#B45309" },
     ];
 
     return (
@@ -59,85 +59,73 @@ export default function Service3DVisualizer({ serviceId }) {
 
           {/* Telemetry Header */}
           <circle cx="16" cy="18" r="2.5" fill="#B45309" />
-          <text x="25" y="21" fill="#B45309" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1.2">
+          <text x="25" y="21" fill="#B45309" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1.2">
             SPRINT ARCHITECTURE // 4_TIER_STACK
           </text>
-          <text x="325" y="21" textAnchor="end" fill="#059669" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="600">
+          <text x="324" y="21" textAnchor="end" fill="#059669" fontSize="7.2" fontFamily="JetBrains Mono, monospace" fontWeight="600">
             14 – 28 DAYS TURNAROUND
           </text>
 
           {/* Ambient Floor Glow */}
-          <ellipse cx="170" cy="146" rx="90" ry="24" fill="url(#svcFloor)" opacity="0.6" />
+          <ellipse cx="170" cy="150" rx="95" ry="20" fill="url(#svcFloor)" opacity="0.65" />
 
-          {/* 4 Rounded 3D Glassmorphic Slabs */}
+          {/* Central Vertical Laser Data Spine */}
+          <line x1="170" y1="30" x2="170" y2="142" stroke="#B45309" strokeWidth="1" strokeDasharray="2 3" opacity="0.55" />
+          <circle cx="170" r="2.5" fill="#B45309" filter="url(#svcGlow)">
+            <animate attributeName="cy" values="140;34;140" dur="2.4s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.3;1;0.3" dur="2.4s" repeatCount="indefinite" />
+          </circle>
+
+          {/* 4 Calibrated Rounded 3D Glassmorphic Slabs (Rendered bottom to top) */}
           {tiers.map((tier) => {
             const ty = tier.y;
             return (
               <g key={tier.id}>
                 {/* 3D Extrusion Side Bevel */}
-                <g transform={`matrix(0.894 0.36 -0.894 0.36 170 ${ty + 4})`}>
-                  <rect
-                    x="-68"
-                    y="-68"
-                    width="136"
-                    height="136"
-                    rx="18"
-                    fill="url(#svcSide)"
-                    stroke="#B45309"
-                    strokeWidth="0.8"
-                    strokeOpacity="0.3"
-                  />
-                </g>
+                <path
+                  d={`M 68,${ty} L 68,${ty + 5} Q 68,${ty + 6} 76,${ty + 8} L 162,${ty + 18} Q 170,${ty + 20} 178,${ty + 18} L 264,${ty + 8} Q 272,${ty + 6} 272,${ty + 5} L 272,${ty} L 178,${ty + 13} Q 170,${ty + 15} 162,${ty + 13} Z`}
+                  fill="url(#svcSide)"
+                  stroke="#B45309"
+                  strokeWidth="0.8"
+                  strokeOpacity="0.3"
+                />
 
-                {/* Top Glass Face */}
-                <g transform={`matrix(0.894 0.36 -0.894 0.36 170 ${ty})`}>
-                  <rect
-                    x="-68"
-                    y="-68"
-                    width="136"
-                    height="136"
-                    rx="18"
-                    fill={tier.fill}
-                    stroke={tier.stroke}
-                    strokeWidth="1.2"
-                  />
-                  <rect x="-64" y="-64" width="128" height="128" rx="15" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="0.8" />
+                {/* Top Glass Face with Specular Rim */}
+                <path
+                  d={`M 162,${ty - 13} Q 170,${ty - 15} 178,${ty - 13} L 264,${ty - 2} Q 272,${ty} 264,${ty + 2} L 178,${ty + 13} Q 170,${ty + 15} 162,${ty + 13} L 76,${ty + 2} Q 68,${ty} 76,${ty - 2} Z`}
+                  fill={tier.fill}
+                  stroke={tier.stroke}
+                  strokeWidth="1.2"
+                />
 
-                  {/* Surface micro-circuit etchings */}
-                  <circle cx="0" cy="0" r="16" fill="rgba(180,83,9,0.06)" stroke="#B45309" strokeWidth="0.8" strokeDasharray="2 2" />
-                  <circle cx="0" cy="0" r="3" fill="#B45309" />
-                  <line x1="-38" y1="0" x2="-16" y2="0" stroke="#E4D9BC" strokeWidth="1" />
-                  <line x1="16" y1="0" x2="38" y2="0" stroke="#E4D9BC" strokeWidth="1" />
-                  <circle cx="-38" cy="0" r="2" fill="#B45309" />
-                  <circle cx="38" cy="0" r="2" fill="#B45309" />
-                </g>
+                {/* Inner Specular Highlight Ring */}
+                <path
+                  d={`M 163,${ty - 10} Q 170,${ty - 12} 177,${ty - 10} L 256,${ty - 2} Q 262,${ty} 256,${ty + 2} L 177,${ty + 10} Q 170,${ty + 12} 163,${ty + 10} L 84,${ty + 2} Q 78,${ty} 84,${ty - 2} Z`}
+                  fill="none"
+                  stroke="rgba(255,255,255,0.8)"
+                  strokeWidth="0.8"
+                />
 
-                {/* Front Label Pill */}
-                <g transform={`translate(170, ${ty + 6})`}>
-                  <rect x="-65" y="-7" width="130" height="14" rx="3" fill="rgba(255,255,255,0.92)" stroke="#E4D9BC" strokeWidth="0.8" />
-                  <text
-                    x="0"
-                    y="3"
-                    textAnchor="middle"
-                    fill="#4A3B33"
-                    fontSize="7"
-                    fontFamily="JetBrains Mono, monospace"
-                    fontWeight="700"
-                    letterSpacing="0.6"
-                  >
-                    {tier.name}
-                  </text>
-                </g>
+                {/* Surface Circuit Accent Nodes */}
+                <circle cx="86" cy={ty} r="1.8" fill="#B45309" opacity="0.75" />
+                <circle cx="254" cy={ty} r="1.8" fill="#B45309" opacity="0.75" />
+
+                {/* Tier Name Label */}
+                <text
+                  x="170"
+                  y={ty + 3.5}
+                  textAnchor="middle"
+                  fill="#4A3B33"
+                  fontSize="7.8"
+                  fontFamily="JetBrains Mono, monospace"
+                  fontWeight="700"
+                  letterSpacing="0.8"
+                >
+                  {tier.name}
+                </text>
               </g>
             );
           })}
-
-          {/* Central Vertical Laser Data Spine with Streaming SVG Pulses */}
-          <line x1="170" y1="36" x2="170" y2="136" stroke="#B45309" strokeWidth="1" strokeDasharray="2 4" opacity="0.7" />
-          <circle cx="170" r="2.5" fill="#B45309" filter="url(#svcGlow)">
-            <animate attributeName="cy" values="134;38;134" dur="2.4s" repeatCount="indefinite" />
-            <animate attributeName="opacity" values="0.3;1;0.3" dur="2.4s" repeatCount="indefinite" />
-          </circle>
 
           {/* Telemetry Footer */}
           <line x1="16" y1="168" x2="324" y2="168" stroke="#E4D9BC" strokeWidth="0.8" strokeDasharray="2 4" />

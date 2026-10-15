@@ -71,7 +71,7 @@ export default function ModelSovereignty() {
       stats: [["ACTIVE SPEC", selectedModel], ["TIMELINE", "Days 1–3"], ["DELIVERABLE", "System Spec"]],
       code: `system.plan({ spec: "${selectedModel.toLowerCase()}", db: "postgres" })`,
       left: "16%",
-      top: "56%"
+      top: "48%"
     },
     {
       eyebrow: "02 · ENGINEER",
@@ -80,7 +80,7 @@ export default function ModelSovereignty() {
       stats: [["CODEBASE", "Clean & Typed"], ["LATENCY", "< 100ms"], ["STACK", "Full-Stack"]],
       code: 'pipeline.build({ frontend: "nextjs", backend: "fastapi" })',
       left: "50%",
-      top: "60.5%"
+      top: "48%"
     },
     {
       eyebrow: "03 · SHIP & SCALE",
@@ -89,14 +89,14 @@ export default function ModelSovereignty() {
       stats: [["DEPLOY", "Automated"], ["UPTIME", "99.9%"], ["RELEASE", "Zero Downtime"]],
       code: 'release.deploy({ env: "production", status: "live" })',
       left: "84%",
-      top: "57%"
+      top: "48%"
     }
   ];
 
   const activeData = hoveredIndex !== null ? dynamicRouterData[hoveredIndex] : null;
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#FDFBF7] py-16 md:py-24 text-[#4A3B33]">
+    <section className="relative w-full overflow-visible bg-[#FDFBF7] py-16 md:py-24 text-[#4A3B33]">
       {/* Grid background matching original site */}
       <div 
         aria-hidden="true" 
@@ -117,7 +117,7 @@ export default function ModelSovereignty() {
         </div>
 
         <div 
-          className="relative w-full overflow-x-auto lg:overflow-visible select-none"
+          className="relative w-full overflow-x-auto lg:overflow-visible select-none pb-6 md:pb-10"
           onMouseLeave={() => setHoveredIndex(null)}
         >
           <div className="relative w-full min-w-[860px] aspect-[20/9]">
@@ -807,41 +807,41 @@ export default function ModelSovereignty() {
                 >
                   <div className="relative overflow-hidden rounded-lg border border-[#E4D9BC] bg-white/95 backdrop-blur-sm shadow-[0_12px_32px_-16px_rgba(74,59,51,0.28)]">
                     <div className="absolute inset-y-0 left-0 w-[2px] bg-[#B45309]" />
-                    <div className="p-4">
+                    <div className="p-3 sm:p-3.5">
                       {/* Eyebrow & LIVE badge */}
-                      <div className="flex items-center justify-between gap-3">
-                        <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.16em] text-[#B45309]">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-[#B45309]">
                           {activeData.eyebrow}
                         </span>
-                        <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.14em] text-[#A8A29E]">
+                        <span className="flex items-center gap-1.5 font-mono text-[8.5px] uppercase tracking-[0.14em] text-[#A8A29E]">
                           <span className="h-1.5 w-1.5 rounded-full bg-[#B45309] animate-pulse" />
                           live
                         </span>
                       </div>
 
                       {/* Title */}
-                      <h4 className="mt-2 text-[15px] font-bold leading-snug text-[#4A3B33] font-serif">
+                      <h4 className="mt-1 text-[13px] font-bold leading-tight text-[#4A3B33] font-serif">
                         {activeData.title}
                       </h4>
 
                       {/* Body */}
-                      <p className="mt-1.5 text-[11.5px] leading-[1.6] text-[#57534E]">
+                      <p className="mt-1 text-[11px] leading-[1.45] text-[#57534E] line-clamp-2">
                         {activeData.body}
                       </p>
 
-                      {/* Vertical Key-Value Stats */}
-                      <dl className="mt-3 space-y-1.5 border-t border-[#F1E9DA] pt-3">
+                      {/* Horizontal Key-Value Stats */}
+                      <div className="mt-2.5 grid grid-cols-3 gap-1.5 border-t border-[#F1E9DA] pt-2">
                         {activeData.stats.map(([k, v]) => (
-                          <div key={k} className="flex items-baseline justify-between gap-3">
-                            <dt className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#A8A29E]">{k}</dt>
-                            <dd className="font-mono text-[11px] font-semibold tabular-nums text-[#4A3B33]">{v}</dd>
+                          <div key={k}>
+                            <div className="font-mono text-[8px] uppercase tracking-wider text-[#A8A29E] truncate">{k}</div>
+                            <div className="font-mono text-[10.5px] font-bold tabular-nums text-[#4A3B33] truncate">{v}</div>
                           </div>
                         ))}
-                      </dl>
+                      </div>
 
                       {/* Code Pill */}
                       {activeData.code && (
-                        <div className="mt-3 rounded-md border border-[#F1E9DA] bg-[#F8F4EE] px-2.5 py-1.5 font-mono text-[10px] text-[#57534E]">
+                        <div className="mt-2 rounded border border-[#F1E9DA] bg-[#F8F4EE] px-2 py-1 font-mono text-[9px] text-[#57534E] truncate">
                           <span className="text-[#B45309]">▸</span> {activeData.code}
                         </div>
                       )}
