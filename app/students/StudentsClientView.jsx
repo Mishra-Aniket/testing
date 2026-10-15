@@ -30,7 +30,7 @@ import { STUDENT_OFFERS, STUDENT_RESOURCES } from "../data/portfolioData";
 function RevealTitle({ text }) {
   const words = text.split(" ");
   return (
-    <h1 className="font-serif text-[clamp(2.125rem,4.6vw,3.5rem)] font-bold leading-[1.1] tracking-[-0.035em] text-[#F5F5F4] text-balance">
+    <h1 className="font-serif text-[clamp(2.125rem,4.6vw,3.5rem)] font-bold leading-[1.1] tracking-[-0.035em] text-white text-balance">
       {words.map((word, idx) => (
         <span 
           key={idx} 
@@ -151,7 +151,7 @@ export default function StudentsClientView() {
             <div className="max-w-3xl">
               {/* Category Eyebrow Pill */}
               <div className="mb-6">
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E4C090]/10 border border-[#E4C090]/30 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#E4C090]">
+                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E4C090]/15 border border-[#E4C090]/40 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#E4C090]">
                   <GraduationCap className="w-3.5 h-3.5" />
                   Free Community Initiative · Students &amp; Early Builders
                 </span>
@@ -161,7 +161,7 @@ export default function StudentsClientView() {
               <RevealTitle text="Free Resources, Mentorship &amp; Grants for Student Builders." />
 
               {/* Subtitle */}
-              <p className="mt-6 text-[1.125rem] leading-[1.75] text-[#A8A29E] font-light max-w-2xl">
+              <p className="mt-6 text-[1.125rem] leading-[1.75] text-[#D6D3D1] font-normal max-w-2xl">
                 Real-world engineering feedback, production roadmaps, and boilerplate starters for college students, self-taught coders, and campus founders — 100% free with zero corporate fluff.
               </p>
 
@@ -170,7 +170,7 @@ export default function StudentsClientView() {
                 <a
                   href="#resources"
                   onClick={() => sound.playClick()}
-                  className="inline-flex items-center gap-2 rounded-[var(--radius)] bg-[#B45309] px-6 py-3 font-mono text-xs font-bold text-white shadow-xs hover:bg-[#A16207] transition-all cursor-pointer"
+                  className="inline-flex items-center gap-2 rounded-[var(--radius)] bg-[#B45309] px-6 py-3 font-mono text-xs font-bold text-white shadow-md hover:bg-[#A16207] transition-all cursor-pointer"
                 >
                   <BookOpen className="w-3.5 h-3.5" />
                   <span>Explore Free Resources ({STUDENT_RESOURCES?.length || 0})</span>
@@ -178,7 +178,7 @@ export default function StudentsClientView() {
                 <a
                   href="#offers"
                   onClick={() => sound.playClick()}
-                  className="inline-flex items-center gap-2 rounded-[var(--radius)] bg-white/[0.06] px-5 py-3 font-mono text-xs font-semibold text-[#F5F5F4] border border-white/[0.12] shadow-xs hover:border-[#E4C090]/50 hover:bg-white/[0.1] transition-all cursor-pointer"
+                  className="inline-flex items-center gap-2 rounded-[var(--radius)] bg-white/[0.08] px-5 py-3 font-mono text-xs font-bold text-white border border-white/[0.18] shadow-sm hover:border-[#E4C090] hover:bg-white/[0.14] transition-all cursor-pointer"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-[#E4C090]" />
                   <span>Student Perks &amp; Grants ({STUDENT_OFFERS?.length || 0})</span>
@@ -186,21 +186,21 @@ export default function StudentsClientView() {
               </div>
 
               {/* Quick Trust Counters */}
-              <div className="mt-12 pt-8 border-t border-white/[0.08] grid grid-cols-2 sm:grid-cols-4 gap-6 font-mono">
+              <div className="mt-12 pt-8 border-t border-white/[0.1] grid grid-cols-2 sm:grid-cols-4 gap-6 font-mono">
                 <div>
-                  <div className="text-2xl font-bold text-[#F5F5F4]">100% Free</div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-white">100% Free</div>
                   <div className="text-[11px] text-[#A8A29E] uppercase tracking-wider mt-0.5">Resources &amp; Reviews</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-[#E4C090]">48-Hour</div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-[#E4C090]">48-Hour</div>
                   <div className="text-[11px] text-[#A8A29E] uppercase tracking-wider mt-0.5">Turnaround Time</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-[#F5F5F4]">Zero Fluff</div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-white">Zero Fluff</div>
                   <div className="text-[11px] text-[#A8A29E] uppercase tracking-wider mt-0.5">Direct 1-on-1 Access</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-emerald-400">80% Grant</div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-emerald-400">80% Grant</div>
                   <div className="text-[11px] text-[#A8A29E] uppercase tracking-wider mt-0.5">For Student Startups</div>
                 </div>
               </div>
@@ -213,14 +213,14 @@ export default function StudentsClientView() {
           <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
               <div>
-                <span className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#E4C090]">
+                <span className="inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#E4C090]">
                   <BookOpen className="w-3.5 h-3.5" />
                   Free Toolkits &amp; Guides
                 </span>
-                <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#F5F5F4] mt-2 mb-3">
+                <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white mt-2 mb-3">
                   Free Student Developer Resources
                 </h2>
-                <p className="text-[1rem] text-[#A8A29E] max-w-2xl leading-relaxed">
+                <p className="text-[1rem] text-[#D6D3D1] max-w-2xl leading-relaxed">
                   Curated roadmaps, production starters, architecture cheatsheets, and developer templates. 100% open and free to use.
                 </p>
               </div>
@@ -234,10 +234,10 @@ export default function StudentsClientView() {
                       sound.playClick();
                       setSelectedCategory(cat);
                     }}
-                    className={`font-mono text-xs px-3 py-1.5 rounded-full border transition-all cursor-pointer whitespace-nowrap ${
+                    className={`font-mono text-xs px-3.5 py-1.5 rounded-full border transition-all cursor-pointer whitespace-nowrap font-medium ${
                       selectedCategory === cat
-                        ? "bg-[#B45309] text-white border-[#E4C090]/50 shadow-xs"
-                        : "bg-[#24211E] text-[#A8A29E] border-white/[0.08] hover:border-white/[0.2] hover:text-[#F5F5F4]"
+                        ? "bg-[#B45309] text-white border-[#E4C090] font-bold shadow-md"
+                        : "bg-[#24201D] text-[#E7E5E4] border-white/[0.18] hover:border-[#E4C090] hover:text-white hover:bg-[#2c2724]"
                     }`}
                   >
                     {cat}
@@ -252,41 +252,41 @@ export default function StudentsClientView() {
                 <div
                   key={res.id}
                   id={`resource-${res.id}`}
-                  className="scroll-mt-32 group relative rounded-[var(--radius)] border border-white/[0.08] bg-[#1F1C1A] p-7 sm:p-9 shadow-[0_16px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.6)] hover:border-[#E4C090]/50 hover:bg-[#25211E] transition-all duration-300 flex flex-col justify-between"
+                  className="scroll-mt-32 group relative rounded-[var(--radius)] border border-white/[0.12] bg-[#1C1917] p-7 sm:p-9 shadow-[0_16px_40px_rgba(0,0,0,0.6)] hover:shadow-[0_20px_50px_rgba(228,192,144,0.12)] hover:border-[#E4C090]/70 hover:bg-[#211E1B] transition-all duration-300 flex flex-col justify-between"
                 >
                   <div>
                     {/* Header: Category & Badge */}
                     <div className="flex items-center justify-between gap-3 mb-4">
-                      <span className="font-mono text-xs font-bold text-[#E4C090] bg-[#E4C090]/10 px-2.5 py-1 rounded border border-[#E4C090]/25">
+                      <span className="font-mono text-xs font-bold text-[#E4C090] bg-[#E4C090]/15 px-2.5 py-1 rounded border border-[#E4C090]/35">
                         {res.category.toUpperCase()}
                       </span>
-                      <span className="font-mono text-[10.5px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/25">
+                      <span className="font-mono text-[10.5px] font-bold uppercase tracking-wider text-emerald-300 bg-emerald-500/20 px-2.5 py-1 rounded border border-emerald-400/40">
                         {res.badge}
                       </span>
                     </div>
 
                     {/* Title */}
-                    <h3 className="font-serif text-2xl font-bold text-[#F5F5F4] mb-2 group-hover:text-[#E4C090] transition-colors">
+                    <h3 className="font-serif text-2xl font-bold text-white mb-2 group-hover:text-[#E4C090] transition-colors leading-snug">
                       {res.title}
                     </h3>
 
                     {/* Tagline */}
-                    <p className="font-mono text-xs text-[#A8A29E] mb-4">
+                    <p className="font-mono text-xs font-semibold text-[#E4C090] mb-3 tracking-wide">
                       {res.tagline}
                     </p>
 
                     {/* Description */}
-                    <p className="text-[0.9375rem] leading-[1.7] text-[#D6D3D1] mb-6">
+                    <p className="text-[0.9375rem] leading-[1.7] text-[#E7E5E4] mb-6">
                       {res.description}
                     </p>
 
                     {/* Tags */}
                     {res.tags && res.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mb-6">
+                      <div className="flex flex-wrap gap-2 mb-6">
                         {res.tags.map((t, tIdx) => (
                           <span 
                             key={tIdx} 
-                            className="font-mono text-[10.5px] text-[#A8A29E] bg-white/[0.04] border border-white/[0.08] px-2 py-0.5 rounded"
+                            className="font-mono text-xs font-medium text-[#F5F5F4] bg-white/[0.08] border border-white/[0.18] px-2.5 py-1 rounded"
                           >
                             {t}
                           </span>
@@ -296,13 +296,13 @@ export default function StudentsClientView() {
                   </div>
 
                   {/* Action Link */}
-                  <div className="pt-4 border-t border-white/[0.08]">
+                  <div className="pt-4 border-t border-white/[0.1]">
                     <a
                       href={res.downloadOrOpenUrl}
                       target={res.downloadOrOpenUrl.startsWith("http") ? "_blank" : undefined}
                       rel={res.downloadOrOpenUrl.startsWith("http") ? "noopener noreferrer" : undefined}
                       onClick={() => sound.playClick()}
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius)] bg-white/[0.05] border border-white/[0.1] py-3 px-4 font-mono text-xs font-bold text-[#F5F5F4] group-hover:bg-[#B45309] group-hover:text-white group-hover:border-[#B45309] transition-all cursor-pointer"
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius)] bg-[#24201D] border border-white/[0.18] py-3 px-4 font-mono text-xs font-bold text-white group-hover:bg-[#B45309] group-hover:border-[#B45309] shadow-sm transition-all cursor-pointer"
                     >
                       <Download className="w-3.5 h-3.5" />
                       <span>{res.actionLabel}</span>
@@ -319,14 +319,14 @@ export default function StudentsClientView() {
         <section id="offers" className="py-20 md:py-28 bg-[#141210] scroll-mt-24">
           <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
             <div className="mb-14">
-              <span className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#E4C090]">
+              <span className="inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#E4C090]">
                 <Sparkles className="w-3.5 h-3.5" />
                 Mentorship &amp; Grants
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#F5F5F4] mt-2 mb-4">
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white mt-2 mb-4">
                 Student Perks &amp; Builder Offers
               </h2>
-              <p className="text-[1rem] text-[#A8A29E] max-w-2xl leading-relaxed">
+              <p className="text-[1rem] text-[#D6D3D1] max-w-2xl leading-relaxed">
                 Direct engineering mentorship, free GitHub code reviews, open-source production templates, and subsidized MVP build grants.
               </p>
             </div>
@@ -337,44 +337,44 @@ export default function StudentsClientView() {
                 <div
                   key={offer.id}
                   id={`student-${offer.id}`}
-                  className="scroll-mt-32 group relative rounded-[var(--radius)] border border-white/[0.08] bg-[#1F1C1A] p-7 sm:p-9 shadow-[0_16px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.6)] hover:border-[#E4C090]/50 hover:bg-[#25211E] transition-all duration-300 flex flex-col justify-between"
+                  className="scroll-mt-32 group relative rounded-[var(--radius)] border border-white/[0.12] bg-[#1C1917] p-7 sm:p-9 shadow-[0_16px_40px_rgba(0,0,0,0.6)] hover:shadow-[0_20px_50px_rgba(228,192,144,0.12)] hover:border-[#E4C090]/70 hover:bg-[#211E1B] transition-all duration-300 flex flex-col justify-between"
                 >
                   <div>
                     {/* Header: Number & Badge */}
                     <div className="flex items-center justify-between gap-3 mb-5">
-                      <span className="font-mono text-xs font-bold text-[#E4C090] bg-[#E4C090]/10 px-2.5 py-1 rounded border border-[#E4C090]/25">
+                      <span className="font-mono text-xs font-bold text-[#E4C090] bg-[#E4C090]/15 px-2.5 py-1 rounded border border-[#E4C090]/35">
                         0{idx + 1} // {offer.highlight}
                       </span>
-                      <span className="font-mono text-[10.5px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/25">
+                      <span className="font-mono text-[10.5px] font-bold uppercase tracking-wider text-emerald-300 bg-emerald-500/20 px-2.5 py-1 rounded border border-emerald-400/40">
                         {offer.badge}
                       </span>
                     </div>
 
                     {/* Title */}
-                    <h3 className="font-serif text-2xl font-bold text-[#F5F5F4] mb-2 group-hover:text-[#E4C090] transition-colors">
+                    <h3 className="font-serif text-2xl font-bold text-white mb-2 group-hover:text-[#E4C090] transition-colors leading-snug">
                       {offer.title}
                     </h3>
 
                     {/* Tagline */}
-                    <p className="font-mono text-xs text-[#A8A29E] mb-4">
+                    <p className="font-mono text-xs font-semibold text-[#E4C090] mb-3 tracking-wide">
                       {offer.tagline}
                     </p>
 
                     {/* Description */}
-                    <p className="text-[0.9375rem] leading-[1.7] text-[#D6D3D1] mb-6">
+                    <p className="text-[0.9375rem] leading-[1.7] text-[#E7E5E4] mb-6">
                       {offer.description}
                     </p>
 
                     {/* Perks List */}
-                    <div className="border-t border-white/[0.08] pt-4 mb-6">
-                      <div className="font-mono text-[10.5px] uppercase tracking-wider text-[#A8A29E] font-semibold mb-3">
+                    <div className="border-t border-white/[0.1] pt-4 mb-6">
+                      <div className="font-mono text-[11px] uppercase tracking-wider text-[#E4C090] font-bold mb-3">
                         Included in this offer:
                       </div>
-                      <ul className="space-y-2">
+                      <ul className="space-y-2.5">
                         {offer.perks.map((perk, pIdx) => (
-                          <li key={pIdx} className="flex items-start gap-2.5 text-xs text-[#D6D3D1] leading-relaxed">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-[#E4C090] shrink-0 mt-0.5" />
-                            <span>{perk}</span>
+                          <li key={pIdx} className="flex items-start gap-2.5 text-xs text-[#F5F5F4] leading-relaxed">
+                            <CheckCircle2 className="w-4 h-4 text-[#E4C090] shrink-0 mt-0.5" />
+                            <span className="font-medium">{perk}</span>
                           </li>
                         ))}
                       </ul>
@@ -382,13 +382,13 @@ export default function StudentsClientView() {
                   </div>
 
                   {/* Action Link */}
-                  <div className="pt-4 border-t border-white/[0.08]">
+                  <div className="pt-4 border-t border-white/[0.1]">
                     <a
                       href={offer.actionUrl}
                       target={offer.actionUrl.startsWith("http") ? "_blank" : undefined}
                       rel={offer.actionUrl.startsWith("http") ? "noopener noreferrer" : undefined}
                       onClick={() => sound.playClick()}
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius)] bg-white/[0.05] border border-white/[0.1] py-3 px-4 font-mono text-xs font-bold text-[#F5F5F4] group-hover:bg-[#B45309] group-hover:text-white group-hover:border-[#B45309] transition-all cursor-pointer"
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius)] bg-[#24201D] border border-white/[0.18] py-3 px-4 font-mono text-xs font-bold text-white group-hover:bg-[#B45309] group-hover:border-[#B45309] shadow-sm transition-all cursor-pointer"
                     >
                       <span>{offer.actionLabel}</span>
                       <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
@@ -399,15 +399,15 @@ export default function StudentsClientView() {
             </div>
 
             {/* How to claim card */}
-            <div className="mt-16 p-8 rounded-xl border border-white/[0.1] bg-[#1F1C1A] shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="mt-16 p-8 rounded-xl border border-white/[0.14] bg-[#1E1B19] shadow-[0_20px_50px_rgba(0,0,0,0.6)] flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="space-y-2 max-w-2xl">
                 <div className="font-mono text-xs font-bold uppercase tracking-wider text-[#E4C090]">
                   Simple Eligibility Rule
                 </div>
-                <h4 className="font-serif text-xl font-bold text-[#F5F5F4]">
+                <h4 className="font-serif text-2xl font-bold text-white">
                   No red tape. Just genuine students who are actively building.
                 </h4>
-                <p className="text-sm text-[#A8A29E] leading-relaxed">
+                <p className="text-sm text-[#D6D3D1] leading-relaxed">
                   You don&apos;t need an official institutional email. Any active student ID, GitHub profile showing your projects, or a link to what you&apos;re currently learning is enough.
                 </p>
               </div>
@@ -415,7 +415,7 @@ export default function StudentsClientView() {
               <a
                 href="mailto:aniketmishra492@gmail.com?subject=Student%20Offer%20Inquiry&body=Hi%20Aniket,%20I%20am%20a%20student%20and%20interested%20in..."
                 onClick={() => sound.playClick()}
-                className="shrink-0 inline-flex items-center gap-2 rounded-[var(--radius)] bg-[#B45309] px-6 py-3 font-mono text-xs font-bold text-white shadow-xs hover:bg-[#A16207] transition-all cursor-pointer"
+                className="shrink-0 inline-flex items-center gap-2 rounded-[var(--radius)] bg-[#B45309] px-6 py-3.5 font-mono text-xs font-bold text-white shadow-md hover:bg-[#A16207] transition-all cursor-pointer"
               >
                 <Mail className="w-4 h-4" />
                 <span>Email Aniket Directly →</span>
@@ -425,9 +425,9 @@ export default function StudentsClientView() {
         </section>
 
         {/* FAQ Section specifically for students */}
-        <section className="py-16 md:py-20 border-t border-white/[0.08] bg-[#181614]">
+        <section className="py-16 md:py-20 border-t border-white/[0.1] bg-[#181614]">
           <div className="max-w-[800px] mx-auto px-6 lg:px-8">
-            <h3 className="font-serif text-2xl font-bold text-[#F5F5F4] mb-8 text-center">
+            <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white mb-8 text-center">
               Frequently Asked Questions for Students
             </h3>
 
@@ -450,11 +450,11 @@ export default function StudentsClientView() {
                   a: "Usually within 24 to 48 hours directly on email or GitHub."
                 }
               ].map((item, idx) => (
-                <div key={idx} className="p-5 rounded-lg border border-white/[0.08] bg-[#1F1C1A]">
-                  <div className="font-serif font-bold text-sm text-[#F5F5F4] mb-1.5">
+                <div key={idx} className="p-6 rounded-xl border border-white/[0.12] bg-[#1E1B19]">
+                  <div className="font-serif font-bold text-base text-white mb-2">
                     {item.q}
                   </div>
-                  <div className="text-xs text-[#A8A29E] leading-relaxed">
+                  <div className="text-xs text-[#D6D3D1] leading-relaxed">
                     {item.a}
                   </div>
                 </div>

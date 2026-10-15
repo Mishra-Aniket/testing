@@ -359,14 +359,14 @@ export default function Navbar({
             aria-label="Primary"
             className={`w-full shrink-0 flex items-center justify-between gap-4 sm:gap-6 rounded-none md:rounded-[calc(var(--radius)+4px)] border-b md:border pl-4 sm:pl-5 pr-2 py-2 backdrop-blur-xl backdrop-saturate-150 transition-[background-color,border-color,box-shadow] duration-300 ${
               isDarkTheme 
-                ? "bg-[#1C1917]/90 md:bg-[#1C1917]/75 border-white/[0.08]" 
+                ? "bg-[#141210]/95 md:bg-[#141210]/95 border-white/[0.15] shadow-[0_12px_40px_rgba(0,0,0,0.85)]" 
                 : isScrolled
                   ? "bg-[#FDFBF7]/90 md:bg-[#FDFBF7]/85 border-[#E4D9BC]"
                   : "bg-[#FDFBF7]/90 md:bg-[#FDFBF7]/55 border-[#E4D9BC]/70"
             } ${
               isScrolled
                 ? isDarkTheme
-                  ? "shadow-[0_12px_32px_-16px_rgba(0,0,0,0.6)]"
+                  ? "shadow-[0_12px_32px_-16px_rgba(0,0,0,0.9)]"
                   : "shadow-[0_12px_32px_-16px_rgba(74,59,51,0.24)]"
                 : ""
             }`}
@@ -398,7 +398,7 @@ export default function Navbar({
                   setActiveDropdown(activeDropdown === 'projects' ? null : 'projects');
                 }}
                 className={`nav-link relative flex items-center gap-1 px-3 py-2 cursor-pointer transition-colors ${
-                  activeDropdown === 'projects' ? "!text-[color:var(--ink)] font-bold" : ""
+                  activeDropdown === 'projects' ? (isDarkTheme ? "!text-[#E4C090] font-bold" : "!text-[#4A3B33] font-bold") : ""
                 }`}
               >
                 <span>Projects</span>
@@ -488,7 +488,7 @@ export default function Navbar({
                   setActiveDropdown(activeDropdown === 'services' ? null : 'services');
                 }}
                 className={`nav-link relative flex items-center gap-1 px-3 py-2 cursor-pointer transition-colors ${
-                  activeDropdown === 'services' ? "!text-[color:var(--ink)] font-bold" : ""
+                  activeDropdown === 'services' ? (isDarkTheme ? "!text-[#E4C090] font-bold" : "!text-[#4A3B33] font-bold") : ""
                 }`}
               >
                 <span>Services</span>
@@ -540,7 +540,7 @@ export default function Navbar({
                               {item.tagline}
                             </span>
                           </div>
-                          <ArrowRight className="w-3.5 h-3.5 shrink-0 mt-1 opacity-50 group-hover:opacity-100 group-hover:text-[#B45309] transition-opacity" />
+                          <ArrowUpRight className="w-3.5 h-3.5 shrink-0 mt-1 opacity-50 group-hover:opacity-100 group-hover:text-[#B45309] transition-opacity" />
                         </Link>
                       ))}
                     </div>
@@ -577,7 +577,7 @@ export default function Navbar({
               href="/blog"
               onClick={() => sound.playClick()}
               className={`nav-link relative px-3 py-2 cursor-pointer transition-colors ${
-                isBlogActive ? "!text-[color:var(--ink)] font-bold" : ""
+                isBlogActive ? (isDarkTheme ? "!text-[#E4C090] font-bold" : "!text-[#4A3B33] font-bold") : ""
               }`}
             >
               Blog
@@ -601,7 +601,7 @@ export default function Navbar({
                   setActiveDropdown(activeDropdown === 'learn' ? null : 'learn');
                 }}
                 className={`nav-link relative flex items-center gap-1 px-3 py-2 cursor-pointer transition-colors ${
-                  isLearnActive || activeDropdown === 'learn' ? "!text-[color:var(--ink)] font-bold" : ""
+                  isLearnActive || activeDropdown === 'learn' ? (isDarkTheme ? "!text-[#E4C090] font-bold" : "!text-[#4A3B33] font-bold") : ""
                 }`}
               >
                 <span>Learn</span>
@@ -674,20 +674,20 @@ export default function Navbar({
               href="/students"
               onClick={() => sound.playClick()}
               className={`nav-link relative flex items-center gap-1.5 px-3 py-2 cursor-pointer transition-colors ${
-                isStudentsActive ? "!text-[color:var(--ink)] font-bold" : ""
+                isStudentsActive ? (isDarkTheme ? "!text-[#E4C090] font-bold" : "!text-[#4A3B33] font-bold") : ""
               }`}
             >
               <span>Students</span>
-              <span className={`text-[9.5px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full border ${
+              <span className={`text-[9.5px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
                 isDarkTheme
-                  ? "border-[#E4C090]/30 text-[#E4C090] bg-[#E4C090]/10"
+                  ? "border-[#E4C090]/60 text-[#E4C090] bg-[#E4C090]/20 font-bold"
                   : "border-[#B45309]/30 text-[#B45309] bg-[#B45309]/10"
               }`}>
                 Free
               </span>
               {isStudentsActive && (
-                <span className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
-                  isDarkTheme ? "bg-[#E4C090]" : "bg-[#B45309]"
+                <span className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full ${
+                  isDarkTheme ? "bg-[#E4C090] shadow-[0_0_8px_#E4C090]" : "bg-[#B45309]"
                 }`} />
               )}
             </Link>
@@ -711,10 +711,14 @@ export default function Navbar({
                   <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
                 </svg>
                 <span>GitHub</span>
-                <span className="inline-flex items-center justify-center px-1 rounded text-[9.5px] font-bold bg-[#B45309]/10 text-[#B45309] leading-tight">
+                <span className={`inline-flex items-center justify-center px-1 rounded text-[9.5px] font-bold leading-tight ${
+                  isDarkTheme ? "bg-[#E4C090]/25 text-[#E4C090]" : "bg-[#B45309]/10 text-[#B45309]"
+                }`}>
                   2
                 </span>
-                <ChevronDown className="w-3 h-3 text-[#78716C] transition-transform duration-200 group-hover/ghbtn:rotate-180" />
+                <ChevronDown className={`w-3 h-3 transition-transform duration-200 group-hover/ghbtn:rotate-180 ${
+                  isDarkTheme ? "text-[#E7E5E4]" : "text-[#78716C]"
+                }`} />
               </button>
 
               {/* Floating Hover Card */}

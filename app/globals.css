@@ -92,15 +92,15 @@ body {
 }
 [data-theme="dark"] .nav-link,
 [data-site-nav][data-theme="dark"] .nav-link {
-  color: #A8A29E;
+  color: #E7E5E4 !important;
 }
 [data-theme="dark"] .nav-link:hover,
 [data-site-nav][data-theme="dark"] .nav-link:hover {
-  color: #F5F5F4;
+  color: #FFFFFF !important;
 }
 
 [data-site-nav][data-theme="dark"] .nav-brand-text {
-  color: #F5F5F4;
+  color: #FFFFFF !important;
 }
 [data-site-nav] .nav-brand-text {
   color: #4A3B33;
@@ -108,8 +108,8 @@ body {
 
 [data-site-nav][data-theme="dark"] .nav-brand-tag {
   color: #E4C090;
-  background-color: rgba(228, 192, 144, 0.1);
-  border-color: rgba(228, 192, 144, 0.2);
+  background-color: rgba(228, 192, 144, 0.15);
+  border-color: rgba(228, 192, 144, 0.35);
 }
 [data-site-nav] .nav-brand-tag {
   color: #B45309;
@@ -118,14 +118,14 @@ body {
 }
 
 [data-site-nav][data-theme="dark"] .nav-btn-ghost {
-  color: #A8A29E;
-  background-color: rgba(245, 245, 244, 0.05);
-  border-color: rgba(255, 255, 255, 0.12);
+  color: #F5F5F4;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 [data-site-nav][data-theme="dark"] .nav-btn-ghost:hover {
-  color: #F5F5F4;
-  border-color: rgba(228, 192, 144, 0.55);
-  background-color: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  border-color: #E4C090;
+  background-color: rgba(228, 192, 144, 0.16);
 }
 [data-site-nav] .nav-btn-ghost {
   color: #4A3B33;
