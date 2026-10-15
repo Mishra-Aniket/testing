@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { sound } from "../utils/sound";
 import { getRuntimeBasePath, resolveUrl } from "../../lib/utils";
@@ -98,32 +98,19 @@ const QUICK_LINKS = [
 
 export default function SearchModal({ isOpen, onOpen, onClose }) {
   const router = useRouter();
+  const pathname = usePathname() || "";
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
-  const [isPageDark, setIsPageDark] = useState(false);
+
+  // Dark styling applies ONLY on the /students page
+  const isPageDark = pathname.includes("/students");
+
   const inputRef = useRef(null);
   const modalRef = useRef(null);
   const scrollContainerRef = useRef(null);
   const scrollTimeoutRef = useRef(null);
-
-  // Detect dark theme on current page or route
-  useEffect(() => {
-    const checkDark = () => {
-      if (typeof document !== "undefined") {
-        const isDark = Boolean(
-          document.documentElement.getAttribute("data-theme") === "dark" ||
-          document.querySelector('[data-theme="dark"]') ||
-          window.location.pathname.includes("/students")
-        );
-        setIsPageDark(isDark);
-      }
-    };
-    checkDark();
-    window.addEventListener("scroll", checkDark, { passive: true });
-    return () => window.removeEventListener("scroll", checkDark);
-  }, []);
 
   // Hide floating search dock on mobile during scrolling, reappear when scrolling stops
   useEffect(() => {

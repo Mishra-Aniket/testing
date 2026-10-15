@@ -81,15 +81,6 @@ body {
   position: relative;
 }
 
-/* Ensure dark background on pages with data-theme="dark" */
-html:has([data-theme="dark"]),
-body:has([data-theme="dark"]),
-[data-theme="dark"] {
-  color-scheme: dark;
-}
-body:has([data-theme="dark"]) {
-  background-color: #141210 !important;
-}
 
 /* Authentic Navbar cascading theme system */
 .nav-link {
