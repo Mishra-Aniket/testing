@@ -32,20 +32,20 @@ export default function Hero({ onOpenAssessment }) {
               <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#E4D9BC] bg-white shadow-xs">
                 <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#B45309] font-bold">
-                  Available for Projects &amp; Contract Sprints
+                  Available for Freelance &amp; New Projects
                 </span>
               </span>
             </div>
 
             {/* Main Heading */}
             <h1 id="hero-heading" className="font-serif text-[clamp(2.25rem,4.4vw,3.65rem)] font-medium tracking-[-0.03em] text-[#4A3B33] leading-[1.12] max-w-[34rem] text-balance">
-              Engineering Fast Web &amp;{' '}
-              <span className="text-[#B45309] italic font-normal">Scalable Systems.</span>
+              Building Fast Web Apps &amp;{' '}
+              <span className="text-[#B45309] italic font-normal">Modern Software.</span>
             </h1>
 
             {/* Subtitle - Simple, direct, no resume fluff */}
             <p className="text-[1.0625rem] font-light text-[#57534E] leading-[1.75] max-w-[31rem]">
-              I help founders and engineering teams build production web apps, MVPs, and high-throughput systems — clean architecture, zero fluff, and 100% source code ownership.
+              I help founders and businesses build fast, responsive web apps, MVPs, and custom software — with clean code, fast delivery, and 100% full ownership.
             </p>
 
             {/* CTAs */}
@@ -72,7 +72,7 @@ export default function Hero({ onOpenAssessment }) {
               <dl className="grid items-stretch border-y border-[#E4D9BC]/80 w-fit" style={{ gridTemplateColumns: 'repeat(3, auto)' }}>
                 <div className="flex flex-col gap-1 py-3.5 pr-5 sm:pr-8">
                   <dt className="order-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#78716C] whitespace-nowrap">
-                    API Latency
+                    Super Fast Speed
                   </dt>
                   <dd className="order-1 text-[1.125rem] whitespace-nowrap font-semibold tracking-tight text-[#4A3B33] tabular-nums font-mono">
                     &lt; 80ms
@@ -80,7 +80,7 @@ export default function Hero({ onOpenAssessment }) {
                 </div>
                 <div className="flex flex-col gap-1 py-3.5 px-5 sm:px-8 border-l border-[#E4D9BC]/80">
                   <dt className="order-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#78716C] whitespace-nowrap">
-                    MVP Sprint
+                    Fast MVP Launch
                   </dt>
                   <dd className="order-1 text-[1.125rem] whitespace-nowrap font-semibold tracking-tight text-[#4A3B33] tabular-nums font-mono">
                     2–4 Weeks
@@ -88,7 +88,7 @@ export default function Hero({ onOpenAssessment }) {
                 </div>
                 <div className="flex flex-col gap-1 py-3.5 pl-5 sm:pl-8 border-l border-[#E4D9BC]/80">
                   <dt className="order-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#78716C] whitespace-nowrap">
-                    Code Ownership
+                    Full Code Ownership
                   </dt>
                   <dd className="order-1 text-[1.125rem] whitespace-nowrap font-semibold tracking-tight text-[#4A3B33] tabular-nums font-mono">
                     100% Handover

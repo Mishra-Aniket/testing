@@ -500,7 +500,7 @@ export const STACK_LAYERS = [
   {
     id: "l01",
     idx: "L01 · CORE ENGINE",
-    title: "Backend & Microservices Engine",
+    title: "Backend APIs & Services",
     techs: [".NET 8 (C#)", "Python (FastAPI)", "Node.js", "Express", "REST APIs"],
     body: "High-throughput APIs and background workers built with .NET 8 / C#, Python (FastAPI), and Node.js. Resilient multi-tenant endpoints and secure auth.",
     stats: [["FRAMEWORKS", ".NET 8 · FastAPI"], ["LATENCY", "< 80ms p95"], ["SECURITY", "JWT · OAuth2"]],
@@ -536,7 +536,7 @@ export const STACK_LAYERS = [
   {
     id: "l04",
     idx: "L04 · PRODUCTION",
-    title: "DevOps & Cloud Scale",
+    title: "Cloud & Fast Deployment",
     techs: ["Docker", "Vercel", "GitHub Actions CI/CD", "Edge Computing", "HuggingFace"],
     body: "Automated CI/CD workflows, Docker containerization, edge computing, and zero-downtime releases on Vercel and cloud infrastructure.",
     stats: [["DEPLOY", "Vercel · Docker"], ["VERSIONING", "GitHub Actions"], ["SLA", "Zero Downtime"]],

@@ -243,7 +243,7 @@ export default function StackDiagram() {
               fontFamily="var(--font-merriweather), Georgia, serif"
               fontWeight="700"
             >
-              Production Systems Architecture
+              Full-Stack Architecture
             </text>
             <line x1="72" y1="59" x2="354" y2="59" stroke="#F1E9DA" strokeWidth="1" />
             <g>
@@ -301,7 +301,7 @@ export default function StackDiagram() {
               fontFamily="JetBrains Mono, monospace"
               letterSpacing="1"
             >
-              build #2026 · fullstack &amp; systems
+              build #2026 · web apps &amp; software
             </text>
             <text
               x="626"
@@ -534,7 +534,7 @@ export default function StackDiagram() {
                   L01 · CORE ENGINE
                 </text>
                 <text x="398" y="478" fill="#4A3B33" fontSize="14" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">
-                  Backend Microservices
+                  Backend APIs &amp; Services
                 </text>
                 <text x="398" y="492" fill="#78716C" fontSize="8.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4">
                   .net 8 (c#) · fastapi · node · jwt
@@ -670,7 +670,7 @@ export default function StackDiagram() {
                   L02 · PIPELINES
                 </text>
                 <text x="398" y="376" fill="#4A3B33" fontSize="14" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">
-                  Centrix Ingestion Engine
+                  Centrix Automation Engine
                 </text>
                 <text x="398" y="390" fill="#78716C" fontSize="8.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4">
                   500+ centers · drive sync · streaming
@@ -931,7 +931,7 @@ export default function StackDiagram() {
                   L04 · PRODUCTION
                 </text>
                 <text x="398" y="172" fill="#4A3B33" fontSize="14" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">
-                  DevOps &amp; Cloud Scale
+                  Cloud &amp; Fast Deployment
                 </text>
                 <text x="398" y="186" fill="#78716C" fontSize="8.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4">
                   ci/cd · docker · edge · vercel
