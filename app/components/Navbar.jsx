@@ -378,8 +378,15 @@ export default function Navbar({
             }`}>
               ▲
             </span>
-            <span className="font-serif font-black text-xl tracking-tight nav-brand-text">
-              Aniket Mishra
+            <span className="flex items-baseline tracking-tight">
+              <span className="font-sans font-bold text-[19px] sm:text-xl tracking-tight nav-brand-text">
+                Aniket
+              </span>
+              <span className={`font-serif italic font-semibold text-[22px] sm:text-[23px] ml-1 transition-colors ${
+                isDarkTheme ? "text-[#E4C090]" : "text-[#B45309]"
+              }`}>
+                M
+              </span>
             </span>
           </Link>
 
@@ -906,10 +913,17 @@ export default function Navbar({
                   }`}>
                     Navigation
                   </span>
-                  <span className={`font-mono text-[10px] tracking-tight ${
-                    isDarkTheme ? "text-[#A8A29E]" : "text-[#A8A29E]"
-                  }`}>
-                    Aniket Mishra
+                  <span className="flex items-baseline tracking-tight">
+                    <span className={`font-sans font-bold text-xs tracking-tight ${
+                      isDarkTheme ? "text-white" : "text-[#4A3B33]"
+                    }`}>
+                      Aniket
+                    </span>
+                    <span className={`font-serif italic font-semibold text-[14px] ml-0.5 ${
+                      isDarkTheme ? "text-[#E4C090]" : "text-[#B45309]"
+                    }`}>
+                      M
+                    </span>
                   </span>
                 </div>
 

@@ -92,8 +92,13 @@ export default function Footer() {
               <span className="text-[#E4C090] text-2xl font-black leading-none transform transition-transform group-hover:scale-110">
                 ▲
               </span>
-              <span className="font-serif font-black text-xl tracking-tight text-white">
-                Aniket Mishra
+              <span className="flex items-baseline tracking-tight">
+                <span className="font-sans font-bold text-xl text-white">
+                  Aniket
+                </span>
+                <span className="font-serif italic font-semibold text-[23px] text-[#E4C090] ml-1">
+                  M
+                </span>
               </span>
             </a>
 
@@ -223,8 +228,13 @@ export default function Footer() {
           aria-hidden="true" 
           className="relative w-full pt-10 pb-0 -mb-8 sm:-mb-14 md:-mb-20 flex justify-center items-end select-none pointer-events-none overflow-hidden"
         >
-          <span className="font-sans font-black text-[clamp(2.5rem,10.5vw,10rem)] leading-[0.78] tracking-[-0.04em] text-white/[0.04] uppercase whitespace-nowrap">
-            ANIKET MISHRA
+          <span className="flex items-baseline justify-center tracking-[-0.04em] uppercase whitespace-nowrap text-[clamp(3.5rem,13vw,11.5rem)] leading-[0.78]">
+            <span className="font-sans font-black text-white/[0.04]">
+              ANIKET
+            </span>
+            <span className="font-serif italic font-black text-[#E4C090]/[0.10] ml-3 sm:ml-6">
+              M
+            </span>
           </span>
         </div>
       </div>
