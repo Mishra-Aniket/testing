@@ -11,11 +11,16 @@ export default function StackDiagram() {
   const [hoveredLayer, setHoveredLayer] = useState(null);
   const [isHoveringCard, setIsHoveringCard] = useState(false);
   const isHoveringCardRef = useRef(false);
+  const closeTimerRef = useRef(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 });
   const containerRef = useRef(null);
 
   const handleCardMouseEnter = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
     isHoveringCardRef.current = true;
     setIsHoveringCard(true);
   };
@@ -23,7 +28,21 @@ export default function StackDiagram() {
   const handleCardMouseLeave = () => {
     isHoveringCardRef.current = false;
     setIsHoveringCard(false);
-    setHoveredLayer(null);
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = setTimeout(() => {
+      setHoveredLayer(null);
+    }, 200);
+  };
+
+  const handleLayerMouseEnter = (layerIdx) => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    if (hoveredLayer !== layerIdx) {
+      sound.playClick();
+      setHoveredLayer(layerIdx);
+    }
   };
 
   // Auto-highlight layer when navigated via hash (e.g. #stack-l01)
@@ -65,11 +84,12 @@ export default function StackDiagram() {
   const handleMouseLeave = () => {
     setTilt({ x: 0, y: 0 });
     setGlare({ x: 50, y: 50, opacity: 0 });
-    setTimeout(() => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = setTimeout(() => {
       if (!isHoveringCardRef.current) {
         setHoveredLayer(null);
       }
-    }, 120);
+    }, 260);
   };
 
   const getOffsetY = (idx) => {
@@ -390,16 +410,8 @@ export default function StackDiagram() {
             {/* 3D Rounded Glassmorphic Slab */}
             <g
               className="cursor-pointer"
-              onMouseEnter={() => {
-                if (hoveredLayer !== 0) {
-                  sound.playClick();
-                  setHoveredLayer(0);
-                }
-              }}
-              onClick={() => {
-                sound.playClick();
-                setHoveredLayer(0);
-              }}
+              onMouseEnter={() => handleLayerMouseEnter(0)}
+              onClick={() => handleLayerMouseEnter(0)}
             >
               {/* Floor Ambient Glow */}
               <ellipse cx="218" cy="616" rx="140" ry="42" fill="url(#slabGlow)" filter="url(#ksFloorBlur)" opacity={hoveredLayer === 0 ? 0.9 : 0.45} />
@@ -533,16 +545,8 @@ export default function StackDiagram() {
             {/* 3D Rounded Glassmorphic Slab */}
             <g
               className="cursor-pointer"
-              onMouseEnter={() => {
-                if (hoveredLayer !== 1) {
-                  sound.playClick();
-                  setHoveredLayer(1);
-                }
-              }}
-              onClick={() => {
-                sound.playClick();
-                setHoveredLayer(1);
-              }}
+              onMouseEnter={() => handleLayerMouseEnter(1)}
+              onClick={() => handleLayerMouseEnter(1)}
             >
               <ellipse cx="218" cy="506" rx="140" ry="42" fill="url(#slabGlow)" filter="url(#ksFloorBlur)" opacity={hoveredLayer === 1 ? 0.9 : 0.45} />
 
@@ -677,16 +681,8 @@ export default function StackDiagram() {
             {/* 3D Rounded Glassmorphic Slab */}
             <g
               className="cursor-pointer"
-              onMouseEnter={() => {
-                if (hoveredLayer !== 2) {
-                  sound.playClick();
-                  setHoveredLayer(2);
-                }
-              }}
-              onClick={() => {
-                sound.playClick();
-                setHoveredLayer(2);
-              }}
+              onMouseEnter={() => handleLayerMouseEnter(2)}
+              onClick={() => handleLayerMouseEnter(2)}
             >
               <ellipse cx="218" cy="404" rx="140" ry="42" fill="url(#slabGlow)" filter="url(#ksFloorBlur)" opacity={hoveredLayer === 2 ? 0.9 : 0.45} />
 
@@ -813,16 +809,8 @@ export default function StackDiagram() {
             {/* 3D Rounded Glassmorphic Slab */}
             <g
               className="cursor-pointer"
-              onMouseEnter={() => {
-                if (hoveredLayer !== 3) {
-                  sound.playClick();
-                  setHoveredLayer(3);
-                }
-              }}
-              onClick={() => {
-                sound.playClick();
-                setHoveredLayer(3);
-              }}
+              onMouseEnter={() => handleLayerMouseEnter(3)}
+              onClick={() => handleLayerMouseEnter(3)}
             >
               <ellipse cx="218" cy="302" rx="140" ry="42" fill="url(#slabGlow)" filter="url(#ksFloorBlur)" opacity={hoveredLayer === 3 ? 0.9 : 0.45} />
 
@@ -954,16 +942,8 @@ export default function StackDiagram() {
             {/* 3D Rounded Glassmorphic Slab */}
             <g
               className="cursor-pointer"
-              onMouseEnter={() => {
-                if (hoveredLayer !== 4) {
-                  sound.playClick();
-                  setHoveredLayer(4);
-                }
-              }}
-              onClick={() => {
-                sound.playClick();
-                setHoveredLayer(4);
-              }}
+              onMouseEnter={() => handleLayerMouseEnter(4)}
+              onClick={() => handleLayerMouseEnter(4)}
             >
               <ellipse cx="218" cy="200" rx="140" ry="42" fill="url(#slabGlow)" filter="url(#ksFloorBlur)" opacity={hoveredLayer === 4 ? 0.9 : 0.45} />
 

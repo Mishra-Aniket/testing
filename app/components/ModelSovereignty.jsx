@@ -1,34 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { sound } from "../utils/sound";
-
-const routerData = [
-  {
-    eyebrow: "01 · ARCHITECT",
-    title: "Discovery & Architecture",
-    body: "Translating business requirements into structured database schemas, modular system designs, and clear API contracts before building.",
-    stats: [["ACTIVE SPEC", "SCHEMA"], ["TIMELINE", "Days 1–3"], ["DELIVERABLE", "System Spec"]],
-    code: 'system.plan({ spec: "schema", db: "postgres" })',
-    left: "19%"
-  },
-  {
-    eyebrow: "02 · ENGINEER",
-    title: "Full-Stack Development",
-    body: "Writing clean, type-safe, maintainable code across frontend and backend. Developing fast APIs, resilient background workers, and fluid responsive interfaces.",
-    stats: [["CODEBASE", "Clean & Typed"], ["LATENCY", "< 100ms"], ["STACK", "Full-Stack"]],
-    code: 'pipeline.build({ frontend: "nextjs", backend: "fastapi" })',
-    left: "50%"
-  },
-  {
-    eyebrow: "03 · SHIP & SCALE",
-    title: "Deployment & Production Scale",
-    body: "Rigorous automated testing, CI/CD pipelines, containerized deployment, and live cloud hosting with zero downtime and high availability.",
-    stats: [["DEPLOY", "Automated"], ["UPTIME", "99.9%"], ["RELEASE", "Zero Downtime"]],
-    code: 'release.deploy({ env: "production", status: "live" })',
-    left: "81%"
-  }
-];
 
 export default function ModelSovereignty() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -36,6 +9,48 @@ export default function ModelSovereignty() {
   const [isSwapping, setIsSwapping] = useState(false);
   const [swapCount, setSwapCount] = useState(24);
   const [lastSwapTime, setLastSwapTime] = useState("0.28s");
+
+  const [isHoveringCard, setIsHoveringCard] = useState(false);
+  const isHoveringCardRef = useRef(false);
+  const closeTimerRef = useRef(null);
+
+  const handlePlatformMouseEnter = (idx) => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    if (hoveredIndex !== idx) {
+      sound.playClick();
+      setHoveredIndex(idx);
+    }
+  };
+
+  const handleContainerMouseLeave = () => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = setTimeout(() => {
+      if (!isHoveringCardRef.current) {
+        setHoveredIndex(null);
+      }
+    }, 260);
+  };
+
+  const handleCardMouseEnter = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    isHoveringCardRef.current = true;
+    setIsHoveringCard(true);
+  };
+
+  const handleCardMouseLeave = () => {
+    isHoveringCardRef.current = false;
+    setIsHoveringCard(false);
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = setTimeout(() => {
+      setHoveredIndex(null);
+    }, 200);
+  };
 
   const handleSelectModel = (model) => {
     if (selectedModel === model) return;
@@ -71,7 +86,7 @@ export default function ModelSovereignty() {
       stats: [["ACTIVE SPEC", selectedModel], ["TIMELINE", "Days 1–3"], ["DELIVERABLE", "System Spec"]],
       code: `system.plan({ spec: "${selectedModel.toLowerCase()}", db: "postgres" })`,
       left: "16%",
-      top: "48%"
+      top: "54%"
     },
     {
       eyebrow: "02 · ENGINEER",
@@ -80,7 +95,7 @@ export default function ModelSovereignty() {
       stats: [["CODEBASE", "Clean & Typed"], ["LATENCY", "< 100ms"], ["STACK", "Full-Stack"]],
       code: 'pipeline.build({ frontend: "nextjs", backend: "fastapi" })',
       left: "50%",
-      top: "48%"
+      top: "57%"
     },
     {
       eyebrow: "03 · SHIP & SCALE",
@@ -89,14 +104,14 @@ export default function ModelSovereignty() {
       stats: [["DEPLOY", "Automated"], ["UPTIME", "99.9%"], ["RELEASE", "Zero Downtime"]],
       code: 'release.deploy({ env: "production", status: "live" })',
       left: "84%",
-      top: "48%"
+      top: "54%"
     }
   ];
 
   const activeData = hoveredIndex !== null ? dynamicRouterData[hoveredIndex] : null;
 
   return (
-    <section className="relative w-full overflow-visible bg-[#FDFBF7] py-16 md:py-24 text-[#4A3B33]">
+    <section className="relative w-full overflow-visible bg-[#FDFBF7] pt-16 md:pt-24 pb-28 md:pb-36 text-[#4A3B33]">
       {/* Grid background matching original site */}
       <div 
         aria-hidden="true" 
@@ -117,8 +132,8 @@ export default function ModelSovereignty() {
         </div>
 
         <div 
-          className="relative w-full overflow-x-auto lg:overflow-visible select-none pb-6 md:pb-10"
-          onMouseLeave={() => setHoveredIndex(null)}
+          className="relative w-full overflow-x-auto lg:overflow-visible select-none"
+          onMouseLeave={handleContainerMouseLeave}
         >
           <div className="relative w-full min-w-[860px] aspect-[20/9]">
             <svg 
@@ -127,50 +142,9 @@ export default function ModelSovereignty() {
               className="w-full h-full block overflow-visible" 
               preserveAspectRatio="xMidYMid meet" 
               role="img" 
-              aria-label="Any model plugs into one sovereign architecture layer, which feeds agents that run operations."
+              aria-label="Engineering Protocol: From Initial Spec to Scalable Production Software"
             >
               <defs>
-                {/* 3D Glassmorphic Slabs Gradients */}
-                <linearGradient id="svGlassTop" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
-                  <stop offset="60%" stopColor="#FDFBF7" stopOpacity="0.92" />
-                  <stop offset="100%" stopColor="#F5EFE3" stopOpacity="0.9" />
-                </linearGradient>
-
-                <linearGradient id="svGlassTopActive" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#FFFFFF" />
-                  <stop offset="50%" stopColor="#FEF3C7" stopOpacity="0.95" />
-                  <stop offset="100%" stopColor="#FDE68A" stopOpacity="0.9" />
-                </linearGradient>
-
-                <linearGradient id="svGlassBorder" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
-                  <stop offset="50%" stopColor="#E4D9BC" />
-                  <stop offset="100%" stopColor="#CBBFA3" />
-                </linearGradient>
-
-                <linearGradient id="svGlassBorderActive" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#F59E0B" />
-                  <stop offset="50%" stopColor="#B45309" />
-                  <stop offset="100%" stopColor="#78350F" />
-                </linearGradient>
-
-                <linearGradient id="svExtrusionSide" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#E6DCBF" />
-                  <stop offset="100%" stopColor="#CFBFA0" />
-                </linearGradient>
-
-                <linearGradient id="svExtrusionSideActive" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#E4C090" />
-                  <stop offset="100%" stopColor="#B45309" />
-                </linearGradient>
-
-                <radialGradient id="svFloorGlow">
-                  <stop offset="0%" stopColor="#B45309" stopOpacity="0.25" />
-                  <stop offset="65%" stopColor="#B45309" stopOpacity="0.08" />
-                  <stop offset="100%" stopColor="#B45309" stopOpacity="0" />
-                </radialGradient>
-
                 <linearGradient id="svTop" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="#FFFFFF" />
                   <stop offset="100%" stopColor="#FBF6EE" />
@@ -180,18 +154,6 @@ export default function ModelSovereignty() {
                   <stop offset="60%" stopColor="#B45309" stopOpacity="0.07" />
                   <stop offset="100%" stopColor="#B45309" stopOpacity="0" />
                 </radialGradient>
-                <radialGradient id="svHaloRed">
-                  <stop offset="0%" stopColor="#991B1B" stopOpacity="0.2" />
-                  <stop offset="60%" stopColor="#991B1B" stopOpacity="0.06" />
-                  <stop offset="100%" stopColor="#991B1B" stopOpacity="0" />
-                </radialGradient>
-                <filter id="svGlow" x="-100%" y="-100%" width="300%" height="300%">
-                  <feGaussianBlur stdDeviation="2.6" result="b" />
-                  <feMerge>
-                    <feMergeNode in="b" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
                 <filter id="svBlur" x="-30%" y="-60%" width="160%" height="220%">
                   <feGaussianBlur stdDeviation="9" />
                 </filter>
@@ -250,84 +212,40 @@ export default function ModelSovereignty() {
                     <text x="1176" y="68" textAnchor="end" fill="#4A3B33" fontSize="20" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">
                       {activeModelName}
                     </text>
-                    <text x="1176" y="84" textAnchor="end" fill="#B45309" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4">
+                    <text x="1176" y="84" textAnchor="end" fill="#B45309" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.2">
                       {activeProvider} · SYSTEM SPEC
                     </text>
                   </motion.g>
                 </AnimatePresence>
               </g>
 
-              {/* Connector Beams: L01 <-> L02 */}
-              <g pointerEvents="none" opacity={hoveredIndex !== null ? 0.12 : 1} style={{ transition: "opacity 0.3s" }}>
-                <text x="379.8" y="216" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4" fontWeight="600" fill={isSwapping ? "#B45309" : "#A16207"}>
-                  {isSwapping ? "SPEC SYNC ⚡" : "SPEC → BUILD"}
+              {/* Connecting Flow Lines Between Platforms */}
+              <g pointerEvents="none" opacity="0.8">
+                {/* 01 -> 02 */}
+                <path d="M 346.8 236 L 412.8 236" stroke="#E4D9BC" strokeWidth="1.2" strokeDasharray="3 3" />
+                <circle cx="380" cy="236" r="3" fill="#B45309" opacity="0.6">
+                  <animate attributeName="cx" values="346.8;412.8;346.8" dur="4s" repeatCount="indefinite" />
+                </circle>
+                <text x="380" y="226" textAnchor="middle" fill="#A8A29E" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1">
+                  SPEC → BUILD
                 </text>
-                {/* Active Energy Beam Pulse */}
-                {isSwapping && (
-                  <line 
-                    x1="346.8" 
-                    y1="236" 
-                    x2="412.8" 
-                    y2="236" 
-                    stroke="#F59E0B" 
-                    strokeWidth="6" 
-                    strokeLinecap="round" 
-                    opacity="0.85" 
-                    filter="url(#svGlow)" 
-                  />
-                )}
-                <line x1="346.8" y1="229" x2="412.8" y2="229" strokeWidth={isSwapping ? "2" : "1.2"} stroke={isSwapping ? "#B45309" : "rgba(180,83,9,0.5)"} />
-                <line x1="346.8" y1="243" x2="412.8" y2="243" strokeWidth={isSwapping ? "2" : "1.2"} stroke={isSwapping ? "#B45309" : "rgba(180,83,9,0.5)"} />
-                <line x1="346.8" y1="236" x2="412.8" y2="236" stroke="#E4C090" strokeWidth="1" strokeDasharray="2 5" />
-                <rect x="343.8" y="224" width="6" height="24" rx="2" fill="#FDFBF7" stroke="#B45309" strokeWidth="1" />
-                <rect x="409.8" y="224" width="6" height="24" rx="2" fill="#FDFBF7" stroke="#B45309" strokeWidth="1" />
-                <g>
-                  <circle cy="229" r={isSwapping ? "3.5" : "2.4"} fill={isSwapping ? "#F59E0B" : "#B45309"} filter="url(#svGlow)" cx="412.7" opacity="0.9">
-                    <animate attributeName="cx" values="346.8;412.8;346.8" dur={isSwapping ? "0.6s" : "3s"} repeatCount="indefinite" />
-                  </circle>
-                  <circle cy="243" r={isSwapping ? "3" : "2"} fill="#E4C090" cx="374" opacity="0.9">
-                    <animate attributeName="cx" values="412.8;346.8;412.8" dur={isSwapping ? "0.5s" : "2.6s"} repeatCount="indefinite" />
-                  </circle>
-                  {isSwapping && (
-                    <circle cy="236" r="4" fill="#B45309" filter="url(#svGlow)">
-                      <animate attributeName="cx" values="346.8;412.8" dur="0.35s" repeatCount="indefinite" />
-                    </circle>
-                  )}
-                </g>
-              </g>
 
-              {/* Connector Beams: L02 -> L03 */}
-              <g pointerEvents="none" opacity={hoveredIndex !== null ? 0.12 : 1} style={{ transition: "opacity 0.3s" }}>
-                <text x="820.2" y="216" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4" fontWeight="600" fill="#A16207">
+                {/* 02 -> 03 */}
+                <path d="M 787.2 236 L 853.2 236" stroke="#E4D9BC" strokeWidth="1.2" strokeDasharray="3 3" />
+                <circle cx="820" cy="236" r="3" fill="#B45309" opacity="0.6">
+                  <animate attributeName="cx" values="787.2;853.2;787.2" dur="4s" repeatCount="indefinite" />
+                </circle>
+                <text x="820" y="226" textAnchor="middle" fill="#A8A29E" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1">
                   BUILD → SHIP
                 </text>
-                <line x1="787.2" y1="229" x2="853.2" y2="229" strokeWidth="1.2" stroke="rgba(180,83,9,0.5)" />
-                <line x1="787.2" y1="243" x2="853.2" y2="243" strokeWidth="1.2" stroke="rgba(180,83,9,0.5)" />
-                <line x1="787.2" y1="236" x2="853.2" y2="236" stroke="#E4C090" strokeWidth="1" strokeDasharray="2 5" />
-                <rect x="784.2" y="224" width="6" height="24" rx="2" fill="#FDFBF7" stroke="#B45309" strokeWidth="1" />
-                <rect x="850.2" y="224" width="6" height="24" rx="2" fill="#FDFBF7" stroke="#B45309" strokeWidth="1" />
-                <g>
-                  <circle cy="229" r="2.4" fill="#B45309" filter="url(#svGlow)" cx="787.2" opacity="0.7">
-                    <animate attributeName="cx" values="787.2;853.2;787.2" dur="2.4s" repeatCount="indefinite" />
-                  </circle>
-                  <circle cy="243" r="2" fill="#E4C090" cx="820" opacity="0.8">
-                    <animate attributeName="cx" values="853.2;787.2;853.2" dur="3.2s" repeatCount="indefinite" />
-                  </circle>
-                </g>
               </g>
 
-              {/* 01: System Architect Platform */}
+              {/* 01: Architecture & System Spec Platform */}
               <g 
                 role="button" 
                 aria-label="01 Discovery and System Architecture"
-                onMouseEnter={() => {
-                  sound.playClick();
-                  setHoveredIndex(0);
-                }}
-                onClick={() => {
-                  sound.playClick();
-                  setHoveredIndex(0);
-                }}
+                onMouseEnter={() => handlePlatformMouseEnter(0)}
+                onClick={() => handlePlatformMouseEnter(0)}
                 className="cursor-pointer transition-all duration-300 outline-none"
                 style={{
                   outline: "none",
@@ -338,7 +256,7 @@ export default function ModelSovereignty() {
                   filter: hoveredIndex === 0 ? "drop-shadow(0 10px 20px rgba(180,83,9,0.22))" : "none"
                 }}
               >
-                <g>
+                <g pointerEvents="none">
                   <line x1="192" y1="306.04" x2="192" y2="320.04" strokeWidth="1" stroke="#E4D9BC" />
                   <circle cx="192" cy="306.04" r="2.2" fill="#B45309" />
                   <g opacity={hoveredIndex === 0 ? 0 : 1} style={{ transition: "opacity 0.2s" }}>
@@ -352,54 +270,30 @@ export default function ModelSovereignty() {
                       schema · wireframes · stack
                     </text>
                   </g>
-                  <rect x="42" y="300.04" width="300" height="76" fill="transparent" />
                 </g>
 
                 <g>
-                  {/* Floor Ambient Glow */}
-                  <ellipse cx="192" cy="268" rx="150" ry="44" fill="url(#svFloorGlow)" filter="url(#svBlur)" opacity={hoveredIndex === 0 ? 0.95 : 0.45} />
-
-                  {/* 3D Extrusion Bevel */}
-                  <g transform="matrix(0.894 0.36 -0.894 0.36 192 244)">
-                    <rect
-                      x="-85"
-                      y="-85"
-                      width="170"
-                      height="170"
-                      rx="24"
-                      fill={hoveredIndex === 0 ? "url(#svExtrusionSideActive)" : "url(#svExtrusionSide)"}
-                      stroke="#B45309"
-                      strokeWidth="1"
-                      strokeOpacity="0.4"
-                    />
-                  </g>
-
-                  {/* Top Glassmorphic Surface */}
-                  <g transform="matrix(0.894 0.36 -0.894 0.36 192 236)">
-                    <rect
-                      x="-85"
-                      y="-85"
-                      width="170"
-                      height="170"
-                      rx="24"
-                      fill={hoveredIndex === 0 ? "url(#svGlassTopActive)" : "url(#svGlassTop)"}
-                      stroke={hoveredIndex === 0 ? "url(#svGlassBorderActive)" : "url(#svGlassBorder)"}
-                      strokeWidth={hoveredIndex === 0 ? 1.8 : 1.4}
-                    />
-                    <rect x="-80" y="-80" width="160" height="160" rx="20" fill="none" stroke="rgba(255,255,255,0.75)" strokeWidth="1" />
-
-                    {/* Subtle grid lines on surface */}
-                    <g stroke="#F2E8D5" strokeWidth="0.8">
-                      <line x1="-56.6" y1="-85" x2="-56.6" y2="85" vectorEffect="non-scaling-stroke" />
-                      <line x1="-85" y1="-56.6" x2="85" y2="-56.6" vectorEffect="non-scaling-stroke" />
-                      <line x1="-28.3" y1="-85" x2="-28.3" y2="85" vectorEffect="non-scaling-stroke" />
-                      <line x1="-85" y1="-28.3" x2="85" y2="-28.3" vectorEffect="non-scaling-stroke" />
-                      <line x1="0" y1="-85" x2="0" y2="85" vectorEffect="non-scaling-stroke" />
-                      <line x1="-85" y1="0" x2="85" y2="0" vectorEffect="non-scaling-stroke" />
-                      <line x1="28.3" y1="-85" x2="28.3" y2="85" vectorEffect="non-scaling-stroke" />
-                      <line x1="-85" y1="28.3" x2="85" y2="28.3" vectorEffect="non-scaling-stroke" />
-                      <line x1="56.6" y1="-85" x2="56.6" y2="85" vectorEffect="non-scaling-stroke" />
-                      <line x1="-85" y1="56.6" x2="85" y2="56.6" vectorEffect="non-scaling-stroke" />
+                  <ellipse cx="192" cy="262" rx="139.3" ry="39.6" fill="#4A3B33" opacity="0.07" filter="url(#svBlur)" />
+                  <ellipse cx="192" cy="240" rx="176.8" ry="73" fill="url(#svHalo)" opacity={hoveredIndex === 0 ? 0.8 : 0.4} />
+                  <polygon points="37.2,236 192,291.04 192,300.04 37.2,245" fill="#F1E9DA" />
+                  <polygon points="192,291.04 346.8,236 346.8,245 192,300.04" fill="#E4D9BC" />
+                  <polygon points="192,180.96 346.8,236 192,291.04 37.2,236" fill="url(#svTop)" strokeWidth="1.4" stroke="#B45309" />
+                  <polyline points="37.2,236 192,291.04 346.8,236" fill="none" strokeWidth="1.6" strokeLinejoin="round" stroke="#B45309" opacity="0.9" />
+                  
+                  {/* Grid Lines on platform surface */}
+                  <g transform="matrix(0.9 0.32 -0.9 0.32 192 236)">
+                    <rect x="-80" y="-80" width="160" height="160" rx="4" fill="none" stroke="#F1E9DA" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                    <g stroke="#F6F0E4" strokeWidth="0.8">
+                      <line x1="-53.3" y1="-80" x2="-53.3" y2="80" vectorEffect="non-scaling-stroke" />
+                      <line x1="-80" y1="-53.3" x2="80" y2="-53.3" vectorEffect="non-scaling-stroke" />
+                      <line x1="-26.7" y1="-80" x2="-26.7" y2="80" vectorEffect="non-scaling-stroke" />
+                      <line x1="-80" y1="-26.7" x2="80" y2="-26.7" vectorEffect="non-scaling-stroke" />
+                      <line x1="0" y1="-80" x2="0" y2="80" vectorEffect="non-scaling-stroke" />
+                      <line x1="-80" y1="0" x2="80" y2="0" vectorEffect="non-scaling-stroke" />
+                      <line x1="26.7" y1="-80" x2="26.7" y2="80" vectorEffect="non-scaling-stroke" />
+                      <line x1="-80" y1="26.7" x2="80" y2="26.7" vectorEffect="non-scaling-stroke" />
+                      <line x1="53.3" y1="-80" x2="53.3" y2="80" vectorEffect="non-scaling-stroke" />
+                      <line x1="-80" y1="53.3" x2="80" y2="53.3" vectorEffect="non-scaling-stroke" />
                     </g>
                     {/* Chip 1: SCHEMA */}
                     <g 
@@ -408,14 +302,14 @@ export default function ModelSovereignty() {
                       className="cursor-pointer group/chip"
                     >
                       <rect 
-                        x="-70" 
-                        y="-56" 
-                        width="62" 
+                        x="-68" 
+                        y="-54" 
+                        width="60" 
                         height="44" 
-                        rx="7" 
+                        rx="4" 
                         strokeWidth={selectedModel === "SCHEMA" ? "2" : "1"} 
                         vectorEffect="non-scaling-stroke" 
-                        fill={selectedModel === "SCHEMA" ? "rgba(180,83,9,0.22)" : "rgba(255,255,255,0.92)"} 
+                        fill={selectedModel === "SCHEMA" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
                         stroke={selectedModel === "SCHEMA" ? "#B45309" : "#E4D9BC"} 
                       />
                     </g>
@@ -427,13 +321,13 @@ export default function ModelSovereignty() {
                     >
                       <rect 
                         x="8" 
-                        y="-56" 
-                        width="62" 
+                        y="-54" 
+                        width="60" 
                         height="44" 
-                        rx="7" 
+                        rx="4" 
                         strokeWidth={selectedModel === "FIGMA" ? "2" : "1"} 
                         vectorEffect="non-scaling-stroke" 
-                        fill={selectedModel === "FIGMA" ? "rgba(180,83,9,0.22)" : "rgba(255,255,255,0.92)"} 
+                        fill={selectedModel === "FIGMA" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
                         stroke={selectedModel === "FIGMA" ? "#B45309" : "#E4D9BC"} 
                       />
                     </g>
@@ -444,36 +338,36 @@ export default function ModelSovereignty() {
                       className="cursor-pointer group/chip"
                     >
                       <rect 
-                        x="-70" 
-                        y="12" 
-                        width="62" 
+                        x="-68" 
+                        y="10" 
+                        width="60" 
                         height="44" 
-                        rx="7" 
+                        rx="4" 
                         strokeWidth={selectedModel === "APIS" ? "2" : "1"} 
                         vectorEffect="non-scaling-stroke" 
-                        fill={selectedModel === "APIS" ? "rgba(180,83,9,0.22)" : "rgba(255,255,255,0.92)"} 
+                        fill={selectedModel === "APIS" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
                         stroke={selectedModel === "APIS" ? "#B45309" : "#E4D9BC"} 
                       />
                     </g>
                     {/* Chip 4: STACK */}
-                    <g
+                    <g 
                       onClick={(e) => { e.stopPropagation(); handleSelectModel("STACK"); }}
                       onMouseEnter={() => handleSelectModel("STACK")}
                       className="cursor-pointer group/chip"
                     >
                       <rect 
                         x="8" 
-                        y="12" 
-                        width="62" 
+                        y="10" 
+                        width="60" 
                         height="44" 
-                        rx="7" 
+                        rx="4" 
                         strokeWidth={selectedModel === "STACK" ? "2" : "1"} 
                         vectorEffect="non-scaling-stroke" 
-                        fill={selectedModel === "STACK" ? "rgba(180,83,9,0.22)" : "rgba(255,255,255,0.92)"} 
+                        fill={selectedModel === "STACK" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
                         stroke={selectedModel === "STACK" ? "#B45309" : "#E4D9BC"} 
                       />
                     </g>
-                    <line x1="43.6" x2="43.6" y1="-85" y2="85" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.4" />
+                    <line x1="43.6" x2="43.6" y1="-80" y2="80" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.5" />
                   </g>
 
                   {/* Spec Labels */}
@@ -509,14 +403,8 @@ export default function ModelSovereignty() {
               <g 
                 role="button" 
                 aria-label="02 Full-Stack Development"
-                onMouseEnter={() => {
-                  sound.playClick();
-                  setHoveredIndex(1);
-                }}
-                onClick={() => {
-                  sound.playClick();
-                  setHoveredIndex(1);
-                }}
+                onMouseEnter={() => handlePlatformMouseEnter(1)}
+                onClick={() => handlePlatformMouseEnter(1)}
                 className="cursor-pointer transition-all duration-300 outline-none"
                 style={{
                   outline: "none",
@@ -527,7 +415,7 @@ export default function ModelSovereignty() {
                   filter: hoveredIndex === 1 ? "drop-shadow(0 10px 20px rgba(180,83,9,0.22))" : "none"
                 }}
               >
-                <g>
+                <g pointerEvents="none">
                   <line x1="600" y1="319.56" x2="600" y2="333.56" strokeWidth="1" stroke="#E4D9BC" />
                   <circle cx="600" cy="319.56" r="2.2" fill="#B45309" />
                   <g opacity={hoveredIndex === 1 ? 0 : 1} style={{ transition: "opacity 0.2s" }}>
@@ -541,44 +429,20 @@ export default function ModelSovereignty() {
                       clean code · resilient services · testing
                     </text>
                   </g>
-                  <rect x="450" y="313.56" width="300" height="76" fill="transparent" />
                 </g>
 
                 <g>
-                  {/* Floor Ambient Glow */}
-                  <ellipse cx="600" cy="270" rx="172" ry="48" fill="url(#svFloorGlow)" filter="url(#svBlur)" opacity={hoveredIndex === 1 ? 0.95 : 0.45} />
+                  <ellipse cx="600" cy="262" rx="168.5" ry="47.9" fill="#4A3B33" opacity="0.07" filter="url(#svBlur)" />
+                  <ellipse cx="600" cy="240" rx="209.2" ry="84.5" fill="url(#svHalo)" opacity={hoveredIndex === 1 ? 0.8 : 0.4} />
+                  <polygon points="412.8,236 600,302.56 600,313.56 412.8,247" fill="#F1E9DA" />
+                  <polygon points="600,302.56 787.2,236 787.2,247 600,313.56" fill="#E4D9BC" />
+                  <polygon points="600,169.44 787.2,236 600,302.56 412.8,236" fill="url(#svTop)" strokeWidth="1.4" stroke="#B45309" />
+                  <polyline points="412.8,236 600,302.56 787.2,236" fill="none" strokeWidth="1.6" strokeLinejoin="round" stroke="#B45309" opacity="0.9" />
 
-                  {/* 3D Extrusion Bevel */}
-                  <g transform="matrix(0.894 0.36 -0.894 0.36 600 245)">
-                    <rect
-                      x="-98"
-                      y="-98"
-                      width="196"
-                      height="196"
-                      rx="26"
-                      fill={hoveredIndex === 1 ? "url(#svExtrusionSideActive)" : "url(#svExtrusionSide)"}
-                      stroke="#B45309"
-                      strokeWidth="1"
-                      strokeOpacity="0.4"
-                    />
-                  </g>
-
-                  {/* Top Glassmorphic Surface */}
-                  <g transform="matrix(0.894 0.36 -0.894 0.36 600 236)">
-                    <rect
-                      x="-98"
-                      y="-98"
-                      width="196"
-                      height="196"
-                      rx="26"
-                      fill={hoveredIndex === 1 ? "url(#svGlassTopActive)" : "url(#svGlassTop)"}
-                      stroke={hoveredIndex === 1 ? "url(#svGlassBorderActive)" : "url(#svGlassBorder)"}
-                      strokeWidth={hoveredIndex === 1 ? 1.8 : 1.4}
-                    />
-                    <rect x="-92" y="-92" width="184" height="184" rx="22" fill="none" stroke="rgba(255,255,255,0.75)" strokeWidth="1" />
-
-                    {/* Micro Grid Lines */}
-                    <g stroke="#F2E8D5" strokeWidth="0.8">
+                  {/* Surface Grid & Nodes */}
+                  <g transform="matrix(0.9 0.32 -0.9 0.32 600 236)">
+                    <rect x="-98" y="-98" width="196" height="196" rx="4" fill="none" stroke="#F1E9DA" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                    <g stroke="#F6F0E4" strokeWidth="0.8">
                       <line x1="-65.3" y1="-98" x2="-65.3" y2="98" vectorEffect="non-scaling-stroke" />
                       <line x1="-98" y1="-65.3" x2="98" y2="-65.3" vectorEffect="non-scaling-stroke" />
                       <line x1="-32.7" y1="-98" x2="-32.7" y2="98" vectorEffect="non-scaling-stroke" />
@@ -590,21 +454,16 @@ export default function ModelSovereignty() {
                       <line x1="65.3" y1="-98" x2="65.3" y2="98" vectorEffect="non-scaling-stroke" />
                       <line x1="-98" y1="65.3" x2="98" y2="65.3" vectorEffect="non-scaling-stroke" />
                     </g>
-
-                    {/* 3x3 Architectural Micro-Nodes */}
-                    <rect x="-74" y="-74" width="44" height="44" rx="6" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(255,255,255,0.88)" stroke="#E4D9BC" />
-                    <rect x="-22" y="-74" width="44" height="44" rx="6" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(255,255,255,0.88)" stroke="#E4D9BC" />
-                    <rect x="30" y="-74" width="44" height="44" rx="6" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(255,255,255,0.88)" stroke="#E4D9BC" />
-                    
-                    <rect x="-74" y="-22" width="44" height="44" rx="6" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(255,255,255,0.88)" stroke="#E4D9BC" />
-                    <rect x="-22" y="-22" width="44" height="44" rx="6" strokeWidth="1.5" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.18)" stroke="#B45309" />
-                    <rect x="30" y="-22" width="44" height="44" rx="6" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(255,255,255,0.88)" stroke="#E4D9BC" />
-                    
-                    <rect x="-74" y="30" width="44" height="44" rx="6" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(255,255,255,0.88)" stroke="#E4D9BC" />
-                    <rect x="-22" y="30" width="44" height="44" rx="6" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(255,255,255,0.88)" stroke="#E4D9BC" />
-                    <rect x="30" y="30" width="44" height="44" rx="6" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(255,255,255,0.88)" stroke="#E4D9BC" />
-                    
-                    <line x1="11.8" x2="11.8" y1="-98" y2="98" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.4" />
+                    <rect x="-73" y="-73" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
+                    <rect x="-21" y="-73" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
+                    <rect x="31" y="-73" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
+                    <rect x="-73" y="-21" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
+                    <rect x="-21" y="-21" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.16)" stroke="#B45309" />
+                    <rect x="31" y="-21" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
+                    <rect x="-73" y="31" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
+                    <rect x="-21" y="31" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
+                    <rect x="31" y="31" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
+                    <line x1="11.8" x2="11.8" y1="-98" y2="98" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.5" />
                   </g>
 
                   {/* Surface Texts */}
@@ -625,14 +484,8 @@ export default function ModelSovereignty() {
               <g 
                 role="button" 
                 aria-label="03 Deployment and Production Scale"
-                onMouseEnter={() => {
-                  sound.playClick();
-                  setHoveredIndex(2);
-                }}
-                onClick={() => {
-                  sound.playClick();
-                  setHoveredIndex(2);
-                }}
+                onMouseEnter={() => handlePlatformMouseEnter(2)}
+                onClick={() => handlePlatformMouseEnter(2)}
                 className="cursor-pointer transition-all duration-300 outline-none"
                 style={{
                   outline: "none",
@@ -643,7 +496,7 @@ export default function ModelSovereignty() {
                   filter: hoveredIndex === 2 ? "drop-shadow(0 10px 20px rgba(180,83,9,0.22))" : "none"
                 }}
               >
-                <g>
+                <g pointerEvents="none">
                   <line x1="1008" y1="306.04" x2="1008" y2="320.04" strokeWidth="1" stroke="#E4D9BC" />
                   <circle cx="1008" cy="306.04" r="2.2" fill="#B45309" />
                   <g opacity={hoveredIndex === 2 ? 0 : 1} style={{ transition: "opacity 0.2s" }}>
@@ -657,92 +510,66 @@ export default function ModelSovereignty() {
                       cloud deploy · zero downtime · scale
                     </text>
                   </g>
-                  <rect x="858" y="300.04" width="300" height="76" fill="transparent" />
                 </g>
 
                 <g>
-                  {/* Floor Ambient Glow */}
-                  <ellipse cx="1008" cy="268" rx="150" ry="44" fill="url(#svFloorGlow)" filter="url(#svBlur)" opacity={hoveredIndex === 2 ? 0.95 : 0.45} />
+                  <ellipse cx="1008" cy="262" rx="139.3" ry="39.6" fill="#4A3B33" opacity="0.07" filter="url(#svBlur)" />
+                  <ellipse cx="1008" cy="240" rx="176.8" ry="73" fill="url(#svHalo)" opacity={hoveredIndex === 2 ? 0.8 : 0.4} />
+                  <polygon points="853.2,236 1008,291.04 1008,300.04 853.2,245" fill="#F1E9DA" />
+                  <polygon points="1008,291.04 1162.8,236 1162.8,245 1008,300.04" fill="#E4D9BC" />
+                  <polygon points="1008,180.96 1162.8,236 1008,291.04 853.2,236" fill="url(#svTop)" strokeWidth="1.4" stroke="#B45309" />
+                  <polyline points="853.2,236 1008,291.04 1162.8,236" fill="none" strokeWidth="1.6" strokeLinejoin="round" stroke="#B45309" opacity="0.9" />
 
-                  {/* 3D Extrusion Bevel */}
-                  <g transform="matrix(0.894 0.36 -0.894 0.36 1008 244)">
-                    <rect
-                      x="-85"
-                      y="-85"
-                      width="170"
-                      height="170"
-                      rx="24"
-                      fill={hoveredIndex === 2 ? "url(#svExtrusionSideActive)" : "url(#svExtrusionSide)"}
-                      stroke="#B45309"
-                      strokeWidth="1"
-                      strokeOpacity="0.4"
-                    />
-                  </g>
-
-                  {/* Top Glassmorphic Surface */}
-                  <g transform="matrix(0.894 0.36 -0.894 0.36 1008 236)">
-                    <rect
-                      x="-85"
-                      y="-85"
-                      width="170"
-                      height="170"
-                      rx="24"
-                      fill={hoveredIndex === 2 ? "url(#svGlassTopActive)" : "url(#svGlassTop)"}
-                      stroke={hoveredIndex === 2 ? "url(#svGlassBorderActive)" : "url(#svGlassBorder)"}
-                      strokeWidth={hoveredIndex === 2 ? 1.8 : 1.4}
-                    />
-                    <rect x="-80" y="-80" width="160" height="160" rx="20" fill="none" stroke="rgba(255,255,255,0.75)" strokeWidth="1" />
-
-                    {/* Micro Grid Lines */}
-                    <g stroke="#F2E8D5" strokeWidth="0.8">
-                      <line x1="-56.6" y1="-85" x2="-56.6" y2="85" vectorEffect="non-scaling-stroke" />
-                      <line x1="-85" y1="-56.6" x2="85" y2="-56.6" vectorEffect="non-scaling-stroke" />
-                      <line x1="-28.3" y1="-85" x2="-28.3" y2="85" vectorEffect="non-scaling-stroke" />
-                      <line x1="-85" y1="-28.3" x2="85" y2="-28.3" vectorEffect="non-scaling-stroke" />
-                      <line x1="0" y1="-85" x2="0" y2="85" vectorEffect="non-scaling-stroke" />
-                      <line x1="-85" y1="0" x2="85" y2="0" vectorEffect="non-scaling-stroke" />
-                      <line x1="28.3" y1="-85" x2="28.3" y2="85" vectorEffect="non-scaling-stroke" />
-                      <line x1="-85" y1="28.3" x2="85" y2="28.3" vectorEffect="non-scaling-stroke" />
-                      <line x1="56.6" y1="-85" x2="56.6" y2="85" vectorEffect="non-scaling-stroke" />
-                      <line x1="-85" y1="56.6" x2="85" y2="56.6" vectorEffect="non-scaling-stroke" />
+                  {/* Surface Grid */}
+                  <g transform="matrix(0.9 0.32 -0.9 0.32 1008 236)">
+                    <rect x="-80" y="-80" width="160" height="160" rx="4" fill="none" stroke="#F1E9DA" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                    <g stroke="#F6F0E4" strokeWidth="0.8">
+                      <line x1="-53.3" y1="-80" x2="-53.3" y2="80" vectorEffect="non-scaling-stroke" />
+                      <line x1="-80" y1="-53.3" x2="80" y2="-53.3" vectorEffect="non-scaling-stroke" />
+                      <line x1="-26.7" y1="-80" x2="-26.7" y2="80" vectorEffect="non-scaling-stroke" />
+                      <line x1="-80" y1="-26.7" x2="80" y2="-26.7" vectorEffect="non-scaling-stroke" />
+                      <line x1="0" y1="-80" x2="0" y2="80" vectorEffect="non-scaling-stroke" />
+                      <line x1="-80" y1="0" x2="80" y2="0" vectorEffect="non-scaling-stroke" />
+                      <line x1="26.7" y1="-80" x2="26.7" y2="80" vectorEffect="non-scaling-stroke" />
+                      <line x1="-80" y1="26.7" x2="80" y2="26.7" vectorEffect="non-scaling-stroke" />
+                      <line x1="53.3" y1="-80" x2="53.3" y2="80" vectorEffect="non-scaling-stroke" />
+                      <line x1="-80" y1="53.3" x2="80" y2="53.3" vectorEffect="non-scaling-stroke" />
                     </g>
-
-                    {/* 4 Telemetry Monitor Cards */}
-                    <rect x="-70" y="-56" width="62" height="44" rx="7" fill="rgba(255,255,255,0.92)" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-                    <rect x="-62" y="-22" width="46" height="4" rx="1.5" fill="#F1E9DA" />
-                    <rect x="-62" y="-22" height="4" rx="1.5" fill="#B45309" width="36" />
+                    <rect x="-68" y="-54" width="60" height="44" rx="4" fill="#FFFFFF" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                    <rect x="-60" y="-20" width="44" height="4" rx="1.5" fill="#F1E9DA" />
+                    <rect x="-60" y="-20" height="4" rx="1.5" fill="#B45309" width="34px" />
                     
-                    <rect x="8" y="-56" width="62" height="44" rx="7" fill="rgba(255,255,255,0.92)" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-                    <rect x="16" y="-22" width="46" height="4" rx="1.5" fill="#F1E9DA" />
-                    <rect x="16" y="-22" height="4" rx="1.5" fill="#B45309" width="22" />
+                    <rect x="8" y="-54" width="60" height="44" rx="4" fill="#FFFFFF" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                    <rect x="16" y="-20" width="44" height="4" rx="1.5" fill="#F1E9DA" />
+                    <rect x="16" y="-20" height="4" rx="1.5" fill="#B45309" width="18px" />
 
-                    <rect x="-70" y="12" width="62" height="44" rx="7" fill="rgba(255,255,255,0.92)" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-                    <rect x="-62" y="46" width="46" height="4" rx="1.5" fill="#F1E9DA" />
-                    <rect x="-62" y="46" height="4" rx="1.5" fill="#B45309" width="30" />
+                    <rect x="-68" y="10" width="60" height="44" rx="4" fill="#FFFFFF" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                    <rect x="-60" y="44" width="44" height="4" rx="1.5" fill="#F1E9DA" />
+                    <rect x="-60" y="44" height="4" rx="1.5" fill="#B45309" width="28px" />
 
-                    <rect x="8" y="12" width="62" height="44" rx="7" fill="rgba(255,255,255,0.92)" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-                    <rect x="16" y="46" width="46" height="4" rx="1.5" fill="#F1E9DA" />
-                    <rect x="16" y="46" height="4" rx="1.5" fill="#B45309" width="42" />
+                    <rect x="8" y="10" width="60" height="44" rx="4" fill="#FFFFFF" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                    <rect x="16" y="44" width="44" height="4" rx="1.5" fill="#F1E9DA" />
+                    <rect x="16" y="44" height="4" rx="1.5" fill="#B45309" width="40px" />
 
-                    <line x1="-17.1" x2="-17.1" y1="-85" y2="85" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.4" />
-                    <circle cx="0" cy="0" r="8" fill="#FDFBF7" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
-                    <circle cx="0" cy="0" r="3.5" fill="#B45309" />
+                    <line x1="-17.1" x2="-17.1" y1="-80" y2="80" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.5" />
+                    <circle cx="0" cy="0" r="7" fill="#FDFBF7" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
+                    <circle cx="0" cy="0" r="3" fill="#B45309" />
                   </g>
 
                   {/* Surface Labels */}
-                  <g>
+                  <g pointerEvents="none">
                     <text x="1007.1" y="212" textAnchor="middle" fill="#4A3B33" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="1">DEPLOY</text>
                     <text x="1007.1" y="221" textAnchor="middle" fill="#A16207" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.3">ci / cd live</text>
                   </g>
-                  <g>
+                  <g pointerEvents="none">
                     <text x="1075.5" y="236.3" textAnchor="middle" fill="#4A3B33" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="1">CLOUD</text>
                     <text x="1075.5" y="245.3" textAnchor="middle" fill="#A16207" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.3">edge hosting</text>
                   </g>
-                  <g>
+                  <g pointerEvents="none">
                     <text x="949.5" y="232.5" textAnchor="middle" fill="#4A3B33" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="1">UPTIME</text>
                     <text x="949.5" y="241.5" textAnchor="middle" fill="#A16207" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.3">99.9% sla</text>
                   </g>
-                  <g>
+                  <g pointerEvents="none">
                     <text x="1017.9" y="256.8" textAnchor="middle" fill="#4A3B33" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="1">MONITOR</text>
                     <text x="1017.9" y="265.8" textAnchor="middle" fill="#A16207" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.3">telemetry</text>
                   </g>
@@ -799,7 +626,9 @@ export default function ModelSovereignty() {
                   animate={{ opacity: 1, x: "-50%", y: 0 }}
                   exit={{ opacity: 0, x: "-50%", y: 6 }}
                   transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
-                  className="hidden md:block absolute z-20 pointer-events-none w-[25%] min-w-[250px] max-w-[295px]"
+                  onMouseEnter={handleCardMouseEnter}
+                  onMouseLeave={handleCardMouseLeave}
+                  className="hidden md:block absolute z-30 pointer-events-auto cursor-default w-[26%] min-w-[260px] max-w-[310px]"
                   style={{
                     top: activeData.top,
                     left: activeData.left
@@ -807,41 +636,41 @@ export default function ModelSovereignty() {
                 >
                   <div className="relative overflow-hidden rounded-lg border border-[#E4D9BC] bg-white/95 backdrop-blur-sm shadow-[0_12px_32px_-16px_rgba(74,59,51,0.28)]">
                     <div className="absolute inset-y-0 left-0 w-[2px] bg-[#B45309]" />
-                    <div className="p-3 sm:p-3.5">
+                    <div className="p-4">
                       {/* Eyebrow & LIVE badge */}
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-[#B45309]">
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.16em] text-[#B45309]">
                           {activeData.eyebrow}
                         </span>
-                        <span className="flex items-center gap-1.5 font-mono text-[8.5px] uppercase tracking-[0.14em] text-[#A8A29E]">
+                        <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.14em] text-[#A8A29E]">
                           <span className="h-1.5 w-1.5 rounded-full bg-[#B45309] animate-pulse" />
                           live
                         </span>
                       </div>
 
                       {/* Title */}
-                      <h4 className="mt-1 text-[13px] font-bold leading-tight text-[#4A3B33] font-serif">
+                      <h4 className="mt-2 text-[15px] font-bold leading-snug text-[#4A3B33] font-serif">
                         {activeData.title}
                       </h4>
 
                       {/* Body */}
-                      <p className="mt-1 text-[11px] leading-[1.45] text-[#57534E] line-clamp-2">
+                      <p className="mt-1.5 text-[11.5px] leading-[1.6] text-[#57534E]">
                         {activeData.body}
                       </p>
 
-                      {/* Horizontal Key-Value Stats */}
-                      <div className="mt-2.5 grid grid-cols-3 gap-1.5 border-t border-[#F1E9DA] pt-2">
+                      {/* Vertical Key-Value Stats */}
+                      <dl className="mt-3 space-y-1.5 border-t border-[#F1E9DA] pt-3">
                         {activeData.stats.map(([k, v]) => (
-                          <div key={k}>
-                            <div className="font-mono text-[8px] uppercase tracking-wider text-[#A8A29E] truncate">{k}</div>
-                            <div className="font-mono text-[10.5px] font-bold tabular-nums text-[#4A3B33] truncate">{v}</div>
+                          <div key={k} className="flex items-baseline justify-between gap-3">
+                            <dt className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#A8A29E]">{k}</dt>
+                            <dd className="font-mono text-[11px] font-semibold tabular-nums text-[#4A3B33]">{v}</dd>
                           </div>
                         ))}
-                      </div>
+                      </dl>
 
                       {/* Code Pill */}
                       {activeData.code && (
-                        <div className="mt-2 rounded border border-[#F1E9DA] bg-[#F8F4EE] px-2 py-1 font-mono text-[9px] text-[#57534E] truncate">
+                        <div className="mt-3 rounded-md border border-[#F1E9DA] bg-[#F8F4EE] px-2.5 py-1.5 font-mono text-[10px] text-[#57534E]">
                           <span className="text-[#B45309]">▸</span> {activeData.code}
                         </div>
                       )}
