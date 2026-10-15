@@ -130,6 +130,47 @@ export default function ModelSovereignty() {
               aria-label="Any model plugs into one sovereign architecture layer, which feeds agents that run operations."
             >
               <defs>
+                {/* 3D Glassmorphic Slabs Gradients */}
+                <linearGradient id="svGlassTop" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
+                  <stop offset="60%" stopColor="#FDFBF7" stopOpacity="0.92" />
+                  <stop offset="100%" stopColor="#F5EFE3" stopOpacity="0.9" />
+                </linearGradient>
+
+                <linearGradient id="svGlassTopActive" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#FFFFFF" />
+                  <stop offset="50%" stopColor="#FEF3C7" stopOpacity="0.95" />
+                  <stop offset="100%" stopColor="#FDE68A" stopOpacity="0.9" />
+                </linearGradient>
+
+                <linearGradient id="svGlassBorder" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
+                  <stop offset="50%" stopColor="#E4D9BC" />
+                  <stop offset="100%" stopColor="#CBBFA3" />
+                </linearGradient>
+
+                <linearGradient id="svGlassBorderActive" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#F59E0B" />
+                  <stop offset="50%" stopColor="#B45309" />
+                  <stop offset="100%" stopColor="#78350F" />
+                </linearGradient>
+
+                <linearGradient id="svExtrusionSide" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#E6DCBF" />
+                  <stop offset="100%" stopColor="#CFBFA0" />
+                </linearGradient>
+
+                <linearGradient id="svExtrusionSideActive" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#E4C090" />
+                  <stop offset="100%" stopColor="#B45309" />
+                </linearGradient>
+
+                <radialGradient id="svFloorGlow">
+                  <stop offset="0%" stopColor="#B45309" stopOpacity="0.25" />
+                  <stop offset="65%" stopColor="#B45309" stopOpacity="0.08" />
+                  <stop offset="100%" stopColor="#B45309" stopOpacity="0" />
+                </radialGradient>
+
                 <linearGradient id="svTop" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="#FFFFFF" />
                   <stop offset="100%" stopColor="#FBF6EE" />
@@ -315,27 +356,50 @@ export default function ModelSovereignty() {
                 </g>
 
                 <g>
-                  <ellipse cx="192" cy="262" rx="139.3" ry="39.6" fill="#4A3B33" opacity="0.07" filter="url(#svBlur)" />
-                  <ellipse cx="192" cy="240" rx="176.8" ry="73" fill="url(#svHalo)" opacity={hoveredIndex === 0 ? 0.8 : 0.4} />
-                  <polygon points="37.2,236 192,291.04 192,300.04 37.2,245" fill="#F1E9DA" />
-                  <polygon points="192,291.04 346.8,236 346.8,245 192,300.04" fill="#E4D9BC" />
-                  <polygon points="192,180.96 346.8,236 192,291.04 37.2,236" fill="url(#svTop)" strokeWidth="1.4" stroke="#B45309" />
-                  <polyline points="37.2,236 192,291.04 346.8,236" fill="none" strokeWidth="1.6" strokeLinejoin="round" stroke="#B45309" opacity="0.9" />
-                  
-                  {/* Grid Lines on platform surface */}
-                  <g transform="matrix(0.9 0.32 -0.9 0.32 192 236)">
-                    <rect x="-80" y="-80" width="160" height="160" rx="4" fill="none" stroke="#F1E9DA" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-                    <g stroke="#F6F0E4" strokeWidth="0.8">
-                      <line x1="-53.3" y1="-80" x2="-53.3" y2="80" vectorEffect="non-scaling-stroke" />
-                      <line x1="-80" y1="-53.3" x2="80" y2="-53.3" vectorEffect="non-scaling-stroke" />
-                      <line x1="-26.7" y1="-80" x2="-26.7" y2="80" vectorEffect="non-scaling-stroke" />
-                      <line x1="-80" y1="-26.7" x2="80" y2="-26.7" vectorEffect="non-scaling-stroke" />
-                      <line x1="0" y1="-80" x2="0" y2="80" vectorEffect="non-scaling-stroke" />
-                      <line x1="-80" y1="0" x2="80" y2="0" vectorEffect="non-scaling-stroke" />
-                      <line x1="26.7" y1="-80" x2="26.7" y2="80" vectorEffect="non-scaling-stroke" />
-                      <line x1="-80" y1="26.7" x2="80" y2="26.7" vectorEffect="non-scaling-stroke" />
-                      <line x1="53.3" y1="-80" x2="53.3" y2="80" vectorEffect="non-scaling-stroke" />
-                      <line x1="-80" y1="53.3" x2="80" y2="53.3" vectorEffect="non-scaling-stroke" />
+                  {/* Floor Ambient Glow */}
+                  <ellipse cx="192" cy="268" rx="150" ry="44" fill="url(#svFloorGlow)" filter="url(#svBlur)" opacity={hoveredIndex === 0 ? 0.95 : 0.45} />
+
+                  {/* 3D Extrusion Bevel */}
+                  <g transform="matrix(0.894 0.36 -0.894 0.36 192 244)">
+                    <rect
+                      x="-85"
+                      y="-85"
+                      width="170"
+                      height="170"
+                      rx="24"
+                      fill={hoveredIndex === 0 ? "url(#svExtrusionSideActive)" : "url(#svExtrusionSide)"}
+                      stroke="#B45309"
+                      strokeWidth="1"
+                      strokeOpacity="0.4"
+                    />
+                  </g>
+
+                  {/* Top Glassmorphic Surface */}
+                  <g transform="matrix(0.894 0.36 -0.894 0.36 192 236)">
+                    <rect
+                      x="-85"
+                      y="-85"
+                      width="170"
+                      height="170"
+                      rx="24"
+                      fill={hoveredIndex === 0 ? "url(#svGlassTopActive)" : "url(#svGlassTop)"}
+                      stroke={hoveredIndex === 0 ? "url(#svGlassBorderActive)" : "url(#svGlassBorder)"}
+                      strokeWidth={hoveredIndex === 0 ? 1.8 : 1.4}
+                    />
+                    <rect x="-80" y="-80" width="160" height="160" rx="20" fill="none" stroke="rgba(255,255,255,0.75)" strokeWidth="1" />
+
+                    {/* Subtle grid lines on surface */}
+                    <g stroke="#F2E8D5" strokeWidth="0.8">
+                      <line x1="-56.6" y1="-85" x2="-56.6" y2="85" vectorEffect="non-scaling-stroke" />
+                      <line x1="-85" y1="-56.6" x2="85" y2="-56.6" vectorEffect="non-scaling-stroke" />
+                      <line x1="-28.3" y1="-85" x2="-28.3" y2="85" vectorEffect="non-scaling-stroke" />
+                      <line x1="-85" y1="-28.3" x2="85" y2="-28.3" vectorEffect="non-scaling-stroke" />
+                      <line x1="0" y1="-85" x2="0" y2="85" vectorEffect="non-scaling-stroke" />
+                      <line x1="-85" y1="0" x2="85" y2="0" vectorEffect="non-scaling-stroke" />
+                      <line x1="28.3" y1="-85" x2="28.3" y2="85" vectorEffect="non-scaling-stroke" />
+                      <line x1="-85" y1="28.3" x2="85" y2="28.3" vectorEffect="non-scaling-stroke" />
+                      <line x1="56.6" y1="-85" x2="56.6" y2="85" vectorEffect="non-scaling-stroke" />
+                      <line x1="-85" y1="56.6" x2="85" y2="56.6" vectorEffect="non-scaling-stroke" />
                     </g>
                     {/* Chip 1: SCHEMA */}
                     <g 
@@ -344,14 +408,14 @@ export default function ModelSovereignty() {
                       className="cursor-pointer group/chip"
                     >
                       <rect 
-                        x="-68" 
-                        y="-54" 
-                        width="60" 
+                        x="-70" 
+                        y="-56" 
+                        width="62" 
                         height="44" 
-                        rx="4" 
+                        rx="7" 
                         strokeWidth={selectedModel === "SCHEMA" ? "2" : "1"} 
                         vectorEffect="non-scaling-stroke" 
-                        fill={selectedModel === "SCHEMA" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
+                        fill={selectedModel === "SCHEMA" ? "rgba(180,83,9,0.22)" : "rgba(255,255,255,0.92)"} 
                         stroke={selectedModel === "SCHEMA" ? "#B45309" : "#E4D9BC"} 
                       />
                     </g>
@@ -363,13 +427,13 @@ export default function ModelSovereignty() {
                     >
                       <rect 
                         x="8" 
-                        y="-54" 
-                        width="60" 
+                        y="-56" 
+                        width="62" 
                         height="44" 
-                        rx="4" 
+                        rx="7" 
                         strokeWidth={selectedModel === "FIGMA" ? "2" : "1"} 
                         vectorEffect="non-scaling-stroke" 
-                        fill={selectedModel === "FIGMA" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
+                        fill={selectedModel === "FIGMA" ? "rgba(180,83,9,0.22)" : "rgba(255,255,255,0.92)"} 
                         stroke={selectedModel === "FIGMA" ? "#B45309" : "#E4D9BC"} 
                       />
                     </g>
@@ -380,14 +444,14 @@ export default function ModelSovereignty() {
                       className="cursor-pointer group/chip"
                     >
                       <rect 
-                        x="-68" 
-                        y="10" 
-                        width="60" 
+                        x="-70" 
+                        y="12" 
+                        width="62" 
                         height="44" 
-                        rx="4" 
+                        rx="7" 
                         strokeWidth={selectedModel === "APIS" ? "2" : "1"} 
                         vectorEffect="non-scaling-stroke" 
-                        fill={selectedModel === "APIS" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
+                        fill={selectedModel === "APIS" ? "rgba(180,83,9,0.22)" : "rgba(255,255,255,0.92)"} 
                         stroke={selectedModel === "APIS" ? "#B45309" : "#E4D9BC"} 
                       />
                     </g>
@@ -399,17 +463,17 @@ export default function ModelSovereignty() {
                     >
                       <rect 
                         x="8" 
-                        y="10" 
-                        width="60" 
+                        y="12" 
+                        width="62" 
                         height="44" 
-                        rx="4" 
+                        rx="7" 
                         strokeWidth={selectedModel === "STACK" ? "2" : "1"} 
                         vectorEffect="non-scaling-stroke" 
-                        fill={selectedModel === "STACK" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
+                        fill={selectedModel === "STACK" ? "rgba(180,83,9,0.22)" : "rgba(255,255,255,0.92)"} 
                         stroke={selectedModel === "STACK" ? "#B45309" : "#E4D9BC"} 
                       />
                     </g>
-                    <line x1="43.6" x2="43.6" y1="-80" y2="80" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.5" />
+                    <line x1="43.6" x2="43.6" y1="-85" y2="85" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.4" />
                   </g>
 
                   {/* Spec Labels */}
@@ -481,17 +545,40 @@ export default function ModelSovereignty() {
                 </g>
 
                 <g>
-                  <ellipse cx="600" cy="262" rx="168.5" ry="47.9" fill="#4A3B33" opacity="0.07" filter="url(#svBlur)" />
-                  <ellipse cx="600" cy="240" rx="209.2" ry="84.5" fill="url(#svHalo)" opacity={hoveredIndex === 1 ? 0.8 : 0.4} />
-                  <polygon points="412.8,236 600,302.56 600,313.56 412.8,247" fill="#F1E9DA" />
-                  <polygon points="600,302.56 787.2,236 787.2,247 600,313.56" fill="#E4D9BC" />
-                  <polygon points="600,169.44 787.2,236 600,302.56 412.8,236" fill="url(#svTop)" strokeWidth="1.4" stroke="#B45309" />
-                  <polyline points="412.8,236 600,302.56 787.2,236" fill="none" strokeWidth="1.6" strokeLinejoin="round" stroke="#B45309" opacity="0.9" />
+                  {/* Floor Ambient Glow */}
+                  <ellipse cx="600" cy="270" rx="172" ry="48" fill="url(#svFloorGlow)" filter="url(#svBlur)" opacity={hoveredIndex === 1 ? 0.95 : 0.45} />
 
-                  {/* Surface Grid & Nodes */}
-                  <g transform="matrix(0.9 0.32 -0.9 0.32 600 236)">
-                    <rect x="-98" y="-98" width="196" height="196" rx="4" fill="none" stroke="#F1E9DA" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-                    <g stroke="#F6F0E4" strokeWidth="0.8">
+                  {/* 3D Extrusion Bevel */}
+                  <g transform="matrix(0.894 0.36 -0.894 0.36 600 245)">
+                    <rect
+                      x="-98"
+                      y="-98"
+                      width="196"
+                      height="196"
+                      rx="26"
+                      fill={hoveredIndex === 1 ? "url(#svExtrusionSideActive)" : "url(#svExtrusionSide)"}
+                      stroke="#B45309"
+                      strokeWidth="1"
+                      strokeOpacity="0.4"
+                    />
+                  </g>
+
+                  {/* Top Glassmorphic Surface */}
+                  <g transform="matrix(0.894 0.36 -0.894 0.36 600 236)">
+                    <rect
+                      x="-98"
+                      y="-98"
+                      width="196"
+                      height="196"
+                      rx="26"
+                      fill={hoveredIndex === 1 ? "url(#svGlassTopActive)" : "url(#svGlassTop)"}
+                      stroke={hoveredIndex === 1 ? "url(#svGlassBorderActive)" : "url(#svGlassBorder)"}
+                      strokeWidth={hoveredIndex === 1 ? 1.8 : 1.4}
+                    />
+                    <rect x="-92" y="-92" width="184" height="184" rx="22" fill="none" stroke="rgba(255,255,255,0.75)" strokeWidth="1" />
+
+                    {/* Micro Grid Lines */}
+                    <g stroke="#F2E8D5" strokeWidth="0.8">
                       <line x1="-65.3" y1="-98" x2="-65.3" y2="98" vectorEffect="non-scaling-stroke" />
                       <line x1="-98" y1="-65.3" x2="98" y2="-65.3" vectorEffect="non-scaling-stroke" />
                       <line x1="-32.7" y1="-98" x2="-32.7" y2="98" vectorEffect="non-scaling-stroke" />
@@ -503,16 +590,21 @@ export default function ModelSovereignty() {
                       <line x1="65.3" y1="-98" x2="65.3" y2="98" vectorEffect="non-scaling-stroke" />
                       <line x1="-98" y1="65.3" x2="98" y2="65.3" vectorEffect="non-scaling-stroke" />
                     </g>
-                    <rect x="-73" y="-73" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
-                    <rect x="-21" y="-73" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
-                    <rect x="31" y="-73" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
-                    <rect x="-73" y="-21" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
-                    <rect x="-21" y="-21" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.16)" stroke="#B45309" />
-                    <rect x="31" y="-21" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
-                    <rect x="-73" y="31" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
-                    <rect x="-21" y="31" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
-                    <rect x="31" y="31" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
-                    <line x1="11.8" x2="11.8" y1="-98" y2="98" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.5" />
+
+                    {/* 3x3 Architectural Micro-Nodes */}
+                    <rect x="-74" y="-74" width="44" height="44" rx="6" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(255,255,255,0.88)" stroke="#E4D9BC" />
+                    <rect x="-22" y="-74" width="44" height="44" rx="6" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(255,255,255,0.88)" stroke="#E4D9BC" />
+                    <rect x="30" y="-74" width="44" height="44" rx="6" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(255,255,255,0.88)" stroke="#E4D9BC" />
+                    
+                    <rect x="-74" y="-22" width="44" height="44" rx="6" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(255,255,255,0.88)" stroke="#E4D9BC" />
+                    <rect x="-22" y="-22" width="44" height="44" rx="6" strokeWidth="1.5" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.18)" stroke="#B45309" />
+                    <rect x="30" y="-22" width="44" height="44" rx="6" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(255,255,255,0.88)" stroke="#E4D9BC" />
+                    
+                    <rect x="-74" y="30" width="44" height="44" rx="6" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(255,255,255,0.88)" stroke="#E4D9BC" />
+                    <rect x="-22" y="30" width="44" height="44" rx="6" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(255,255,255,0.88)" stroke="#E4D9BC" />
+                    <rect x="30" y="30" width="44" height="44" rx="6" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(255,255,255,0.88)" stroke="#E4D9BC" />
+                    
+                    <line x1="11.8" x2="11.8" y1="-98" y2="98" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.4" />
                   </g>
 
                   {/* Surface Texts */}
@@ -569,47 +661,72 @@ export default function ModelSovereignty() {
                 </g>
 
                 <g>
-                  <ellipse cx="1008" cy="262" rx="139.3" ry="39.6" fill="#4A3B33" opacity="0.07" filter="url(#svBlur)" />
-                  <ellipse cx="1008" cy="240" rx="176.8" ry="73" fill="url(#svHalo)" opacity={hoveredIndex === 2 ? 0.8 : 0.4} />
-                  <polygon points="853.2,236 1008,291.04 1008,300.04 853.2,245" fill="#F1E9DA" />
-                  <polygon points="1008,291.04 1162.8,236 1162.8,245 1008,300.04" fill="#E4D9BC" />
-                  <polygon points="1008,180.96 1162.8,236 1008,291.04 853.2,236" fill="url(#svTop)" strokeWidth="1.4" stroke="#B45309" />
-                  <polyline points="853.2,236 1008,291.04 1162.8,236" fill="none" strokeWidth="1.6" strokeLinejoin="round" stroke="#B45309" opacity="0.9" />
+                  {/* Floor Ambient Glow */}
+                  <ellipse cx="1008" cy="268" rx="150" ry="44" fill="url(#svFloorGlow)" filter="url(#svBlur)" opacity={hoveredIndex === 2 ? 0.95 : 0.45} />
 
-                  {/* Surface Grid */}
-                  <g transform="matrix(0.9 0.32 -0.9 0.32 1008 236)">
-                    <rect x="-80" y="-80" width="160" height="160" rx="4" fill="none" stroke="#F1E9DA" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-                    <g stroke="#F6F0E4" strokeWidth="0.8">
-                      <line x1="-53.3" y1="-80" x2="-53.3" y2="80" vectorEffect="non-scaling-stroke" />
-                      <line x1="-80" y1="-53.3" x2="80" y2="-53.3" vectorEffect="non-scaling-stroke" />
-                      <line x1="-26.7" y1="-80" x2="-26.7" y2="80" vectorEffect="non-scaling-stroke" />
-                      <line x1="-80" y1="-26.7" x2="80" y2="-26.7" vectorEffect="non-scaling-stroke" />
-                      <line x1="0" y1="-80" x2="0" y2="80" vectorEffect="non-scaling-stroke" />
-                      <line x1="-80" y1="0" x2="80" y2="0" vectorEffect="non-scaling-stroke" />
-                      <line x1="26.7" y1="-80" x2="26.7" y2="80" vectorEffect="non-scaling-stroke" />
-                      <line x1="-80" y1="26.7" x2="80" y2="26.7" vectorEffect="non-scaling-stroke" />
-                      <line x1="53.3" y1="-80" x2="53.3" y2="80" vectorEffect="non-scaling-stroke" />
-                      <line x1="-80" y1="53.3" x2="80" y2="53.3" vectorEffect="non-scaling-stroke" />
+                  {/* 3D Extrusion Bevel */}
+                  <g transform="matrix(0.894 0.36 -0.894 0.36 1008 244)">
+                    <rect
+                      x="-85"
+                      y="-85"
+                      width="170"
+                      height="170"
+                      rx="24"
+                      fill={hoveredIndex === 2 ? "url(#svExtrusionSideActive)" : "url(#svExtrusionSide)"}
+                      stroke="#B45309"
+                      strokeWidth="1"
+                      strokeOpacity="0.4"
+                    />
+                  </g>
+
+                  {/* Top Glassmorphic Surface */}
+                  <g transform="matrix(0.894 0.36 -0.894 0.36 1008 236)">
+                    <rect
+                      x="-85"
+                      y="-85"
+                      width="170"
+                      height="170"
+                      rx="24"
+                      fill={hoveredIndex === 2 ? "url(#svGlassTopActive)" : "url(#svGlassTop)"}
+                      stroke={hoveredIndex === 2 ? "url(#svGlassBorderActive)" : "url(#svGlassBorder)"}
+                      strokeWidth={hoveredIndex === 2 ? 1.8 : 1.4}
+                    />
+                    <rect x="-80" y="-80" width="160" height="160" rx="20" fill="none" stroke="rgba(255,255,255,0.75)" strokeWidth="1" />
+
+                    {/* Micro Grid Lines */}
+                    <g stroke="#F2E8D5" strokeWidth="0.8">
+                      <line x1="-56.6" y1="-85" x2="-56.6" y2="85" vectorEffect="non-scaling-stroke" />
+                      <line x1="-85" y1="-56.6" x2="85" y2="-56.6" vectorEffect="non-scaling-stroke" />
+                      <line x1="-28.3" y1="-85" x2="-28.3" y2="85" vectorEffect="non-scaling-stroke" />
+                      <line x1="-85" y1="-28.3" x2="85" y2="-28.3" vectorEffect="non-scaling-stroke" />
+                      <line x1="0" y1="-85" x2="0" y2="85" vectorEffect="non-scaling-stroke" />
+                      <line x1="-85" y1="0" x2="85" y2="0" vectorEffect="non-scaling-stroke" />
+                      <line x1="28.3" y1="-85" x2="28.3" y2="85" vectorEffect="non-scaling-stroke" />
+                      <line x1="-85" y1="28.3" x2="85" y2="28.3" vectorEffect="non-scaling-stroke" />
+                      <line x1="56.6" y1="-85" x2="56.6" y2="85" vectorEffect="non-scaling-stroke" />
+                      <line x1="-85" y1="56.6" x2="85" y2="56.6" vectorEffect="non-scaling-stroke" />
                     </g>
-                    <rect x="-68" y="-54" width="60" height="44" rx="4" fill="#FFFFFF" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-                    <rect x="-60" y="-20" width="44" height="4" rx="1.5" fill="#F1E9DA" />
-                    <rect x="-60" y="-20" height="4" rx="1.5" fill="#B45309" width="34px" />
+
+                    {/* 4 Telemetry Monitor Cards */}
+                    <rect x="-70" y="-56" width="62" height="44" rx="7" fill="rgba(255,255,255,0.92)" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                    <rect x="-62" y="-22" width="46" height="4" rx="1.5" fill="#F1E9DA" />
+                    <rect x="-62" y="-22" height="4" rx="1.5" fill="#B45309" width="36" />
                     
-                    <rect x="8" y="-54" width="60" height="44" rx="4" fill="#FFFFFF" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-                    <rect x="16" y="-20" width="44" height="4" rx="1.5" fill="#F1E9DA" />
-                    <rect x="16" y="-20" height="4" rx="1.5" fill="#B45309" width="18px" />
+                    <rect x="8" y="-56" width="62" height="44" rx="7" fill="rgba(255,255,255,0.92)" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                    <rect x="16" y="-22" width="46" height="4" rx="1.5" fill="#F1E9DA" />
+                    <rect x="16" y="-22" height="4" rx="1.5" fill="#B45309" width="22" />
 
-                    <rect x="-68" y="10" width="60" height="44" rx="4" fill="#FFFFFF" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-                    <rect x="-60" y="44" width="44" height="4" rx="1.5" fill="#F1E9DA" />
-                    <rect x="-60" y="44" height="4" rx="1.5" fill="#B45309" width="28px" />
+                    <rect x="-70" y="12" width="62" height="44" rx="7" fill="rgba(255,255,255,0.92)" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                    <rect x="-62" y="46" width="46" height="4" rx="1.5" fill="#F1E9DA" />
+                    <rect x="-62" y="46" height="4" rx="1.5" fill="#B45309" width="30" />
 
-                    <rect x="8" y="10" width="60" height="44" rx="4" fill="#FFFFFF" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-                    <rect x="16" y="44" width="44" height="4" rx="1.5" fill="#F1E9DA" />
-                    <rect x="16" y="44" height="4" rx="1.5" fill="#B45309" width="40px" />
+                    <rect x="8" y="12" width="62" height="44" rx="7" fill="rgba(255,255,255,0.92)" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                    <rect x="16" y="46" width="46" height="4" rx="1.5" fill="#F1E9DA" />
+                    <rect x="16" y="46" height="4" rx="1.5" fill="#B45309" width="42" />
 
-                    <line x1="-17.1" x2="-17.1" y1="-80" y2="80" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.5" />
-                    <circle cx="0" cy="0" r="7" fill="#FDFBF7" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
-                    <circle cx="0" cy="0" r="3" fill="#B45309" />
+                    <line x1="-17.1" x2="-17.1" y1="-85" y2="85" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.4" />
+                    <circle cx="0" cy="0" r="8" fill="#FDFBF7" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
+                    <circle cx="0" cy="0" r="3.5" fill="#B45309" />
                   </g>
 
                   {/* Surface Labels */}

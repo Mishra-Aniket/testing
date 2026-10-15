@@ -263,6 +263,23 @@ export default function AccuracyTerrain() {
             style={{ cursor: scrub !== null ? "ew-resize" : "crosshair", touchAction: "none" }}
           >
             <defs>
+              <linearGradient id="bmGlassTop" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
+                <stop offset="60%" stopColor="#FDFBF7" stopOpacity="0.92" />
+                <stop offset="100%" stopColor="#F5EFE3" stopOpacity="0.9" />
+              </linearGradient>
+              <linearGradient id="bmSideBevel" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#E6DCBF" />
+                <stop offset="100%" stopColor="#CFBFA0" />
+              </linearGradient>
+              <radialGradient id="bmFloorGlow">
+                <stop offset="0%" stopColor="#B45309" stopOpacity="0.18" />
+                <stop offset="65%" stopColor="#B45309" stopOpacity="0.05" />
+                <stop offset="100%" stopColor="#B45309" stopOpacity="0" />
+              </radialGradient>
+              <filter id="bmBlur" x="-30%" y="-60%" width="160%" height="220%">
+                <feGaussianBlur stdDeviation="9" />
+              </filter>
               <linearGradient id="bmTop" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#FFFFFF" />
                 <stop offset="100%" stopColor="#FBF6EE" />
@@ -379,9 +396,10 @@ export default function AccuracyTerrain() {
 
             {/* 3D Isometric Ground Plane & Monthly Timeline Grid */}
             <g pointerEvents="none">
+              <ellipse cx="480" cy="530" rx="360" ry="70" fill="url(#bmFloorGlow)" filter="url(#bmBlur)" opacity="0.65" />
               <polygon
                 points={`${u(-24, 164).x},${u(-24, 164).y} ${u(544, 164).x},${u(544, 164).y} ${u(544, 164).x},${u(544, 164).y + 10} ${u(-24, 164).x},${u(-24, 164).y + 10}`}
-                fill="#F1E9DA"
+                fill="url(#bmSideBevel)"
               />
               <polygon
                 points={`${u(544, -24).x},${u(544, -24).y} ${u(544, 164).x},${u(544, 164).y} ${u(544, 164).x},${u(544, 164).y + 10} ${u(544, -24).x},${u(544, -24).y + 10}`}
@@ -389,7 +407,7 @@ export default function AccuracyTerrain() {
               />
               <polygon
                 points={m([u(-24, -24), u(544, -24), u(544, 164), u(-24, 164)])}
-                fill="url(#bmTop)"
+                fill="url(#bmGlassTop)"
                 stroke="#E4D9BC"
                 strokeWidth="1"
               />
