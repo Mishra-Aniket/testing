@@ -16,9 +16,11 @@ const MONTHS = [
     combined: 25,
     project: "ImgWorld.biz — Privacy Media Studio",
     category: "WebAssembly & Client-Side AI",
+    body: "Engineered a zero-server client-side image processing suite running entirely on user hardware with WebAssembly, Canvas API, and on-device ONNX Web background removal models with zero telemetry.",
     repo: "aniketmishra-0/imgWorld.biz",
     repoUrl: "https://github.com/aniketmishra-0/imgWorld.biz",
     liveUrl: "https://www.imgworld.biz/",
+    liveLabel: "Launch ImgWorld.biz",
     stack: ["React 19", "ONNX Web", "Canvas API", "Wasm"],
     milestone: "On-device AI background removal & zero-cloud egress media suite",
     deliverables: [
@@ -35,11 +37,13 @@ const MONTHS = [
     aniket0: 65,
     mishra: 6,
     combined: 71,
-    project: "RadialMenu — Windows App Launcher",
+    project: "RadialMenu — Windows App Launcher & HUD",
     category: "Desktop Systems & Windows API",
+    body: "Modern circular power-user application launcher and fuzzy search HUD for Windows 10/11 built with C# and WPF. Brings macOS-style radial aesthetics with global hotkeys and instant keyboard navigation.",
     repo: "aniketmishra-0/RedialWin",
     repoUrl: "https://github.com/aniketmishra-0/RedialWin",
     liveUrl: "https://aniketmishra-0.github.io/RedialMenu-releases/",
+    liveLabel: "Download Release (.exe)",
     stack: [".NET 8", "C#", "WPF", "Windows API"],
     milestone: "Sub-5ms global hotkey launcher & circular HUD for Windows 10/11",
     deliverables: [
@@ -57,11 +61,13 @@ const MONTHS = [
     mishra: 35,
     combined: 173,
     isPeakSprint: true,
-    project: "Centrix — Enterprise Ingestion Engine",
+    project: "Centrix — Autonomous Lecture Ingestion Pipeline",
     category: "Enterprise Operations & Cloud Sync",
+    body: "Edge-first automated ingestion engine for Physics Wallah Vidyapeeth centers across India. Automatically pairs OBS/capture card recordings with MaxHub notes, matches timetables using confidence scoring, and uploads chunked files to Google Drive.",
     repo: "aniketmishra-0/Centrix",
     repoUrl: "https://github.com/aniketmishra-0/Centrix",
     liveUrl: "https://aniketmishra-0.github.io/Centrix_Demo/",
+    liveLabel: "Launch Centrix Demo",
     stack: [".NET 8 (C#)", "SQLite WAL", "Google Drive API", "OBS Bridge"],
     milestone: "Edge pipeline handling 20,000+ lectures/day across 500+ PW centers",
     deliverables: [
@@ -78,11 +84,13 @@ const MONTHS = [
     aniket0: 30,
     mishra: 0,
     combined: 30,
-    project: "GPS Cam (GPSnap) — Geotagged Stamper",
+    project: "GPS Cam (GPSnap) — Geotagged Media Stamper",
     category: "Native Android & Geocoding",
+    body: "Native Android application built with Kotlin and Jetpack Compose for field operations and academic audits. Captures high-res photos and videos with real-time dynamic overlays of GPS coordinates, elevation, and timestamp.",
     repo: "aniketmishra-0",
     repoUrl: "https://github.com/aniketmishra-0",
     liveUrl: null,
+    liveLabel: null,
     stack: ["Kotlin", "Jetpack Compose", "CameraX", "Location Services"],
     milestone: "Sub-100ms real-time GPS coordinate & video watermarking engine",
     deliverables: [
@@ -99,11 +107,13 @@ const MONTHS = [
     aniket0: 44,
     mishra: 0,
     combined: 44,
-    project: "Nexus Streamer — Drive to YouTube Bridge",
+    project: "Nexus Streamer — Drive to YouTube Ingestion Matrix",
     category: "Cloud Media & Stream Pipelines",
+    body: "Autonomous cloud pipeline bridging Google Drive and YouTube. Streams multi-gigabyte video files directly to YouTube as Unlisted assets with chunk-by-chunk Node.js stream transforms and live SSE progress without filling server RAM.",
     repo: "aniketmishra-0",
     repoUrl: "https://github.com/aniketmishra-0",
     liveUrl: "https://pwvp-drive2youtube.hf.space/",
+    liveLabel: "Launch Streamer (HuggingFace)",
     stack: ["Node.js", "Express", "YouTube API v3", "SSE", "Docker"],
     milestone: "Zero-RAM cloud-to-cloud stream pipeline with real-time SSE",
     deliverables: [
@@ -120,11 +130,13 @@ const MONTHS = [
     aniket0: 20,
     mishra: 2,
     combined: 22,
-    project: "Office Mobile — Sheet to Mobile PWA",
+    project: "Office Mobile — Google Sheet to Mobile Interface",
     category: "Cloud Productivity & Instant PWA",
+    body: "Transforms any Google Spreadsheet into an intuitive, mobile-first data entry and viewing PWA. Authenticates via Google OAuth 2.0, parses column schemas, and generates instant entry forms without requiring code or third-party database setups.",
     repo: "aniketmishra-0",
     repoUrl: "https://github.com/aniketmishra-0",
     liveUrl: "https://officemobile.vercel.app/",
+    liveLabel: "Launch officemobile.vercel.app",
     stack: ["Next.js 15", "Google Sheets API", "OAuth 2.0", "Tailwind CSS"],
     milestone: "Instant dynamic forms & real-time bidirectional spreadsheet sync",
     deliverables: [
@@ -142,16 +154,18 @@ const MONTHS = [
     mishra: 0,
     combined: 173,
     isPeakSprint: true,
-    project: "Qpic — Smart Exam Splitter & OCR Studio",
-    category: "Document Intelligence & OCR Pipeline",
+    project: "Qpic — Smart Exam Paper Splitter & OCR Studio",
+    category: "AI & Document Intelligence",
+    body: "FastAPI and Flutter desktop app that parses complex MCQ exam PDFs, detects questions via a 3-tier pipeline (native text layer → Tesseract OCR → Claude vision fallback), crops/stitches multi-page questions, and exports answer keys to CSV/JSON.",
     repo: "aniketmishra-0/Qpic",
     repoUrl: "https://github.com/aniketmishra-0/Qpic",
     liveUrl: null,
+    liveLabel: null,
     stack: ["FastAPI (Python)", "Flutter Desktop", "OpenCV", "Tesseract", "Claude Vision"],
     milestone: "All-Time Velocity Record: 173 commits · 14-stage document processor",
     deliverables: [
-      "14-stage document processing pipeline with auto-deskew, denoise, and binarization",
-      "Bilingual Hindi/English multi-column detection and stitch engine",
+      "14-stage document processing pipeline with deskew, denoise, and auto-binarization",
+      "Bilingual side-by-side Hindi & English column detection and auto-stitching",
       "Automated answer key table parsing with JSON/CSV schema export"
     ]
   },
@@ -163,15 +177,17 @@ const MONTHS = [
     aniket0: 114,
     mishra: 1,
     combined: 115,
-    project: "OmTabs — Chrome Tab Manager & Privacy Shield",
+    project: "OmTabs — Chrome Tab Management & Privacy Shield",
     category: "Chrome Extension & Web Security",
+    body: "Chrome extension that enables power users to rename open browser tabs with custom titles, protect sensitive tabs with biometric/passcode shields, and organize work sessions with zero browser memory overhead.",
     repo: "aniketmishra-0",
     repoUrl: "https://github.com/aniketmishra-0",
     liveUrl: "https://chromewebstore.google.com/detail/omtabs/innncdapnjlnjdgkdjjajbiebeppieaf",
+    liveLabel: "Add to Chrome (Web Store)",
     stack: ["Chrome MV3", "WebAuthn / Biometrics", "Chrome Storage", "JavaScript"],
     milestone: "Official Chrome Web Store launch with biometric security lock",
     deliverables: [
-      "Sub-10ms instant tab renaming via keyboard shortcut (Alt+Shift+R)",
+      "Instant tab title customization with keyboard shortcuts (Alt+Shift+R)",
       "Biometric & passcode shield lock to protect confidential browser tabs",
       "Zero-latency persistent session storage with zero background battery drain"
     ]
@@ -184,11 +200,13 @@ const MONTHS = [
     aniket0: 0,
     mishra: 0,
     combined: 0,
-    project: "Infrastructure Stabilization & Center Rollout",
-    category: "Production Operations & Maintenance",
-    repo: "aniketmishra-0",
-    repoUrl: "https://github.com/aniketmishra-0",
-    liveUrl: null,
+    project: "Centrix Operations & 500+ Center Rollout",
+    category: "Enterprise Operations & Scale",
+    body: "Nationwide hybrid classroom deployment and zero-downtime maintenance across 500+ Vidyapeeth centers. Executed automated timetable sync, edge stress-testing under 20,000+ daily uploads, and infrastructure stabilization.",
+    repo: "aniketmishra-0/Centrix",
+    repoUrl: "https://github.com/aniketmishra-0/Centrix",
+    liveUrl: "https://aniketmishra-0.github.io/Centrix_Demo/",
+    liveLabel: "Launch Centrix Demo",
     stack: ["Production Ops", "Load Testing", "System Architecture", "Security Audits"],
     milestone: "Zero-downtime maintenance & nationwide center deployment",
     deliverables: [
@@ -207,9 +225,11 @@ const MONTHS = [
     combined: 3,
     project: "OmSpace — New Tab Dashboard & Focus Studio",
     category: "Chrome Extension & Productivity",
+    body: "Customizable new tab dashboard with browser-default search, focus tools, widgets, and quick-access surfaces for power users who want an organized, distraction-free browser workspace every time a new tab is opened.",
     repo: "aniketmishra-0",
     repoUrl: "https://github.com/aniketmishra-0",
     liveUrl: "https://chromewebstore.google.com/detail/omspace-new-tab-dashboard/hofalojlkckeopheldapdcickcmeihmd?utm_source=ext_app_menu",
+    liveLabel: "Add to Chrome (Web Store)",
     stack: ["Chrome MV3", "React", "Chrome Storage", "Tailwind CSS"],
     milestone: "Official Chrome Web Store release of modern focus dashboard",
     deliverables: [
@@ -228,9 +248,11 @@ const MONTHS = [
     combined: 14,
     project: "Context Sovereignty & Multi-Agent Architecture",
     category: "AI Architecture & System Design",
+    body: "Modular specification contracts and architectural abstraction layer decoupling foundation AI models from autonomous agent workflows with sub-100ms contract evaluation.",
     repo: "Mishra-Aniket",
     repoUrl: "https://github.com/Mishra-Aniket",
     liveUrl: null,
+    liveLabel: null,
     stack: ["TypeScript", "FastAPI", "PostgreSQL", "Next.js 15"],
     milestone: "Hot-swappable AI context routing & modular specification engine",
     deliverables: [
@@ -249,9 +271,11 @@ const MONTHS = [
     combined: 29,
     project: "aniket.one — Next-Gen 3D Interactive Portfolio",
     category: "High-Performance Web & 3D Visualizers",
+    body: "Engineered an interactive 3D glassmorphic portfolio featuring custom SVG isometric hardware architectures, time-scrubbed contribution terrain, and real-time model spec evaluators.",
     repo: "Mishra-Aniket/testing",
     repoUrl: "https://github.com/Mishra-Aniket/testing",
     liveUrl: "https://mishra-aniket.github.io/testing/",
+    liveLabel: "View Live Portfolio",
     stack: ["Next.js 15", "React 19", "Framer Motion", "Tailwind CSS", "SVG 3D"],
     milestone: "Interactive 3D glassmorphic hardware stack & live contribution terrain",
     deliverables: [
@@ -276,14 +300,7 @@ const SERIES = [
     peakMonth: "May 2026",
     tag: "Unified Metrics",
     points: MONTHS.map((m) => m.combined),
-    url: "https://github.com/aniketmishra-0",
-    panel: {
-      eyebrow: "CROSS-PROFILE AGGREGATE",
-      title: "Consolidated Engineering Velocity",
-      body: "Combined output across @aniketmishra-0 and @Mishra-Aniket. Encompasses enterprise lecture pipelines, document intelligence, Chrome extensions, and full-stack web applications.",
-      code: "git.aggregate({ accounts: 2, repos: 64, contributions: 699 })",
-      highlight: "Peak velocity: 173 commits in a single month"
-    }
+    url: "https://github.com/aniketmishra-0"
   },
   {
     key: "aniket0",
@@ -298,14 +315,7 @@ const SERIES = [
     peakMonth: "May 2026",
     tag: "Production Systems",
     points: MONTHS.map((m) => m.aniket0),
-    url: "https://github.com/aniketmishra-0",
-    panel: {
-      eyebrow: "PRIMARY PROFILE · PRODUCTION & OPS",
-      title: "Enterprise Systems & Public Releases",
-      body: "Houses Centrix (.NET 8/Drive API for 500+ PW centers), Qpic (Python/FastAPI/Flutter), OmTabs & OmSpace extensions, ImgWorld, and RadialMenu releases.",
-      code: "https://github.com/aniketmishra-0",
-      highlight: "601 verified contributions · 35 public repositories"
-    }
+    url: "https://github.com/aniketmishra-0"
   },
   {
     key: "mishra",
@@ -320,14 +330,7 @@ const SERIES = [
     peakMonth: "Jan 2026",
     tag: "OSS Architecture",
     points: MONTHS.map((m) => m.mishra),
-    url: "https://github.com/Mishra-Aniket",
-    panel: {
-      eyebrow: "SECONDARY PROFILE · OSS & ARCHITECTURE",
-      title: "Core Web, R&D & Explorations",
-      body: "Houses foundational experiments, architecture blueprints, TypeScript utilities, and independent open-source web systems.",
-      code: "https://github.com/Mishra-Aniket",
-      highlight: "98 verified contributions · 29 public repositories"
-    }
+    url: "https://github.com/Mishra-Aniket"
   }
 ];
 
@@ -362,10 +365,10 @@ export default function AccuracyTerrain() {
   const [selectedSeries, setSelectedSeries] = useState(null);
   const [hoveredSeries, setHoveredSeries] = useState(null);
   const [filterAccount, setFilterAccount] = useState("all"); // "all", "aniket0", "mishra"
+  const [showProjectModal, setShowProjectModal] = useState(true);
 
-  // Active series index for inspection panel and isolation
+  // Active series index for isolation
   const activeIdx = hoveredSeries !== null ? hoveredSeries : selectedSeries;
-  const activeSeries = activeIdx !== null ? SERIES[activeIdx] : null;
 
   // Current position N along isometric axis (0 to 520)
   const N = scrub !== null ? scrub : parked;
@@ -378,14 +381,6 @@ export default function AccuracyTerrain() {
   const interpolatedValues = useMemo(() => {
     return SERIES.map((s) => interpolateSeries(s.points, N));
   }, [N]);
-
-  // Handle clicking a month tab to park scrubber
-  const handleSelectMonth = (idx) => {
-    sound.playClick();
-    const newPos = (idx / (MONTHS.length - 1)) * 520;
-    setParked(newPos);
-    setScrub(null);
-  };
 
   // Pointer move handler using SVG CTM inverse projection
   const handlePointerMove = (e) => {
@@ -465,9 +460,7 @@ export default function AccuracyTerrain() {
             <button
               onClick={() => {
                 sound.playClick();
-                setFilterAccount("aniket0");
-                setSelectedSeries(1);
-                setHoveredSeries(null);
+                setFilterAccount(filterAccount === "aniket0" ? "all" : "aniket0");
               }}
               className={`px-3 py-1 rounded-lg font-mono text-xs font-semibold transition-all cursor-pointer ${
                 filterAccount === "aniket0"
@@ -480,9 +473,7 @@ export default function AccuracyTerrain() {
             <button
               onClick={() => {
                 sound.playClick();
-                setFilterAccount("mishra");
-                setSelectedSeries(2);
-                setHoveredSeries(null);
+                setFilterAccount(filterAccount === "mishra" ? "all" : "mishra");
               }}
               className={`px-3 py-1 rounded-lg font-mono text-xs font-semibold transition-all cursor-pointer ${
                 filterAccount === "mishra"
@@ -581,17 +572,15 @@ export default function AccuracyTerrain() {
               })}
 
               <text x="744" y="81" fontSize="7.2" fontFamily="JetBrains Mono, monospace" letterSpacing="1.2" fontWeight="600" style={{ fill: "#B45309" }}>
-                {activeIdx !== null
-                  ? `ISOLATING: ${SERIES[activeIdx].label.toUpperCase()}`
-                  : `PROJECT: ${currentMonthData.project.toUpperCase()}`}
+                {`PROJECT: ${currentMonthData.project.toUpperCase()}`}
               </text>
             </g>
 
             {/* Top-Left series hint */}
-            <g pointerEvents="none" opacity={activeIdx === null ? 1 : 0} style={{ transition: "opacity 0.25s" }}>
+            <g pointerEvents="none" opacity={showProjectModal ? 0 : 1} style={{ transition: "opacity 0.25s" }}>
               <rect x="24" y="32" width="7" height="7" fill="none" stroke="#E4C090" strokeWidth="1" />
               <text x="38" y="39" fill="#A8A29E" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1.6" fontWeight="600">
-                HOVER TO SCRUB TIMELINE · CLICK SERIES TO INSPECT
+                MOVE POINTER ACROSS TERRAIN TO SCRUB PROJECTS
               </text>
             </g>
 
@@ -972,37 +961,26 @@ export default function AccuracyTerrain() {
             </g>
           </svg>
 
-          {/* Floating Detail Inspection Modal when series is active */}
-          {activeSeries && (
+          {/* DYNAMIC PROJECT SPOTLIGHT CARD (Updates with every scrubbed month/date) */}
+          {showProjectModal && (
             <div
-              className="absolute top-2 left-2 right-2 sm:right-auto sm:top-4 sm:left-4 z-30 max-w-[420px] sm:w-[400px] pointer-events-auto transition-all duration-200 animate-in fade-in"
-              onMouseEnter={() => setHoveredSeries(activeIdx)}
-              onMouseLeave={() => setHoveredSeries(null)}
+              className="absolute top-2 left-2 right-2 sm:right-auto sm:top-4 sm:left-4 z-30 max-w-[430px] sm:w-[410px] pointer-events-auto transition-all duration-200 animate-in fade-in"
               role="dialog"
-              aria-label={`${activeSeries.label} telemetry details`}
+              aria-label={`${currentMonthData.project} project details`}
             >
-              <div className="relative overflow-hidden rounded-xl border border-[#E4D9BC] bg-[#FDFBF7]/95 backdrop-blur-md shadow-[0_20px_40px_-15px_rgba(74,59,51,0.22)] p-4 sm:p-4.5">
+              <div className="relative overflow-hidden rounded-xl border border-[#E4D9BC] bg-[#FDFBF7]/95 backdrop-blur-md shadow-[0_20px_40px_-15px_rgba(74,59,51,0.22)] p-4 sm:p-5">
                 {/* Accent indicator on left edge */}
-                <div
-                  className="absolute inset-y-0 left-0 w-[4px]"
-                  style={{ background: activeSeries.color }}
-                />
+                <div className="absolute inset-y-0 left-0 w-[4px] bg-[#B45309]" />
 
-                {/* Top Row: Eyebrow + Verified Badge + Close Button */}
+                {/* Top Row: Date Badge + Project Category + Close Button */}
                 <div className="flex items-center justify-between gap-2 pl-1.5">
                   <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-                    <span
-                      className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] px-2 py-0.5 rounded bg-white border border-[#E4D9BC] truncate"
-                      style={{ color: activeSeries.color }}
-                    >
-                      {activeSeries.panel.eyebrow}
+                    <span className="font-mono text-[9px] font-bold uppercase tracking-[0.12em] px-2 py-0.5 rounded bg-[#FEF3C7] text-[#B45309] border border-[#FDE68A] truncate">
+                      📅 {currentMonthData.dateRange}
                     </span>
                     <span className="inline-flex items-center gap-1 font-mono text-[8.5px] uppercase tracking-wider text-[#059669] font-bold bg-[#ECFDF5] px-1.5 py-0.5 rounded border border-[#A7F3D0]">
-                      <span
-                        className="h-1.5 w-1.5 rounded-full animate-pulse"
-                        style={{ background: activeSeries.color }}
-                      />
-                      VERIFIED DATA
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#059669] animate-pulse" />
+                      {currentMonthData.category}
                     </span>
                   </div>
 
@@ -1010,12 +988,11 @@ export default function AccuracyTerrain() {
                   <button
                     onClick={() => {
                       sound.playClick();
-                      setSelectedSeries(null);
-                      setHoveredSeries(null);
+                      setShowProjectModal(false);
                     }}
                     className="p-1 rounded-md text-[#78716C] hover:text-[#4A3B33] hover:bg-[#F1E9DA] transition-colors cursor-pointer shrink-0"
-                    title="Close details"
-                    aria-label="Close details"
+                    title="Close project inspector"
+                    aria-label="Close project inspector"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -1024,61 +1001,97 @@ export default function AccuracyTerrain() {
                 {/* Title and Description */}
                 <div className="mt-2.5 pl-1.5">
                   <h4 className="text-[14.5px] sm:text-[15.5px] font-bold leading-snug text-[#4A3B33] font-serif">
-                    {activeSeries.panel.title}
+                    {currentMonthData.project}
                   </h4>
                   <p className="mt-1 text-[11px] leading-[1.6] text-[#57534E] font-sans">
-                    {activeSeries.panel.body}
+                    {currentMonthData.body}
                   </p>
                 </div>
 
+                {/* Shipped Deliverables list */}
+                <div className="mt-2.5 pl-1.5 space-y-1">
+                  {currentMonthData.deliverables.map((d, dIdx) => (
+                    <div key={dIdx} className="flex items-start gap-1.5 text-[10px] text-[#4A3B33] font-sans leading-relaxed">
+                      <span className="text-[#B45309] font-bold mt-0.5 shrink-0">▸</span>
+                      <span>{d}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Tech Stack Chips */}
+                <div className="mt-3 pl-1.5 flex flex-wrap items-center gap-1">
+                  {currentMonthData.stack.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-1.5 py-0.5 rounded bg-white border border-[#E4D9BC] font-mono text-[8.5px] font-semibold text-[#4A3B33]"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
                 {/* Horizontal 3-Stat Metric Grid */}
-                <div className="mt-3.5 grid grid-cols-3 divide-x divide-[#E4D9BC] rounded-lg border border-[#E4D9BC] bg-white/90 py-2.5 px-1 text-center font-mono shadow-2xs">
+                <div className="mt-3.5 grid grid-cols-3 divide-x divide-[#E4D9BC] rounded-lg border border-[#E4D9BC] bg-white/90 py-2 px-1 text-center font-mono shadow-2xs">
                   <div className="px-1">
                     <span className="block text-[8px] uppercase tracking-wider text-[#A8A29E] font-bold">
-                      Total Commits
-                    </span>
-                    <span className="block text-[13px] font-extrabold tabular-nums text-[#4A3B33] mt-0.5">
-                      {activeSeries.total}+
-                    </span>
-                    <span className="block text-[8px] text-[#78716C] font-sans">Verified</span>
-                  </div>
-                  <div className="px-1">
-                    <span className="block text-[8px] uppercase tracking-wider text-[#A8A29E] font-bold">
-                      Repositories
-                    </span>
-                    <span className="block text-[13px] font-extrabold tabular-nums text-[#059669] mt-0.5">
-                      {activeSeries.repos} Repos
-                    </span>
-                    <span className="block text-[8px] text-[#78716C] font-sans">Public</span>
-                  </div>
-                  <div className="px-1">
-                    <span className="block text-[8px] uppercase tracking-wider text-[#A8A29E] font-bold">
-                      Peak Sprint
+                      Output
                     </span>
                     <span className="block text-[13px] font-extrabold tabular-nums text-[#B45309] mt-0.5">
-                      {activeSeries.peak}
+                      {currentMonthData.combined} Commits
                     </span>
-                    <span className="block text-[8px] text-[#78716C] font-sans">
-                      {activeSeries.peakMonth}
+                    <span className="block text-[7.5px] text-[#78716C] font-sans">{currentMonthData.month}</span>
+                  </div>
+                  <div className="px-1">
+                    <span className="block text-[8px] uppercase tracking-wider text-[#A8A29E] font-bold">
+                      @aniketmishra-0
                     </span>
+                    <span className="block text-[13px] font-extrabold tabular-nums text-[#059669] mt-0.5">
+                      {currentMonthData.aniket0}
+                    </span>
+                    <span className="block text-[7.5px] text-[#78716C] font-sans">Production</span>
+                  </div>
+                  <div className="px-1">
+                    <span className="block text-[8px] uppercase tracking-wider text-[#A8A29E] font-bold">
+                      @Mishra-Aniket
+                    </span>
+                    <span className="block text-[13px] font-extrabold tabular-nums text-[#6366F1] mt-0.5">
+                      {currentMonthData.mishra}
+                    </span>
+                    <span className="block text-[7.5px] text-[#78716C] font-sans">OSS / Core</span>
                   </div>
                 </div>
 
-                {/* Footer Strip */}
+                {/* Footer Strip with Action Links */}
                 <div className="mt-3 pt-2.5 border-t border-[#F1E9DA] flex items-center justify-between gap-2 pl-1.5">
-                  <a
-                    href={activeSeries.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => sound.playClick()}
-                    className="inline-flex items-center gap-1 font-mono text-[10.5px] font-bold text-[#B45309] hover:text-[#92400E] hover:underline"
-                  >
-                    <span>Open {activeSeries.label} on GitHub</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </a>
+                  <div className="flex items-center gap-3 flex-wrap">
+                    {currentMonthData.liveUrl && (
+                      <a
+                        href={currentMonthData.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => sound.playClick()}
+                        className="inline-flex items-center gap-1 font-mono text-[10px] font-bold text-[#B45309] hover:text-[#92400E] hover:underline"
+                      >
+                        <span>{currentMonthData.liveLabel || "Launch Live Project"}</span>
+                        <ArrowUpRight className="w-3 h-3" />
+                      </a>
+                    )}
+                    {currentMonthData.repoUrl && (
+                      <a
+                        href={currentMonthData.repoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => sound.playClick()}
+                        className="inline-flex items-center gap-1 font-mono text-[9.5px] font-semibold text-[#78716C] hover:text-[#4A3B33] hover:underline"
+                      >
+                        <span>View Repo ({currentMonthData.repo.split("/")[1] || currentMonthData.repo})</span>
+                        <ArrowUpRight className="w-2.5 h-2.5" />
+                      </a>
+                    )}
+                  </div>
 
-                  <span className="font-mono text-[9px] font-semibold text-[#78716C] bg-[#F4EFE6] px-2 py-0.5 rounded border border-[#E4D9BC]/70 truncate">
-                    {activeSeries.tag}
+                  <span className="font-mono text-[8.5px] font-semibold text-[#78716C] bg-[#F4EFE6] px-1.5 py-0.5 rounded border border-[#E4D9BC]/70 truncate">
+                    {currentMonthData.label}
                   </span>
                 </div>
               </div>
