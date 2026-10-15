@@ -483,11 +483,11 @@ export default function StudentPerks({ onCountReady, onOpenSubmit }) {
         </div>
 
         {/* ────────────────────────────────────────────────────────── */}
-        {/* SECTION 2: GITHUB STUDENT PACK FEATURE BANNER             */}
+        {/* SECTION 2: GITHUB STUDENT PACK FEATURE BANNER (COMPACT)   */}
         {/* ────────────────────────────────────────────────────────── */}
-        <div className="rounded-2xl border border-white/[0.14] bg-gradient-to-r from-[#1A1F26] via-[#14181F] to-[#0F1217] p-6 sm:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 shadow-[0_20px_50px_rgba(0,0,0,0.6)] mb-14">
-          <div className="flex items-start gap-4 sm:gap-5">
-            <div className="w-14 h-14 rounded-xl bg-white/[0.08] border border-white/[0.14] p-3 flex items-center justify-center shrink-0">
+        <div className="rounded-xl sm:rounded-2xl border border-white/[0.14] bg-gradient-to-r from-[#1A1F26] via-[#14181F] to-[#0F1217] p-4 sm:p-7 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 sm:gap-6 shadow-[0_20px_50px_rgba(0,0,0,0.6)] mb-8 sm:mb-14">
+          <div className="flex items-center sm:items-start gap-3 sm:gap-5 w-full">
+            <div className="w-10 h-10 sm:w-13 sm:h-13 rounded-lg sm:rounded-xl bg-white/[0.08] border border-white/[0.14] p-2 sm:p-2.5 flex items-center justify-center shrink-0">
               <svg className="w-full h-full text-white fill-current" viewBox="0 0 24 24">
                 <path
                   fillRule="evenodd"
@@ -497,26 +497,24 @@ export default function StudentPerks({ onCountReady, onOpenSubmit }) {
               </svg>
             </div>
 
-            <div>
-              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white mb-1.5">
-                The Foundation: GitHub Student Developer Pack
+            <div className="min-w-0">
+              <h3 className="font-serif text-base sm:text-2xl font-bold text-white mb-0.5 sm:mb-1 truncate sm:whitespace-normal">
+                GitHub Student Developer Pack
               </h3>
-              <div className="flex flex-wrap items-center gap-2.5 text-xs font-mono text-[#D6D3D1] mb-3">
-                <span>80+ Free Developer Tools</span>
+              <div className="flex flex-wrap items-center gap-2 text-[11px] sm:text-xs font-mono text-[#D6D3D1]">
+                <span>80+ Free Tools</span>
                 <span className="text-[#A8A29E]">•</span>
-                <span className="inline-flex items-center gap-1 text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-semibold">
+                <span className="inline-flex items-center gap-1 text-emerald-400 font-semibold">
                   <CheckCircle2 className="w-3 h-3 text-emerald-400" />
                   Academic Verification
                 </span>
-              </div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1F6FEB]/20 border border-[#1F6FEB]/40 text-[#58A6FF] font-mono text-xs font-semibold">
-                <Sparkles className="w-3.5 h-3.5 text-[#58A6FF]" />
-                <span>Includes JetBrains All-Products, Copilot, DigitalOcean, Termius &amp; $50K+ in grants</span>
+                <span className="hidden sm:inline text-[#A8A29E]">•</span>
+                <span className="hidden sm:inline text-[#E4C090] font-semibold">$50K+ in grants</span>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto shrink-0">
+          <div className="flex flex-row items-center gap-2.5 w-full lg:w-auto shrink-0 pt-1 lg:pt-0">
             <button
               onClick={() => {
                 try {
@@ -526,10 +524,10 @@ export default function StudentPerks({ onCountReady, onOpenSubmit }) {
                 const listEl = document.getElementById("offers-list");
                 if (listEl) listEl.scrollIntoView({ behavior: "smooth" });
               }}
-              className="inline-flex items-center justify-center gap-2 rounded-[var(--radius)] bg-white/[0.08] hover:bg-white/[0.14] border border-white/[0.18] px-5 py-3 font-mono text-xs font-bold text-white transition-all cursor-pointer flex-1 lg:flex-initial"
+              className="inline-flex items-center justify-center gap-1.5 rounded-[var(--radius)] bg-white/[0.08] hover:bg-white/[0.14] border border-white/[0.18] px-3 sm:px-5 py-2 sm:py-2.5 font-mono text-[11px] sm:text-xs font-bold text-white transition-all cursor-pointer flex-1 lg:flex-initial"
             >
-              <span>Explore Included Tools</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <span>Explore Tools</span>
+              <ArrowRight className="w-3 h-3" />
             </button>
             <a
               href="https://education.github.com/pack"
@@ -540,10 +538,9 @@ export default function StudentPerks({ onCountReady, onOpenSubmit }) {
                   sound.playClick();
                 } catch {}
               }}
-              className="inline-flex items-center justify-center gap-2 rounded-[var(--radius)] bg-[#1F6FEB] hover:bg-[#388BFD] px-6 py-3 font-mono text-xs font-bold text-white shadow-lg transition-all cursor-pointer flex-1 lg:flex-initial"
+              className="inline-flex items-center justify-center gap-1.5 rounded-[var(--radius)] bg-[#1F6FEB] hover:bg-[#388BFD] px-3 sm:px-5 py-2 sm:py-2.5 font-mono text-[11px] sm:text-xs font-bold text-white shadow-md transition-all cursor-pointer flex-1 lg:flex-initial"
             >
-              <span>Claim via GitHub Education</span>
-              <ExternalLink className="w-3.5 h-3.5" />
+              <span>Claim Pack ↗</span>
             </a>
           </div>
         </div>
@@ -552,8 +549,8 @@ export default function StudentPerks({ onCountReady, onOpenSubmit }) {
         {/* SECTION 3: OFFERS SEARCH, SMART TABS & GRID               */}
         {/* ────────────────────────────────────────────────────────── */}
         <div id="offers-list" className="scroll-mt-28">
-          {/* ── SMART STATUS PILLS ── */}
-          <div className="flex flex-wrap items-center gap-2 mb-6 border-b border-white/[0.08] pb-4">
+          {/* ── SMART STATUS PILLS (Hidden on Mobile as requested) ── */}
+          <div className="hidden sm:flex flex-wrap items-center gap-2 mb-6 border-b border-white/[0.08] pb-4">
             <span className="font-mono text-xs text-[#A8A29E] mr-2 flex items-center gap-1.5">
               <SlidersHorizontal className="w-3.5 h-3.5 text-[#E4C090]" />
               Filter by:
@@ -604,22 +601,36 @@ export default function StudentPerks({ onCountReady, onOpenSubmit }) {
 
           {/* Search bar + Active Category Indicator */}
           {!loading && !error && (
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+            <div className="flex flex-row items-center justify-between gap-3 mb-6 sm:mb-8">
               {/* Search input */}
-              <div className="relative max-w-md w-full">
+              <div className="relative flex-1 max-w-md">
                 <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E] pointer-events-none" />
                 <input
                   id="perks-search"
                   type="text"
-                  placeholder="Search 140+ tools, cloud credits, or stacks (e.g. JetBrains, Copilot, AWS, Notion)..."
+                  placeholder="Search 140+ software deals..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-[var(--radius)] bg-[#1C1917] border border-white/[0.18] text-sm text-white placeholder:text-[#78716C] focus:border-[#E4C090] focus:outline-none focus:ring-1 focus:ring-[#E4C090]/50 transition-colors"
+                  className="w-full pl-9 pr-3 py-2 sm:py-2.5 rounded-[var(--radius)] bg-[#1C1917] border border-white/[0.18] text-xs sm:text-sm text-white placeholder:text-[#78716C] focus:border-[#E4C090] focus:outline-none focus:ring-1 focus:ring-[#E4C090]/50 transition-colors"
                 />
               </div>
 
-              {/* Active category pill & count */}
-              <div className="flex items-center gap-3">
+              {/* Mobile Post A Deal button */}
+              <button
+                onClick={() => {
+                  try {
+                    sound.playClick();
+                  } catch {}
+                  if (onOpenSubmit) onOpenSubmit();
+                }}
+                className="sm:hidden inline-flex items-center gap-1 px-3 py-2 rounded-lg bg-[#E4C090]/15 border border-[#E4C090]/40 font-mono text-xs font-bold text-[#E4C090] shrink-0 cursor-pointer"
+              >
+                <PlusCircle className="w-3.5 h-3.5" />
+                <span>Post</span>
+              </button>
+
+              {/* Active category pill & count (Desktop) */}
+              <div className="hidden sm:flex items-center gap-3">
                 <span className="font-mono text-xs text-[#A8A29E]">
                   Showing <span className="text-white font-bold">{filtered.length}</span> active grants
                   {selectedCategory !== "All" && ` in ${selectedCategory}`}
@@ -718,24 +729,24 @@ export default function StudentPerks({ onCountReady, onOpenSubmit }) {
                   )}
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-6 lg:gap-8">
                   {displayedOffers.map((offer, idx) => {
                     const iconSrc = offer.favicon || offer.logo;
                     return (
                       <div
                         key={offer.name || idx}
-                        className="group relative rounded-[var(--radius)] border border-white/[0.12] bg-[#1C1917] p-7 sm:p-8 shadow-[0_16px_40px_rgba(0,0,0,0.6)] hover:shadow-[0_20px_50px_rgba(228,192,144,0.12)] hover:border-[#E4C090]/70 hover:bg-[#211E1B] transition-all duration-300 flex flex-col justify-between"
+                        className="group relative rounded-xl sm:rounded-[var(--radius)] border border-white/[0.12] bg-[#1C1917] p-3 sm:p-7 shadow-[0_12px_30px_rgba(0,0,0,0.5)] sm:shadow-[0_16px_40px_rgba(0,0,0,0.6)] hover:shadow-[0_20px_50px_rgba(228,192,144,0.12)] hover:border-[#E4C090]/70 hover:bg-[#211E1B] transition-all duration-300 flex flex-col justify-between"
                       >
                         <div>
                           {/* ── Top Header Row ── */}
-                          <div className="flex items-center justify-between gap-3 mb-4">
-                            <div className="flex items-center gap-2.5 min-w-0">
+                          <div className="flex items-center justify-between gap-1.5 sm:gap-3 mb-2 sm:mb-4">
+                            <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0">
                               {iconSrc && (
                                 /* eslint-disable-next-line @next/next/no-img-element */
                                 <img
                                   src={iconSrc}
                                   alt=""
-                                  className="w-6 h-6 rounded object-contain shrink-0"
+                                  className="w-4 h-4 sm:w-6 sm:h-6 rounded object-contain shrink-0"
                                   loading="lazy"
                                   onError={(e) => {
                                     if (offer.favicon && e.currentTarget.src !== offer.favicon) {
@@ -746,75 +757,75 @@ export default function StudentPerks({ onCountReady, onOpenSubmit }) {
                                   }}
                                 />
                               )}
-                              <span className="font-mono text-xs text-[#A8A29E] truncate">
+                              <span className="font-mono text-[10px] sm:text-xs text-[#A8A29E] truncate">
                                 {offer.domain || offer.name}
                               </span>
                             </div>
 
-                            <div className="flex items-center gap-1.5 shrink-0">
+                            <div className="flex items-center gap-1 shrink-0">
                               {offer.category && (
-                                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#E4C090] bg-[#E4C090]/15 px-2 py-0.5 rounded border border-[#E4C090]/30">
+                                <span className="hidden sm:inline-block font-mono text-[10px] font-bold uppercase tracking-wider text-[#E4C090] bg-[#E4C090]/15 px-2 py-0.5 rounded border border-[#E4C090]/30">
                                   {offer.category}
                                 </span>
                               )}
-                              <span className="inline-flex items-center gap-1 font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                                <ShieldCheck className="w-3 h-3 text-emerald-400" />
-                                Verified
+                              <span className="inline-flex items-center gap-1 font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-1.5 sm:px-2 py-0.5 rounded border border-emerald-500/20">
+                                <ShieldCheck className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-emerald-400" />
+                                <span className="hidden sm:inline">Verified</span>
                               </span>
                             </div>
                           </div>
 
                           {/* ── Urgency & Feature Badges ── */}
-                          <div className="flex flex-wrap items-center gap-2 mb-3">
+                          <div className="flex flex-wrap items-center gap-1 sm:gap-2 mb-2 sm:mb-3">
                             {offer.isExpiring && (
-                              <span className="inline-flex items-center gap-1 font-mono text-[10px] font-bold text-amber-300 bg-amber-500/20 border border-amber-500/40 px-2 py-0.5 rounded animate-pulse">
-                                <Clock className="w-3 h-3 text-amber-400" />
-                                {offer.daysLeft ? `Expires in ${offer.daysLeft} days` : "Limited Cohort"}
+                              <span className="inline-flex items-center gap-1 font-mono text-[9px] sm:text-[10px] font-bold text-amber-300 bg-amber-500/20 border border-amber-500/40 px-1.5 sm:px-2 py-0.5 rounded animate-pulse">
+                                <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-400" />
+                                <span>{offer.daysLeft ? `${offer.daysLeft}d left` : "Expiring"}</span>
                               </span>
                             )}
                             {offer.isCommunity && (
-                              <span className="inline-flex items-center gap-1 font-mono text-[10px] font-bold text-[#E4C090] bg-[#E4C090]/15 border border-[#E4C090]/30 px-2 py-0.5 rounded">
-                                🛡️ Verified by Aniket
+                              <span className="inline-flex items-center gap-1 font-mono text-[9px] sm:text-[10px] font-bold text-[#E4C090] bg-[#E4C090]/15 border border-[#E4C090]/30 px-1.5 sm:px-2 py-0.5 rounded">
+                                <span>🛡️ Aniket Verified</span>
                               </span>
                             )}
                             {offer.isRecent && !offer.isCommunity && (
-                              <span className="inline-flex items-center gap-1 font-mono text-[10px] font-bold text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
-                                ✨ New Addition
+                              <span className="inline-flex items-center gap-1 font-mono text-[9px] sm:text-[10px] font-bold text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 px-1.5 sm:px-2 py-0.5 rounded">
+                                <span>✨ New</span>
                               </span>
                             )}
                             {offer.isZeroCard && (
-                              <span className="inline-flex items-center gap-1 font-mono text-[10px] font-bold text-[#D6D3D1] bg-white/[0.06] border border-white/[0.1] px-2 py-0.5 rounded">
-                                💳 Zero-Card
+                              <span className="inline-flex items-center gap-1 font-mono text-[9px] sm:text-[10px] font-bold text-[#D6D3D1] bg-white/[0.06] border border-white/[0.1] px-1.5 sm:px-2 py-0.5 rounded">
+                                <span>💳 No Card</span>
                               </span>
                             )}
                           </div>
 
                           {/* ── Title ── */}
-                          <h3 className="font-serif text-2xl font-bold text-white mb-2 group-hover:text-[#E4C090] transition-colors leading-snug">
+                          <h3 className="font-serif text-sm sm:text-2xl font-bold text-white mb-1 sm:mb-2 group-hover:text-[#E4C090] transition-colors leading-tight sm:leading-snug line-clamp-1">
                             {offer.name}
                           </h3>
 
                           {/* ── About summary ── */}
                           {offer.about && (
-                            <p className="text-[0.875rem] leading-[1.65] text-[#A8A29E] mb-5 line-clamp-2">
+                            <p className="text-[10.5px] sm:text-[0.875rem] leading-[1.45] sm:leading-[1.65] text-[#A8A29E] mb-2 sm:mb-5 line-clamp-2">
                               {offer.about}
                             </p>
                           )}
 
                           {/* ── Offer Highlight Box ── */}
-                          <div className="rounded-lg bg-white/[0.035] border border-white/[0.08] p-4 mb-6 group-hover:border-[#E4C090]/35 transition-colors">
-                            <div className="flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-wider text-[#E4C090] mb-1.5">
-                              <Sparkles className="w-3 h-3 text-[#E4C090]" />
-                              <span>What You Unlock</span>
+                          <div className="rounded-md sm:rounded-lg bg-white/[0.035] border border-white/[0.08] p-2 sm:p-4 mb-2.5 sm:mb-6 group-hover:border-[#E4C090]/35 transition-colors">
+                            <div className="flex items-center gap-1 font-mono text-[8.5px] sm:text-[10px] font-bold uppercase tracking-wider text-[#E4C090] mb-0.5 sm:mb-1.5">
+                              <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#E4C090]" />
+                              <span>Perk</span>
                             </div>
-                            <p className="text-[0.9375rem] leading-[1.65] text-[#F5F5F4] font-medium">
+                            <p className="text-[10.5px] sm:text-[0.9375rem] leading-[1.45] sm:leading-[1.65] text-[#F5F5F4] font-medium line-clamp-2">
                               {offer.offer}
                             </p>
                           </div>
                         </div>
 
                         {/* ── Action Button ── */}
-                        <div className="pt-4 border-t border-white/[0.1] mt-auto">
+                        <div className="pt-2 sm:pt-4 border-t border-white/[0.1] mt-auto">
                           <a
                             href={offer.link}
                             target="_blank"
@@ -824,10 +835,9 @@ export default function StudentPerks({ onCountReady, onOpenSubmit }) {
                                 sound.playClick();
                               } catch {}
                             }}
-                            className="inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius)] bg-[#24201D] border border-white/[0.18] py-2.5 px-4 font-mono text-xs font-bold text-white group-hover:bg-[#B45309] group-hover:border-[#B45309] shadow-sm transition-all cursor-pointer"
+                            className="inline-flex w-full items-center justify-center gap-1.5 rounded-[var(--radius)] bg-[#24201D] border border-white/[0.18] py-1.5 sm:py-2.5 px-2 sm:px-4 font-mono text-[10.5px] sm:text-xs font-bold text-white group-hover:bg-[#B45309] group-hover:border-[#B45309] shadow-sm transition-all cursor-pointer"
                           >
-                            <span>Claim Official Grant</span>
-                            <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                            <span className="truncate">Claim Grant ↗</span>
                           </a>
                         </div>
                       </div>

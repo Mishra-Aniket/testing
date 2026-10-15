@@ -611,6 +611,13 @@ export default function Navbar({
                 }`}
               >
                 <span>Learn</span>
+                <span className={`text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full border ${
+                  isDarkTheme
+                    ? "border-amber-500/40 text-amber-300 bg-amber-500/15"
+                    : "border-[#B45309]/30 text-[#B45309] bg-[#B45309]/10"
+                }`}>
+                  Coming Soon
+                </span>
                 <ChevronDown className={`w-3.5 h-3.5 opacity-70 transition-transform duration-300 ${
                   activeDropdown === 'learn' ? 'rotate-180' : ''
                 }`} />
@@ -1181,10 +1188,17 @@ export default function Navbar({
                       }}
                       className="w-full flex items-center justify-between py-1.5 text-left cursor-pointer group"
                     >
-                      <span className={`text-[17px] font-serif font-medium transition-colors ${
+                      <span className={`text-[17px] font-serif font-medium transition-colors flex items-center gap-2 ${
                         isDarkTheme ? "text-[#F5F5F4] group-hover:text-[#E4C090]" : "text-[#4A3B33] group-hover:text-[#B45309]"
                       }`}>
-                        Learn &amp; Docs
+                        <span>Learn &amp; Docs</span>
+                        <span className={`text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full border ${
+                          isDarkTheme
+                            ? "border-amber-500/40 text-amber-300 bg-amber-500/15"
+                            : "border-[#B45309]/30 text-[#B45309] bg-[#B45309]/10"
+                        }`}>
+                          Coming Soon
+                        </span>
                       </span>
                       <ChevronDown 
                         className={`w-4 h-4 shrink-0 transition-transform duration-200 ${
