@@ -106,6 +106,12 @@ export default function DarkCTA({ showStats = false }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (email.trim()) {
+      // Open mailto so the inquiry actually reaches you (static site has no server)
+      const subject = encodeURIComponent("Project Inquiry from " + email.trim());
+      const body = encodeURIComponent(
+        "Hi Aniket,\n\nI'd like to discuss a project.\n\nContact email: " + email.trim() + "\n\n---\nSent from aniket.one"
+      );
+      window.open(`mailto:hello@aniket.one?subject=${subject}&body=${body}`, "_blank");
       sound.playSuccess();
       setSubmitted(true);
     }

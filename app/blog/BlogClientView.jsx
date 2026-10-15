@@ -183,7 +183,21 @@ export default function BlogClientView() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: idx * 0.08 }}
-              className="group relative rounded-xl border border-[#E4D9BC] bg-white p-7 sm:p-9 shadow-xs hover:border-[#B45309] hover:shadow-[var(--shadow-soft-lg)] transition-all duration-300"
+              className="group relative rounded-xl border border-[#E4D9BC] bg-white p-7 sm:p-9 shadow-xs hover:border-[#B45309] hover:shadow-[var(--shadow-soft-lg)] transition-all duration-300 cursor-pointer"
+              onClick={() => {
+                sound.playClick();
+                const subject = encodeURIComponent(`Interested in: ${article.title}`);
+                const body = encodeURIComponent(`Hi Aniket,\n\nI'd love to read the full case study on "${article.title}".\n\nPlease let me know when the full article is available.\n\nThanks!`);
+                window.open(`mailto:hello@aniket.one?subject=${subject}&body=${body}`, "_blank");
+              }}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  e.currentTarget.click();
+                }
+              }}
             >
               <div className="flex flex-wrap items-center gap-3 mb-4 text-xs font-mono text-[#78716C]">
                 <span className="px-2.5 py-1 rounded bg-[#FAF6EE] text-[#B45309] font-semibold border border-[#E4D9BC]">
@@ -213,7 +227,7 @@ export default function BlogClientView() {
                   By <strong className="text-[#4A3B33]">{article.author}</strong>
                 </span>
                 <span className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-[#B45309] group-hover:translate-x-1 transition-transform">
-                  Read Case Study <ArrowRight className="w-3.5 h-3.5" />
+                  Request Full Article <ArrowRight className="w-3.5 h-3.5" />
                 </span>
               </div>
             </motion.article>

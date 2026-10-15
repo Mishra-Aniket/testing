@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300..800;1,300..800&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+/* Fonts loaded via next/font/google in layout.jsx */
 @import 'lenis/dist/lenis.css';
 
 @tailwind base;
@@ -81,6 +81,16 @@ body {
   position: relative;
 }
 
+/* Ensure dark background on pages with data-theme="dark" */
+html:has([data-theme="dark"]),
+body:has([data-theme="dark"]),
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+body:has([data-theme="dark"]) {
+  background-color: #141210 !important;
+}
+
 /* Authentic Navbar cascading theme system */
 .nav-link {
   color: #57534E;
@@ -143,14 +153,24 @@ body {
   box-sizing: border-box;
 }
 
-/* Eliminate blue browser focus borders on SVG, <g> elements, buttons */
-svg, svg *, g, path, rect, circle, polygon, polyline, ellipse, text, button, a {
+/* Eliminate blue browser focus borders on SVG and decorative elements only */
+svg, svg *, g, path, rect, circle, polygon, polyline, ellipse, text {
   outline: none !important;
   -webkit-focus-ring-color: transparent !important;
 }
 
-:focus:not(:focus-visible) {
-  outline: none !important;
+/* Remove outline for mouse clicks, but preserve for keyboard navigation */
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Accessible focus ring for keyboard users */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #B45309;
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 /* Ensure code and tables are smooth to swipe horizontally on touch devices */

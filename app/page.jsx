@@ -41,7 +41,7 @@ export default function Home() {
       {/* Main Content Sections */}
       <main className="relative z-10 flex flex-col">
         {/* 1. Hero with 3D isometric 5-layer architecture stack & hover zoom telemetry */}
-        <Hero onOpenAssessment={() => setAssessmentOpen(true)} />
+        <Hero />
 
         {/* Hidden SEO overview */}
         <section aria-label="Aniket Mishra engineering overview" style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)", clipPath: "inset(50%)", whiteSpace: "nowrap" }}>

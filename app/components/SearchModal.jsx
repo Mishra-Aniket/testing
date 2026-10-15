@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { sound } from "../utils/sound";
+import { getRuntimeBasePath, resolveUrl } from "../../lib/utils";
 import {
   Search,
   X,
@@ -95,12 +97,64 @@ const QUICK_LINKS = [
 ];
 
 export default function SearchModal({ isOpen, onOpen, onClose }) {
+  const router = useRouter();
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [isPageDark, setIsPageDark] = useState(false);
   const inputRef = useRef(null);
   const modalRef = useRef(null);
   const scrollContainerRef = useRef(null);
+  const scrollTimeoutRef = useRef(null);
+
+  // Detect dark theme on current page or route
+  useEffect(() => {
+    const checkDark = () => {
+      if (typeof document !== "undefined") {
+        const isDark = Boolean(
+          document.documentElement.getAttribute("data-theme") === "dark" ||
+          document.querySelector('[data-theme="dark"]') ||
+          window.location.pathname.includes("/students")
+        );
+        setIsPageDark(isDark);
+      }
+    };
+    checkDark();
+    window.addEventListener("scroll", checkDark, { passive: true });
+    return () => window.removeEventListener("scroll", checkDark);
+  }, []);
+
+  // Hide floating search dock on mobile during scrolling, reappear when scrolling stops
+  useEffect(() => {
+    const handleScroll = () => {
+      if (typeof window === "undefined" || window.innerWidth >= 768) return;
+
+      setIsScrolling(true);
+
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+
+      scrollTimeoutRef.current = setTimeout(() => {
+        setIsScrolling(false);
+      }, 260);
+    };
+
+    const handleScrollEnd = () => {
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      setIsScrolling(false);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scrollend", handleScrollEnd, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scrollend", handleScrollEnd);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    };
+  }, []);
 
   // Sync with mobile menu state to avoid overlapping
   useEffect(() => {
@@ -296,20 +350,24 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
       return;
     }
 
-    const url = item.href;
-    const hashIdx = url.indexOf("#");
-    const targetHash = hashIdx !== -1 ? url.substring(hashIdx) : null;
+    const rawUrl = item.href;
+    const resolvedUrl = resolveUrl(rawUrl);
+    const hashIdx = rawUrl.indexOf("#");
+    const targetHash = hashIdx !== -1 ? rawUrl.substring(hashIdx) : null;
     const targetId = targetHash ? targetHash.slice(1) : null;
-    const targetPath = hashIdx !== -1 ? url.substring(0, hashIdx) : url;
+    const targetPath = hashIdx !== -1 ? rawUrl.substring(0, hashIdx) : rawUrl;
 
-    const currentPath = typeof window !== "undefined" ? window.location.pathname.replace(/\/+$/, "") || "/" : "/";
+    const basePath = getRuntimeBasePath();
+    let currentPath = typeof window !== "undefined" ? window.location.pathname.replace(/\/+$/, "") || "/" : "/";
+    if (basePath && currentPath.startsWith(basePath)) {
+      currentPath = currentPath.slice(basePath.length) || "/";
+    }
     const normalizedTargetPath = targetPath.replace(/\/+$/, "") || "/";
 
     const isSamePage =
       targetPath === "" ||
-      (targetPath === "/" && (currentPath === "/" || currentPath.endsWith("/testing"))) ||
-      currentPath === normalizedTargetPath ||
-      currentPath.endsWith(normalizedTargetPath);
+      normalizedTargetPath === currentPath ||
+      (normalizedTargetPath === "/" && (currentPath === "/" || currentPath === ""));
 
     if (isSamePage && targetId) {
       const el = document.getElementById(targetId);
@@ -334,7 +392,16 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
       }
     }
 
-    window.location.href = url;
+    // Try client-side routing, fallback to full resolved URL
+    try {
+      if (rawUrl.startsWith("/") && !rawUrl.startsWith("//")) {
+        router.push(rawUrl);
+      } else {
+        window.location.href = resolvedUrl;
+      }
+    } catch {
+      window.location.href = resolvedUrl;
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -359,10 +426,10 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
       {/* 1. FLOATING BOTTOM SEARCH DOCK TRIGGER BUTTON */}
       <div
         data-bottom-search-dock="true"
-        className={`fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 z-40 -translate-x-1/2 max-w-[calc(100vw-2rem)] transition-[opacity,transform] duration-250 ease-out will-change-[transform,opacity] ${
-          isMobileMenuOpen
-            ? "opacity-0 pointer-events-none scale-95"
-            : "opacity-100 pointer-events-auto scale-100"
+        className={`fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 z-40 -translate-x-1/2 max-w-[calc(100vw-2rem)] transition-[opacity,transform] duration-300 ease-out will-change-[transform,opacity] ${
+          isMobileMenuOpen || isScrolling
+            ? "opacity-0 pointer-events-none translate-y-8 scale-95"
+            : "opacity-100 pointer-events-auto translate-y-0 scale-100"
         }`}
       >
         <button
@@ -376,23 +443,31 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
             }
           }}
           aria-label="Search pages or ask Aniket"
-          className="inline-flex shrink-0 items-center justify-center whitespace-nowrap border py-2 outline-none transition-all cursor-pointer select-none active:translate-y-px h-11 gap-2.5 rounded-lg px-4 sm:px-6 text-xs sm:text-sm font-semibold shadow-[var(--shadow-soft)] hover:-translate-y-px bg-white text-[#4A3B33] border-[#E4D9BC] hover:bg-[#F8F4EE]"
+          className={`inline-flex shrink-0 items-center justify-center whitespace-nowrap border py-2 outline-none transition-all cursor-pointer select-none active:translate-y-px h-11 gap-2.5 rounded-lg px-4 sm:px-6 text-xs sm:text-sm font-semibold shadow-[var(--shadow-soft)] hover:-translate-y-px ${
+            isPageDark
+              ? "bg-[#1C1917]/95 text-[#F5F5F4] border-white/[0.12] hover:bg-[#25211E] shadow-[0_12px_32px_rgba(0,0,0,0.6)]"
+              : "bg-white text-[#4A3B33] border-[#E4D9BC] hover:bg-[#F8F4EE]"
+          }`}
         >
-          <Search className="w-4 h-4 text-[#B45309] shrink-0" />
+          <Search className={`w-4 h-4 shrink-0 ${isPageDark ? "text-[#E4C090]" : "text-[#B45309]"}`} />
           <span className="truncate max-w-[240px] sm:max-w-none">
             Search or Ask &ldquo;What projects has Aniket built?&rdquo;
           </span>
-          <kbd className="hidden sm:inline-flex ml-2 rounded border border-[#E4D9BC] bg-[#F8F4EE] px-1.5 py-0.5 font-mono text-[11px] text-[#78716C]">
+          <kbd className={`hidden sm:inline-flex ml-2 rounded border px-1.5 py-0.5 font-mono text-[11px] ${
+            isPageDark 
+              ? "border-white/[0.1] bg-white/[0.06] text-[#A8A29E]"
+              : "border-[#E4D9BC] bg-[#F8F4EE] text-[#78716C]"
+          }`}>
             ⌘ K
           </kbd>
         </button>
       </div>
 
-      {/* 2. EXACT 1:1 POPOVER SEARCH MODAL (Matching Image 2 getalchemystai.com) */}
+      {/* 2. EXACT 1:1 POPOVER SEARCH MODAL */}
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Transparent click-outside dismiss backdrop (Zero dark overlay, background remains 100% visible) */}
+            {/* Transparent click-outside dismiss backdrop */}
             <div
               className="fixed inset-0 z-40 bg-transparent cursor-default"
               onClick={() => {
@@ -412,13 +487,19 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 6, scale: 0.99 }}
                 transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
-                className="pointer-events-auto w-full max-w-[490px] overflow-hidden rounded-xl border border-[#E4D9BC] bg-[#FDFBF7] shadow-[0_16px_40px_rgba(74,59,51,0.14)] text-[#4A3B33] flex flex-col"
+                className={`pointer-events-auto w-full max-w-[490px] overflow-hidden rounded-xl border shadow-[0_16px_40px_rgba(0,0,0,0.25)] flex flex-col ${
+                  isPageDark
+                    ? "border-white/[0.12] bg-[#1C1917] text-[#F5F5F4]"
+                    : "border-[#E4D9BC] bg-[#FDFBF7] text-[#4A3B33]"
+                }`}
                 onKeyDown={handleKeyDown}
                 data-lenis-prevent="true"
               >
-                {/* Header Row: Title & Close Button matching Image 2 */}
-                <div className="flex items-center justify-between gap-3 border-b border-[#E4D9BC]/60 px-4 py-2.5 bg-transparent shrink-0">
-                  <h2 className="text-sm font-medium text-[#4A3B33]">
+                {/* Header Row: Title & Close Button */}
+                <div className={`flex items-center justify-between gap-3 border-b px-4 py-2.5 bg-transparent shrink-0 ${
+                  isPageDark ? "border-white/[0.08]" : "border-[#E4D9BC]/60"
+                }`}>
+                  <h2 className={`text-sm font-medium ${isPageDark ? "text-[#F5F5F4]" : "text-[#4A3B33]"}`}>
                     Explore Aniket
                   </h2>
                   <button
@@ -427,20 +508,26 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                       sound.playClick();
                       onClose();
                     }}
-                    className="rounded p-1 text-[#78716C] hover:bg-black/5 hover:text-[#4A3B33] transition-colors cursor-pointer"
+                    className={`rounded p-1 transition-colors cursor-pointer ${
+                      isPageDark ? "text-[#A8A29E] hover:bg-white/10 hover:text-white" : "text-[#78716C] hover:bg-black/5 hover:text-[#4A3B33]"
+                    }`}
                     aria-label="Close search"
                   >
                     <X className="w-4 h-4" />
                   </button>
                 </div>
 
-                {/* Input Group: Exact orange/amber border input matching Image 2 */}
+                {/* Input Group: Exact orange/amber border input */}
                 <div className="p-3 pb-1 shrink-0">
                   <div
                     onClick={() => inputRef.current?.focus()}
-                    className="flex items-center gap-2.5 rounded-lg border border-[#B45309] bg-white px-3 py-2 shadow-2xs transition-all cursor-text"
+                    className={`flex items-center gap-2.5 rounded-lg border px-3 py-2 shadow-2xs transition-all cursor-text ${
+                      isPageDark
+                        ? "border-[#E4C090]/80 bg-[#141210]"
+                        : "border-[#B45309] bg-white"
+                    }`}
                   >
-                    <Search className="w-4 h-4 text-[#78716C] shrink-0 opacity-70" />
+                    <Search className={`w-4 h-4 shrink-0 opacity-70 ${isPageDark ? "text-[#E4C090]" : "text-[#78716C]"}`} />
                     <input
                       ref={inputRef}
                       type="text"
@@ -450,7 +537,9 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                         setSelectedIndex(0);
                       }}
                       placeholder="Find a page or ask a question…"
-                      className="w-full bg-transparent text-[13.5px] text-[#4A3B33] placeholder-[#A8A29E] outline-none font-sans"
+                      className={`w-full bg-transparent text-[13.5px] placeholder-[#A8A29E] outline-none font-sans ${
+                        isPageDark ? "text-[#F5F5F4]" : "text-[#4A3B33]"
+                      }`}
                     />
                     {query && (
                       <button
@@ -459,7 +548,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                           setQuery("");
                           inputRef.current?.focus();
                         }}
-                        className="text-[#A8A29E] hover:text-[#4A3B33] p-0.5 cursor-pointer"
+                        className="text-[#A8A29E] hover:text-[#F5F5F4] p-0.5 cursor-pointer"
                       >
                         <X className="w-3.5 h-3.5" />
                       </button>
@@ -472,7 +561,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                   {query.trim() ? "Search results" : "Quick links"}
                 </div>
 
-                {/* Scrollable Items List: Clean single-line rows with Home selected by default */}
+                {/* Scrollable Items List */}
                 <div
                   ref={scrollContainerRef}
                   onWheel={(e) => e.stopPropagation()}
@@ -503,12 +592,18 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                           onMouseEnter={() => setSelectedIndex(idx)}
                           className={`group relative flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors cursor-pointer select-none ${
                             isSelected
-                              ? "bg-[#F3ECE0] text-[#4A3B33] font-medium"
-                              : "text-[#57534E] hover:bg-[#F3ECE0]/70"
+                              ? isPageDark
+                                ? "bg-white/[0.08] text-[#F5F5F4] font-medium"
+                                : "bg-[#F3ECE0] text-[#4A3B33] font-medium"
+                              : isPageDark
+                                ? "text-[#D6D3D1] hover:bg-white/[0.05]"
+                                : "text-[#57534E] hover:bg-[#F3ECE0]/70"
                           }`}
                         >
                           <Icon className={`w-4 h-4 shrink-0 transition-colors ${
-                            isSelected ? "text-[#B45309]" : "text-[#78716C]"
+                            isSelected 
+                              ? isPageDark ? "text-[#E4C090]" : "text-[#B45309]" 
+                              : "text-[#78716C]"
                           }`} />
                           <span className="flex-1 truncate text-[13.5px]">
                             {item.label}
@@ -521,7 +616,9 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                 </div>
 
                 {/* Footer Row: Keyboard navigation hints */}
-                <div className="flex items-center justify-between border-t border-[#E4D9BC]/60 px-4 py-2 text-xs text-[#78716C] font-mono shrink-0 bg-transparent">
+                <div className={`flex items-center justify-between border-t px-4 py-2 text-xs text-[#78716C] font-mono shrink-0 bg-transparent ${
+                  isPageDark ? "border-white/[0.08]" : "border-[#E4D9BC]/60"
+                }`}>
                   <span>↑ ↓ navigate · Enter select</span>
                   <span>Esc close</span>
                 </div>
@@ -533,3 +630,4 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
     </>
   );
 }
+

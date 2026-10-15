@@ -138,12 +138,14 @@ const NAV_LEARN = [
 
 export default function Navbar({
   onOpenSearch,
-  onOpenAssessment
+  onOpenAssessment,
+  theme
 }) {
   const pathname = usePathname() || '';
   const isBlogActive = pathname.startsWith('/blog');
   const isLearnActive = pathname.startsWith('/docs') || pathname.startsWith('/labs') || pathname.startsWith('/thesis') || pathname.startsWith('/use-cases');
-  const isStudentsActive = pathname === '/students';
+  const isStudentsActive = pathname.includes('/students');
+  const isAlwaysDark = theme === "dark" || isStudentsActive;
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileExpandedSection, setMobileExpandedSection] = useState(null);
@@ -214,8 +216,14 @@ export default function Navbar({
   }, []);
 
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(isAlwaysDark);
   const [isHidden, setIsHidden] = useState(false);
+
+  useEffect(() => {
+    if (isAlwaysDark) {
+      setIsDarkTheme(true);
+    }
+  }, [isAlwaysDark]);
 
   // Exact 1:1 implementation from getalchemystai.com:
   // r < 120 ? F(!1) : s > 6 ? F(!0) : s < -4 && F(!1)
@@ -238,6 +246,11 @@ export default function Navbar({
         setIsHidden(false);
       }
       lastY = currentY;
+
+      if (isAlwaysDark) {
+        setIsDarkTheme(true);
+        return;
+      }
 
       // Pixel-perfect dark theme detection when navbar overlaps dark sections (DarkCTA, Footer, etc.)
       if (typeof document !== 'undefined') {
@@ -862,12 +875,18 @@ export default function Navbar({
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              className="lg:hidden border-t border-[#E4D9BC] bg-[#FDFBF7] overflow-hidden"
+              className={`lg:hidden border-t overflow-hidden transition-colors ${
+                isDarkTheme
+                  ? "border-white/[0.08] bg-[#1C1917] text-[#F5F5F4]"
+                  : "border-[#E4D9BC] bg-[#FDFBF7] text-[#4A3B33]"
+              }`}
               data-lenis-prevent="true"
             >
               <div 
                 data-lenis-prevent="true"
-                className="max-h-[calc(100dvh-4.25rem)] overflow-y-auto overscroll-contain px-6 sm:px-8 pt-4 pb-8 flex flex-col gap-3 text-[#4A3B33] touch-pan-y"
+                className={`max-h-[calc(100dvh-4.25rem)] overflow-y-auto overscroll-contain px-6 sm:px-8 pt-4 pb-8 flex flex-col gap-3 touch-pan-y ${
+                  isDarkTheme ? "text-[#F5F5F4]" : "text-[#4A3B33]"
+                }`}
                 style={{ 
                   WebkitOverflowScrolling: "touch", 
                   overscrollBehavior: "contain",
@@ -875,17 +894,25 @@ export default function Navbar({
                 }}
               >
                 {/* Header Sub-Label */}
-                <div className="flex items-center justify-between pb-2 border-b border-[#E4D9BC]/60">
-                  <span className="font-mono text-[10.5px] font-semibold tracking-wider text-[#78716C] uppercase">
+                <div className={`flex items-center justify-between pb-2 border-b ${
+                  isDarkTheme ? "border-white/[0.08]" : "border-[#E4D9BC]/60"
+                }`}>
+                  <span className={`font-mono text-[10.5px] font-semibold tracking-wider uppercase ${
+                    isDarkTheme ? "text-[#A8A29E]" : "text-[#78716C]"
+                  }`}>
                     Navigation
                   </span>
-                  <span className="font-mono text-[10px] text-[#A8A29E] tracking-tight">
+                  <span className={`font-mono text-[10px] tracking-tight ${
+                    isDarkTheme ? "text-[#A8A29E]" : "text-[#A8A29E]"
+                  }`}>
                     Aniket M
                   </span>
                 </div>
 
                 {/* Modern Editorial Mobile Navigation */}
-                <div className="flex flex-col divide-y divide-[#E4D9BC]/50">
+                <div className={`flex flex-col divide-y ${
+                  isDarkTheme ? "divide-white/[0.08]" : "divide-[#E4D9BC]/50"
+                }`}>
                   {/* 1. Projects Accordion */}
                   <div className="py-2">
                     <button

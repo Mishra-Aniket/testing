@@ -30,7 +30,7 @@ import { STUDENT_OFFERS, STUDENT_RESOURCES } from "../data/portfolioData";
 function RevealTitle({ text }) {
   const words = text.split(" ");
   return (
-    <h1 className="font-serif text-[clamp(2.125rem,4.6vw,3.5rem)] font-bold leading-[1.1] tracking-[-0.035em] text-[#4A3B33] text-balance">
+    <h1 className="font-serif text-[clamp(2.125rem,4.6vw,3.5rem)] font-bold leading-[1.1] tracking-[-0.035em] text-[#F5F5F4] text-balance">
       {words.map((word, idx) => (
         <span 
           key={idx} 
@@ -71,7 +71,7 @@ export default function StudentsClientView() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Handle auto-scroll and highlight on hash navigation (e.g. #student-mentorship, #resource-fullstack-ai-roadmap)
+  // Handle auto-scroll and highlight on hash navigation
   useEffect(() => {
     const handleHash = () => {
       if (typeof window === "undefined") return;
@@ -86,9 +86,9 @@ export default function StudentsClientView() {
             } else {
               el.scrollIntoView({ behavior: "smooth", block: "center" });
             }
-            el.classList.add("ring-2", "ring-[#B45309]", "ring-offset-4", "transition-all", "duration-500");
+            el.classList.add("ring-2", "ring-[#E4C090]", "ring-offset-4", "transition-all", "duration-500");
             setTimeout(() => {
-              el.classList.remove("ring-2", "ring-[#B45309]", "ring-offset-4");
+              el.classList.remove("ring-2", "ring-[#E4C090]", "ring-offset-4");
             }, 2500);
           }, 120);
         }
@@ -114,29 +114,44 @@ export default function StudentsClientView() {
   }, [selectedCategory]);
 
   return (
-    <div className="relative min-h-screen bg-[#FDFBF7] text-[#4A3B33] selection:bg-[#B45309]/20 selection:text-[#B45309]">
+    <div data-theme="dark" className="relative min-h-screen bg-[#141210] text-[#F5F5F4] selection:bg-[#E4C090]/25 selection:text-[#E4C090]">
       {/* Scroll indicator bar */}
       <div 
         aria-hidden="true" 
-        className="fixed top-0 left-0 right-0 h-[2px] bg-[#B45309] origin-left z-50 pointer-events-none transition-transform duration-75"
+        className="fixed top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#B45309] via-[#E4C090] to-[#B45309] origin-left z-50 pointer-events-none transition-transform duration-75"
         style={{ transform: `scaleX(${scrollProgress})` }}
       />
 
+      {/* Navbar with forced dark mode */}
       <Navbar 
+        theme="dark"
         onOpenSearch={() => setSearchOpen(true)}
         onOpenAssessment={() => setAssessmentOpen(true)}
       />
 
       <main className="relative z-10">
         {/* Hero Section */}
-        <section className="relative pt-32 md:pt-40 pb-16 md:pb-24 overflow-hidden border-b border-[#E4D9BC]/80">
+        <section className="relative pt-32 md:pt-40 pb-16 md:pb-24 overflow-hidden border-b border-white/[0.08] bg-[#141210]">
+          {/* Subtle dark grid background */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px)",
+              backgroundSize: "140px 140px",
+              maskImage: "radial-gradient(ellipse 90% 75% at 50% 50%, #000 30%, transparent 95%)",
+              WebkitMaskImage: "radial-gradient(ellipse 90% 75% at 50% 50%, #000 30%, transparent 95%)"
+            }}
+          />
+
           <ConstellationCanvas />
 
           <div className="relative max-w-[1200px] mx-auto px-6 lg:px-8">
             <div className="max-w-3xl">
               {/* Category Eyebrow Pill */}
               <div className="mb-6">
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF6EE] border border-[#E4D9BC] font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B45309]">
+                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E4C090]/10 border border-[#E4C090]/30 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#E4C090]">
                   <GraduationCap className="w-3.5 h-3.5" />
                   Free Community Initiative · Students &amp; Early Builders
                 </span>
@@ -146,7 +161,7 @@ export default function StudentsClientView() {
               <RevealTitle text="Free Resources, Mentorship &amp; Grants for Student Builders." />
 
               {/* Subtitle */}
-              <p className="mt-6 text-[1.125rem] leading-[1.75] text-[#57534E] font-light max-w-2xl">
+              <p className="mt-6 text-[1.125rem] leading-[1.75] text-[#A8A29E] font-light max-w-2xl">
                 Real-world engineering feedback, production roadmaps, and boilerplate starters for college students, self-taught coders, and campus founders — 100% free with zero corporate fluff.
               </p>
 
@@ -163,30 +178,30 @@ export default function StudentsClientView() {
                 <a
                   href="#offers"
                   onClick={() => sound.playClick()}
-                  className="inline-flex items-center gap-2 rounded-[var(--radius)] bg-white px-5 py-3 font-mono text-xs font-semibold text-[#4A3B33] border border-[#E4D9BC] shadow-xs hover:border-[#B45309]/50 transition-all cursor-pointer"
+                  className="inline-flex items-center gap-2 rounded-[var(--radius)] bg-white/[0.06] px-5 py-3 font-mono text-xs font-semibold text-[#F5F5F4] border border-white/[0.12] shadow-xs hover:border-[#E4C090]/50 hover:bg-white/[0.1] transition-all cursor-pointer"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-[#B45309]" />
+                  <Sparkles className="w-3.5 h-3.5 text-[#E4C090]" />
                   <span>Student Perks &amp; Grants ({STUDENT_OFFERS?.length || 0})</span>
                 </a>
               </div>
 
               {/* Quick Trust Counters */}
-              <div className="mt-12 pt-8 border-t border-[#E4D9BC]/70 grid grid-cols-2 sm:grid-cols-4 gap-6 font-mono">
+              <div className="mt-12 pt-8 border-t border-white/[0.08] grid grid-cols-2 sm:grid-cols-4 gap-6 font-mono">
                 <div>
-                  <div className="text-2xl font-bold text-[#4A3B33]">100% Free</div>
-                  <div className="text-[11px] text-[#78716C] uppercase tracking-wider mt-0.5">Resources &amp; Reviews</div>
+                  <div className="text-2xl font-bold text-[#F5F5F4]">100% Free</div>
+                  <div className="text-[11px] text-[#A8A29E] uppercase tracking-wider mt-0.5">Resources &amp; Reviews</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-[#B45309]">48-Hour</div>
-                  <div className="text-[11px] text-[#78716C] uppercase tracking-wider mt-0.5">Turnaround Time</div>
+                  <div className="text-2xl font-bold text-[#E4C090]">48-Hour</div>
+                  <div className="text-[11px] text-[#A8A29E] uppercase tracking-wider mt-0.5">Turnaround Time</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-[#4A3B33]">Zero Fluff</div>
-                  <div className="text-[11px] text-[#78716C] uppercase tracking-wider mt-0.5">Direct 1-on-1 Access</div>
+                  <div className="text-2xl font-bold text-[#F5F5F4]">Zero Fluff</div>
+                  <div className="text-[11px] text-[#A8A29E] uppercase tracking-wider mt-0.5">Direct 1-on-1 Access</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-[#059669]">80% Grant</div>
-                  <div className="text-[11px] text-[#78716C] uppercase tracking-wider mt-0.5">For Student Startups</div>
+                  <div className="text-2xl font-bold text-emerald-400">80% Grant</div>
+                  <div className="text-[11px] text-[#A8A29E] uppercase tracking-wider mt-0.5">For Student Startups</div>
                 </div>
               </div>
             </div>
@@ -194,18 +209,18 @@ export default function StudentsClientView() {
         </section>
 
         {/* SECTION 1: FREE DEVELOPER RESOURCES & LEARNING TOOLKITS */}
-        <section id="resources" className="py-20 md:py-28 bg-[#FAF6EE]/50 border-b border-[#E4D9BC]/80 scroll-mt-24">
+        <section id="resources" className="py-20 md:py-28 bg-[#181614] border-b border-white/[0.08] scroll-mt-24">
           <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
               <div>
-                <span className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B45309]">
+                <span className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#E4C090]">
                   <BookOpen className="w-3.5 h-3.5" />
                   Free Toolkits &amp; Guides
                 </span>
-                <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#4A3B33] mt-2 mb-3">
+                <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#F5F5F4] mt-2 mb-3">
                   Free Student Developer Resources
                 </h2>
-                <p className="text-[1rem] text-[#57534E] max-w-2xl leading-relaxed">
+                <p className="text-[1rem] text-[#A8A29E] max-w-2xl leading-relaxed">
                   Curated roadmaps, production starters, architecture cheatsheets, and developer templates. 100% open and free to use.
                 </p>
               </div>
@@ -221,8 +236,8 @@ export default function StudentsClientView() {
                     }}
                     className={`font-mono text-xs px-3 py-1.5 rounded-full border transition-all cursor-pointer whitespace-nowrap ${
                       selectedCategory === cat
-                        ? "bg-[#B45309] text-white border-[#B45309] shadow-xs"
-                        : "bg-white text-[#78716C] border-[#E4D9BC] hover:border-[#B45309]/50 hover:text-[#4A3B33]"
+                        ? "bg-[#B45309] text-white border-[#E4C090]/50 shadow-xs"
+                        : "bg-[#24211E] text-[#A8A29E] border-white/[0.08] hover:border-white/[0.2] hover:text-[#F5F5F4]"
                     }`}
                   >
                     {cat}
@@ -233,35 +248,35 @@ export default function StudentsClientView() {
 
             {/* Grid of Resources */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-              {filteredResources.map((res, idx) => (
+              {filteredResources.map((res) => (
                 <div
                   key={res.id}
                   id={`resource-${res.id}`}
-                  className="scroll-mt-32 group relative rounded-[var(--radius)] border border-[#E4D9BC] bg-white p-7 sm:p-9 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-soft-lg)] hover:border-[#B45309]/50 transition-all duration-300 flex flex-col justify-between"
+                  className="scroll-mt-32 group relative rounded-[var(--radius)] border border-white/[0.08] bg-[#1F1C1A] p-7 sm:p-9 shadow-[0_16px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.6)] hover:border-[#E4C090]/50 hover:bg-[#25211E] transition-all duration-300 flex flex-col justify-between"
                 >
                   <div>
                     {/* Header: Category & Badge */}
                     <div className="flex items-center justify-between gap-3 mb-4">
-                      <span className="font-mono text-xs font-bold text-[#B45309] bg-[#B45309]/10 px-2.5 py-1 rounded border border-[#B45309]/20">
+                      <span className="font-mono text-xs font-bold text-[#E4C090] bg-[#E4C090]/10 px-2.5 py-1 rounded border border-[#E4C090]/25">
                         {res.category.toUpperCase()}
                       </span>
-                      <span className="font-mono text-[10.5px] font-bold uppercase tracking-wider text-[#059669] bg-[#059669]/10 px-2.5 py-1 rounded border border-[#059669]/20">
+                      <span className="font-mono text-[10.5px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/25">
                         {res.badge}
                       </span>
                     </div>
 
                     {/* Title */}
-                    <h3 className="font-serif text-2xl font-bold text-[#4A3B33] mb-2 group-hover:text-[#B45309] transition-colors">
+                    <h3 className="font-serif text-2xl font-bold text-[#F5F5F4] mb-2 group-hover:text-[#E4C090] transition-colors">
                       {res.title}
                     </h3>
 
                     {/* Tagline */}
-                    <p className="font-mono text-xs text-[#78716C] mb-4">
+                    <p className="font-mono text-xs text-[#A8A29E] mb-4">
                       {res.tagline}
                     </p>
 
                     {/* Description */}
-                    <p className="text-[0.9375rem] leading-[1.7] text-[#57534E] mb-6">
+                    <p className="text-[0.9375rem] leading-[1.7] text-[#D6D3D1] mb-6">
                       {res.description}
                     </p>
 
@@ -271,7 +286,7 @@ export default function StudentsClientView() {
                         {res.tags.map((t, tIdx) => (
                           <span 
                             key={tIdx} 
-                            className="font-mono text-[10.5px] text-[#78716C] bg-[#FAF6EE] border border-[#E4D9BC] px-2 py-0.5 rounded"
+                            className="font-mono text-[10.5px] text-[#A8A29E] bg-white/[0.04] border border-white/[0.08] px-2 py-0.5 rounded"
                           >
                             {t}
                           </span>
@@ -281,13 +296,13 @@ export default function StudentsClientView() {
                   </div>
 
                   {/* Action Link */}
-                  <div className="pt-4 border-t border-[#E4D9BC]/60">
+                  <div className="pt-4 border-t border-white/[0.08]">
                     <a
                       href={res.downloadOrOpenUrl}
                       target={res.downloadOrOpenUrl.startsWith("http") ? "_blank" : undefined}
                       rel={res.downloadOrOpenUrl.startsWith("http") ? "noopener noreferrer" : undefined}
                       onClick={() => sound.playClick()}
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius)] bg-[#FAF6EE] border border-[#E4D9BC] py-3 px-4 font-mono text-xs font-bold text-[#4A3B33] group-hover:bg-[#B45309] group-hover:text-white group-hover:border-[#B45309] transition-all cursor-pointer"
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius)] bg-white/[0.05] border border-white/[0.1] py-3 px-4 font-mono text-xs font-bold text-[#F5F5F4] group-hover:bg-[#B45309] group-hover:text-white group-hover:border-[#B45309] transition-all cursor-pointer"
                     >
                       <Download className="w-3.5 h-3.5" />
                       <span>{res.actionLabel}</span>
@@ -301,17 +316,17 @@ export default function StudentsClientView() {
         </section>
 
         {/* SECTION 2: STUDENT PERKS & OFFERS */}
-        <section id="offers" className="py-20 md:py-28 bg-[#FDFBF7] scroll-mt-24">
+        <section id="offers" className="py-20 md:py-28 bg-[#141210] scroll-mt-24">
           <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
             <div className="mb-14">
-              <span className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B45309]">
+              <span className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#E4C090]">
                 <Sparkles className="w-3.5 h-3.5" />
                 Mentorship &amp; Grants
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#4A3B33] mt-2 mb-4">
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#F5F5F4] mt-2 mb-4">
                 Student Perks &amp; Builder Offers
               </h2>
-              <p className="text-[1rem] text-[#57534E] max-w-2xl leading-relaxed">
+              <p className="text-[1rem] text-[#A8A29E] max-w-2xl leading-relaxed">
                 Direct engineering mentorship, free GitHub code reviews, open-source production templates, and subsidized MVP build grants.
               </p>
             </div>
@@ -322,43 +337,43 @@ export default function StudentsClientView() {
                 <div
                   key={offer.id}
                   id={`student-${offer.id}`}
-                  className="scroll-mt-32 group relative rounded-[var(--radius)] border border-[#E4D9BC] bg-white p-7 sm:p-9 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-soft-lg)] hover:border-[#B45309]/50 transition-all duration-300 flex flex-col justify-between"
+                  className="scroll-mt-32 group relative rounded-[var(--radius)] border border-white/[0.08] bg-[#1F1C1A] p-7 sm:p-9 shadow-[0_16px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.6)] hover:border-[#E4C090]/50 hover:bg-[#25211E] transition-all duration-300 flex flex-col justify-between"
                 >
                   <div>
                     {/* Header: Number & Badge */}
                     <div className="flex items-center justify-between gap-3 mb-5">
-                      <span className="font-mono text-xs font-bold text-[#B45309] bg-[#B45309]/10 px-2.5 py-1 rounded border border-[#B45309]/20">
+                      <span className="font-mono text-xs font-bold text-[#E4C090] bg-[#E4C090]/10 px-2.5 py-1 rounded border border-[#E4C090]/25">
                         0{idx + 1} // {offer.highlight}
                       </span>
-                      <span className="font-mono text-[10.5px] font-bold uppercase tracking-wider text-[#059669] bg-[#059669]/10 px-2.5 py-1 rounded border border-[#059669]/20">
+                      <span className="font-mono text-[10.5px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/25">
                         {offer.badge}
                       </span>
                     </div>
 
                     {/* Title */}
-                    <h3 className="font-serif text-2xl font-bold text-[#4A3B33] mb-2 group-hover:text-[#B45309] transition-colors">
+                    <h3 className="font-serif text-2xl font-bold text-[#F5F5F4] mb-2 group-hover:text-[#E4C090] transition-colors">
                       {offer.title}
                     </h3>
 
                     {/* Tagline */}
-                    <p className="font-mono text-xs text-[#78716C] mb-4">
+                    <p className="font-mono text-xs text-[#A8A29E] mb-4">
                       {offer.tagline}
                     </p>
 
                     {/* Description */}
-                    <p className="text-[0.9375rem] leading-[1.7] text-[#57534E] mb-6">
+                    <p className="text-[0.9375rem] leading-[1.7] text-[#D6D3D1] mb-6">
                       {offer.description}
                     </p>
 
                     {/* Perks List */}
-                    <div className="border-t border-[#E4D9BC]/60 pt-4 mb-6">
-                      <div className="font-mono text-[10.5px] uppercase tracking-wider text-[#78716C] font-semibold mb-3">
+                    <div className="border-t border-white/[0.08] pt-4 mb-6">
+                      <div className="font-mono text-[10.5px] uppercase tracking-wider text-[#A8A29E] font-semibold mb-3">
                         Included in this offer:
                       </div>
                       <ul className="space-y-2">
                         {offer.perks.map((perk, pIdx) => (
-                          <li key={pIdx} className="flex items-start gap-2.5 text-xs text-[#57534E] leading-relaxed">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-[#B45309] shrink-0 mt-0.5" />
+                          <li key={pIdx} className="flex items-start gap-2.5 text-xs text-[#D6D3D1] leading-relaxed">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-[#E4C090] shrink-0 mt-0.5" />
                             <span>{perk}</span>
                           </li>
                         ))}
@@ -367,13 +382,13 @@ export default function StudentsClientView() {
                   </div>
 
                   {/* Action Link */}
-                  <div className="pt-4 border-t border-[#E4D9BC]/60">
+                  <div className="pt-4 border-t border-white/[0.08]">
                     <a
                       href={offer.actionUrl}
                       target={offer.actionUrl.startsWith("http") ? "_blank" : undefined}
                       rel={offer.actionUrl.startsWith("http") ? "noopener noreferrer" : undefined}
                       onClick={() => sound.playClick()}
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius)] bg-[#FAF6EE] border border-[#E4D9BC] py-3 px-4 font-mono text-xs font-bold text-[#4A3B33] group-hover:bg-[#B45309] group-hover:text-white group-hover:border-[#B45309] transition-all cursor-pointer"
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius)] bg-white/[0.05] border border-white/[0.1] py-3 px-4 font-mono text-xs font-bold text-[#F5F5F4] group-hover:bg-[#B45309] group-hover:text-white group-hover:border-[#B45309] transition-all cursor-pointer"
                     >
                       <span>{offer.actionLabel}</span>
                       <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
@@ -384,15 +399,15 @@ export default function StudentsClientView() {
             </div>
 
             {/* How to claim card */}
-            <div className="mt-16 p-8 rounded-xl border border-[#E4D9BC] bg-[#FAF6EE] flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="mt-16 p-8 rounded-xl border border-white/[0.1] bg-[#1F1C1A] shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="space-y-2 max-w-2xl">
-                <div className="font-mono text-xs font-bold uppercase tracking-wider text-[#B45309]">
+                <div className="font-mono text-xs font-bold uppercase tracking-wider text-[#E4C090]">
                   Simple Eligibility Rule
                 </div>
-                <h4 className="font-serif text-xl font-bold text-[#4A3B33]">
+                <h4 className="font-serif text-xl font-bold text-[#F5F5F4]">
                   No red tape. Just genuine students who are actively building.
                 </h4>
-                <p className="text-sm text-[#57534E] leading-relaxed">
+                <p className="text-sm text-[#A8A29E] leading-relaxed">
                   You don&apos;t need an official institutional email. Any active student ID, GitHub profile showing your projects, or a link to what you&apos;re currently learning is enough.
                 </p>
               </div>
@@ -410,9 +425,9 @@ export default function StudentsClientView() {
         </section>
 
         {/* FAQ Section specifically for students */}
-        <section className="py-16 md:py-20 border-t border-[#E4D9BC] bg-white">
+        <section className="py-16 md:py-20 border-t border-white/[0.08] bg-[#181614]">
           <div className="max-w-[800px] mx-auto px-6 lg:px-8">
-            <h3 className="font-serif text-2xl font-bold text-[#4A3B33] mb-8 text-center">
+            <h3 className="font-serif text-2xl font-bold text-[#F5F5F4] mb-8 text-center">
               Frequently Asked Questions for Students
             </h3>
 
@@ -435,11 +450,11 @@ export default function StudentsClientView() {
                   a: "Usually within 24 to 48 hours directly on email or GitHub."
                 }
               ].map((item, idx) => (
-                <div key={idx} className="p-5 rounded-lg border border-[#E4D9BC] bg-[#FDFBF7]">
-                  <div className="font-serif font-bold text-sm text-[#4A3B33] mb-1.5">
+                <div key={idx} className="p-5 rounded-lg border border-white/[0.08] bg-[#1F1C1A]">
+                  <div className="font-serif font-bold text-sm text-[#F5F5F4] mb-1.5">
                     {item.q}
                   </div>
-                  <div className="text-xs text-[#57534E] leading-relaxed">
+                  <div className="text-xs text-[#A8A29E] leading-relaxed">
                     {item.a}
                   </div>
                 </div>

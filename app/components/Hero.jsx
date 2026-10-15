@@ -7,7 +7,7 @@ import StackDiagram from './StackDiagram';
 import ConstellationCanvas from './ConstellationCanvas';
 import { sound } from '../utils/sound';
 
-export default function Hero({ onOpenAssessment }) {
+export default function Hero() {
   return (
     <section id="hero" className="relative pt-24 sm:pt-28 md:pt-36 pb-16 md:pb-24 overflow-hidden bg-[#FDFBF7]">
       {/* Background Constellation Canvas */}
