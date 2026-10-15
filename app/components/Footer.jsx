@@ -93,7 +93,7 @@ export default function Footer() {
                 ▲
               </span>
               <span className="font-serif font-black text-xl tracking-tight text-white">
-                Aniket M
+                Aniket Mishra
               </span>
             </a>
 
@@ -223,8 +223,8 @@ export default function Footer() {
           aria-hidden="true" 
           className="relative w-full pt-10 pb-0 -mb-8 sm:-mb-14 md:-mb-20 flex justify-center items-end select-none pointer-events-none overflow-hidden"
         >
-          <span className="font-sans font-black text-[clamp(4.5rem,16vw,14rem)] leading-[0.78] tracking-[-0.04em] text-white/[0.04] uppercase whitespace-nowrap">
-            Aniket M
+          <span className="font-sans font-black text-[clamp(2.5rem,10.5vw,10rem)] leading-[0.78] tracking-[-0.04em] text-white/[0.04] uppercase whitespace-nowrap">
+            ANIKET MISHRA
           </span>
         </div>
       </div>

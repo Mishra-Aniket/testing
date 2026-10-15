@@ -104,9 +104,13 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
 
-  // Dark styling applies ONLY on the /students page
-  const isPageDark = pathname.includes("/students");
+  const [isOverDark, setIsOverDark] = useState(false);
 
+  // Dark styling applies on the /students page or dynamically when over a dark background section
+  const isPageDark = pathname.includes("/students");
+  const isDockDark = isPageDark || isOverDark;
+
+  const dockRef = useRef(null);
   const inputRef = useRef(null);
   const modalRef = useRef(null);
   const scrollContainerRef = useRef(null);
@@ -154,6 +158,95 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
     window.addEventListener("aniket_mobile_menu", handleMobileMenuChange);
     return () => window.removeEventListener("aniket_mobile_menu", handleMobileMenuChange);
   }, []);
+
+  // Dynamic background detection: detect if bottom search dock is over a dark section (e.g. DarkCTA, Footer, etc.)
+  useEffect(() => {
+    if (isPageDark) {
+      setIsOverDark(true);
+      return;
+    }
+
+    let rafId = 0;
+
+    const checkDarkSection = () => {
+      rafId = 0;
+      if (typeof window === "undefined" || typeof document === "undefined") return;
+
+      let dockY = window.innerHeight - 36;
+      let dockX = window.innerWidth / 2;
+
+      if (dockRef.current) {
+        const r = dockRef.current.getBoundingClientRect();
+        if (r.height > 0 && r.width > 0) {
+          dockY = (r.top + r.bottom) / 2;
+          dockX = (r.left + r.right) / 2;
+        }
+      }
+
+      // 1. Direct bounding box check against known dark sections
+      const darkElements = document.querySelectorAll('[data-theme="dark"], #dark-cta-section, footer');
+      let foundDark = false;
+      for (let i = 0; i < darkElements.length; i++) {
+        const el = darkElements[i];
+        if (el.closest('[data-bottom-search-dock]') || el.closest('[data-search-modal]')) continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= dockY && rect.bottom >= dockY && rect.left <= dockX && rect.right >= dockX) {
+          foundDark = true;
+          break;
+        }
+      }
+
+      // 2. Fallback: check elements under the dock's center point
+      if (!foundDark && typeof document.elementsFromPoint === "function") {
+        const elements = document.elementsFromPoint(dockX, dockY);
+        for (let i = 0; i < elements.length; i++) {
+          const el = elements[i];
+          if (!el) continue;
+          if (el.closest('[data-bottom-search-dock]') || el.closest('[data-search-modal]')) continue;
+          if (el.getAttribute("data-theme") === "dark" || el.closest('[data-theme="dark"]')) {
+            foundDark = true;
+            break;
+          }
+          try {
+            const bg = window.getComputedStyle(el).backgroundColor;
+            if (bg && bg !== "transparent" && bg !== "rgba(0, 0, 0, 0)") {
+              const match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+              if (match) {
+                const r = parseInt(match[1], 10);
+                const g = parseInt(match[2], 10);
+                const b = parseInt(match[3], 10);
+                const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+                if (lum < 110) {
+                  foundDark = true;
+                  break;
+                } else if (lum > 140) {
+                  break;
+                }
+              }
+            }
+          } catch (e) {}
+        }
+      }
+
+      setIsOverDark(foundDark);
+    };
+
+    const onScrollOrResize = () => {
+      if (!rafId) {
+        rafId = requestAnimationFrame(checkDarkSection);
+      }
+    };
+
+    checkDarkSection();
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize);
+
+    return () => {
+      window.removeEventListener("scroll", onScrollOrResize);
+      window.removeEventListener("resize", onScrollOrResize);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, [pathname, isPageDark]);
 
   // Keyboard shortcut listener for ⌘K / Ctrl K and Escape
   useEffect(() => {
@@ -412,6 +505,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
     <>
       {/* 1. FLOATING BOTTOM SEARCH DOCK TRIGGER BUTTON */}
       <div
+        ref={dockRef}
         data-bottom-search-dock="true"
         className={`fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 z-40 -translate-x-1/2 max-w-[calc(100vw-2rem)] transition-[opacity,transform] duration-300 ease-out will-change-[transform,opacity] ${
           isMobileMenuOpen || isScrolling
@@ -430,19 +524,19 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
             }
           }}
           aria-label="Search pages or ask Aniket"
-          className={`inline-flex shrink-0 items-center justify-center whitespace-nowrap border py-2 outline-none transition-all cursor-pointer select-none active:translate-y-px h-11 gap-2.5 rounded-lg px-4 sm:px-6 text-xs sm:text-sm font-semibold shadow-[var(--shadow-soft)] hover:-translate-y-px ${
-            isPageDark
-              ? "bg-[#1C1917]/95 text-[#F5F5F4] border-white/[0.12] hover:bg-[#25211E] shadow-[0_12px_32px_rgba(0,0,0,0.6)]"
-              : "bg-white text-[#4A3B33] border-[#E4D9BC] hover:bg-[#F8F4EE]"
+          className={`inline-flex shrink-0 items-center justify-center whitespace-nowrap border py-2 outline-none transition-[background-color,border-color,color,box-shadow,transform] duration-300 cursor-pointer select-none active:translate-y-px h-11 gap-2.5 rounded-lg px-4 sm:px-6 text-xs sm:text-sm font-semibold backdrop-blur-md hover:-translate-y-px ${
+            isDockDark
+              ? "bg-[#1C1917]/95 text-[#F5F5F4] border-white/[0.16] hover:bg-[#25211E] shadow-[0_12px_36px_rgba(0,0,0,0.7)]"
+              : "bg-white/95 text-[#4A3B33] border-[#E4D9BC] hover:bg-[#F8F4EE] shadow-[0_8px_24px_rgba(74,59,51,0.12)]"
           }`}
         >
-          <Search className={`w-4 h-4 shrink-0 ${isPageDark ? "text-[#E4C090]" : "text-[#B45309]"}`} />
+          <Search className={`w-4 h-4 shrink-0 transition-colors duration-300 ${isDockDark ? "text-[#E4C090]" : "text-[#B45309]"}`} />
           <span className="truncate max-w-[240px] sm:max-w-none">
             Search or Ask &ldquo;What projects has Aniket built?&rdquo;
           </span>
-          <kbd className={`hidden sm:inline-flex ml-2 rounded border px-1.5 py-0.5 font-mono text-[11px] ${
-            isPageDark 
-              ? "border-white/[0.1] bg-white/[0.06] text-[#A8A29E]"
+          <kbd className={`hidden sm:inline-flex ml-2 rounded border px-1.5 py-0.5 font-mono text-[11px] transition-colors duration-300 ${
+            isDockDark 
+              ? "border-white/[0.12] bg-white/[0.06] text-[#A8A29E]"
               : "border-[#E4D9BC] bg-[#F8F4EE] text-[#78716C]"
           }`}>
             ⌘ K
@@ -474,8 +568,8 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 6, scale: 0.99 }}
                 transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
-                className={`pointer-events-auto w-full max-w-[490px] overflow-hidden rounded-xl border shadow-[0_16px_40px_rgba(0,0,0,0.25)] flex flex-col ${
-                  isPageDark
+                className={`pointer-events-auto w-full max-w-[490px] overflow-hidden rounded-xl border shadow-[0_16px_40px_rgba(0,0,0,0.25)] flex flex-col transition-colors duration-200 ${
+                  isDockDark
                     ? "border-white/[0.12] bg-[#1C1917] text-[#F5F5F4]"
                     : "border-[#E4D9BC] bg-[#FDFBF7] text-[#4A3B33]"
                 }`}
@@ -484,9 +578,9 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
               >
                 {/* Header Row: Title & Close Button */}
                 <div className={`flex items-center justify-between gap-3 border-b px-4 py-2.5 bg-transparent shrink-0 ${
-                  isPageDark ? "border-white/[0.08]" : "border-[#E4D9BC]/60"
+                  isDockDark ? "border-white/[0.08]" : "border-[#E4D9BC]/60"
                 }`}>
-                  <h2 className={`text-sm font-medium ${isPageDark ? "text-[#F5F5F4]" : "text-[#4A3B33]"}`}>
+                  <h2 className={`text-sm font-medium ${isDockDark ? "text-[#F5F5F4]" : "text-[#4A3B33]"}`}>
                     Explore Aniket
                   </h2>
                   <button
@@ -496,7 +590,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                       onClose();
                     }}
                     className={`rounded p-1 transition-colors cursor-pointer ${
-                      isPageDark ? "text-[#A8A29E] hover:bg-white/10 hover:text-white" : "text-[#78716C] hover:bg-black/5 hover:text-[#4A3B33]"
+                      isDockDark ? "text-[#A8A29E] hover:bg-white/10 hover:text-white" : "text-[#78716C] hover:bg-black/5 hover:text-[#4A3B33]"
                     }`}
                     aria-label="Close search"
                   >
@@ -509,12 +603,12 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                   <div
                     onClick={() => inputRef.current?.focus()}
                     className={`flex items-center gap-2.5 rounded-lg border px-3 py-2 shadow-2xs transition-all cursor-text ${
-                      isPageDark
+                      isDockDark
                         ? "border-[#E4C090]/80 bg-[#141210]"
                         : "border-[#B45309] bg-white"
                     }`}
                   >
-                    <Search className={`w-4 h-4 shrink-0 opacity-70 ${isPageDark ? "text-[#E4C090]" : "text-[#78716C]"}`} />
+                    <Search className={`w-4 h-4 shrink-0 opacity-70 ${isDockDark ? "text-[#E4C090]" : "text-[#78716C]"}`} />
                     <input
                       ref={inputRef}
                       type="text"
@@ -525,7 +619,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                       }}
                       placeholder="Find a page or ask a question…"
                       className={`w-full bg-transparent text-[13.5px] placeholder-[#A8A29E] outline-none font-sans ${
-                        isPageDark ? "text-[#F5F5F4]" : "text-[#4A3B33]"
+                        isDockDark ? "text-[#F5F5F4]" : "text-[#4A3B33]"
                       }`}
                     />
                     {query && (
@@ -579,17 +673,17 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                           onMouseEnter={() => setSelectedIndex(idx)}
                           className={`group relative flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors cursor-pointer select-none ${
                             isSelected
-                              ? isPageDark
+                              ? isDockDark
                                 ? "bg-white/[0.08] text-[#F5F5F4] font-medium"
                                 : "bg-[#F3ECE0] text-[#4A3B33] font-medium"
-                              : isPageDark
+                              : isDockDark
                                 ? "text-[#D6D3D1] hover:bg-white/[0.05]"
                                 : "text-[#57534E] hover:bg-[#F3ECE0]/70"
                           }`}
                         >
                           <Icon className={`w-4 h-4 shrink-0 transition-colors ${
                             isSelected 
-                              ? isPageDark ? "text-[#E4C090]" : "text-[#B45309]" 
+                              ? isDockDark ? "text-[#E4C090]" : "text-[#B45309]" 
                               : "text-[#78716C]"
                           }`} />
                           <span className="flex-1 truncate text-[13.5px]">
@@ -604,7 +698,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
 
                 {/* Footer Row: Keyboard navigation hints */}
                 <div className={`flex items-center justify-between border-t px-4 py-2 text-xs text-[#78716C] font-mono shrink-0 bg-transparent ${
-                  isPageDark ? "border-white/[0.08]" : "border-[#E4D9BC]/60"
+                  isDockDark ? "border-white/[0.08]" : "border-[#E4D9BC]/60"
                 }`}>
                   <span>↑ ↓ navigate · Enter select</span>
                   <span>Esc close</span>

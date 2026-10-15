@@ -379,7 +379,7 @@ export default function Navbar({
               ▲
             </span>
             <span className="font-serif font-black text-xl tracking-tight nav-brand-text">
-              Aniket M
+              Aniket Mishra
             </span>
           </Link>
 
@@ -909,7 +909,7 @@ export default function Navbar({
                   <span className={`font-mono text-[10px] tracking-tight ${
                     isDarkTheme ? "text-[#A8A29E]" : "text-[#A8A29E]"
                   }`}>
-                    Aniket M
+                    Aniket Mishra
                   </span>
                 </div>
 
