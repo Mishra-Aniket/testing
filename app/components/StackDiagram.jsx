@@ -37,14 +37,15 @@ export default function StackDiagram() {
     const normX = (x / rect.width - 0.5) * 2;
     const normY = (y / rect.height - 0.5) * 2;
 
+    // Ultra-subtle, rock-solid micro-tilt (no aggressive skew)
     setTilt({
-      x: -normY * 6.5,
-      y: normX * 6.5,
+      x: -normY * 1.0,
+      y: normX * 1.0,
     });
     setGlare({
       x: (x / rect.width) * 100,
       y: (y / rect.height) * 100,
-      opacity: 0.14,
+      opacity: 0.06,
     });
   };
 
@@ -175,66 +176,66 @@ export default function StackDiagram() {
             <rect
               x="72"
               y="34"
-              width="66"
-              height="19"
+              width="54"
+              height="18"
               rx="4"
               fill="rgba(180,83,9,0.08)"
               stroke="rgba(180,83,9,0.25)"
               strokeWidth="1"
             />
-            <circle cx="81" cy="43.5" r="2.5" fill="#10B981">
+            <circle cx="80" cy="43" r="2.2" fill="#10B981">
               <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" />
             </circle>
             <text
-              x="112"
-              y="47"
+              x="103"
+              y="46.5"
               textAnchor="middle"
               fill="#B45309"
-              fontSize="7.5"
+              fontSize="7"
               fontFamily="JetBrains Mono, monospace"
               fontWeight="700"
               letterSpacing="1.2"
             >
-              LIVE ENGINE
+              LIVE
             </text>
             <text
-              x="148"
-              y="48"
+              x="134"
+              y="47"
               fill="#4A3B33"
-              fontSize="11.5"
+              fontSize="11"
               fontFamily="var(--font-merriweather), Georgia, serif"
               fontWeight="700"
             >
-              Centrix &amp; OmTabs Production Architecture
+              Production Systems Architecture
             </text>
-            <line x1="72" y1="61" x2="358" y2="61" stroke="#F1E9DA" strokeWidth="1" />
+            <line x1="72" y1="59" x2="354" y2="59" stroke="#F1E9DA" strokeWidth="1" />
             <g>
               <text
                 x="72"
-                y="83"
+                y="81"
                 fill="#B45309"
-                fontSize="12.5"
+                fontSize="11.5"
                 fontFamily="var(--font-merriweather), Georgia, serif"
                 fontWeight="700"
               >
-                500+ CENTERS
+                CENTRIX &amp; OMTABS
               </text>
               <text
-                x="172"
-                y="82"
+                x="190"
+                y="80"
                 fill="#78716C"
-                fontSize="7.5"
+                fontSize="7"
                 fontFamily="JetBrains Mono, monospace"
-                letterSpacing="0.3"
+                letterSpacing="0.2"
               >
-                &lt;80ms p95 · 20K+ Ops/Day · 100% Code Handover
+                &lt;80ms · 500+ Centers · Verified
               </text>
-              <circle cx="352" cy="79" r="7" fill="#B45309" />
+              <circle cx="348" cy="77" r="6.5" fill="#B45309" />
               <path
-                d="M348.5,79 l2.4,2.4 l4.6,-4.8"
+                d="M344.5,77 l2.2,2.2 l4.4,-4.4"
                 fill="none"
                 stroke="#FFFFFF"
-                strokeWidth="1.6"
+                strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
