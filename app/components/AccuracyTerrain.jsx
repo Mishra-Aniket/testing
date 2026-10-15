@@ -365,7 +365,31 @@ export default function AccuracyTerrain() {
   const [selectedSeries, setSelectedSeries] = useState(null);
   const [hoveredSeries, setHoveredSeries] = useState(null);
   const [filterAccount, setFilterAccount] = useState("all"); // "all", "aniket0", "mishra"
-  const [showProjectModal, setShowProjectModal] = useState(true);
+  const [isCardVisible, setIsCardVisible] = useState(false);
+  const [isPinned, setIsPinned] = useState(false);
+  const isHoveringCardRef = useRef(false);
+  const cardTimeoutRef = useRef(null);
+
+  const handleCardMouseEnter = () => {
+    if (cardTimeoutRef.current) {
+      clearTimeout(cardTimeoutRef.current);
+      cardTimeoutRef.current = null;
+    }
+    isHoveringCardRef.current = true;
+    setIsCardVisible(true);
+  };
+
+  const handleCardMouseLeave = () => {
+    isHoveringCardRef.current = false;
+    if (cardTimeoutRef.current) clearTimeout(cardTimeoutRef.current);
+    if (!isPinned) {
+      cardTimeoutRef.current = setTimeout(() => {
+        if (!isHoveringCardRef.current) {
+          setIsCardVisible(false);
+        }
+      }, 250);
+    }
+  };
 
   // Active series index for isolation
   const activeIdx = hoveredSeries !== null ? hoveredSeries : selectedSeries;
@@ -397,12 +421,26 @@ export default function AccuracyTerrain() {
       return;
     }
 
+    if (cardTimeoutRef.current) {
+      clearTimeout(cardTimeoutRef.current);
+      cardTimeoutRef.current = null;
+    }
+    setIsCardVisible(true);
+
     const s = Math.max(0, Math.min(520, (pt.x - 220) / IA + 70));
     setScrub(s);
   };
 
   const handlePointerLeave = () => {
     setScrub(null);
+    if (!isPinned) {
+      if (cardTimeoutRef.current) clearTimeout(cardTimeoutRef.current);
+      cardTimeoutRef.current = setTimeout(() => {
+        if (!isHoveringCardRef.current) {
+          setIsCardVisible(false);
+        }
+      }, 300);
+    }
   };
 
   return (
@@ -577,10 +615,10 @@ export default function AccuracyTerrain() {
             </g>
 
             {/* Top-Left series hint */}
-            <g pointerEvents="none" opacity={showProjectModal ? 0 : 1} style={{ transition: "opacity 0.25s" }}>
+            <g pointerEvents="none" opacity={isCardVisible ? 0 : 1} style={{ transition: "opacity 0.25s" }}>
               <rect x="24" y="32" width="7" height="7" fill="none" stroke="#E4C090" strokeWidth="1" />
               <text x="38" y="39" fill="#A8A29E" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1.6" fontWeight="600">
-                MOVE POINTER ACROSS TERRAIN TO SCRUB PROJECTS
+                HOVER THE TERRAIN TO SCRUB TIMELINE
               </text>
             </g>
 
@@ -785,17 +823,17 @@ export default function AccuracyTerrain() {
                 strokeWidth="1.4"
               />
 
-              {/* Tag at top of slice plane showing Date & Shipped Project */}
+              {/* Tag at top of slice plane showing Month */}
               {(() => {
                 const pt = u(N, -24, 192);
                 return (
-                  <g>
+                  <g pointerEvents="none">
                     <rect
-                      x={pt.x - 110}
-                      y={pt.y - 12}
-                      width="220"
-                      height="20"
-                      rx="4"
+                      x={pt.x - 26}
+                      y={pt.y - 11}
+                      width="52"
+                      height="16"
+                      rx="3"
                       fill="#FFFFFF"
                       stroke="#B45309"
                       strokeWidth="1"
@@ -811,7 +849,7 @@ export default function AccuracyTerrain() {
                       fontWeight="700"
                       letterSpacing="0.6"
                     >
-                      📅 {currentMonthData.dateRange} ({Math.round(interpolatedValues[0])} COMMITS)
+                      {currentMonthData.label}
                     </text>
                   </g>
                 );
@@ -901,50 +939,22 @@ export default function AccuracyTerrain() {
                 );
               })}
 
-              {/* Shipped Project & Date Telemetry Box */}
+              {/* Lifetime output summary */}
               <g pointerEvents="none">
-                <line x1="744" y1="278" x2="936" y2="278" stroke="#F1E9DA" strokeWidth="1" />
+                <line x1="744" y1="288" x2="936" y2="288" stroke="#F1E9DA" strokeWidth="1" />
 
-                <rect x="744" y="290" width="5" height="5" fill="#B45309" />
-                <text x="754" y="295" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4" fontWeight="600">
-                  SHIPPED PROJECT &amp; DATE
-                </text>
-                
-                {/* Date Badge */}
-                <text x="744" y="312" fill="#B45309" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="0.8">
-                  📅 {currentMonthData.dateRange}
-                </text>
-
-                {/* Project Title */}
-                <text x="744" y="331" fill="#4A3B33" fontSize="11.5" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">
-                  {currentMonthData.project.length > 25 ? currentMonthData.project.slice(0, 25) + "..." : currentMonthData.project}
-                </text>
-
-                {/* Category & Stack */}
-                <text x="744" y="347" fill="#059669" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="600">
-                  {currentMonthData.stack.slice(0, 3).join(" · ")}
-                </text>
-
-                {/* Milestone summary */}
-                <text x="744" y="365" fill="#57534E" fontSize="7.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.2">
-                  {currentMonthData.milestone.slice(0, 38)}...
-                </text>
-
-                {/* Lifetime output summary */}
-                <line x1="744" y1="384" x2="936" y2="384" stroke="#F1E9DA" strokeWidth="1" />
-
-                <text x="744" y="402" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4" fontWeight="600">
+                <text x="744" y="318" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4" fontWeight="600">
                   TOTAL VERIFIED OUTPUT
                 </text>
-                <text x="744" y="426" fill="#B45309" fontSize="20" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">
+                <text x="744" y="344" fill="#B45309" fontSize="20" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">
                   699+ Commits
                 </text>
-                <text x="744" y="442" fill="#059669" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600">
+                <text x="744" y="362" fill="#059669" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600">
                   64 Repositories Across Both Accounts
                 </text>
 
-                <text x="744" y="460" fill="#78716C" fontSize="7.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4">
-                  Peak: 173 (May 2026) · Sprint: 138 (Jan 2026)
+                <text x="744" y="380" fill="#78716C" fontSize="7.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4">
+                  Peak: 173 (May 2026) · All-Time
                 </text>
               </g>
             </g>
@@ -961,138 +971,100 @@ export default function AccuracyTerrain() {
             </g>
           </svg>
 
-          {/* DYNAMIC PROJECT SPOTLIGHT CARD (Updates with every scrubbed month/date) */}
-          {showProjectModal && (
+          {/* INSPECTOR CARD (Styled horizontally like 2nd image benchmark) */}
+          {isCardVisible && (
             <div
-              className="absolute top-2 left-2 right-2 sm:right-auto sm:top-4 sm:left-4 z-30 max-w-[430px] sm:w-[410px] pointer-events-auto transition-all duration-200 animate-in fade-in"
+              onMouseEnter={handleCardMouseEnter}
+              onMouseLeave={handleCardMouseLeave}
+              className="absolute top-2 left-2 right-2 sm:right-auto sm:top-3 sm:left-3 z-30 max-w-[450px] sm:w-[430px] pointer-events-auto transition-all duration-200 animate-in fade-in"
               role="dialog"
               aria-label={`${currentMonthData.project} project details`}
             >
-              <div className="relative overflow-hidden rounded-xl border border-[#E4D9BC] bg-[#FDFBF7]/95 backdrop-blur-md shadow-[0_20px_40px_-15px_rgba(74,59,51,0.22)] p-4 sm:p-5">
-                {/* Accent indicator on left edge */}
-                <div className="absolute inset-y-0 left-0 w-[4px] bg-[#B45309]" />
+              <div className="relative overflow-hidden rounded-[8px] border border-[#D4C3A3] bg-[#FAF8F5]/98 backdrop-blur-md shadow-sm p-3 sm:p-3.5">
+                {/* Accent line on left edge */}
+                <div className="absolute inset-y-0 left-0 w-[3px] bg-[#B45309]" />
 
-                {/* Top Row: Date Badge + Project Category + Close Button */}
-                <div className="flex items-center justify-between gap-2 pl-1.5">
-                  <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-                    <span className="font-mono text-[9px] font-bold uppercase tracking-[0.12em] px-2 py-0.5 rounded bg-[#FEF3C7] text-[#B45309] border border-[#FDE68A] truncate">
-                      📅 {currentMonthData.dateRange}
-                    </span>
-                    <span className="inline-flex items-center gap-1 font-mono text-[8.5px] uppercase tracking-wider text-[#059669] font-bold bg-[#ECFDF5] px-1.5 py-0.5 rounded border border-[#A7F3D0]">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#059669] animate-pulse" />
-                      {currentMonthData.category}
-                    </span>
-                  </div>
-
-                  {/* Dismiss / Close button */}
-                  <button
-                    onClick={() => {
-                      sound.playClick();
-                      setShowProjectModal(false);
-                    }}
-                    className="p-1 rounded-md text-[#78716C] hover:text-[#4A3B33] hover:bg-[#F1E9DA] transition-colors cursor-pointer shrink-0"
-                    title="Close project inspector"
-                    aria-label="Close project inspector"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-
-                {/* Title and Description */}
-                <div className="mt-2.5 pl-1.5">
-                  <h4 className="text-[14.5px] sm:text-[15.5px] font-bold leading-snug text-[#4A3B33] font-serif">
-                    {currentMonthData.project}
-                  </h4>
-                  <p className="mt-1 text-[11px] leading-[1.6] text-[#57534E] font-sans">
-                    {currentMonthData.body}
-                  </p>
-                </div>
-
-                {/* Shipped Deliverables list */}
-                <div className="mt-2.5 pl-1.5 space-y-1">
-                  {currentMonthData.deliverables.map((d, dIdx) => (
-                    <div key={dIdx} className="flex items-start gap-1.5 text-[10px] text-[#4A3B33] font-sans leading-relaxed">
-                      <span className="text-[#B45309] font-bold mt-0.5 shrink-0">▸</span>
-                      <span>{d}</span>
+                <div className="grid grid-cols-12 gap-3 pl-1.5 items-start">
+                  {/* Left Column (7 cols): Eyebrow, Title, Body, Action link */}
+                  <div className="col-span-7 space-y-1">
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-mono text-[8.5px] font-bold uppercase tracking-[0.14em] text-[#B45309]">
+                        TIMELINE · {currentMonthData.label.toUpperCase()} · VERIFIED
+                      </span>
                     </div>
-                  ))}
-                </div>
 
-                {/* Tech Stack Chips */}
-                <div className="mt-3 pl-1.5 flex flex-wrap items-center gap-1">
-                  {currentMonthData.stack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-1.5 py-0.5 rounded bg-white border border-[#E4D9BC] font-mono text-[8.5px] font-semibold text-[#4A3B33]"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+                    <h4 className="font-serif font-bold text-[13px] leading-tight text-[#4A3B33] line-clamp-1">
+                      {currentMonthData.project}
+                    </h4>
 
-                {/* Horizontal 3-Stat Metric Grid */}
-                <div className="mt-3.5 grid grid-cols-3 divide-x divide-[#E4D9BC] rounded-lg border border-[#E4D9BC] bg-white/90 py-2 px-1 text-center font-mono shadow-2xs">
-                  <div className="px-1">
-                    <span className="block text-[8px] uppercase tracking-wider text-[#A8A29E] font-bold">
-                      Output
-                    </span>
-                    <span className="block text-[13px] font-extrabold tabular-nums text-[#B45309] mt-0.5">
-                      {currentMonthData.combined} Commits
-                    </span>
-                    <span className="block text-[7.5px] text-[#78716C] font-sans">{currentMonthData.month}</span>
-                  </div>
-                  <div className="px-1">
-                    <span className="block text-[8px] uppercase tracking-wider text-[#A8A29E] font-bold">
-                      @aniketmishra-0
-                    </span>
-                    <span className="block text-[13px] font-extrabold tabular-nums text-[#059669] mt-0.5">
-                      {currentMonthData.aniket0}
-                    </span>
-                    <span className="block text-[7.5px] text-[#78716C] font-sans">Production</span>
-                  </div>
-                  <div className="px-1">
-                    <span className="block text-[8px] uppercase tracking-wider text-[#A8A29E] font-bold">
-                      @Mishra-Aniket
-                    </span>
-                    <span className="block text-[13px] font-extrabold tabular-nums text-[#6366F1] mt-0.5">
-                      {currentMonthData.mishra}
-                    </span>
-                    <span className="block text-[7.5px] text-[#78716C] font-sans">OSS / Core</span>
-                  </div>
-                </div>
+                    <p className="text-[10px] leading-[1.45] text-[#78716C] line-clamp-2">
+                      {currentMonthData.body}
+                    </p>
 
-                {/* Footer Strip with Action Links */}
-                <div className="mt-3 pt-2.5 border-t border-[#F1E9DA] flex items-center justify-between gap-2 pl-1.5">
-                  <div className="flex items-center gap-3 flex-wrap">
-                    {currentMonthData.liveUrl && (
-                      <a
-                        href={currentMonthData.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => sound.playClick()}
-                        className="inline-flex items-center gap-1 font-mono text-[10px] font-bold text-[#B45309] hover:text-[#92400E] hover:underline"
+                    <div className="pt-1 flex items-center gap-2">
+                      {currentMonthData.liveUrl ? (
+                        <a
+                          href={currentMonthData.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => sound.playClick()}
+                          className="inline-flex items-center gap-1 font-mono text-[9px] font-bold text-[#B45309] hover:underline"
+                        >
+                          <span>{currentMonthData.liveLabel || "Launch Live Project"}</span>
+                          <ArrowUpRight className="w-2.5 h-2.5" />
+                        </a>
+                      ) : currentMonthData.repoUrl ? (
+                        <a
+                          href={currentMonthData.repoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => sound.playClick()}
+                          className="inline-flex items-center gap-1 font-mono text-[9px] font-semibold text-[#78716C] hover:text-[#4A3B33] hover:underline"
+                        >
+                          <span>View Code Repository</span>
+                          <ArrowUpRight className="w-2.5 h-2.5" />
+                        </a>
+                      ) : null}
+                    </div>
+                  </div>
+
+                  {/* Right Column (5 cols): Table + Snippet Pill (Identical to 2nd image) */}
+                  <div className="col-span-5 border-l border-[#EFE6D6] pl-2.5 flex flex-col justify-between h-full space-y-2">
+                    <div className="flex items-start justify-between">
+                      <dl className="w-full space-y-1 font-mono text-[9px]">
+                        <div className="flex justify-between items-center text-[#78716C]">
+                          <dt className="uppercase tracking-wider text-[7.5px] text-[#A8A29E]">Output</dt>
+                          <dd className="font-bold text-[#B45309] tabular-nums">{currentMonthData.combined} commits</dd>
+                        </div>
+                        <div className="flex justify-between items-center text-[#78716C]">
+                          <dt className="uppercase tracking-wider text-[7.5px] text-[#A8A29E]">@aniket0</dt>
+                          <dd className="font-bold text-[#059669] tabular-nums">{currentMonthData.aniket0}</dd>
+                        </div>
+                        <div className="flex justify-between items-center text-[#78716C]">
+                          <dt className="uppercase tracking-wider text-[7.5px] text-[#A8A29E]">@mishra</dt>
+                          <dd className="font-bold text-[#6366F1] tabular-nums">{currentMonthData.mishra}</dd>
+                        </div>
+                      </dl>
+
+                      <button
+                        onClick={() => {
+                          sound.playClick();
+                          setIsPinned(false);
+                          setIsCardVisible(false);
+                        }}
+                        className="ml-1 p-0.5 rounded text-[#A8A29E] hover:text-[#4A3B33] hover:bg-[#F1E9DA] transition-colors cursor-pointer shrink-0"
+                        title="Dismiss"
+                        aria-label="Dismiss card"
                       >
-                        <span>{currentMonthData.liveLabel || "Launch Live Project"}</span>
-                        <ArrowUpRight className="w-3 h-3" />
-                      </a>
-                    )}
-                    {currentMonthData.repoUrl && (
-                      <a
-                        href={currentMonthData.repoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => sound.playClick()}
-                        className="inline-flex items-center gap-1 font-mono text-[9.5px] font-semibold text-[#78716C] hover:text-[#4A3B33] hover:underline"
-                      >
-                        <span>View Repo ({currentMonthData.repo.split("/")[1] || currentMonthData.repo})</span>
-                        <ArrowUpRight className="w-2.5 h-2.5" />
-                      </a>
-                    )}
-                  </div>
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
 
-                  <span className="font-mono text-[8.5px] font-semibold text-[#78716C] bg-[#F4EFE6] px-1.5 py-0.5 rounded border border-[#E4D9BC]/70 truncate">
-                    {currentMonthData.label}
-                  </span>
+                    {/* Code Snippet Box (just like Image 2: • index.query({ topK: 10 })) */}
+                    <div className="rounded bg-[#F4EFE6] border border-[#E4D9BC] px-1.5 py-1 font-mono text-[8px] text-[#4A3B33] truncate">
+                      • {currentMonthData.stack.slice(0, 2).join(" · ")}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
