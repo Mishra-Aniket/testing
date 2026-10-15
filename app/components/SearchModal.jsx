@@ -157,7 +157,20 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
       if (typeof window !== "undefined" && window.__lenis) {
         window.__lenis.stop();
       }
-      setTimeout(() => inputRef.current?.focus(), 60);
+
+      // Only auto-focus on desktop with fine pointer.
+      // On mobile/touch devices, avoid auto-focusing so the on-screen virtual keyboard
+      // does not block the screen until the user explicitly taps the search input.
+      const isMobileOrTouch =
+        typeof window !== "undefined" &&
+        (window.innerWidth < 768 ||
+          window.matchMedia("(pointer: coarse)").matches ||
+          "ontouchstart" in window ||
+          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+
+      if (!isMobileOrTouch) {
+        setTimeout(() => inputRef.current?.focus(), 60);
+      }
     } else {
       if (typeof window !== "undefined" && window.__lenis) {
         window.__lenis.start();
@@ -423,7 +436,10 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
 
                 {/* Input Group: Exact orange/amber border input matching Image 2 */}
                 <div className="p-3 pb-1 shrink-0">
-                  <div className="flex items-center gap-2.5 rounded-lg border border-[#B45309] bg-white px-3 py-2 shadow-2xs transition-all">
+                  <div
+                    onClick={() => inputRef.current?.focus()}
+                    className="flex items-center gap-2.5 rounded-lg border border-[#B45309] bg-white px-3 py-2 shadow-2xs transition-all cursor-text"
+                  >
                     <Search className="w-4 h-4 text-[#78716C] shrink-0 opacity-70" />
                     <input
                       ref={inputRef}
