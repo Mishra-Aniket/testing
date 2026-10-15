@@ -24,6 +24,7 @@ import {
   Search
 } from 'lucide-react';
 import { sound } from '../utils/sound';
+import MonogramAM from './MonogramAM';
 
 const NAV_PROJECTS = [
   {
@@ -372,17 +373,15 @@ export default function Navbar({
             }`}
           >
           {/* Logo */}
-          <Link href="/" onClick={() => sound.playClick()} className="relative flex items-center gap-1.5 sm:gap-2 group shrink-0">
-            <span className={`text-2xl font-black leading-none transform transition-transform group-hover:scale-110 ${
+          <Link href="/" onClick={() => sound.playClick()} className="relative flex items-center gap-2 group shrink-0">
+            <MonogramAM className={`h-7 sm:h-8 w-auto transform transition-transform group-hover:scale-105 duration-200 ${
               isDarkTheme ? "text-[#E4C090]" : "text-[#B45309]"
-            }`}>
-              ▲
-            </span>
+            }`} />
             <span className="flex items-baseline tracking-tight">
               <span className="font-sans font-bold text-[19px] sm:text-xl tracking-tight nav-brand-text">
                 Aniket
               </span>
-              <span className={`font-cursive text-[28px] sm:text-[31px] font-normal leading-none ml-1.5 transition-colors ${
+              <span className={`font-serif italic font-bold text-[22px] sm:text-[24px] ml-1 transition-colors ${
                 isDarkTheme ? "text-[#E4C090]" : "text-[#B45309]"
               }`}>
                 M
@@ -913,13 +912,14 @@ export default function Navbar({
                   }`}>
                     Navigation
                   </span>
-                  <span className="flex items-baseline tracking-tight">
+                  <span className="flex items-center gap-1.5 tracking-tight">
+                    <MonogramAM className={`h-4.5 w-auto ${isDarkTheme ? "text-[#E4C090]" : "text-[#B45309]"}`} />
                     <span className={`font-sans font-bold text-xs tracking-tight ${
                       isDarkTheme ? "text-white" : "text-[#4A3B33]"
                     }`}>
                       Aniket
                     </span>
-                    <span className={`font-cursive text-[20px] font-normal leading-none ml-1 ${
+                    <span className={`font-serif italic font-bold text-[13px] ml-0.5 ${
                       isDarkTheme ? "text-[#E4C090]" : "text-[#B45309]"
                     }`}>
                       M
@@ -941,12 +941,20 @@ export default function Navbar({
                       }}
                       className="w-full flex items-center justify-between py-1.5 text-left cursor-pointer group"
                     >
-                      <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
+                      <span className={`text-[17px] font-serif font-medium transition-colors ${
+                        isDarkTheme ? "text-[#F5F5F4] group-hover:text-[#E4C090]" : "text-[#4A3B33] group-hover:text-[#B45309]"
+                      }`}>
                         Projects
                       </span>
                       <ChevronDown 
-                        className={`w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] shrink-0 transition-transform duration-200 ${
-                          mobileExpandedSection === 'projects' ? 'rotate-180 text-[#B45309]' : ''
+                        className={`w-4 h-4 shrink-0 transition-transform duration-200 ${
+                          isDarkTheme 
+                            ? "text-[#A8A29E] group-hover:text-[#E4C090]" 
+                            : "text-[#A8A29E] group-hover:text-[#B45309]"
+                        } ${
+                          mobileExpandedSection === 'projects' 
+                            ? (isDarkTheme ? 'rotate-180 text-[#E4C090]' : 'rotate-180 text-[#B45309]') 
+                            : ''
                         }`} 
                       />
                     </button>
@@ -957,7 +965,9 @@ export default function Navbar({
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                          className="pl-3 mt-2 mb-1 space-y-1 border-l-2 border-[#B45309]/30"
+                          className={`pl-3 mt-2 mb-1 space-y-1 border-l-2 ${
+                            isDarkTheme ? "border-[#E4C090]/40" : "border-[#B45309]/30"
+                          }`}
                         >
                           {NAV_PROJECTS.map((item) => (
                             <a
@@ -969,15 +979,27 @@ export default function Navbar({
                                 sound.playClick();
                                 setMobileMenuOpen(false);
                               }}
-                              className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[14px] text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE] transition-colors group"
+                              className={`flex items-center justify-between py-1.5 px-2 rounded-lg text-[14px] transition-colors group ${
+                                isDarkTheme 
+                                  ? "text-[#D6D3D1] hover:text-[#E4C090] hover:bg-white/[0.06]" 
+                                  : "text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE]"
+                              }`}
                             >
                               <div className="flex items-center gap-2">
-                                <span className="font-medium text-[#4A3B33] group-hover:text-[#B45309]">{item.name}</span>
-                                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded border border-[#E4D9BC] text-[#B45309] bg-[#B45309]/5">
+                                <span className={`font-medium ${
+                                  isDarkTheme ? "text-[#F5F5F4] group-hover:text-[#E4C090]" : "text-[#4A3B33] group-hover:text-[#B45309]"
+                                }`}>{item.name}</span>
+                                <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded border ${
+                                  isDarkTheme 
+                                    ? "border-white/10 text-[#E4C090] bg-white/[0.05]" 
+                                    : "border-[#E4D9BC] text-[#B45309] bg-[#B45309]/5"
+                                }`}>
                                   {item.badge}
                                 </span>
                               </div>
-                              <ArrowUpRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:text-[#B45309]" />
+                              <ArrowUpRight className={`w-3.5 h-3.5 transition-colors ${
+                                isDarkTheme ? "opacity-70 text-[#A8A29E] group-hover:opacity-100 group-hover:text-[#E4C090]" : "opacity-60 text-[#A8A29E] group-hover:opacity-100 group-hover:text-[#B45309]"
+                              }`} />
                             </a>
                           ))}
                           <Link
@@ -986,7 +1008,9 @@ export default function Navbar({
                               sound.playClick();
                               setMobileMenuOpen(false);
                             }}
-                            className="flex items-center justify-between py-1.5 px-2 text-[12px] font-mono font-semibold text-[#B45309] hover:underline pt-1"
+                            className={`flex items-center justify-between py-1.5 px-2 text-[12px] font-mono font-semibold pt-1 ${
+                              isDarkTheme ? "text-[#E4C090] hover:underline hover:text-[#F6D8A8]" : "text-[#B45309] hover:underline"
+                            }`}
                           >
                             <span>Explore all projects &amp; case studies</span>
                             <ArrowRight className="w-3.5 h-3.5" />
@@ -1006,12 +1030,20 @@ export default function Navbar({
                       }}
                       className="w-full flex items-center justify-between py-1.5 text-left cursor-pointer group"
                     >
-                      <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
+                      <span className={`text-[17px] font-serif font-medium transition-colors ${
+                        isDarkTheme ? "text-[#F5F5F4] group-hover:text-[#E4C090]" : "text-[#4A3B33] group-hover:text-[#B45309]"
+                      }`}>
                         Services
                       </span>
                       <ChevronDown 
-                        className={`w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] shrink-0 transition-transform duration-200 ${
-                          mobileExpandedSection === 'services' ? 'rotate-180 text-[#B45309]' : ''
+                        className={`w-4 h-4 shrink-0 transition-transform duration-200 ${
+                          isDarkTheme 
+                            ? "text-[#A8A29E] group-hover:text-[#E4C090]" 
+                            : "text-[#A8A29E] group-hover:text-[#B45309]"
+                        } ${
+                          mobileExpandedSection === 'services' 
+                            ? (isDarkTheme ? 'rotate-180 text-[#E4C090]' : 'rotate-180 text-[#B45309]') 
+                            : ''
                         }`} 
                       />
                     </button>
@@ -1022,7 +1054,9 @@ export default function Navbar({
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                          className="pl-3 mt-2 mb-1 space-y-1 border-l-2 border-[#B45309]/30"
+                          className={`pl-3 mt-2 mb-1 space-y-1 border-l-2 ${
+                            isDarkTheme ? "border-[#E4C090]/40" : "border-[#B45309]/30"
+                          }`}
                         >
                           {NAV_SERVICES.map((item) => (
                             <Link
@@ -1032,13 +1066,23 @@ export default function Navbar({
                                 sound.playClick();
                                 setMobileMenuOpen(false);
                               }}
-                              className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[14px] text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE] transition-colors group"
+                              className={`flex items-center justify-between py-1.5 px-2 rounded-lg text-[14px] transition-colors group ${
+                                isDarkTheme 
+                                  ? "text-[#D6D3D1] hover:text-[#E4C090] hover:bg-white/[0.06]" 
+                                  : "text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE]"
+                              }`}
                             >
                               <div>
-                                <span className="font-medium text-[#4A3B33] group-hover:text-[#B45309]">{item.title}</span>
-                                <span className="block text-[11px] text-[#A8A29E]">{item.badge}</span>
+                                <span className={`font-medium ${
+                                  isDarkTheme ? "text-[#F5F5F4] group-hover:text-[#E4C090]" : "text-[#4A3B33] group-hover:text-[#B45309]"
+                                }`}>{item.title}</span>
+                                <span className={`block text-[11px] ${
+                                  isDarkTheme ? "text-[#A8A29E]" : "text-[#A8A29E]"
+                                }`}>{item.badge}</span>
                               </div>
-                              <ArrowRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:text-[#B45309]" />
+                              <ArrowRight className={`w-3.5 h-3.5 transition-colors ${
+                                isDarkTheme ? "opacity-70 text-[#A8A29E] group-hover:opacity-100 group-hover:text-[#E4C090]" : "opacity-60 text-[#A8A29E] group-hover:opacity-100 group-hover:text-[#B45309]"
+                              }`} />
                             </Link>
                           ))}
                           <Link
@@ -1047,7 +1091,9 @@ export default function Navbar({
                               sound.playClick();
                               setMobileMenuOpen(false);
                             }}
-                            className="flex items-center justify-between py-1.5 px-2 text-[12px] font-mono font-semibold text-[#B45309] hover:underline pt-1"
+                            className={`flex items-center justify-between py-1.5 px-2 text-[12px] font-mono font-semibold pt-1 ${
+                              isDarkTheme ? "text-[#E4C090] hover:underline hover:text-[#F6D8A8]" : "text-[#B45309] hover:underline"
+                            }`}
                           >
                             <span>View workflow &amp; sprint guarantees</span>
                             <ArrowRight className="w-3.5 h-3.5" />
@@ -1067,10 +1113,14 @@ export default function Navbar({
                       }}
                       className="w-full flex items-center justify-between py-1.5 text-left group"
                     >
-                      <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
+                      <span className={`text-[17px] font-serif font-medium transition-colors ${
+                        isDarkTheme ? "text-[#F5F5F4] group-hover:text-[#E4C090]" : "text-[#4A3B33] group-hover:text-[#B45309]"
+                      }`}>
                         Architecture &amp; Code
                       </span>
-                      <ArrowRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-colors" />
+                      <ArrowRight className={`w-4 h-4 transition-colors ${
+                        isDarkTheme ? "text-[#A8A29E] group-hover:text-[#E4C090]" : "text-[#A8A29E] group-hover:text-[#B45309]"
+                      }`} />
                     </Link>
                   </div>
 
@@ -1084,10 +1134,14 @@ export default function Navbar({
                       }}
                       className="w-full flex items-center justify-between py-1.5 text-left group"
                     >
-                      <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
+                      <span className={`text-[17px] font-serif font-medium transition-colors ${
+                        isDarkTheme ? "text-[#F5F5F4] group-hover:text-[#E4C090]" : "text-[#4A3B33] group-hover:text-[#B45309]"
+                      }`}>
                         Engineering Blog
                       </span>
-                      <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-colors" />
+                      <ArrowUpRight className={`w-4 h-4 transition-colors ${
+                        isDarkTheme ? "text-[#A8A29E] group-hover:text-[#E4C090]" : "text-[#A8A29E] group-hover:text-[#B45309]"
+                      }`} />
                     </Link>
                   </div>
 
@@ -1102,14 +1156,18 @@ export default function Navbar({
                       className="w-full flex items-center justify-between py-1.5 text-left group"
                     >
                       <div className="flex items-center gap-2">
-                        <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
+                        <span className={`text-[17px] font-serif font-medium transition-colors ${
+                          isDarkTheme ? "text-[#F5F5F4] group-hover:text-[#E4C090]" : "text-[#4A3B33] group-hover:text-[#B45309]"
+                        }`}>
                           Student Offers
                         </span>
-                        <span className="px-1.5 py-0.5 text-[10px] uppercase font-mono font-bold tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200/80 rounded-full">
+                        <span className="px-1.5 py-0.5 text-[10px] uppercase font-mono font-bold tracking-wider bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 rounded-full">
                           100% Free
                         </span>
                       </div>
-                      <ArrowUpRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] transition-colors" />
+                      <ArrowUpRight className={`w-4 h-4 transition-colors ${
+                        isDarkTheme ? "text-[#A8A29E] group-hover:text-[#E4C090]" : "text-[#A8A29E] group-hover:text-[#B45309]"
+                      }`} />
                     </Link>
                   </div>
 
@@ -1123,12 +1181,20 @@ export default function Navbar({
                       }}
                       className="w-full flex items-center justify-between py-1.5 text-left cursor-pointer group"
                     >
-                      <span className="text-[17px] font-serif font-medium text-[#4A3B33] group-hover:text-[#B45309] transition-colors">
+                      <span className={`text-[17px] font-serif font-medium transition-colors ${
+                        isDarkTheme ? "text-[#F5F5F4] group-hover:text-[#E4C090]" : "text-[#4A3B33] group-hover:text-[#B45309]"
+                      }`}>
                         Learn &amp; Docs
                       </span>
                       <ChevronDown 
-                        className={`w-4 h-4 text-[#A8A29E] group-hover:text-[#B45309] shrink-0 transition-transform duration-200 ${
-                          mobileExpandedSection === 'learn' ? 'rotate-180 text-[#B45309]' : ''
+                        className={`w-4 h-4 shrink-0 transition-transform duration-200 ${
+                          isDarkTheme 
+                            ? "text-[#A8A29E] group-hover:text-[#E4C090]" 
+                            : "text-[#A8A29E] group-hover:text-[#B45309]"
+                        } ${
+                          mobileExpandedSection === 'learn' 
+                            ? (isDarkTheme ? 'rotate-180 text-[#E4C090]' : 'rotate-180 text-[#B45309]') 
+                            : ''
                         }`} 
                       />
                     </button>
@@ -1139,7 +1205,9 @@ export default function Navbar({
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                          className="pl-3 mt-2 mb-1 space-y-1 border-l-2 border-[#B45309]/30"
+                          className={`pl-3 mt-2 mb-1 space-y-1 border-l-2 ${
+                            isDarkTheme ? "border-[#E4C090]/40" : "border-[#B45309]/30"
+                          }`}
                         >
                           {NAV_LEARN.map((item) => (
                             <Link
@@ -1149,13 +1217,23 @@ export default function Navbar({
                                 sound.playClick();
                                 setMobileMenuOpen(false);
                               }}
-                              className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[14px] text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE] transition-colors group"
+                              className={`flex items-center justify-between py-1.5 px-2 rounded-lg text-[14px] transition-colors group ${
+                                isDarkTheme 
+                                  ? "text-[#D6D3D1] hover:text-[#E4C090] hover:bg-white/[0.06]" 
+                                  : "text-[#78716C] hover:text-[#B45309] hover:bg-[#FAF6EE]"
+                              }`}
                             >
                               <div>
-                                <span className="font-medium text-[#4A3B33] group-hover:text-[#B45309]">{item.title}</span>
-                                <span className="block text-[11px] text-[#A8A29E]">{item.tagline}</span>
+                                <span className={`font-medium ${
+                                  isDarkTheme ? "text-[#F5F5F4] group-hover:text-[#E4C090]" : "text-[#4A3B33] group-hover:text-[#B45309]"
+                                }`}>{item.title}</span>
+                                <span className={`block text-[11px] ${
+                                  isDarkTheme ? "text-[#A8A29E]" : "text-[#A8A29E]"
+                                }`}>{item.tagline}</span>
                               </div>
-                              <ArrowRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:text-[#B45309]" />
+                              <ArrowRight className={`w-3.5 h-3.5 transition-colors ${
+                                isDarkTheme ? "opacity-70 text-[#A8A29E] group-hover:opacity-100 group-hover:text-[#E4C090]" : "opacity-60 text-[#A8A29E] group-hover:opacity-100 group-hover:text-[#B45309]"
+                              }`} />
                             </Link>
                           ))}
                         </motion.div>
@@ -1165,16 +1243,22 @@ export default function Navbar({
                 </div>
 
                 {/* Bottom Drawer Actions with Social Profiles + CTA */}
-                <div className="pt-3 pb-6 flex flex-col gap-3 shrink-0 border-t border-[#E4D9BC]/60">
+                <div className={`pt-3 pb-6 flex flex-col gap-3 shrink-0 border-t ${
+                  isDarkTheme ? "border-white/[0.08]" : "border-[#E4D9BC]/60"
+                }`}>
                   {/* Social profiles bar */}
                   <div className="grid grid-cols-3 gap-2">
                     <button
                       type="button"
                       onClick={handleOpenBothGithub}
-                      className="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border border-[#E4D9BC] bg-white hover:border-[#B45309] hover:bg-[#FAF6EE] text-[#4A3B33] font-mono text-xs shadow-2xs transition-all active:scale-[0.98] cursor-pointer"
+                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border font-mono text-xs shadow-2xs transition-all active:scale-[0.98] cursor-pointer ${
+                        isDarkTheme 
+                          ? "border-white/[0.12] bg-white/[0.06] text-[#F5F5F4] hover:border-[#E4C090] hover:bg-white/[0.1]" 
+                          : "border-[#E4D9BC] bg-white text-[#4A3B33] hover:border-[#B45309] hover:bg-[#FAF6EE]"
+                      }`}
                       title="Open both GitHub profiles in new tabs"
                     >
-                      <svg className="w-3.5 h-3.5 fill-current text-[#4A3B33]" viewBox="0 0 24 24">
+                      <svg className={`w-3.5 h-3.5 fill-current ${isDarkTheme ? "text-[#F5F5F4]" : "text-[#4A3B33]"}`} viewBox="0 0 24 24">
                         <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
                       </svg>
                       <span>GitHub (2)</span>
@@ -1184,7 +1268,11 @@ export default function Navbar({
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => sound.playClick()}
-                      className="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border border-[#E4D9BC] bg-white hover:border-[#B45309] hover:bg-[#FAF6EE] text-[#4A3B33] font-mono text-xs shadow-2xs transition-all active:scale-[0.98]"
+                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border font-mono text-xs shadow-2xs transition-all active:scale-[0.98] ${
+                        isDarkTheme 
+                          ? "border-white/[0.12] bg-white/[0.06] text-[#F5F5F4] hover:border-[#E4C090] hover:bg-white/[0.1]" 
+                          : "border-[#E4D9BC] bg-white text-[#4A3B33] hover:border-[#B45309] hover:bg-[#FAF6EE]"
+                      }`}
                     >
                       <svg className="w-3.5 h-3.5 fill-current text-[#0A66C2]" viewBox="0 0 24 24">
                         <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
@@ -1196,9 +1284,13 @@ export default function Navbar({
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => sound.playClick()}
-                      className="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border border-[#E4D9BC] bg-white hover:border-[#B45309] hover:bg-[#FAF6EE] text-[#4A3B33] font-mono text-xs shadow-2xs transition-all active:scale-[0.98]"
+                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border font-mono text-xs shadow-2xs transition-all active:scale-[0.98] ${
+                        isDarkTheme 
+                          ? "border-white/[0.12] bg-white/[0.06] text-[#F5F5F4] hover:border-[#E4C090] hover:bg-white/[0.1]" 
+                          : "border-[#E4D9BC] bg-white text-[#4A3B33] hover:border-[#B45309] hover:bg-[#FAF6EE]"
+                      }`}
                     >
-                      <svg className="w-3.5 h-3.5 fill-current text-[#4A3B33]" viewBox="0 0 24 24">
+                      <svg className={`w-3.5 h-3.5 fill-current ${isDarkTheme ? "text-[#F5F5F4]" : "text-[#4A3B33]"}`} viewBox="0 0 24 24">
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                       </svg>
                       <span>X</span>
@@ -1219,7 +1311,9 @@ export default function Navbar({
                   </Link>
 
                   {/* Trust guarantee subtext */}
-                  <div className="text-center font-mono text-[9.5px] text-[#A8A29E] tracking-tight">
+                  <div className={`text-center font-mono text-[9.5px] tracking-tight ${
+                    isDarkTheme ? "text-[#A8A29E]" : "text-[#78716C]"
+                  }`}>
                     ✦ 2–4 Week MVP Turnaround · Direct 1-on-1 Access · Full Code Ownership
                   </div>
                 </div>

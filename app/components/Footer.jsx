@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { ArrowUp } from "lucide-react";
 import { sound } from "../utils/sound";
+import MonogramAM from "./MonogramAM";
 
 export default function Footer() {
   const handleLinkClick = (e, item) => {
@@ -88,15 +89,13 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-x-8 gap-y-12 pb-14 md:grid-cols-4 lg:grid-cols-8 lg:pb-16">
           {/* Brand Info Column */}
           <div className="col-span-2 md:col-span-4 lg:col-span-2 lg:pr-10">
-            <a href="/" className="mb-6 inline-flex items-center gap-2 group">
-              <span className="text-[#E4C090] text-2xl font-black leading-none transform transition-transform group-hover:scale-110">
-                ▲
-              </span>
+            <a href="/" className="mb-6 inline-flex items-center gap-2.5 group">
+              <MonogramAM className="h-8 w-auto text-[#E4C090] transform transition-transform group-hover:scale-105 duration-200" />
               <span className="flex items-baseline tracking-tight">
                 <span className="font-sans font-bold text-xl text-white">
                   Aniket
                 </span>
-                <span className="font-cursive text-[30px] font-normal leading-none text-[#E4C090] ml-1.5">
+                <span className="font-serif italic font-bold text-[24px] text-[#E4C090] ml-1">
                   M
                 </span>
               </span>
@@ -228,14 +227,12 @@ export default function Footer() {
           aria-hidden="true" 
           className="relative w-full pt-4 sm:pt-6 pb-4 sm:pb-8 flex justify-center items-center select-none pointer-events-none"
         >
-          <span className="flex items-baseline justify-center tracking-[-0.03em] whitespace-nowrap text-[clamp(3.2rem,11.5vw,9.5rem)] leading-none">
-            <span className="font-sans font-black uppercase text-white/[0.08] sm:text-white/[0.09]">
+          <div className="flex items-center justify-center gap-3 sm:gap-6 tracking-[-0.03em] whitespace-nowrap leading-none">
+            <span className="font-sans font-black uppercase text-white/[0.08] sm:text-white/[0.09] text-[clamp(2.8rem,9.5vw,8rem)]">
               ANIKET
             </span>
-            <span className="font-cursive font-normal text-[#E4C090]/[0.32] sm:text-[#E4C090]/[0.36] text-[1.28em] ml-2 sm:ml-4">
-              M
-            </span>
-          </span>
+            <MonogramAM className="h-[clamp(3.5rem,12vw,9.5rem)] w-auto text-[#E4C090]/[0.28] sm:text-[#E4C090]/[0.32]" />
+          </div>
         </div>
       </div>
     </footer>
