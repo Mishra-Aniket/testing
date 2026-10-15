@@ -1,27 +1,260 @@
 "use client";
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { X, Sparkles } from "lucide-react";
 import { sound } from "../utils/sound";
 
-export default function ModelSovereignty() {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [selectedModel, setSelectedModel] = useState("SCHEMA");
-  const [isSwapping, setIsSwapping] = useState(false);
-  const [swapCount, setSwapCount] = useState(24);
-  const [lastSwapTime, setLastSwapTime] = useState("0.28s");
+const SPECS_DATA = {
+  // --- PHASE 01: ARCHITECT ---
+  SCHEMA: {
+    phase: 0,
+    key: "SCHEMA",
+    eyebrow: "01.1 · DATABASE SPEC",
+    title: "PostgreSQL & Vector Architecture",
+    body: "Translating business domain models into normalized relational schemas. Indexed foreign keys, pgvector embeddings, and automated migration management via Prisma and Alembic.",
+    stats: [["DATABASE", "PostgreSQL 16"], ["VECTOR EXT", "pgvector / HNSW"], ["MIGRATIONS", "Zero Downtime"]],
+    code: 'schema.define({ tables: ["users", "agents", "sessions"], vector: true })'
+  },
+  FIGMA: {
+    phase: 0,
+    key: "FIGMA",
+    eyebrow: "01.2 · DESIGN SYSTEM",
+    title: "UI Architecture & Wireframing",
+    body: "Converting product intuition into precise, accessible UI wireframes and design tokens. Component hierarchy, responsive breakpoint grids, and interaction state mapping before code.",
+    stats: [["TOKENS", "Tailwind 3.4"], ["GRID", "12-Col Responsive"], ["ACCESSIBILITY", "WCAG 2.1 AA"]],
+    code: 'designSystem.tokens({ colors: "amber-stone", radius: "0.3rem" })'
+  },
+  APIS: {
+    phase: 0,
+    key: "APIS",
+    eyebrow: "01.3 · API CONTRACTS",
+    title: "API Specifications & Schema",
+    body: "Defining strict OpenAPI 3.1 and tRPC contracts between client and server. Strongly typed payload validation, error codes, and auto-generated TypeScript client SDKs.",
+    stats: [["SPEC", "OpenAPI 3.1"], ["VALIDATION", "Zod & Pydantic"], ["GENERATION", "Typed SDKs"]],
+    code: 'contract.export({ spec: "openapi_v3", client: "typescript" })'
+  },
+  STACK: {
+    phase: 0,
+    key: "STACK",
+    eyebrow: "01.4 · STACK SPEC",
+    title: "Next.js 15, FastAPI & Redis",
+    body: "Architecting a lean, high-velocity technology stack tailored to your application's concurrency and data requirements. Clean separation of concerns with zero bloat.",
+    stats: [["FRONTEND", "Next.js 15 App"], ["BACKEND", "FastAPI Python"], ["CACHE", "Redis 7.2"]],
+    code: 'stack.initialize({ framework: "nextjs15", api: "fastapi", db: "postgres" })'
+  },
 
-  const [isHoveringCard, setIsHoveringCard] = useState(false);
+  // --- PHASE 02: ENGINEER (THE 9 NODES) ---
+  frontend: {
+    phase: 1,
+    key: "frontend",
+    eyebrow: "02.1 · CLIENT ARCHITECTURE",
+    title: "Next.js 15 & React Frontend",
+    body: "Pixel-perfect responsive interfaces with React Server Components, Framer Motion micro-interactions, Lenis smooth scrolling, and sub-100ms First Contentful Paint.",
+    stats: [["FRAMEWORK", "Next.js 15"], ["PERF", "100/100 Lighthouse"], ["HYDRATION", "Zero-Delay"]],
+    code: 'export default async function Page() { return <Dashboard /> }'
+  },
+  backend: {
+    phase: 1,
+    key: "backend",
+    eyebrow: "02.2 · SYSTEM CORE",
+    title: "FastAPI & High-Throughput Core",
+    body: "Asynchronous backend services engineered in Python (FastAPI) and Node.js. Connection pooling, pydantic request validation, and sub-millisecond query routing.",
+    stats: [["RUNTIME", "Python 3.12 / Node"], ["THROUGHPUT", "45k req/sec"], ["LATENCY", "P99 < 18ms"]],
+    code: '@app.get("/api/v1/stream") async def stream_payload(): ...'
+  },
+  apis: {
+    phase: 1,
+    key: "apis",
+    eyebrow: "02.3 · CONTRACT SPEC",
+    title: "Type-Safe APIs & Streaming",
+    body: "End-to-end type safety across client and server. Streaming Server-Sent Events (SSE) for LLM generation, RESTful resource modeling, and OpenAPI auto-generation.",
+    stats: [["PROTOCOL", "REST & SSE"], ["VALIDATION", "Zod & Pydantic"], ["CONTRACT", "OpenAPI 3.1"]],
+    code: 'api.stream({ prompt, model: "gemini-2.5-flash" })'
+  },
+  auth: {
+    phase: 1,
+    key: "auth",
+    eyebrow: "02.4 · IDENTITY & SHIELD",
+    title: "Authentication & Biometric Shield",
+    body: "Zero-trust identity architecture with secure HTTP-only JWTs, OAuth 2.0 (Google/GitHub), biometric WebAuthn verification, and role-based access control (RBAC).",
+    stats: [["SPEC", "JWT + WebAuthn"], ["LATENCY", "< 8ms"], ["SECURITY", "OWASP Compliant"]],
+    code: 'auth.verify({ token: jwt, rbac: "enterprise", biometric: true })'
+  },
+  workers: {
+    phase: 1,
+    key: "workers",
+    eyebrow: "02.5 · ASYNC WORKERS",
+    title: "Background Workers & Task Queues",
+    body: "Distributed asynchronous processing with Celery and BullMQ. Handling heavy video ingestion, embedding generation, batch email jobs, and webhook delivery with retry guarantees.",
+    stats: [["CONCURRENCY", "10,000+ jobs"], ["QUEUE", "Redis / BullMQ"], ["RELIABILITY", "99.99% Guaranteed"]],
+    code: 'queue.process("task", { retries: 3, concurrency: 16 })'
+  },
+  logic: {
+    phase: 1,
+    key: "logic",
+    eyebrow: "02.6 · DOMAIN LOGIC",
+    title: "Autonomous Agent Decision Trees",
+    body: "Deterministic business workflows coupled with multi-model LLM tool calling. Error self-healing, deterministic state machines, and structured output parsing.",
+    stats: [["ENGINE", "State Machine"], ["EXECUTION", "Zero Tech Debt"], ["ACCURACY", "Deterministic"]],
+    code: 'agent.step({ state, tools: ["search", "exec", "database"] })'
+  },
+  caching: {
+    phase: 1,
+    key: "caching",
+    eyebrow: "02.7 · ACCELERATION",
+    title: "Multi-Tier Caching & In-Memory Store",
+    body: "Ultra-fast memory layer powered by Redis. Stale-while-revalidate edge caching, atomic counters, rate limiters, and sub-millisecond session lookup.",
+    stats: [["HIT RATE", "> 94%"], ["MEMORY", "Redis 7.2"], ["EDGE", "SWR Caching"]],
+    code: 'redis.getOrSet("user:session", fetchFn, { ttl: 3600 })'
+  },
+  pipelines: {
+    phase: 1,
+    key: "pipelines",
+    eyebrow: "02.8 · DATA INGESTION",
+    title: "ETL & Ingestion Pipelines",
+    body: "High-volume document and media transformation. Chunking, multi-modal embedding generation with pgvector, and automated schema synchronization.",
+    stats: [["THROUGHPUT", "1.2M rows/hr"], ["VECTOR", "pgvector"], ["INDEX", "HNSW"]],
+    code: 'pipeline.ingest({ docs, embed: "text-embedding-3" })'
+  },
+  tests: {
+    phase: 1,
+    key: "tests",
+    eyebrow: "02.9 · QUALITY ASSURANCE",
+    title: "Automated Test Suite & Verification",
+    body: "Comprehensive test coverage with Playwright end-to-end user journey tests, Vitest/Jest unit suites, and strict TypeScript compilation in CI.",
+    stats: [["COVERAGE", "> 90%"], ["E2E", "Playwright"], ["REGRESSION", "Zero-Tolerance"]],
+    code: 'test("checkout journey", async ({ page }) => { ... })'
+  },
+
+  // --- PHASE 03: SHIP & SCALE ---
+  DEPLOY: {
+    phase: 2,
+    key: "DEPLOY",
+    eyebrow: "03.1 · CONTINUOUS DELIVERY",
+    title: "Automated CI/CD & Deployments",
+    body: "Zero-downtime rolling deploys via GitHub Actions and Docker. Automated build verification, secret scanning, and preview environments on every pull request.",
+    stats: [["PIPELINE", "GitHub Actions"], ["ROLLBACK", "< 5 seconds"], ["DOWNTIME", "0.00s"]],
+    code: 'release.deploy({ env: "production", version: "v2.4.0", checks: true })'
+  },
+  CLOUD: {
+    phase: 2,
+    key: "CLOUD",
+    eyebrow: "03.2 · CLOUD INFRASTRUCTURE",
+    title: "Edge CDN & Multi-Region Cloud",
+    body: "Worldwide distributed content delivery and containerized backend clusters on AWS / GCP / Cloudflare. Global routing, DDoS mitigation, and low latency.",
+    stats: [["EDGE POPs", "300+ Worldwide"], ["LATENCY", "P50 < 30ms"], ["SECURITY", "Cloudflare WAF"]],
+    code: 'cloud.edge({ regions: ["us-east", "eu-central", "ap-south"] })'
+  },
+  UPTIME: {
+    phase: 2,
+    key: "UPTIME",
+    eyebrow: "03.3 · HIGH AVAILABILITY",
+    title: "99.9% Uptime SLA & Resiliency",
+    body: "Fault-tolerant system design with automated health checks, self-healing container restarts, automated database read replicas, and circuit breaker patterns.",
+    stats: [["AVAILABILITY", "99.9% SLA"], ["REPLICAS", "Primary + 2 Standby"], ["FAILOVER", "Automated"]],
+    code: 'health.check({ status: 200, redundancy: "active-active" })'
+  },
+  MONITOR: {
+    phase: 2,
+    key: "MONITOR",
+    eyebrow: "03.4 · OBSERVABILITY",
+    title: "Live Telemetry & Performance Monitoring",
+    body: "Full-stack observability with OpenTelemetry, structured logging, distributed tracing, and instant alert dispatch to Slack and email when latency spikes.",
+    stats: [["METRICS", "OpenTelemetry"], ["TRACING", "Distributed"], ["ALERTS", "Instant Pager"]],
+    code: 'telemetry.trace({ span: "api.request", durationMs: 14 })'
+  }
+};
+
+const PHASE_SPECS = [
+  ["SCHEMA", "FIGMA", "APIS", "STACK"],
+  ["frontend", "backend", "apis", "auth", "workers", "pipelines", "caching", "logic", "tests"],
+  ["DEPLOY", "CLOUD", "UPTIME", "MONITOR"]
+];
+
+const P2_NODES = [
+  { key: "frontend", x: -73, y: -73, textX: 600, textY: 205.3 },
+  { key: "auth", x: -73, y: -21, textX: 553.2, textY: 222 },
+  { key: "workers", x: -73, y: 31, textX: 506.4, textY: 238.6 },
+  { key: "apis", x: -21, y: -73, textX: 646.8, textY: 222 },
+  { key: "backend", x: -21, y: -21, textX: 600, textY: 238.6 },
+  { key: "pipelines", x: -21, y: 31, textX: 553.2, textY: 255.2 },
+  { key: "logic", x: 31, y: -73, textX: 693.6, textY: 238.6 },
+  { key: "caching", x: 31, y: -21, textX: 646.8, textY: 255.2 },
+  { key: "tests", x: 31, y: 31, textX: 600, textY: 271.9 },
+];
+
+const P1_NODES = [
+  { key: "SCHEMA", x: -68, y: -54, textX: 186.6, textY: 213.6, subX: 186.6, subY: 222.6, sub: "database" },
+  { key: "FIGMA", x: 8, y: -54, textX: 255, textY: 237.9, subX: 255, subY: 246.9, sub: "wireframes" },
+  { key: "APIS", x: -68, y: 10, textX: 129, textY: 234.1, subX: 129, subY: 243.1, sub: "contracts" },
+  { key: "STACK", x: 8, y: 10, textX: 197.4, textY: 258.4, subX: 197.4, subY: 267.4, sub: "frameworks" }
+];
+
+const P3_NODES = [
+  { key: "DEPLOY", x: -68, y: -54, textX: 1007.1, textY: 212, subX: 1007.1, subY: 221, sub: "ci / cd live" },
+  { key: "CLOUD", x: 8, y: -54, textX: 1075.5, textY: 236.3, subX: 1075.5, subY: 245.3, sub: "edge hosting" },
+  { key: "UPTIME", x: -68, y: 10, textX: 949.5, textY: 232.5, subX: 949.5, subY: 241.5, sub: "99.9% sla" },
+  { key: "MONITOR", x: 8, y: 10, textX: 1017.9, textY: 256.8, subX: 1017.9, subY: 265.8, sub: "telemetry" }
+];
+
+const PHASE_CARD_POSITIONS = [
+  { left: "16%", top: "54%" },
+  { left: "50%", top: "57%" },
+  { left: "84%", top: "54%" }
+];
+
+export default function ModelSovereignty() {
+  const [activePhase, setActivePhase] = useState(1);
+  const [activeSpec, setActiveSpec] = useState("workers");
+  const [hoveredPhase, setHoveredPhase] = useState(null);
+  const [hoveredSpec, setHoveredSpec] = useState(null);
+  const [isPinned, setIsPinned] = useState(true);
+  const [isSwapping, setIsSwapping] = useState(false);
+
   const isHoveringCardRef = useRef(false);
   const closeTimerRef = useRef(null);
+
+  const currentPhase = hoveredPhase !== null ? hoveredPhase : activePhase;
+  const currentSpecKey = hoveredSpec !== null ? hoveredSpec : (
+    SPECS_DATA[activeSpec]?.phase === currentPhase ? activeSpec : PHASE_SPECS[currentPhase][0]
+  );
+  const currentSpec = SPECS_DATA[currentSpecKey] || SPECS_DATA.workers;
+
+  const handleSelectSpec = (specKey) => {
+    sound.playDock();
+    const spec = SPECS_DATA[specKey];
+    if (spec) {
+      setActivePhase(spec.phase);
+      setActiveSpec(specKey);
+      setHoveredSpec(null);
+      setIsPinned(true);
+      setIsSwapping(true);
+      setTimeout(() => setIsSwapping(false), 800);
+    }
+  };
+
+  const handleHoverSpec = (specKey) => {
+    if (hoveredSpec !== specKey) {
+      sound.playClick();
+      setHoveredSpec(specKey);
+    }
+  };
+
+  const handlePlatformClick = (idx) => {
+    sound.playDock();
+    setActivePhase(idx);
+    setActiveSpec(PHASE_SPECS[idx][0]);
+    setIsPinned(true);
+  };
 
   const handlePlatformMouseEnter = (idx) => {
     if (closeTimerRef.current) {
       clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
     }
-    if (hoveredIndex !== idx) {
+    if (hoveredPhase !== idx) {
       sound.playClick();
-      setHoveredIndex(idx);
+      setHoveredPhase(idx);
     }
   };
 
@@ -29,86 +262,13 @@ export default function ModelSovereignty() {
     if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
     closeTimerRef.current = setTimeout(() => {
       if (!isHoveringCardRef.current) {
-        setHoveredIndex(null);
+        setHoveredPhase(null);
+        setHoveredSpec(null);
       }
-    }, 260);
+    }, 300);
   };
 
-  const handleCardMouseEnter = () => {
-    if (closeTimerRef.current) {
-      clearTimeout(closeTimerRef.current);
-      closeTimerRef.current = null;
-    }
-    isHoveringCardRef.current = true;
-    setIsHoveringCard(true);
-  };
-
-  const handleCardMouseLeave = () => {
-    isHoveringCardRef.current = false;
-    setIsHoveringCard(false);
-    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
-    closeTimerRef.current = setTimeout(() => {
-      setHoveredIndex(null);
-    }, 200);
-  };
-
-  const handleSelectModel = (model) => {
-    if (selectedModel === model) return;
-    sound.playDock();
-    setSelectedModel(model);
-    setIsSwapping(true);
-    setSwapCount((prev) => prev + 1);
-    setLastSwapTime((0.2 + Math.random() * 0.15).toFixed(2) + "s");
-    setTimeout(() => {
-      setIsSwapping(false);
-    }, 1200);
-  };
-
-  // Determine active model display
-  let activeModelName = selectedModel;
-  let activeProvider = 
-    selectedModel === "FIGMA" ? "UI WIREFRAMES" : 
-    selectedModel === "APIS" ? "API CONTRACTS" : 
-    selectedModel === "STACK" ? "NEXT.JS & .NET" : "DB ARCHITECTURE";
-  if (hoveredIndex === 2) {
-    activeModelName = "DEPLOY";
-    activeProvider = "PRODUCTION SCALE";
-  } else if (hoveredIndex === 1) {
-    activeModelName = "BUILD";
-    activeProvider = "FULL-STACK CODE";
-  }
-
-  const dynamicRouterData = [
-    {
-      eyebrow: "01 · ARCHITECT",
-      title: "Discovery & Architecture",
-      body: "Translating business requirements into structured database schemas, modular system designs, and clear API contracts before building.",
-      stats: [["ACTIVE SPEC", selectedModel], ["TIMELINE", "Days 1–3"], ["DELIVERABLE", "System Spec"]],
-      code: `system.plan({ spec: "${selectedModel.toLowerCase()}", db: "postgres" })`,
-      left: "16%",
-      top: "54%"
-    },
-    {
-      eyebrow: "02 · ENGINEER",
-      title: "Full-Stack Development",
-      body: "Writing clean, type-safe, maintainable code across frontend and backend. Developing fast APIs, resilient background workers, and fluid responsive interfaces.",
-      stats: [["CODEBASE", "Clean & Typed"], ["LATENCY", "< 100ms"], ["STACK", "Full-Stack"]],
-      code: 'pipeline.build({ frontend: "nextjs", backend: "fastapi" })',
-      left: "50%",
-      top: "57%"
-    },
-    {
-      eyebrow: "03 · SHIP & SCALE",
-      title: "Deployment & Production Scale",
-      body: "Rigorous automated testing, CI/CD pipelines, containerized deployment, and live cloud hosting with zero downtime and high availability.",
-      stats: [["DEPLOY", "Automated"], ["UPTIME", "99.9%"], ["RELEASE", "Zero Downtime"]],
-      code: 'release.deploy({ env: "production", status: "live" })',
-      left: "84%",
-      top: "54%"
-    }
-  ];
-
-  const activeData = hoveredIndex !== null ? dynamicRouterData[hoveredIndex] : null;
+  const cardPos = PHASE_CARD_POSITIONS[currentPhase];
 
   return (
     <section className="relative w-full overflow-visible bg-[#FDFBF7] pt-16 md:pt-24 pb-28 md:pb-36 text-[#4A3B33]">
@@ -125,10 +285,14 @@ export default function ModelSovereignty() {
       />
 
       <div className="relative mx-auto max-w-[1200px] px-6 lg:px-8">
-        <div className="flex justify-center mb-8">
+        <div className="flex flex-col items-center justify-center mb-8 gap-2">
           <p className="font-mono text-xs uppercase tracking-[0.22em] text-[#78716C] font-semibold text-center">
             Engineering Protocol: From Initial Spec to Scalable Production Software
           </p>
+          <div className="flex items-center gap-2 text-[11px] font-mono text-[#B45309] bg-[#FAF6EE] px-3 py-1 rounded-full border border-[#E4D9BC]">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Interactive: Click any tile or pill to inspect architecture spec</span>
+          </div>
         </div>
 
         <div 
@@ -169,18 +333,18 @@ export default function ModelSovereignty() {
                   ANIKET // ENGINEERING_PROTOCOL
                 </text>
                 <text x="24" y="57" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1">
-                  specs 4 · phases 3 · speed 2-4w · 0s downtime
+                  specs 17 · phases 3 · speed 2-4w · 0s downtime
                 </text>
                 <circle cx="298" cy="54.5" r="2.4" fill={isSwapping ? "#10B981" : "#B45309"} opacity="0.93" />
                 <text x="330" y="57" textAnchor="end" fill={isSwapping ? "#10B981" : "#A8A29E"} fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1" fontWeight={isSwapping ? "700" : "400"}>
                   {isSwapping ? "SWITCHING" : "LIVE"}
                 </text>
-                <rect x="24" y="67" width="73.5" height="3" rx="1.5" style={{ fill: isSwapping ? "#F59E0B" : "#B45309", transition: "fill 0.3s" }} />
-                <rect x="101.5" y="67" width="73.5" height="3" rx="1.5" style={{ fill: isSwapping ? "#F59E0B" : "#E4D9BC", transition: "fill 0.3s" }} />
-                <rect x="179" y="67" width="73.5" height="3" rx="1.5" style={{ fill: "#E4D9BC", transition: "fill 0.3s" }} />
+                <rect x="24" y="67" width="73.5" height="3" rx="1.5" style={{ fill: currentPhase === 0 ? "#B45309" : "#E4D9BC", transition: "fill 0.3s" }} />
+                <rect x="101.5" y="67" width="73.5" height="3" rx="1.5" style={{ fill: currentPhase === 1 ? "#B45309" : "#E4D9BC", transition: "fill 0.3s" }} />
+                <rect x="179" y="67" width="73.5" height="3" rx="1.5" style={{ fill: currentPhase === 2 ? "#B45309" : "#E4D9BC", transition: "fill 0.3s" }} />
                 <rect x="256.5" y="67" width="73.5" height="3" rx="1.5" style={{ fill: "#E4D9BC", transition: "fill 0.3s" }} />
-                <text x="24" y="88" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.6" fontWeight="600" style={{ fill: isSwapping ? "#B45309" : "#B45309", transition: "fill 0.3s" }}>
-                  {isSwapping ? `⚡ SPEC UPDATED: FOCUSING ON ${activeModelName.toUpperCase()}...` : `PHASE · ACTIVE ON ${activeModelName.toUpperCase()}`}
+                <text x="24" y="88" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.6" fontWeight="600" fill="#B45309">
+                  {isSwapping ? `⚡ SPEC UPDATED: FOCUSING ON ${currentSpecKey.toUpperCase()}...` : `PHASE 0${currentPhase + 1} · ACTIVE SPEC: ${currentSpecKey.toUpperCase()}`}
                 </text>
               </g>
 
@@ -191,9 +355,9 @@ export default function ModelSovereignty() {
                 data-custom-sound="true"
                 style={{ outline: "none" }}
                 onClick={() => {
-                  const specs = ["SCHEMA", "FIGMA", "APIS", "STACK"];
-                  const nextIdx = (specs.indexOf(selectedModel) + 1) % specs.length;
-                  handleSelectModel(specs[nextIdx]);
+                  const currentSpecs = PHASE_SPECS[currentPhase];
+                  const nextIdx = (currentSpecs.indexOf(currentSpecKey) + 1) % currentSpecs.length;
+                  handleSelectSpec(currentSpecs[nextIdx]);
                 }}
                 onMouseEnter={() => sound.playClick()}
                 className="cursor-pointer group/activemodel outline-none"
@@ -203,17 +367,17 @@ export default function ModelSovereignty() {
                 </text>
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.g
-                    key={activeModelName}
+                    key={currentSpecKey}
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -6 }}
-                    transition={{ duration: 0.25 }}
+                    transition={{ duration: 0.22 }}
                   >
                     <text x="1176" y="68" textAnchor="end" fill="#4A3B33" fontSize="20" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">
-                      {activeModelName}
+                      {currentSpecKey.toUpperCase()}
                     </text>
                     <text x="1176" y="84" textAnchor="end" fill="#B45309" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.2">
-                      {activeProvider} · SYSTEM SPEC
+                      {currentSpec.eyebrow}
                     </text>
                   </motion.g>
                 </AnimatePresence>
@@ -245,21 +409,21 @@ export default function ModelSovereignty() {
                 role="button" 
                 aria-label="01 Discovery and System Architecture"
                 onMouseEnter={() => handlePlatformMouseEnter(0)}
-                onClick={() => handlePlatformMouseEnter(0)}
+                onClick={() => handlePlatformClick(0)}
                 className="cursor-pointer transition-all duration-300 outline-none"
                 style={{
                   outline: "none",
                   transformOrigin: "50% 50%", 
                   transformBox: "fill-box",
-                  transform: hoveredIndex === 0 ? "scale(1.03) translateY(-4px)" : "none",
-                  opacity: hoveredIndex !== null && hoveredIndex !== 0 ? 0.35 : 1,
-                  filter: hoveredIndex === 0 ? "drop-shadow(0 10px 20px rgba(180,83,9,0.22))" : "none"
+                  transform: currentPhase === 0 ? "scale(1.03) translateY(-4px)" : "none",
+                  opacity: currentPhase !== null && currentPhase !== 0 ? 0.45 : 1,
+                  filter: currentPhase === 0 ? "drop-shadow(0 10px 20px rgba(180,83,9,0.22))" : "none"
                 }}
               >
                 <g pointerEvents="none">
                   <line x1="192" y1="306.04" x2="192" y2="320.04" strokeWidth="1" stroke="#E4D9BC" />
                   <circle cx="192" cy="306.04" r="2.2" fill="#B45309" />
-                  <g opacity={hoveredIndex === 0 ? 0 : 1} style={{ transition: "opacity 0.2s" }}>
+                  <g opacity={currentPhase === 0 ? 0 : 1} style={{ transition: "opacity 0.2s" }}>
                     <text x="192" y="336.04" textAnchor="middle" fontSize="9" fontFamily="JetBrains Mono, monospace" letterSpacing="1.5" fontWeight="600" fill="#B45309">
                       01 · ARCHITECT
                     </text>
@@ -274,7 +438,7 @@ export default function ModelSovereignty() {
 
                 <g>
                   <ellipse cx="192" cy="262" rx="139.3" ry="39.6" fill="#4A3B33" opacity="0.07" filter="url(#svBlur)" />
-                  <ellipse cx="192" cy="240" rx="176.8" ry="73" fill="url(#svHalo)" opacity={hoveredIndex === 0 ? 0.8 : 0.4} />
+                  <ellipse cx="192" cy="240" rx="176.8" ry="73" fill="url(#svHalo)" opacity={currentPhase === 0 ? 0.8 : 0.4} />
                   <polygon points="37.2,236 192,291.04 192,300.04 37.2,245" fill="#F1E9DA" />
                   <polygon points="192,291.04 346.8,236 346.8,245 192,300.04" fill="#E4D9BC" />
                   <polygon points="192,180.96 346.8,236 192,291.04 37.2,236" fill="url(#svTop)" strokeWidth="1.4" stroke="#B45309" />
@@ -295,130 +459,98 @@ export default function ModelSovereignty() {
                       <line x1="53.3" y1="-80" x2="53.3" y2="80" vectorEffect="non-scaling-stroke" />
                       <line x1="-80" y1="53.3" x2="80" y2="53.3" vectorEffect="non-scaling-stroke" />
                     </g>
-                    {/* Chip 1: SCHEMA */}
-                    <g 
-                      onClick={(e) => { e.stopPropagation(); handleSelectModel("SCHEMA"); }}
-                      onMouseEnter={() => handleSelectModel("SCHEMA")}
-                      className="cursor-pointer group/chip"
-                    >
-                      <rect 
-                        x="-68" 
-                        y="-54" 
-                        width="60" 
-                        height="44" 
-                        rx="4" 
-                        strokeWidth={selectedModel === "SCHEMA" ? "2" : "1"} 
-                        vectorEffect="non-scaling-stroke" 
-                        fill={selectedModel === "SCHEMA" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
-                        stroke={selectedModel === "SCHEMA" ? "#B45309" : "#E4D9BC"} 
-                      />
-                    </g>
-                    {/* Chip 2: FIGMA */}
-                    <g 
-                      onClick={(e) => { e.stopPropagation(); handleSelectModel("FIGMA"); }}
-                      onMouseEnter={() => handleSelectModel("FIGMA")}
-                      className="cursor-pointer group/chip"
-                    >
-                      <rect 
-                        x="8" 
-                        y="-54" 
-                        width="60" 
-                        height="44" 
-                        rx="4" 
-                        strokeWidth={selectedModel === "FIGMA" ? "2" : "1"} 
-                        vectorEffect="non-scaling-stroke" 
-                        fill={selectedModel === "FIGMA" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
-                        stroke={selectedModel === "FIGMA" ? "#B45309" : "#E4D9BC"} 
-                      />
-                    </g>
-                    {/* Chip 3: APIS */}
-                    <g 
-                      onClick={(e) => { e.stopPropagation(); handleSelectModel("APIS"); }}
-                      onMouseEnter={() => handleSelectModel("APIS")}
-                      className="cursor-pointer group/chip"
-                    >
-                      <rect 
-                        x="-68" 
-                        y="10" 
-                        width="60" 
-                        height="44" 
-                        rx="4" 
-                        strokeWidth={selectedModel === "APIS" ? "2" : "1"} 
-                        vectorEffect="non-scaling-stroke" 
-                        fill={selectedModel === "APIS" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
-                        stroke={selectedModel === "APIS" ? "#B45309" : "#E4D9BC"} 
-                      />
-                    </g>
-                    {/* Chip 4: STACK */}
-                    <g 
-                      onClick={(e) => { e.stopPropagation(); handleSelectModel("STACK"); }}
-                      onMouseEnter={() => handleSelectModel("STACK")}
-                      className="cursor-pointer group/chip"
-                    >
-                      <rect 
-                        x="8" 
-                        y="10" 
-                        width="60" 
-                        height="44" 
-                        rx="4" 
-                        strokeWidth={selectedModel === "STACK" ? "2" : "1"} 
-                        vectorEffect="non-scaling-stroke" 
-                        fill={selectedModel === "STACK" ? "rgba(180,83,9,0.22)" : "#FFFFFF"} 
-                        stroke={selectedModel === "STACK" ? "#B45309" : "#E4D9BC"} 
-                      />
-                    </g>
+                    
+                    {/* Interactive P1 Chips */}
+                    {P1_NODES.map((node) => {
+                      const isSel = currentSpecKey === node.key;
+                      const isHov = hoveredSpec === node.key;
+                      return (
+                        <g 
+                          key={node.key}
+                          onClick={(e) => { e.stopPropagation(); handleSelectSpec(node.key); }}
+                          onMouseEnter={() => handleHoverSpec(node.key)}
+                          onMouseLeave={() => setHoveredSpec(null)}
+                          className="cursor-pointer group/chip"
+                        >
+                          <rect 
+                            x={node.x} 
+                            y={node.y} 
+                            width="60" 
+                            height="44" 
+                            rx="4" 
+                            strokeWidth={isSel ? "2" : "1"} 
+                            vectorEffect="non-scaling-stroke" 
+                            fill={isSel ? "rgba(180,83,9,0.24)" : (isHov ? "rgba(180,83,9,0.14)" : "#FFFFFF")} 
+                            stroke={isSel ? "#B45309" : (isHov ? "#B45309" : "#E4D9BC")} 
+                            style={{ transition: "fill 0.2s, stroke 0.2s" }}
+                          />
+                        </g>
+                      );
+                    })}
                     <line x1="43.6" x2="43.6" y1="-80" y2="80" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.5" />
                   </g>
 
-                  {/* Spec Labels */}
-                  <g pointerEvents="none">
-                    <text x="186.6" y="213.6" textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight={selectedModel === "SCHEMA" ? "800" : "600"} letterSpacing="1" fill={selectedModel === "SCHEMA" ? "#B45309" : "#4A3B33"}>SCHEMA</text>
-                    <text x="186.6" y="222.6" textAnchor="middle" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4" fill={selectedModel === "SCHEMA" ? "#A16207" : "#78716C"}>
-                      {selectedModel === "SCHEMA" ? "● active" : "database"}
-                    </text>
-                  </g>
-                  <g pointerEvents="none">
-                    <text x="255" y="237.9" textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight={selectedModel === "FIGMA" ? "800" : "600"} letterSpacing="1" fill={selectedModel === "FIGMA" ? "#B45309" : "#4A3B33"}>FIGMA</text>
-                    <text x="255" y="246.9" textAnchor="middle" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4" fill={selectedModel === "FIGMA" ? "#A16207" : "#78716C"}>
-                      {selectedModel === "FIGMA" ? "● active" : "wireframes"}
-                    </text>
-                  </g>
-                  <g pointerEvents="none">
-                    <text x="129" y="234.1" textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight={selectedModel === "APIS" ? "800" : "600"} letterSpacing="1" fill={selectedModel === "APIS" ? "#B45309" : "#4A3B33"}>APIS</text>
-                    <text x="129" y="243.1" textAnchor="middle" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4" fill={selectedModel === "APIS" ? "#A16207" : "#78716C"}>
-                      {selectedModel === "APIS" ? "● active" : "contracts"}
-                    </text>
-                  </g>
-                  <g pointerEvents="none">
-                    <text x="197.4" y="258.4" textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight={selectedModel === "STACK" ? "800" : "600"} letterSpacing="1" fill={selectedModel === "STACK" ? "#B45309" : "#4A3B33"}>STACK</text>
-                    <text x="197.4" y="267.4" textAnchor="middle" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4" fill={selectedModel === "STACK" ? "#A16207" : "#78716C"}>
-                      {selectedModel === "STACK" ? "● active" : "frameworks"}
-                    </text>
-                  </g>
+                  {/* Spec Labels for P1 */}
+                  {P1_NODES.map((node) => {
+                    const isSel = currentSpecKey === node.key;
+                    return (
+                      <g 
+                        key={`lbl-${node.key}`}
+                        onClick={(e) => { e.stopPropagation(); handleSelectSpec(node.key); }}
+                        onMouseEnter={() => handleHoverSpec(node.key)}
+                        onMouseLeave={() => setHoveredSpec(null)}
+                        className="cursor-pointer"
+                      >
+                        <text 
+                          x={node.textX} 
+                          y={node.textY} 
+                          textAnchor="middle" 
+                          fontSize="7.5" 
+                          fontFamily="JetBrains Mono, monospace" 
+                          fontWeight={isSel ? "800" : "600"} 
+                          letterSpacing="1" 
+                          fill={isSel ? "#B45309" : "#4A3B33"}
+                        >
+                          {node.key}
+                        </text>
+                        <text 
+                          x={node.subX} 
+                          y={node.subY} 
+                          textAnchor="middle" 
+                          fontSize="6.2" 
+                          fontFamily="JetBrains Mono, monospace" 
+                          letterSpacing="0.4" 
+                          fill={isSel ? "#A16207" : "#78716C"}
+                        >
+                          {isSel ? "● active" : node.sub}
+                        </text>
+                      </g>
+                    );
+                  })}
                   <text x="53.2" y="238.5" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.8" fill="#A8A29E">01</text>
                 </g>
               </g>
 
-              {/* 02: Full-Stack Development Platform */}
+              {/* 02: Full-Stack Development Platform (The 9 Nodes) */}
               <g 
                 role="button" 
                 aria-label="02 Full-Stack Development"
                 onMouseEnter={() => handlePlatformMouseEnter(1)}
-                onClick={() => handlePlatformMouseEnter(1)}
+                onClick={() => handlePlatformClick(1)}
                 className="cursor-pointer transition-all duration-300 outline-none"
                 style={{
                   outline: "none",
                   transformOrigin: "50% 50%", 
                   transformBox: "fill-box",
-                  transform: hoveredIndex === 1 ? "scale(1.03) translateY(-4px)" : "none",
-                  opacity: hoveredIndex !== null && hoveredIndex !== 1 ? 0.35 : 1,
-                  filter: hoveredIndex === 1 ? "drop-shadow(0 10px 20px rgba(180,83,9,0.22))" : "none"
+                  transform: currentPhase === 1 ? "scale(1.03) translateY(-4px)" : "none",
+                  opacity: currentPhase !== null && currentPhase !== 1 ? 0.45 : 1,
+                  filter: currentPhase === 1 ? "drop-shadow(0 10px 20px rgba(180,83,9,0.22))" : "none"
                 }}
               >
                 <g pointerEvents="none">
                   <line x1="600" y1="319.56" x2="600" y2="333.56" strokeWidth="1" stroke="#E4D9BC" />
                   <circle cx="600" cy="319.56" r="2.2" fill="#B45309" />
-                  <g opacity={hoveredIndex === 1 ? 0 : 1} style={{ transition: "opacity 0.2s" }}>
+                  <g opacity={currentPhase === 1 ? 0 : 1} style={{ transition: "opacity 0.2s" }}>
                     <text x="600" y="349.56" textAnchor="middle" fontSize="9" fontFamily="JetBrains Mono, monospace" letterSpacing="1.5" fontWeight="600" fill="#B45309">
                       02 · ENGINEER
                     </text>
@@ -433,7 +565,7 @@ export default function ModelSovereignty() {
 
                 <g>
                   <ellipse cx="600" cy="262" rx="168.5" ry="47.9" fill="#4A3B33" opacity="0.07" filter="url(#svBlur)" />
-                  <ellipse cx="600" cy="240" rx="209.2" ry="84.5" fill="url(#svHalo)" opacity={hoveredIndex === 1 ? 0.8 : 0.4} />
+                  <ellipse cx="600" cy="240" rx="209.2" ry="84.5" fill="url(#svHalo)" opacity={currentPhase === 1 ? 0.8 : 0.4} />
                   <polygon points="412.8,236 600,302.56 600,313.56 412.8,247" fill="#F1E9DA" />
                   <polygon points="600,302.56 787.2,236 787.2,247 600,313.56" fill="#E4D9BC" />
                   <polygon points="600,169.44 787.2,236 600,302.56 412.8,236" fill="url(#svTop)" strokeWidth="1.4" stroke="#B45309" />
@@ -454,28 +586,64 @@ export default function ModelSovereignty() {
                       <line x1="65.3" y1="-98" x2="65.3" y2="98" vectorEffect="non-scaling-stroke" />
                       <line x1="-98" y1="65.3" x2="98" y2="65.3" vectorEffect="non-scaling-stroke" />
                     </g>
-                    <rect x="-73" y="-73" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
-                    <rect x="-21" y="-73" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
-                    <rect x="31" y="-73" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
-                    <rect x="-73" y="-21" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
-                    <rect x="-21" y="-21" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.16)" stroke="#B45309" />
-                    <rect x="31" y="-21" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
-                    <rect x="-73" y="31" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
-                    <rect x="-21" y="31" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
-                    <rect x="31" y="31" width="42" height="42" rx="4" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="rgba(180,83,9,0.07)" stroke="#E4D9BC" />
+                    
+                    {/* The 9 Interactive Nodes */}
+                    {P2_NODES.map((node) => {
+                      const isSel = currentSpecKey === node.key;
+                      const isHov = hoveredSpec === node.key;
+                      return (
+                        <g 
+                          key={node.key}
+                          onClick={(e) => { e.stopPropagation(); handleSelectSpec(node.key); }}
+                          onMouseEnter={() => handleHoverSpec(node.key)}
+                          onMouseLeave={() => setHoveredSpec(null)}
+                          className="cursor-pointer group/node"
+                        >
+                          <rect 
+                            x={node.x} 
+                            y={node.y} 
+                            width="42" 
+                            height="42" 
+                            rx="4" 
+                            strokeWidth={isSel ? "2" : (isHov ? "1.5" : "1")} 
+                            vectorEffect="non-scaling-stroke" 
+                            fill={isSel ? "rgba(180,83,9,0.26)" : (isHov ? "rgba(180,83,9,0.16)" : "rgba(180,83,9,0.07)")} 
+                            stroke={isSel ? "#B45309" : (isHov ? "#B45309" : "#E4D9BC")} 
+                            style={{ transition: "fill 0.2s, stroke 0.2s" }}
+                          />
+                        </g>
+                      );
+                    })}
                     <line x1="11.8" x2="11.8" y1="-98" y2="98" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.5" />
                   </g>
 
-                  {/* Surface Texts */}
-                  <text x="600" y="205.3" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">frontend</text>
-                  <text x="646.8" y="222" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">apis</text>
-                  <text x="693.6" y="238.6" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">logic</text>
-                  <text x="553.2" y="222" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">auth</text>
-                  <text x="600" y="238.6" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="700" fill="#B45309">backend</text>
-                  <text x="646.8" y="255.2" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">caching</text>
-                  <text x="506.4" y="238.6" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">workers</text>
-                  <text x="553.2" y="255.2" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">pipelines</text>
-                  <text x="600" y="271.9" textAnchor="middle" fontSize="7" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5" fontWeight="500" fill="#78716C">tests</text>
+                  {/* Surface Texts for P2 Nodes */}
+                  {P2_NODES.map((node) => {
+                    const isSel = currentSpecKey === node.key;
+                    return (
+                      <g 
+                        key={`lbl-${node.key}`}
+                        onClick={(e) => { e.stopPropagation(); handleSelectSpec(node.key); }}
+                        onMouseEnter={() => handleHoverSpec(node.key)}
+                        onMouseLeave={() => setHoveredSpec(null)}
+                        className="cursor-pointer"
+                      >
+                        <text 
+                          x={node.textX} 
+                          y={node.textY} 
+                          textAnchor="middle" 
+                          fontSize={isSel ? "7.8" : "7"} 
+                          fontFamily="JetBrains Mono, monospace" 
+                          letterSpacing="0.5" 
+                          fontWeight={isSel ? "800" : "500"} 
+                          fill={isSel ? "#B45309" : "#78716C"}
+                          style={{ transition: "fill 0.2s, font-weight 0.2s" }}
+                        >
+                          {node.key}
+                        </text>
+                      </g>
+                    );
+                  })}
                   <text x="428.8" y="238.5" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.8" fill="#A8A29E">02</text>
                 </g>
               </g>
@@ -485,21 +653,21 @@ export default function ModelSovereignty() {
                 role="button" 
                 aria-label="03 Deployment and Production Scale"
                 onMouseEnter={() => handlePlatformMouseEnter(2)}
-                onClick={() => handlePlatformMouseEnter(2)}
+                onClick={() => handlePlatformClick(2)}
                 className="cursor-pointer transition-all duration-300 outline-none"
                 style={{
                   outline: "none",
                   transformOrigin: "50% 50%", 
                   transformBox: "fill-box",
-                  transform: hoveredIndex === 2 ? "scale(1.03) translateY(-4px)" : "none",
-                  opacity: hoveredIndex !== null && hoveredIndex !== 2 ? 0.35 : 1,
-                  filter: hoveredIndex === 2 ? "drop-shadow(0 10px 20px rgba(180,83,9,0.22))" : "none"
+                  transform: currentPhase === 2 ? "scale(1.03) translateY(-4px)" : "none",
+                  opacity: currentPhase !== null && currentPhase !== 2 ? 0.45 : 1,
+                  filter: currentPhase === 2 ? "drop-shadow(0 10px 20px rgba(180,83,9,0.22))" : "none"
                 }}
               >
                 <g pointerEvents="none">
                   <line x1="1008" y1="306.04" x2="1008" y2="320.04" strokeWidth="1" stroke="#E4D9BC" />
                   <circle cx="1008" cy="306.04" r="2.2" fill="#B45309" />
-                  <g opacity={hoveredIndex === 2 ? 0 : 1} style={{ transition: "opacity 0.2s" }}>
+                  <g opacity={currentPhase === 2 ? 0 : 1} style={{ transition: "opacity 0.2s" }}>
                     <text x="1008" y="336.04" textAnchor="middle" fontSize="9" fontFamily="JetBrains Mono, monospace" letterSpacing="1.5" fontWeight="600" fill="#B45309">
                       03 · SHIP &amp; SCALE
                     </text>
@@ -514,7 +682,7 @@ export default function ModelSovereignty() {
 
                 <g>
                   <ellipse cx="1008" cy="262" rx="139.3" ry="39.6" fill="#4A3B33" opacity="0.07" filter="url(#svBlur)" />
-                  <ellipse cx="1008" cy="240" rx="176.8" ry="73" fill="url(#svHalo)" opacity={hoveredIndex === 2 ? 0.8 : 0.4} />
+                  <ellipse cx="1008" cy="240" rx="176.8" ry="73" fill="url(#svHalo)" opacity={currentPhase === 2 ? 0.8 : 0.4} />
                   <polygon points="853.2,236 1008,291.04 1008,300.04 853.2,245" fill="#F1E9DA" />
                   <polygon points="1008,291.04 1162.8,236 1162.8,245 1008,300.04" fill="#E4D9BC" />
                   <polygon points="1008,180.96 1162.8,236 1008,291.04 853.2,236" fill="url(#svTop)" strokeWidth="1.4" stroke="#B45309" />
@@ -535,50 +703,83 @@ export default function ModelSovereignty() {
                       <line x1="53.3" y1="-80" x2="53.3" y2="80" vectorEffect="non-scaling-stroke" />
                       <line x1="-80" y1="53.3" x2="80" y2="53.3" vectorEffect="non-scaling-stroke" />
                     </g>
-                    <rect x="-68" y="-54" width="60" height="44" rx="4" fill="#FFFFFF" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-                    <rect x="-60" y="-20" width="44" height="4" rx="1.5" fill="#F1E9DA" />
-                    <rect x="-60" y="-20" height="4" rx="1.5" fill="#B45309" width="34px" />
                     
-                    <rect x="8" y="-54" width="60" height="44" rx="4" fill="#FFFFFF" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-                    <rect x="16" y="-20" width="44" height="4" rx="1.5" fill="#F1E9DA" />
-                    <rect x="16" y="-20" height="4" rx="1.5" fill="#B45309" width="18px" />
-
-                    <rect x="-68" y="10" width="60" height="44" rx="4" fill="#FFFFFF" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-                    <rect x="-60" y="44" width="44" height="4" rx="1.5" fill="#F1E9DA" />
-                    <rect x="-60" y="44" height="4" rx="1.5" fill="#B45309" width="28px" />
-
-                    <rect x="8" y="10" width="60" height="44" rx="4" fill="#FFFFFF" stroke="#E4D9BC" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-                    <rect x="16" y="44" width="44" height="4" rx="1.5" fill="#F1E9DA" />
-                    <rect x="16" y="44" height="4" rx="1.5" fill="#B45309" width="40px" />
+                    {/* Interactive P3 Chips */}
+                    {P3_NODES.map((node) => {
+                      const isSel = currentSpecKey === node.key;
+                      const isHov = hoveredSpec === node.key;
+                      return (
+                        <g 
+                          key={node.key}
+                          onClick={(e) => { e.stopPropagation(); handleSelectSpec(node.key); }}
+                          onMouseEnter={() => handleHoverSpec(node.key)}
+                          onMouseLeave={() => setHoveredSpec(null)}
+                          className="cursor-pointer group/chip"
+                        >
+                          <rect 
+                            x={node.x} 
+                            y={node.y} 
+                            width="60" 
+                            height="44" 
+                            rx="4" 
+                            fill={isSel ? "rgba(180,83,9,0.24)" : (isHov ? "rgba(180,83,9,0.14)" : "#FFFFFF")} 
+                            stroke={isSel ? "#B45309" : (isHov ? "#B45309" : "#E4D9BC")} 
+                            strokeWidth={isSel ? "2" : "1"} 
+                            vectorEffect="non-scaling-stroke" 
+                            style={{ transition: "fill 0.2s, stroke 0.2s" }}
+                          />
+                        </g>
+                      );
+                    })}
 
                     <line x1="-17.1" x2="-17.1" y1="-80" y2="80" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.5" />
                     <circle cx="0" cy="0" r="7" fill="#FDFBF7" stroke="#B45309" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
                     <circle cx="0" cy="0" r="3" fill="#B45309" />
                   </g>
 
-                  {/* Surface Labels */}
-                  <g pointerEvents="none">
-                    <text x="1007.1" y="212" textAnchor="middle" fill="#4A3B33" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="1">DEPLOY</text>
-                    <text x="1007.1" y="221" textAnchor="middle" fill="#A16207" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.3">ci / cd live</text>
-                  </g>
-                  <g pointerEvents="none">
-                    <text x="1075.5" y="236.3" textAnchor="middle" fill="#4A3B33" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="1">CLOUD</text>
-                    <text x="1075.5" y="245.3" textAnchor="middle" fill="#A16207" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.3">edge hosting</text>
-                  </g>
-                  <g pointerEvents="none">
-                    <text x="949.5" y="232.5" textAnchor="middle" fill="#4A3B33" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="1">UPTIME</text>
-                    <text x="949.5" y="241.5" textAnchor="middle" fill="#A16207" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.3">99.9% sla</text>
-                  </g>
-                  <g pointerEvents="none">
-                    <text x="1017.9" y="256.8" textAnchor="middle" fill="#4A3B33" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="700" letterSpacing="1">MONITOR</text>
-                    <text x="1017.9" y="265.8" textAnchor="middle" fill="#A16207" fontSize="6.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.3">telemetry</text>
-                  </g>
+                  {/* Surface Labels for P3 */}
+                  {P3_NODES.map((node) => {
+                    const isSel = currentSpecKey === node.key;
+                    return (
+                      <g 
+                        key={`lbl-${node.key}`}
+                        onClick={(e) => { e.stopPropagation(); handleSelectSpec(node.key); }}
+                        onMouseEnter={() => handleHoverSpec(node.key)}
+                        onMouseLeave={() => setHoveredSpec(null)}
+                        className="cursor-pointer"
+                      >
+                        <text 
+                          x={node.textX} 
+                          y={node.textY} 
+                          textAnchor="middle" 
+                          fill={isSel ? "#B45309" : "#4A3B33"} 
+                          fontSize="7.5" 
+                          fontFamily="JetBrains Mono, monospace" 
+                          fontWeight={isSel ? "800" : "700"} 
+                          letterSpacing="1"
+                        >
+                          {node.key}
+                        </text>
+                        <text 
+                          x={node.subX} 
+                          y={node.subY} 
+                          textAnchor="middle" 
+                          fill={isSel ? "#A16207" : "#78716C"} 
+                          fontSize="6.2" 
+                          fontFamily="JetBrains Mono, monospace" 
+                          letterSpacing="0.3"
+                        >
+                          {isSel ? "● active" : node.sub}
+                        </text>
+                      </g>
+                    );
+                  })}
                   <text x="869.2" y="238.5" fontSize="6.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.8" fill="#A8A29E">03</text>
                 </g>
               </g>
 
               {/* Bottom Telemetry Bar */}
-              <g pointerEvents="none" opacity={hoveredIndex !== null ? 0.25 : 1} style={{ transition: "opacity 0.3s" }}>
+              <g pointerEvents="none" opacity={isPinned ? 0.35 : 1} style={{ transition: "opacity 0.3s" }}>
                 <g>
                   <text x="24" y="432" fill="#78716C" fontSize="8" fontFamily="JetBrains Mono, monospace" letterSpacing="1.2">CODE INTEGRITY</text>
                   <text x="294" y="432" textAnchor="end" fill="#4A3B33" fontSize="11" fontFamily="JetBrains Mono, monospace" fontWeight="700">100%</text>
@@ -609,58 +810,85 @@ export default function ModelSovereignty() {
               <g pointerEvents="none">
                 <line x1="24" y1="484" x2="1176" y2="484" stroke="#E4D9BC" strokeWidth="1" />
                 <text x="24" y="504" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4">
-                  engineering_protocol.live · 3 phases · full-stack delivery · production grade
+                  engineering_protocol.live · 3 phases · 17 interactive specs · production grade
                 </text>
                 <text x="1176" y="504" textAnchor="end" fill="#A16207" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4" fontWeight="600">
-                  HOVER A PHASE OR CLICK SPEC TO INSPECT
+                  CLICK ANY TILE OR PILL TO EXPLORE
                 </text>
               </g>
             </svg>
 
-            {/* Inspection Detail Panel - Anchored directly below the hovered layer */}
+            {/* Inspection Detail Panel - Anchored directly below the active platform layer */}
             <AnimatePresence>
-              {activeData && (
+              {isPinned && currentSpec && (
                 <motion.div
-                  key={activeData.eyebrow}
+                  key={currentSpec.key}
                   initial={{ opacity: 0, x: "-50%", y: 10 }}
                   animate={{ opacity: 1, x: "-50%", y: 0 }}
                   exit={{ opacity: 0, x: "-50%", y: 6 }}
-                  transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
-                  onMouseEnter={handleCardMouseEnter}
-                  onMouseLeave={handleCardMouseLeave}
-                  className="hidden md:block absolute z-30 pointer-events-auto cursor-default w-[26%] min-w-[260px] max-w-[310px]"
+                  transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
+                  onMouseEnter={() => { isHoveringCardRef.current = true; }}
+                  onMouseLeave={() => { isHoveringCardRef.current = false; }}
+                  className="hidden md:block absolute z-30 pointer-events-auto cursor-default w-[30%] min-w-[310px] max-w-[370px]"
                   style={{
-                    top: activeData.top,
-                    left: activeData.left
+                    top: cardPos.top,
+                    left: cardPos.left
                   }}
                 >
-                  <div className="relative overflow-hidden rounded-lg border border-[#E4D9BC] bg-white/95 backdrop-blur-sm shadow-[0_12px_32px_-16px_rgba(74,59,51,0.28)]">
-                    <div className="absolute inset-y-0 left-0 w-[2px] bg-[#B45309]" />
+                  <div className="relative overflow-hidden rounded-lg border border-[#E4D9BC] bg-white/95 backdrop-blur-md shadow-[0_16px_40px_-16px_rgba(74,59,51,0.28)]">
+                    <div className="absolute inset-y-0 left-0 w-[3px] bg-[#B45309]" />
                     <div className="p-4">
-                      {/* Eyebrow & LIVE badge */}
+                      {/* Eyebrow & LIVE badge & Close Button */}
                       <div className="flex items-center justify-between gap-3">
                         <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.16em] text-[#B45309]">
-                          {activeData.eyebrow}
+                          {currentSpec.eyebrow}
                         </span>
-                        <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.14em] text-[#A8A29E]">
-                          <span className="h-1.5 w-1.5 rounded-full bg-[#B45309] animate-pulse" />
-                          live
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.14em] text-[#10B981] font-semibold">
+                            <span className="h-1.5 w-1.5 rounded-full bg-[#10B981] animate-pulse" />
+                            live spec
+                          </span>
+                        </div>
                       </div>
 
                       {/* Title */}
-                      <h4 className="mt-2 text-[15px] font-bold leading-snug text-[#4A3B33] font-serif">
-                        {activeData.title}
+                      <h4 className="mt-2 text-[15.5px] font-bold leading-snug text-[#4A3B33] font-serif">
+                        {currentSpec.title}
                       </h4>
 
-                      {/* Body */}
-                      <p className="mt-1.5 text-[11.5px] leading-[1.6] text-[#57534E]">
-                        {activeData.body}
+                      {/* Interactive Spec Pill Switcher */}
+                      <div className="mt-3 flex flex-wrap gap-1.5 pb-2.5 border-b border-[#F1E9DA]">
+                        {PHASE_SPECS[currentPhase].map((sKey) => {
+                          const isAct = currentSpecKey === sKey;
+                          return (
+                            <button
+                              key={sKey}
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleSelectSpec(sKey);
+                              }}
+                              className={`px-2 py-0.5 text-[10px] font-mono font-medium rounded transition-all cursor-pointer ${
+                                isAct 
+                                  ? "bg-[#B45309] text-white font-bold shadow-sm scale-105" 
+                                  : "bg-[#FAF6EE] text-[#78716C] hover:bg-[#F1E9DA] hover:text-[#4A3B33] border border-[#E4D9BC]/70"
+                              }`}
+                            >
+                              {sKey}
+                              {isAct && <span className="ml-1 opacity-80">●</span>}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {/* Body Description */}
+                      <p className="mt-2.5 text-[11.5px] leading-[1.65] text-[#57534E]">
+                        {currentSpec.body}
                       </p>
 
-                      {/* Vertical Key-Value Stats */}
-                      <dl className="mt-3 space-y-1.5 border-t border-[#F1E9DA] pt-3">
-                        {activeData.stats.map(([k, v]) => (
+                      {/* Key-Value Stats */}
+                      <dl className="mt-3 space-y-1.5 border-t border-[#F1E9DA] pt-2.5">
+                        {currentSpec.stats.map(([k, v]) => (
                           <div key={k} className="flex items-baseline justify-between gap-3">
                             <dt className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#A8A29E]">{k}</dt>
                             <dd className="font-mono text-[11px] font-semibold tabular-nums text-[#4A3B33]">{v}</dd>
@@ -669,9 +897,9 @@ export default function ModelSovereignty() {
                       </dl>
 
                       {/* Code Pill */}
-                      {activeData.code && (
-                        <div className="mt-3 rounded-md border border-[#F1E9DA] bg-[#F8F4EE] px-2.5 py-1.5 font-mono text-[10px] text-[#57534E]">
-                          <span className="text-[#B45309]">▸</span> {activeData.code}
+                      {currentSpec.code && (
+                        <div className="mt-3 rounded-md border border-[#F1E9DA] bg-[#F8F4EE] px-2.5 py-1.5 font-mono text-[10px] text-[#57534E] overflow-x-auto whitespace-nowrap">
+                          <span className="text-[#B45309]">▸</span> {currentSpec.code}
                         </div>
                       )}
                     </div>
@@ -679,6 +907,64 @@ export default function ModelSovereignty() {
                 </motion.div>
               )}
             </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Mobile Interactive Inspection Card (Rendered cleanly below diagram on small screens) */}
+        <div className="block md:hidden mt-6">
+          <div className="relative overflow-hidden rounded-lg border border-[#E4D9BC] bg-white p-4 shadow-md">
+            <div className="absolute inset-y-0 left-0 w-[3px] bg-[#B45309]" />
+            <div className="flex items-center justify-between gap-3 mb-2">
+              <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-[#B45309]">
+                {currentSpec.eyebrow}
+              </span>
+              <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-wider text-[#10B981] font-semibold">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#10B981] animate-pulse" />
+                live spec
+              </span>
+            </div>
+
+            <h4 className="text-[15px] font-bold text-[#4A3B33] font-serif mb-2">
+              {currentSpec.title}
+            </h4>
+
+            {/* Pill Switcher */}
+            <div className="flex flex-wrap gap-1.5 py-2 border-y border-[#F1E9DA] my-2">
+              {PHASE_SPECS[currentPhase].map((sKey) => {
+                const isAct = currentSpecKey === sKey;
+                return (
+                  <button
+                    key={sKey}
+                    type="button"
+                    onClick={() => handleSelectSpec(sKey)}
+                    className={`px-2 py-0.5 text-[10.5px] font-mono rounded cursor-pointer ${
+                      isAct ? "bg-[#B45309] text-white font-bold" : "bg-[#FAF6EE] text-[#78716C] border border-[#E4D9BC]"
+                    }`}
+                  >
+                    {sKey}
+                  </button>
+                );
+              })}
+            </div>
+
+            <p className="text-[12px] leading-relaxed text-[#57534E] mb-3">
+              {currentSpec.body}
+            </p>
+
+            <dl className="space-y-1.5 border-t border-[#F1E9DA] pt-2 mb-2">
+              {currentSpec.stats.map(([k, v]) => (
+                <div key={k} className="flex items-baseline justify-between gap-2">
+                  <dt className="font-mono text-[9px] uppercase tracking-wider text-[#A8A29E]">{k}</dt>
+                  <dd className="font-mono text-[11px] font-semibold text-[#4A3B33]">{v}</dd>
+                </div>
+              ))}
+            </dl>
+
+            {currentSpec.code && (
+              <div className="rounded border border-[#F1E9DA] bg-[#F8F4EE] px-2 py-1.5 font-mono text-[10px] text-[#57534E] overflow-x-auto whitespace-nowrap">
+                <span className="text-[#B45309]">▸</span> {currentSpec.code}
+              </div>
+            )}
           </div>
         </div>
       </div>
