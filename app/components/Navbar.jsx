@@ -382,7 +382,7 @@ export default function Navbar({
               <span className="font-sans font-bold text-[19px] sm:text-xl tracking-tight nav-brand-text">
                 Aniket
               </span>
-              <span className={`font-serif italic font-semibold text-[22px] sm:text-[23px] ml-1 transition-colors ${
+              <span className={`font-cursive text-[28px] sm:text-[31px] font-normal leading-none ml-1.5 transition-colors ${
                 isDarkTheme ? "text-[#E4C090]" : "text-[#B45309]"
               }`}>
                 M
@@ -919,7 +919,7 @@ export default function Navbar({
                     }`}>
                       Aniket
                     </span>
-                    <span className={`font-serif italic font-semibold text-[14px] ml-0.5 ${
+                    <span className={`font-cursive text-[20px] font-normal leading-none ml-1 ${
                       isDarkTheme ? "text-[#E4C090]" : "text-[#B45309]"
                     }`}>
                       M

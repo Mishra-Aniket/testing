@@ -71,7 +71,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer data-theme="dark" className="relative bg-[#1C1917] text-[#F5F5F4] overflow-hidden pt-16 pb-14 sm:pb-20 border-t border-white/[0.08]">
+    <footer data-theme="dark" className="relative bg-[#1C1917] text-[#F5F5F4] overflow-hidden pt-16 pb-8 sm:pb-12 border-t border-white/[0.08]">
       {/* Background subtle large grid matching Image 2 (getalchemystai.com) */}
       <div 
         aria-hidden="true" 
@@ -96,7 +96,7 @@ export default function Footer() {
                 <span className="font-sans font-bold text-xl text-white">
                   Aniket
                 </span>
-                <span className="font-serif italic font-semibold text-[23px] text-[#E4C090] ml-1">
+                <span className="font-cursive text-[30px] font-normal leading-none text-[#E4C090] ml-1.5">
                   M
                 </span>
               </span>
@@ -226,13 +226,13 @@ export default function Footer() {
         {/* Bottom Giant Brand Monolith Typography */}
         <div 
           aria-hidden="true" 
-          className="relative w-full pt-10 sm:pt-14 pb-16 sm:pb-24 flex justify-center items-center select-none pointer-events-none"
+          className="relative w-full pt-4 sm:pt-6 pb-4 sm:pb-8 flex justify-center items-center select-none pointer-events-none"
         >
-          <span className="flex items-baseline justify-center tracking-[-0.03em] uppercase whitespace-nowrap text-[clamp(3.2rem,11.5vw,9.5rem)] leading-none">
-            <span className="font-sans font-black text-white/[0.08] sm:text-white/[0.09]">
+          <span className="flex items-baseline justify-center tracking-[-0.03em] whitespace-nowrap text-[clamp(3.2rem,11.5vw,9.5rem)] leading-none">
+            <span className="font-sans font-black uppercase text-white/[0.08] sm:text-white/[0.09]">
               ANIKET
             </span>
-            <span className="font-serif italic font-black text-[#E4C090]/[0.22] sm:text-[#E4C090]/[0.25] ml-3 sm:ml-5">
+            <span className="font-cursive font-normal text-[#E4C090]/[0.32] sm:text-[#E4C090]/[0.36] text-[1.28em] ml-2 sm:ml-4">
               M
             </span>
           </span>

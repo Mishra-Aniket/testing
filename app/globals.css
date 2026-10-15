@@ -210,4 +210,8 @@ html[data-mobile-nav-open="true"] [data-bottom-search-dock="true"] {
   pointer-events: none !important;
 }
 
+.font-cursive {
+  font-family: var(--font-cursive), 'Great Vibes', 'Dancing Script', 'Brush Script MT', cursive !important;
+}
+
 
