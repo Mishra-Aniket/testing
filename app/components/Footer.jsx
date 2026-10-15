@@ -71,7 +71,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer data-theme="dark" className="relative bg-[#1C1917] text-[#F5F5F4] overflow-hidden pt-16 pb-12 sm:pb-16 border-t border-white/[0.08]">
+    <footer data-theme="dark" className="relative bg-[#1C1917] text-[#F5F5F4] overflow-hidden pt-16 pb-14 sm:pb-20 border-t border-white/[0.08]">
       {/* Background subtle large grid matching Image 2 (getalchemystai.com) */}
       <div 
         aria-hidden="true" 
@@ -223,16 +223,16 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Giant Brand Monolith Typography matching getalchemystai.com (Image 2) */}
+        {/* Bottom Giant Brand Monolith Typography */}
         <div 
           aria-hidden="true" 
-          className="relative w-full pt-10 pb-0 -mb-8 sm:-mb-14 md:-mb-20 flex justify-center items-end select-none pointer-events-none overflow-hidden"
+          className="relative w-full pt-10 sm:pt-14 pb-16 sm:pb-24 flex justify-center items-center select-none pointer-events-none"
         >
-          <span className="flex items-baseline justify-center tracking-[-0.04em] uppercase whitespace-nowrap text-[clamp(3.5rem,13vw,11.5rem)] leading-[0.78]">
-            <span className="font-sans font-black text-white/[0.04]">
+          <span className="flex items-baseline justify-center tracking-[-0.03em] uppercase whitespace-nowrap text-[clamp(3.2rem,11.5vw,9.5rem)] leading-none">
+            <span className="font-sans font-black text-white/[0.08] sm:text-white/[0.09]">
               ANIKET
             </span>
-            <span className="font-serif italic font-black text-[#E4C090]/[0.10] ml-3 sm:ml-6">
+            <span className="font-serif italic font-black text-[#E4C090]/[0.22] sm:text-[#E4C090]/[0.25] ml-3 sm:ml-5">
               M
             </span>
           </span>
