@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useMemo } from "react";
 import { sound } from "../utils/sound";
-import { X, ArrowUpRight, Calendar, GitCommit, Code, Layers, Sparkles, ExternalLink } from "lucide-react";
+import { X, ArrowUpRight } from "lucide-react";
 
 // 12 Months of real GitHub contribution timeline with verified project releases & dates
 const MONTHS = [
@@ -362,7 +362,6 @@ export default function AccuracyTerrain() {
   const [selectedSeries, setSelectedSeries] = useState(null);
   const [hoveredSeries, setHoveredSeries] = useState(null);
   const [filterAccount, setFilterAccount] = useState("all"); // "all", "aniket0", "mishra"
-  const [showDetailedModal, setShowDetailedModal] = useState(false);
 
   // Active series index for inspection panel and isolation
   const activeIdx = hoveredSeries !== null ? hoveredSeries : selectedSeries;
@@ -1085,158 +1084,6 @@ export default function AccuracyTerrain() {
               </div>
             </div>
           )}
-        </div>
-
-        {/* ========================================================================= */}
-        {/* COMPREHENSIVE PROJECT SPRINT INSPECTOR (DATE, PROJECT & DETAILED MILESTONES) */}
-        {/* ========================================================================= */}
-        <div className="mt-8 rounded-xl border border-[#E4D9BC] bg-[#FDFBF7] p-5 sm:p-6 shadow-[0_12px_32px_-16px_rgba(74,59,51,0.18)]">
-          {/* Top Rail: 12-Month Interactive Scrub Selector */}
-          <div className="flex items-center justify-between gap-3 pb-4 border-b border-[#F1E9DA] flex-wrap">
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-[#B45309]" />
-              <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#4A3B33]">
-                12-Month Contribution Timeline &amp; Milestone Navigator
-              </span>
-            </div>
-            <span className="font-mono text-[10px] text-[#78716C]">
-              Click any month to inspect active project &amp; deliverables
-            </span>
-          </div>
-
-          {/* Monthly Scrubber Tabs */}
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-1.5 my-4">
-            {MONTHS.map((mObj, idx) => {
-              const isSelected = idx === clampedMonthIdx;
-              return (
-                <button
-                  key={mObj.label}
-                  onClick={() => handleSelectMonth(idx)}
-                  className={`p-2 rounded-lg text-center transition-all cursor-pointer border ${
-                    isSelected
-                      ? "bg-[#FEF3C7] border-[#B45309] shadow-xs ring-1 ring-[#B45309]"
-                      : "bg-white border-[#E4D9BC] hover:border-[#B45309]/50 hover:bg-[#FAF6EE]"
-                  }`}
-                >
-                  <span className={`block font-mono text-[10.5px] font-bold ${isSelected ? "text-[#B45309]" : "text-[#4A3B33]"}`}>
-                    {mObj.label}
-                  </span>
-                  <span className={`block font-mono text-[9px] mt-0.5 tabular-nums ${isSelected ? "text-[#92400E] font-semibold" : "text-[#A8A29E]"}`}>
-                    {mObj.combined} commits
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Active Shipped Project & Date Detailed Spotlight */}
-          <div className="mt-4 pt-4 border-t border-[#F1E9DA] grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            {/* Left 8 Cols: Project Details & Deliverables */}
-            <div className="lg:col-span-8">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FEF3C7] border border-[#FDE68A] text-[#B45309] font-mono text-[10.5px] font-bold">
-                  <Calendar className="w-3 h-3" />
-                  <span>{currentMonthData.dateRange}</span>
-                </span>
-                <span className="px-2 py-0.5 rounded bg-white border border-[#E4D9BC] text-[#78716C] font-mono text-[10px]">
-                  {currentMonthData.days} Days Sprint
-                </span>
-                <span className="px-2 py-0.5 rounded bg-[#ECFDF5] border border-[#A7F3D0] text-[#059669] font-mono text-[10px] font-bold">
-                  {currentMonthData.isPeakSprint ? "★ Peak Output Sprint" : "✔ Verified Release"}
-                </span>
-              </div>
-
-              {/* Project Headline */}
-              <h3 className="mt-3 text-[18px] sm:text-[20px] font-bold font-serif text-[#4A3B33] leading-snug">
-                {currentMonthData.project}
-              </h3>
-              <p className="mt-1 text-[13px] text-[#57534E] leading-relaxed">
-                {currentMonthData.milestone}
-              </p>
-
-              {/* Shipped Deliverables Checklist */}
-              <div className="mt-4 space-y-2">
-                <div className="font-mono text-[10px] uppercase tracking-wider text-[#A8A29E] font-bold">
-                  Verified Engineering Deliverables:
-                </div>
-                <div className="space-y-1.5">
-                  {currentMonthData.deliverables.map((item, dIdx) => (
-                    <div key={dIdx} className="flex items-start gap-2.5 text-[12px] text-[#4A3B33]">
-                      <span className="text-[#B45309] font-bold mt-0.5">▸</span>
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Tech Stack Pills */}
-              <div className="mt-4 flex flex-wrap items-center gap-1.5 pt-3 border-t border-[#F1E9DA]">
-                <span className="font-mono text-[10px] text-[#A8A29E] mr-1">Stack:</span>
-                {currentMonthData.stack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-2 py-0.5 rounded-md bg-white border border-[#E4D9BC] font-mono text-[10.5px] font-semibold text-[#4A3B33] shadow-2xs"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Right 4 Cols: Telemetry Card & Action Links */}
-            <div className="lg:col-span-4 bg-white rounded-lg border border-[#E4D9BC] p-4 font-mono shadow-2xs">
-              <div className="text-[10px] uppercase tracking-wider text-[#A8A29E] font-bold pb-2 border-b border-[#F1E9DA]">
-                Sprint Velocity Readout
-              </div>
-
-              <div className="mt-3 space-y-2.5">
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-[#78716C]">Month:</span>
-                  <span className="font-bold text-[#4A3B33]">{currentMonthData.month}</span>
-                </div>
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-[#B45309] font-bold">Combined Output:</span>
-                  <span className="font-bold text-[13px] text-[#B45309]">{currentMonthData.combined} Commits</span>
-                </div>
-                <div className="flex items-center justify-between text-[10.5px]">
-                  <span className="text-[#059669]">@aniketmishra-0:</span>
-                  <span className="font-semibold text-[#059669]">{currentMonthData.aniket0} commits</span>
-                </div>
-                <div className="flex items-center justify-between text-[10.5px]">
-                  <span className="text-[#6366F1]">@Mishra-Aniket:</span>
-                  <span className="font-semibold text-[#6366F1]">{currentMonthData.mishra} commits</span>
-                </div>
-              </div>
-
-              {/* Action Buttons for this month */}
-              <div className="mt-4 pt-3 border-t border-[#F1E9DA] space-y-2">
-                {currentMonthData.liveUrl && (
-                  <a
-                    href={currentMonthData.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => sound.playClick()}
-                    className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded bg-[#B45309] text-white text-[11px] font-bold hover:bg-[#92400E] transition-colors"
-                  >
-                    <span>Launch Live Project</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </a>
-                )}
-                {currentMonthData.repoUrl && (
-                  <a
-                    href={currentMonthData.repoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => sound.playClick()}
-                    className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded bg-[#FAF6EE] text-[#4A3B33] border border-[#E4D9BC] text-[11px] font-semibold hover:border-[#B45309] transition-colors"
-                  >
-                    <span>View Repository ({currentMonthData.repo.split("/")[1] || currentMonthData.repo})</span>
-                    <ExternalLink className="w-3 h-3 text-[#78716C]" />
-                  </a>
-                )}
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Action Buttons to open both profiles */}
