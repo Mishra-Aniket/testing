@@ -403,7 +403,7 @@ export default function Navbar({
                   sound.playClick();
                   setActiveDropdown(activeDropdown === 'projects' ? null : 'projects');
                 }}
-                className={`nav-link relative flex items-center gap-1 px-3 py-2 cursor-pointer transition-colors ${
+                className={`nav-link relative flex items-center gap-1 px-3 py-1.5 rounded-[var(--radius)] cursor-pointer transition-all hover:bg-black/[0.04] dark:hover:bg-white/[0.06] ${
                   activeDropdown === 'projects' ? (isDarkTheme ? "!text-[#E4C090] font-bold" : "!text-[#4A3B33] font-bold") : ""
                 }`}
               >
@@ -493,7 +493,7 @@ export default function Navbar({
                   sound.playClick();
                   setActiveDropdown(activeDropdown === 'services' ? null : 'services');
                 }}
-                className={`nav-link relative flex items-center gap-1 px-3 py-2 cursor-pointer transition-colors ${
+                className={`nav-link relative flex items-center gap-1 px-3 py-1.5 rounded-[var(--radius)] cursor-pointer transition-all hover:bg-black/[0.04] dark:hover:bg-white/[0.06] ${
                   activeDropdown === 'services' ? (isDarkTheme ? "!text-[#E4C090] font-bold" : "!text-[#4A3B33] font-bold") : ""
                 }`}
               >
@@ -573,7 +573,7 @@ export default function Navbar({
             <Link
               href="/#how-it-works"
               onClick={() => sound.playClick()}
-              className="nav-link relative px-3 py-2 cursor-pointer transition-colors"
+              className="nav-link relative px-3 py-1.5 rounded-[var(--radius)] cursor-pointer transition-all hover:bg-black/[0.04] dark:hover:bg-white/[0.06]"
             >
               Architecture
             </Link>
@@ -582,7 +582,7 @@ export default function Navbar({
             <Link
               href="/blog"
               onClick={() => sound.playClick()}
-              className={`nav-link relative px-3 py-2 cursor-pointer transition-colors ${
+              className={`nav-link relative px-3 py-1.5 rounded-[var(--radius)] cursor-pointer transition-all hover:bg-black/[0.04] dark:hover:bg-white/[0.06] ${
                 isBlogActive ? (isDarkTheme ? "!text-[#E4C090] font-bold" : "!text-[#4A3B33] font-bold") : ""
               }`}
             >
@@ -606,18 +606,11 @@ export default function Navbar({
                   sound.playClick();
                   setActiveDropdown(activeDropdown === 'learn' ? null : 'learn');
                 }}
-                className={`nav-link relative flex items-center gap-1 px-3 py-2 cursor-pointer transition-colors ${
+                className={`nav-link relative flex items-center gap-1 px-3 py-1.5 rounded-[var(--radius)] cursor-pointer transition-all hover:bg-black/[0.04] dark:hover:bg-white/[0.06] ${
                   isLearnActive || activeDropdown === 'learn' ? (isDarkTheme ? "!text-[#E4C090] font-bold" : "!text-[#4A3B33] font-bold") : ""
                 }`}
               >
                 <span>Learn</span>
-                <span className={`text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full border ${
-                  isDarkTheme
-                    ? "border-amber-500/40 text-amber-300 bg-amber-500/15"
-                    : "border-[#B45309]/30 text-[#B45309] bg-[#B45309]/10"
-                }`}>
-                  Coming Soon
-                </span>
                 <ChevronDown className={`w-3.5 h-3.5 opacity-70 transition-transform duration-300 ${
                   activeDropdown === 'learn' ? 'rotate-180' : ''
                 }`} />
@@ -642,6 +635,20 @@ export default function Navbar({
                     }`}
                   >
                     <div className="space-y-0.5">
+                      {/* Refined banner inside dropdown */}
+                      <div className={`px-2.5 py-1.5 mb-1.5 rounded-[var(--radius)] border flex items-center justify-between text-[11px] font-mono ${
+                        isDarkTheme
+                          ? "bg-amber-500/10 border-amber-500/25 text-amber-300"
+                          : "bg-amber-500/[0.08] border-amber-500/30 text-amber-800"
+                      }`}>
+                        <span className="flex items-center gap-1.5 font-medium">
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                          <span>Interactive Labs &amp; Guides</span>
+                        </span>
+                        <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.2 rounded bg-amber-500/20">
+                          Coming Soon
+                        </span>
+                      </div>
                       {NAV_LEARN.map((item) => (
                         <Link
                           key={item.href}
@@ -686,15 +693,15 @@ export default function Navbar({
             <Link
               href="/students"
               onClick={() => sound.playClick()}
-              className={`nav-link relative flex items-center gap-1.5 px-3 py-2 cursor-pointer transition-colors ${
+              className={`nav-link relative flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius)] cursor-pointer transition-all hover:bg-black/[0.04] dark:hover:bg-white/[0.06] ${
                 isStudentsActive ? (isDarkTheme ? "!text-[#E4C090] font-bold" : "!text-[#4A3B33] font-bold") : ""
               }`}
             >
               <span>Students</span>
-              <span className={`text-[9.5px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
+              <span className={`text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border ${
                 isDarkTheme
-                  ? "border-[#E4C090]/60 text-[#E4C090] bg-[#E4C090]/20 font-bold"
-                  : "border-[#B45309]/30 text-[#B45309] bg-[#B45309]/10"
+                  ? "border-emerald-500/30 text-emerald-300 bg-emerald-500/15"
+                  : "border-emerald-600/25 text-emerald-700 bg-emerald-600/10"
               }`}>
                 Free
               </span>
@@ -1192,12 +1199,12 @@ export default function Navbar({
                         isDarkTheme ? "text-[#F5F5F4] group-hover:text-[#E4C090]" : "text-[#4A3B33] group-hover:text-[#B45309]"
                       }`}>
                         <span>Learn &amp; Docs</span>
-                        <span className={`text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full border ${
+                        <span className={`text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border ${
                           isDarkTheme
-                            ? "border-amber-500/40 text-amber-300 bg-amber-500/15"
-                            : "border-[#B45309]/30 text-[#B45309] bg-[#B45309]/10"
+                            ? "border-amber-500/30 text-amber-300 bg-amber-500/15"
+                            : "border-amber-600/30 text-amber-800 bg-amber-500/10"
                         }`}>
-                          Coming Soon
+                          Soon
                         </span>
                       </span>
                       <ChevronDown 
