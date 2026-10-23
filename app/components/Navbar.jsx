@@ -907,6 +907,8 @@ export default function Navbar({
                 sound.playClick();
                 setMobileMenuOpen(!mobileMenuOpen);
               }}
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileMenuOpen}
               className={`p-2 transition-colors ${
                 isDarkTheme ? "text-[#F5F5F4] hover:text-[#E4C090]" : "text-[#4A3B33] hover:text-[#B45309]"
               }`}
