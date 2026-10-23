@@ -45,7 +45,7 @@ function AnimatedStats() {
 
   const contribs = useCountUp(699, 0, started);
   const repos = useCountUp(64, 0, started);
-  const centers = useCountUp(500, 0, started);
+  const extensions = useCountUp(2, 0, started);
   const weeks = useCountUp(4, 0, started);
 
   const statWrap = "py-10 sm:py-12 sm:pr-8 lg:pr-10 border-white/[0.08]";
@@ -79,10 +79,10 @@ function AnimatedStats() {
         <div className={statWrap + " border-t lg:border-t-0 lg:border-l lg:pl-10"}>
           <div className="h-full flex flex-col">
             <div className={numCls}>
-              {centers}<span className="text-[#E4C090]">+</span>
+              {extensions}<span className="text-[#E4C090]"> live</span>
             </div>
-            <div className={titleCls}>centers on production system</div>
-            <div className={subCls}>Centrix ingestion pipeline</div>
+            <div className={titleCls}>extensions on the Chrome Web Store</div>
+            <div className={subCls}>OmTabs &amp; OmSpace — official listings</div>
           </div>
         </div>
         <div className={statWrap + " border-t sm:border-l sm:pl-8 lg:border-t-0 lg:pl-10"}>

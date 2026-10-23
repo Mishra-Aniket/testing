@@ -24,7 +24,7 @@ const SIMULATION_OUTPUTS = {
     { text: "[14ms] OBS video write stability confirmed (zero file corruption)", color: "text-[#059669]" },
     { text: "[28ms] Matched MaxHub whiteboard PDF with confidence score 99.4%", color: "text-[#2563EB]" },
     { text: "[52ms] Direct chunked resumable stream opened to Google Drive API v3", color: "text-[#7C3AED]" },
-    { text: "✓ Processed 20,000+ daily center lectures: Zero cloud egress cost", color: "text-[#10B981] font-bold" }
+    { text: "✓ Chunked resumable uploads: zero cloud egress cost", color: "text-[#10B981] font-bold" }
   ],
   3: [
     { text: "$ imgworld test --file=sample_photo.jpg --mode=client-only", color: "text-[#B45309]" },
@@ -112,8 +112,8 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   },
   {
     id: "03",
-    title: "How does Centrix automate Google Drive sync for 500+ centers?",
-    desc: "Engineered for Physics Wallah Vidyapeeth centers across India. Real-time file write detection for OBS recordings and whiteboard notes, matching timetables and uploading to Google Drive with zero server RAM waste.",
+    title: "How does Centrix automate Google Drive sync at the edge?s?",
+    desc: "Built for coaching networks — pairs recordings with panel notes and uploads straight to Drive with confidence-scored timetable matching.",
     file: "centrix_ingestion_pipeline.cs",
     code: `// Centrix .NET 8 Automated Lecture Ingestion Pipeline
 public async Task ProcessLectureSyncAsync(string centerId, string batchCode)

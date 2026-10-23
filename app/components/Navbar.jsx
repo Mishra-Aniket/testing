@@ -43,7 +43,7 @@ const NAV_PROJECTS = [
   },
   {
     name: "Centrix",
-    tagline: "Autonomous ingestion pipeline for 500+ PW centers",
+    tagline: "Edge-first lecture ingestion pipeline",
     badge: ".NET 8 Edge",
     href: "https://aniketmishra-0.github.io/Centrix_Demo/",
     external: true,

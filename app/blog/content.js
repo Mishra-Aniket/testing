@@ -4,8 +4,8 @@
 // Block types: p (supports **bold** and `inline code`), h2, h3, list, code, quote, callout
 
 export const ARTICLE_CONTENT = {
-  "scaling-centrix-500-centers": [
-    { type: "p", text: "When a coaching network operates **500+ physical centers**, each recording hundreds of lecture hours per week on local hardware, the classic \"upload everything to a central server\" architecture dies quickly. Bandwidth at the edge is intermittent, files are enormous, and a failed transfer at 95% means an angry center coordinator re-recording a 2-hour physics lecture. Centrix was built to solve exactly this: capture, match, and ingest lecture recordings *at the edge*, with the cloud acting only as a destination — never a bottleneck." },
+  "building-centrix-edge-ingestion": [
+    { type: "p", text: "A large coaching network can run **hundreds of physical centers**, each recording hundreds of lecture hours per week on local hardware, the classic \"upload everything to a central server\" architecture dies quickly. Bandwidth at the edge is intermittent, files are enormous, and a failed transfer at 95% means an angry center coordinator re-recording a 2-hour physics lecture. Centrix was built to solve exactly this: capture, match, and ingest lecture recordings *at the edge*, with the cloud acting only as a destination — never a bottleneck." },
     { type: "h2", text: "The Capture Layer: OBS as an Unattended Agent", id: "capture-layer" },
     { type: "p", text: "Every center runs a small Windows box connected to an HDMI capture card. The lecture source — a teacher's laptop or an interactive flat panel — feeds into the card, and OBS Studio runs in headless mode via its WebSocket API. We chose OBS over custom FFmpeg capture for one reason: it already handles device negotiation, encoder fallback, and crash recovery. Our agent simply orchestrates it." },
     { type: "code", lang: "javascript", code: "// Triggered by the center's timetable scheduler\nawait obs.call(\"StartRecord\");\n// ... on lecture end ...\nconst { outputPath } = await obs.call(\"StopRecord\");\nawait queue.enqueue({\n  file: outputPath,\n  batchId: lecture.batchId,\n  subject: lecture.subject,\n  centerId: center.id,\n});" },
@@ -25,7 +25,7 @@ export const ARTICLE_CONTENT = {
     { type: "h2", text: "Telemetry Without a Server", id: "telemetry" },
     { type: "p", text: "Each agent reports progress over SSE to a thin relay that writes directly into the operations dashboard. Center admins see upload queues, failed chunks, and disk pressure in real time. Because the relay is stateless, it scales to the full fleet on a single small instance — the heavy lifting (encoding, chunking, retry) all lives at the edge where the data already is." },
     { type: "h2", text: "What I'd Do Differently", id: "retro" },
-    { type: "p", text: "Three things after a year in production: first, we'd adopt a formal content-addressed manifest per recording from day one — deduplication became painful later. Second, the 32 MB chunk size is a tunable we set by gut; it should have been adaptive to link quality. And third, the review queue deserved better tooling from the start — it became the coordinators' primary screen." },
+    { type: "p", text: "Three things after a year of building and hardening this: first, we'd adopt a formal content-addressed manifest per recording from day one — deduplication became painful later. Second, the 32 MB chunk size is a tunable we set by gut; it should have been adaptive to link quality. And third, the review queue deserved better tooling from the start — it became the coordinators' primary screen." },
     { type: "quote", text: "Edge-first isn't a buzzword here — it's the difference between a system that works in a tier-3 city center and one that only works in the demo." }
   ],
 

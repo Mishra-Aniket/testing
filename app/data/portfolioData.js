@@ -29,8 +29,8 @@ export const PERSONAL_INFO = {
   availability: "Available for Freelance & High-Impact Contracts",
   avgTurnaround: "2–4 Weeks for Production MVPs",
   stats: [
-    { label: "Daily Enterprise Lectures Handled", value: "20,000+" },
-    { label: "PW Centers & Operations Scaled", value: "500+" },
+    { label: "Chrome Web Store Extensions", value: "2" },
+    { label: "GitHub Commits · 12 Months", value: "699+" },
     { label: "Production Tools Shipped", value: "10+" },
     { label: "Cloud Egress Cost Saved", value: "100%" }
   ]
@@ -204,15 +204,15 @@ export const PROJECTS = [
   },
   {
     id: "centrix",
-    deepDive: "/blog/scaling-centrix-500-centers",
+    deepDive: "/blog/building-centrix-edge-ingestion",
     title: "Centrix — Autonomous Lecture Ingestion Pipeline",
-    subtitle: "Edge-First Operations Platform for 500+ PW Centers",
+    subtitle: "Edge-First Lecture Ingestion Platform",
     category: "Enterprise & Edge Systems",
     featured: true,
     badge: "Live Interactive Demo",
-    metrics: "500+ Centers · 10,000–20,000 Lectures/Day · Zero Cloud Egress Cost",
+    metrics: "Edge-First Design · Resumable Chunked Uploads · Zero Egress Cost",
     description:
-      "Engineered an edge-first automated ingestion engine for Physics Wallah Vidyapeeth centers across India. Automatically pairs OBS/capture card recordings with MaxHub interactive flat panel notes, matches timetables using confidence scoring, and executes chunked resumable uploads directly to Google Drive with zero central bandwidth cost.",
+      "Engineered an edge-first automated ingestion engine built for large coaching networks. Automatically pairs OBS/capture card recordings with interactive flat panel notes, matches timetables using confidence scoring, and executes chunked resumable uploads directly to Google Drive with zero central bandwidth cost.",
     tags: [".NET 8 (C#)", "React 18", "TypeScript", "SQLite WAL", "Google Drive API v3", "Tailwind CSS"],
     githubUrl: "https://github.com/aniketmishra-0/Centrix",
     liveUrl: "https://aniketmishra-0.github.io/Centrix_Demo/",
@@ -270,7 +270,7 @@ export const SERVICES = [
     turnaround: "10 – 21 Days",
     tagline: "Automate business workflows and process data/media at scale.",
     description:
-      "High-throughput backend services and background workers built with .NET 8 / C# or Python FastAPI. Automate document syncing, media conversion, or cloud distribution (like Centrix across 500+ centers and Nexus Streamer).",
+      "High-throughput backend services and background workers built with .NET 8 / C# or Python FastAPI. Automate document syncing, media conversion, or cloud distribution (like Centrix and Nexus Streamer).",
     deliverables: [
       "High-speed REST APIs in .NET 8 or Python FastAPI",
       "Automated Google Drive, YouTube, or Cloud Storage sync",
@@ -336,13 +336,6 @@ export const WORKFLOW_STEPS = [
 ];
 
 export const CLIENT_TESTIMONIALS = [
-  {
-    quote: "Centrix completely streamlined our daily operations across 500+ physical centers. Pairing lecture recordings with whiteboard notes and syncing directly to Google Drive saved petabytes in bandwidth and eliminated hours of manual work.",
-    author: "Centrix Operations Team",
-    role: "500+ Centers Scaled",
-    company: "Physics Wallah Vidyapeeth",
-    projectType: "Enterprise Automation"
-  },
   {
     quote: "OmTabs solved a major daily frustration with browser tab overload. The custom tab renaming and privacy shield work instantly with zero lag. It feels like a native browser feature.",
     author: "Verified Chrome User",
@@ -549,8 +542,8 @@ export const STACK_LAYERS = [
     idx: "L02 · AUTOMATION",
     title: "Pipelines & Integrations",
     techs: ["Google Drive API", "YouTube Ingestion", "Chunked Resumable Uploads", "SSE", "Zero-RAM"],
-    body: "Automated video distribution (Nexus Streamer), Google Drive API sync (Centrix for 500+ centers), media conversion (ImgWorld), and third-party APIs.",
-    stats: [["INTEGRATIONS", "Drive · YouTube API"], ["SCALE", "500+ Offline Centers"], ["AUTOMATION", "Zero-Touch QC"]],
+    body: "Automated video distribution (Nexus Streamer), Google Drive API sync (Centrix), media conversion (ImgWorld), and third-party APIs.",
+    stats: [["INTEGRATIONS", "Drive · YouTube API"], ["DESIGN", "Offline-First Edge"], ["AUTOMATION", "Zero-Touch QC"]],
     code: '> pipeline.sync({ drive: true, workers: 8 })',
     top: "43%",
     target: "#stack",

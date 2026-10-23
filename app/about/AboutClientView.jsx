@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import DarkCTA from "../components/DarkCTA";
 import Footer from "../components/Footer";
@@ -20,46 +20,16 @@ import {
   FileText,
   Code2,
   ShieldCheck,
-  Camera,
 } from "lucide-react";
 import { sound } from "../utils/sound";
 
-/* ---------- 3D tilt photo card ---------- */
-function TiltPhotoCard() {
-  const ref = useRef(null);
+/* ---------- Photo card (clean, no gimmicks) ---------- */
+function PhotoCard() {
   const [imgOk, setImgOk] = useState(true);
 
-  const mx = useMotionValue(0.5);
-  const my = useMotionValue(0.5);
-  const rotateX = useSpring(useTransform(my, [0, 1], [9, -9]), { stiffness: 160, damping: 18 });
-  const rotateY = useSpring(useTransform(mx, [0, 1], [-11, 11]), { stiffness: 160, damping: 18 });
-
-  const handleMove = (e) => {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    mx.set((e.clientX - rect.left) / rect.width);
-    my.set((e.clientY - rect.top) / rect.height);
-  };
-
-  const handleLeave = () => {
-    mx.set(0.5);
-    my.set(0.5);
-  };
-
   return (
-    <div className="relative w-fit mx-auto lg:mx-0 select-none" style={{ perspective: 1100 }}>
-      {/* Isometric stacked frames behind */}
-      <div aria-hidden="true" className="absolute -top-4 -left-4 w-full h-full rounded-2xl border-2 border-[#B45309]/25 rotate-[-5deg] translate-y-2" />
-      <div aria-hidden="true" className="absolute -bottom-4 -right-4 w-full h-full rounded-2xl border-2 border-[#E4C090]/60 rotate-[4deg] -translate-y-1 bg-[#FAF6EE]/60" />
-
-      <motion.div
-        ref={ref}
-        onMouseMove={handleMove}
-        onMouseLeave={handleLeave}
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="relative w-[248px] sm:w-[286px] rounded-2xl border border-[#E4D9BC] bg-white p-3 shadow-[0_30px_60px_-24px_rgba(74,59,51,0.35)]"
-      >
+    <div className="relative w-fit mx-auto lg:mx-0 select-none">
+      <div className="relative w-[248px] sm:w-[286px] rounded-2xl border border-[#E4D9BC] bg-white p-3 shadow-[var(--shadow-soft-lg)]">
         <div className="relative overflow-hidden rounded-xl aspect-[4/5] bg-[#F3EBDD] grid place-items-center">
           {imgOk ? (
             /* eslint-disable-next-line @next/next/no-img-element */
@@ -71,35 +41,30 @@ function TiltPhotoCard() {
             />
           ) : (
             <div className="grid place-items-center gap-3 text-center px-6">
-              <span className="grid place-items-center w-20 h-20 rounded-full bg-[#B45309]/10 border border-[#B45309]/25">
-                <Camera className="w-7 h-7 text-[#B45309]" />
-              </span>
-              <span className="font-serif text-3xl font-bold text-[#B45309] m-0">AM</span>
-              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#A8A29E] leading-relaxed m-0">
-                photo slot — drop<br />public/me.jpg
+              <span className="font-serif text-5xl font-bold text-[#B45309] m-0">AM</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#A8A29E] m-0">
+                Aniket Mishra
               </span>
             </div>
           )}
 
-          {/* Status ribbon */}
-          <div style={{ transform: "translateZ(46px)" }} className="absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/95 border border-emerald-600/30 shadow-sm">
+          <div className="absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/95 border border-emerald-600/30 shadow-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span className="font-mono text-[9px] font-bold uppercase tracking-wider text-emerald-700">Available</span>
           </div>
         </div>
 
-        {/* Floating identity chips */}
-        <div style={{ transform: "translateZ(60px)" }} className="absolute -right-5 top-1/3 flex flex-col gap-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-[#E4D9BC] shadow-md font-mono text-[9.5px] font-bold uppercase tracking-wider text-[#4A3B33]">
+        <div className="flex items-center justify-between px-2 pt-3">
+          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-[#78716C]">
             <MapPin className="w-3 h-3 text-[#B45309]" />
-            Prayagraj, IN
+            Prayagraj, India
           </span>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#B45309] text-white shadow-md font-mono text-[9.5px] font-bold uppercase tracking-wider">
-            <Github className="w-3 h-3" />
-            699+ commits / yr
+          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-[#78716C]">
+            <Github className="w-3 h-3 text-[#B45309]" />
+            2 Profiles
           </span>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -107,23 +72,17 @@ function TiltPhotoCard() {
 /* ---------- Data ---------- */
 const FACTS = [
   { icon: MapPin, label: "Based in", value: "Prayagraj, India" },
-  { icon: Briefcase, label: "Working as", value: "Freelance engineer" },
-  { icon: Layers, label: "Daily stack", value: ".NET 8 · FastAPI · Next.js · PostgreSQL" },
+  { icon: Briefcase, label: "Working as", value: "Freelance full-stack developer" },
+  { icon: Layers, label: "Shipped", value: "9 projects, all real" },
   { icon: Clock, label: "Response time", value: "Within 24 hours" },
 ];
 
 const TIMELINE = [
   { period: "Nov – Dec 2025", title: "ImgWorld.biz & RadialMenu", note: "Browser-only image tools with on-device AI; a Windows radial launcher shipped with signed installers." },
-  { period: "Jan – Feb 2026", title: "Centrix, at scale", note: "Edge-first lecture ingestion for Physics Wallah Vidyapeeth — weighted timetable matching, resumable chunked uploads. 173 commits in January alone." },
+  { period: "Jan – Feb 2026", title: "Centrix, built end to end", note: "The edge-first lecture ingestion engine — weighted timetable matching, resumable chunked uploads, zero central bandwidth. January was a 173-commit month." },
   { period: "Mar – Apr 2026", title: "Nexus Streamer & Office Mobile", note: "Drive-to-YouTube streaming with flat memory; spreadsheets turned into mobile data-entry PWAs." },
   { period: "May – Jun 2026", title: "Qpic & OmTabs", note: "OCR exam-paper splitting; first Chrome extension live on the official Web Store with a biometric shield." },
   { period: "Jul – Oct 2026", title: "OmSpace & aniket.one", note: "Second extension on the Web Store; this portfolio rebuilt as a fast static site with live GitHub telemetry." },
-];
-
-const TOOLKIT = [
-  ".NET 8 (C#)", "Python / FastAPI", "Node.js", "Next.js 15", "React 19", "TypeScript",
-  "PostgreSQL", "Supabase", "SQLite WAL", "Chrome MV3", "WebAuthn", "ONNX Runtime Web",
-  "WebAssembly", "Google Drive / YouTube APIs", "Docker", "Framer Motion",
 ];
 
 const WORK_STEPS = [
@@ -189,7 +148,7 @@ export default function AboutClientView() {
                 transition={{ duration: 0.7, delay: 0.1 }}
                 className="lg:col-span-5"
               >
-                <TiltPhotoCard />
+                <PhotoCard />
               </motion.div>
 
               <div className="lg:col-span-7">
@@ -220,21 +179,22 @@ export default function AboutClientView() {
                   className="space-y-5 text-[1.02rem] leading-[1.8] text-[#57534E]"
                 >
                   <p className="m-0">
-                    I'm Aniket Mishra, a full-stack engineer from Prayagraj. Over the last few years I've built
-                    things people actually use — a lecture ingestion system that runs across 500+ Physics Wallah
-                    Vidyapeeth centers, two extensions sitting on the official Chrome Web Store, an image tool
-                    that edits photos entirely inside your browser, and a pipeline that moves multi-gigabyte
-                    videos between cloud services without filling a single server's RAM.
+                    The last year went into things people can open and use: two extensions on the
+                    official Chrome Web Store (OmTabs and OmSpace), an edge-first lecture ingestion
+                    engine (Centrix), an image tool that edits photos entirely inside the browser
+                    (ImgWorld.biz), and a pipeline that moves multi-gigabyte videos between cloud
+                    services without filling a single server's RAM (Nexus Streamer).
                   </p>
                   <p className="m-0">
-                    I work freelance, and I keep it boring on purpose: written scope before we start, a fixed
-                    price, a deployed build you can click through every week, and the full source handed over
-                    at the end. You will never sit through a "trust me, it's 90% done" call with me.
+                    I work freelance, and I keep it boring on purpose: written scope before we start,
+                    a fixed price, a deployed build you can click through every week, and the full
+                    source handed over at the end. You will never sit through a "trust me, it's 90%
+                    done" call with me.
                   </p>
                   <p className="m-0">
-                    Everything on this site is real work, live or having run in production. I don't pad a
-                    portfolio with tutorial clones, and I don't put a number on a page that I can't defend
-                    in a call. Look at the work, talk to me, decide.
+                    Everything on this site is real work, live or having run in production — no
+                    tutorial clones, no numbers I can't defend in a call. Look at the work, talk to
+                    me, decide.
                   </p>
                 </motion.div>
 
@@ -296,7 +256,10 @@ export default function AboutClientView() {
         <section className="relative w-full bg-[#F8F4EE] border-t border-[#E4D9BC]/70 py-20">
           <div className="relative mx-auto px-6 lg:px-8 max-w-[848px]">
             <span className="font-mono text-xs uppercase tracking-wider text-[#B45309] font-bold">The Work So Far</span>
-            <h2 className="mt-2 font-serif text-3xl font-bold text-[#4A3B33] mb-12 mt-2">A year of shipping, month by month.</h2>
+            <h2 className="mt-2 font-serif text-3xl font-bold text-[#4A3B33] mb-3 mt-2">What I built, and when.</h2>
+            <p className="text-sm text-[#57534E] mb-12">
+              The last year of projects in order — what each one is and what it does.
+            </p>
 
             <div className="relative pl-8 sm:pl-10">
               <div aria-hidden="true" className="absolute left-[7px] sm:left-[9px] top-2 bottom-2 w-px bg-gradient-to-b from-[#B45309] via-[#E4D9BC] to-transparent" />
@@ -319,26 +282,6 @@ export default function AboutClientView() {
                 </motion.div>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* Toolkit */}
-        <section className="relative mx-auto px-6 lg:px-8 py-20 max-w-[848px]">
-          <span className="font-mono text-xs uppercase tracking-wider text-[#B45309] font-bold">Toolkit</span>
-          <h2 className="mt-2 font-serif text-3xl font-bold text-[#4A3B33] mb-8 mt-2">What I reach for daily.</h2>
-          <div className="flex flex-wrap gap-2.5">
-            {TOOLKIT.map((t, idx) => (
-              <motion.span
-                key={t}
-                initial={{ opacity: 0, scale: 0.92 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: idx * 0.03 }}
-                className="font-mono text-[11.5px] font-semibold px-3.5 py-1.5 rounded-full bg-white border border-[#E4D9BC] text-[#57534E] hover:border-[#B45309] hover:text-[#B45309] transition-colors"
-              >
-                {t}
-              </motion.span>
-            ))}
           </div>
         </section>
 

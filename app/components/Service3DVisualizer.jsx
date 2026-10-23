@@ -278,7 +278,7 @@ export default function Service3DVisualizer({ serviceId }) {
             CLOUD AUTOMATION // STREAM_PIPELINE
           </text>
           <text x="325" y="21" textAnchor="end" fill="#059669" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="600">
-            500+ NODES · ZERO RAM LEAK
+            STREAM NODES · ZERO RAM LEAK
           </text>
 
           {/* Ambient Floor Glow */}
@@ -299,7 +299,7 @@ export default function Service3DVisualizer({ serviceId }) {
                 Drive API
               </text>
               <text x="0" y="10" textAnchor="middle" fill="#78716C" fontSize="6" fontFamily="JetBrains Mono, monospace">
-                500+ Centers
+                Multi-Center
               </text>
             </g>
 
@@ -342,7 +342,7 @@ export default function Service3DVisualizer({ serviceId }) {
 
           <line x1="16" y1="168" x2="324" y2="168" stroke="#E4D9BC" strokeWidth="0.8" strokeDasharray="2 4" />
           <text x="16" y="162" fill="#78716C" fontSize="7" fontFamily="JetBrains Mono, monospace">
-            CENTRIX ENGINE: 20,000+ LECTURES / DAY
+            CENTRIX ENGINE: EDGE-FIRST INGESTION
           </text>
           <text x="324" y="162" textAnchor="end" fill="#B45309" fontSize="7" fontFamily="JetBrains Mono, monospace" fontWeight="600">
             ZERO EGRESS COST

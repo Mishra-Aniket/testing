@@ -4,7 +4,7 @@ import AboutClientView from "./AboutClientView";
 export const metadata = {
   title: "About Me — Freelance Full-Stack & AI Systems Engineer",
   description:
-    "Who Aniket Mishra is, how he works, and what he has shipped — Chrome extensions, a 500+ center ingestion system, client-side AI tools and more. Fixed-scope sprints, weekly demos, full source handover.",
+    "What Aniket Mishra has shipped — Chrome extensions on the official Web Store, an edge-first ingestion engine, client-side AI tools and more. Fixed-scope sprints, weekly demos, full source handover.",
   alternates: {
     canonical: "https://aniket.one/about",
   },

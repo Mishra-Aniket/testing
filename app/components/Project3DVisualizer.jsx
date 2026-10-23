@@ -162,7 +162,7 @@ export default function Project3DVisualizer({ projectId }) {
               GPS: 18.5204° N, 73.8567° E · 560m
             </text>
             <text x="12" y="77" fill="#E4C090" fontSize="5" fontFamily="JetBrains Mono, monospace">
-              🕒 2026-10-14 10:15:02 IST · PW Vidyapeeth #603
+              🕒 2026-10-14 10:15:02 IST · Center #603
             </text>
             <text x="12" y="85" fill="#A7F3D0" fontSize="5" fontFamily="JetBrains Mono, monospace">
               ✔ Watermarked MP4/JPG → Google Drive Auto-Sync
@@ -652,7 +652,7 @@ export default function Project3DVisualizer({ projectId }) {
           PW CENTRIX // EDGE_INGESTION_V2
         </text>
         <text x="325" y="21" textAnchor="end" fill="#059669" fontSize="7.5" fontFamily="JetBrains Mono, monospace" fontWeight="600">
-          LIVE DEMO AVAILABLE · 500+ CENTERS
+          LIVE DEMO AVAILABLE · EDGE-FIRST
         </text>
 
         <g transform="translate(18, 52)">

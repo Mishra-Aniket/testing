@@ -17,7 +17,7 @@ Aniket works with founders and businesses on fixed-scope sprints: a focused fix 
 
 ## Blog Writing
 
-- [Scaling Centrix: Edge-First Lecture Ingestion Across 500+ Physical Centers](https://aniket.one/blog/scaling-centrix-500-centers/)
+- [Building Centrix: An Edge-First Lecture Ingestion Engine](https://aniket.one/blog/building-centrix-edge-ingestion/)
 - [Building Production Chrome Extensions in Manifest V3: OmTabs & OmSpace Case Study](https://aniket.one/blog/building-manifest-v3-extensions/)
 - [Zero-RAM Media Streaming: Drive to YouTube via Node Streams](https://aniket.one/blog/zero-ram-video-streaming-pipeline/)
 - [Client-Side AI & Image Processing: ONNX & WebAssembly in the Browser](https://aniket.one/blog/client-side-ai-image-processing/)
@@ -25,7 +25,7 @@ Aniket works with founders and businesses on fixed-scope sprints: a focused fix 
 ## Shipped Work
 
 - OmTabs & OmSpace — two Chrome extensions on the official Chrome Web Store (tab management, biometric shield, new-tab dashboard)
-- Centrix — lecture ingestion system running across 500+ Physics Wallah Vidyapeeth centers; edge-first, resumable chunked uploads
+- Centrix — edge-first lecture ingestion engine built for coaching networks; resumable chunked uploads
 - ImgWorld.biz — in-browser image suite with on-device AI background removal; zero uploads
 - Nexus Streamer — Drive-to-YouTube pipeline with flat memory usage, live on a Hugging Face Space
 - Qpic — exam-paper splitter with OCR pipeline (FastAPI + Flutter)

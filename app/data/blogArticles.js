@@ -3,13 +3,13 @@
 
 export const BLOG_ARTICLES = [
   {
-    slug: "scaling-centrix-500-centers",
+    slug: "building-centrix-edge-ingestion",
     tag: "Enterprise Architecture",
     date: "October 2026",
     readTime: "6 min read",
-    title: "Scaling Centrix: Edge-First Lecture Ingestion Across 500+ Physical Centers",
+    title: "Building Centrix: An Edge-First Lecture Ingestion Engine",
     excerpt:
-      "How we engineered an automated ingestion engine for Physics Wallah Vidyapeeth centers pairing OBS capture card recordings with interactive flat panel notes, weighted timetable matching, and direct chunked Google Drive uploads.",
+      "How I engineered an automated ingestion engine for coaching networks — OBS capture recordings paired with interactive flat panel notes, weighted timetable matching, and direct chunked Google Drive uploads, all at the edge.",
     author: "Aniket Mishra",
     keywords: ["centrix", "physics wallah", "ingestion", "obs", "capture card", "edge", ".net", "drive upload", "timetable"]
   },

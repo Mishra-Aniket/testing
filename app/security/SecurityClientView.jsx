@@ -154,7 +154,7 @@ export default function SecurityClientView() {
                 Scoped OAuth &amp; Token Encryption
               </h3>
               <p className="text-sm leading-relaxed text-[#57534E]">
-                Automations like Centrix (500+ physical centers) and Nexus Streamer request strictly minimal Google Drive/YouTube API scopes with AES-256 encrypted token handling at rest.
+                Automations like Centrix and Nexus Streamer request strictly minimal Google Drive/YouTube API scopes with AES-256 encrypted token handling at rest.
               </p>
             </div>
 

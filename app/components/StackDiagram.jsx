@@ -265,7 +265,7 @@ export default function StackDiagram() {
                 fontFamily="JetBrains Mono, monospace"
                 letterSpacing="0.2"
               >
-                500+ Centers · 20K Lectures/Day · Production
+                Edge Ingestion · Chrome Store · Live
               </text>
               <circle cx="348" cy="77" r="6.5" fill="#B45309" />
               <path
@@ -673,7 +673,7 @@ export default function StackDiagram() {
                   Centrix Automation Engine
                 </text>
                 <text x="398" y="390" fill="#78716C" fontSize="8.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4">
-                  500+ centers · drive sync · streaming
+                  drive sync · streaming · edge-first
                 </text>
               </g>
             </g>
