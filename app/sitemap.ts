@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   //   '/compare' (+24 slugs), '/creators-program', '/docs', '/labs', '/thesis', '/use-cases', '/students'
   const staticPages = [
     '', // homepage
+    '/about',
     '/blog',
     '/pricing',
     '/privacy',

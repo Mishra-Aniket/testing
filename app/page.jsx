@@ -10,7 +10,6 @@ import FAQ from "./components/FAQ";
 import DarkCTA from "./components/DarkCTA";
 import Footer from "./components/Footer";
 import FeaturedProjects from "./components/FeaturedProjects";
-import AboutMe from "./components/AboutMe";
 import ServicesWorkflow from "./components/ServicesWorkflow";
 import SearchModal from "./components/SearchModal";
 
@@ -64,9 +63,6 @@ export default function Home() {
 
         {/* 3. Featured Projects & Production Systems (Driven by app/data/portfolioData.js) */}
         <FeaturedProjects />
-
-        {/* 3.5 About Me — who's behind the commits */}
-        <AboutMe />
 
         {/* 5. Freelance Services, 4-Week Delivery Protocol & Founder Testimonials */}
         <ServicesWorkflow />

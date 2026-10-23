@@ -46,7 +46,7 @@ export default function Footer() {
       links: [
         { label: "GitHub (@aniketmishra-0)", href: "https://github.com/aniketmishra-0" },
         { label: "GitHub (@Mishra-Aniket)", href: "https://github.com/Mishra-Aniket" },
-        { label: "About Me", href: "/#about" },
+        { label: "About Me", href: "/about" },
         { label: "Engineering Blog", href: "/blog" },
         { label: "llms.txt", href: "/llms.txt" },
         { label: "Developer Guide", href: "/#how-it-works" }
@@ -55,7 +55,7 @@ export default function Footer() {
     {
       title: "PHILOSOPHY",
       links: [
-        { label: "How I Work", href: "/#about" },
+        { label: "About Me", href: "/about" },
         { label: "Pricing & Sprints", href: "/pricing" },
         { label: "Reliability Guarantee", href: "/#faq" },
         { label: "Client FAQ", href: "/#faq" }

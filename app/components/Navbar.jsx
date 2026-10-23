@@ -716,6 +716,22 @@ export default function Navbar({
               )}
             </Link>
             )}
+
+            {/* About — last nav item */}
+            <Link
+              href="/about"
+              onClick={() => sound.playClick()}
+              className={`nav-link relative flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius)] cursor-pointer transition-all hover:bg-black/[0.04] dark:hover:bg-white/[0.06] ${
+                pathname.startsWith('/about') ? (isDarkTheme ? "!text-[#E4C090] font-bold" : "!text-[#4A3B33] font-bold") : ""
+              }`}
+            >
+              <span>About</span>
+              {pathname.startsWith('/about') && (
+                <span className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full ${
+                  isDarkTheme ? "bg-[#E4C090] shadow-[0_0_8px_#E4C090]" : "bg-[#B45309]"
+                }`} />
+              )}
+            </Link>
           </div>
 
           {/* Right CTA */}
@@ -1159,6 +1175,27 @@ export default function Navbar({
                         isDarkTheme ? "text-[#F5F5F4] group-hover:text-[#E4C090]" : "text-[#4A3B33] group-hover:text-[#B45309]"
                       }`}>
                         Engineering Blog
+                      </span>
+                      <ArrowUpRight className={`w-4 h-4 transition-colors ${
+                        isDarkTheme ? "text-[#A8A29E] group-hover:text-[#E4C090]" : "text-[#A8A29E] group-hover:text-[#B45309]"
+                      }`} />
+                    </Link>
+                  </div>
+
+                  {/* 4.5 About Me */}
+                  <div className="py-2">
+                    <Link
+                      href="/about"
+                      onClick={() => {
+                        sound.playClick();
+                        setMobileMenuOpen(false);
+                      }}
+                      className="w-full flex items-center justify-between py-1.5 text-left group"
+                    >
+                      <span className={`text-[17px] font-serif font-medium transition-colors ${
+                        isDarkTheme ? "text-[#F5F5F4] group-hover:text-[#E4C090]" : "text-[#4A3B33] group-hover:text-[#B45309]"
+                      }`}>
+                        About Me
                       </span>
                       <ArrowUpRight className={`w-4 h-4 transition-colors ${
                         isDarkTheme ? "text-[#A8A29E] group-hover:text-[#E4C090]" : "text-[#A8A29E] group-hover:text-[#B45309]"

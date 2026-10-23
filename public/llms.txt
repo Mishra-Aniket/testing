@@ -7,6 +7,7 @@ Aniket works with founders and businesses on fixed-scope sprints: a focused fix 
 ## Pages
 
 - [Home](https://aniket.one/): portfolio, live GitHub contribution terrain, services, FAQ
+- [About](https://aniket.one/about/): who Aniket is, timeline of shipped work, toolkit and how he works
 - [Pricing & Sprint Packages](https://aniket.one/pricing/): sprint pricing and the project proposal form
 - [Engineering Blog](https://aniket.one/blog/): case studies and technical deep-dives
 - [Security & IP](https://aniket.one/security/): NDA, code ownership, compliance

@@ -635,7 +635,7 @@ export const FAQS = [
 
 export const SITE_PAGES = [
   { label: "Home (Hero)", href: "#hero", category: "pages", desc: "Hero introduction & headline overview", keywords: ["home", "hero", "overview", "intro", "aniket"] },
-  { label: "About Me", href: "/#about", category: "pages", desc: "Who Aniket is, how he works, quick facts & contact", keywords: ["about", "bio", "aniket mishra", "who", "freelancer", "engineer", "prayagraj", "contact", "hire"] },
+  { label: "About Me", href: "/about", category: "pages", desc: "Who Aniket is, how he works, quick facts & contact", keywords: ["about", "bio", "aniket mishra", "who", "freelancer", "engineer", "prayagraj", "contact", "hire"] },
   { label: "Featured Projects (#work)", href: "#work", category: "pages", desc: "OmTabs, OmSpace, Centrix, Nexus & more", keywords: ["work", "projects", "featured", "portfolio", "case studies", "apps"] },
   { label: "Services & Sprints (#services)", href: "#services", category: "pages", desc: "MVP builds, Chrome extensions, APIs & audits", keywords: ["services", "sprints", "mvp", "offerings", "deliverables", "hire"] },
   { label: "Tech Stack & Architecture (#stack)", href: "#stack", category: "pages", desc: "5-layer full-stack & systems diagram", keywords: ["stack", "architecture", "technologies", "diagram", "database", "backend"] },
