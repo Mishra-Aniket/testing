@@ -775,9 +775,14 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
         >
           <Search className={`w-4 h-4 shrink-0 transition-colors duration-300 ${isDockDark ? "text-[#E4C090]" : "text-[#B45309]"}`} />
           <span className="truncate max-w-[240px] sm:max-w-none">
-            {isStudentsPage
-              ? "Search 140+ student software deals, tools & perks..."
-              : 'Search or Ask "What projects has Aniket built?"'}
+            {isStudentsPage ? (
+              "Search 140+ student software deals, tools & perks..."
+            ) : (
+              <>
+                <span className="sm:hidden">Search site</span>
+                <span className="hidden sm:inline">Search or Ask &quot;What projects has Aniket built?&quot;</span>
+              </>
+            )}
           </span>
           <kbd className={`hidden sm:inline-flex ml-2 rounded border px-1.5 py-0.5 font-mono text-[11px] transition-colors duration-300 ${
             isDockDark 

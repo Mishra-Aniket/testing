@@ -6,8 +6,8 @@ export default function Project3DVisualizer({ projectId }) {
   // 1. OmTabs — Chrome Tab Management & Privacy Shield
   if (projectId === "omtabs") {
     return (
-      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-center select-none overflow-visible">
-        <svg viewBox="0 0 340 180" className="w-full h-full max-h-[220px] overflow-visible" preserveAspectRatio="xMidYMid meet">
+      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-start sm:justify-center select-none overflow-x-auto overflow-y-hidden sm:overflow-visible">
+        <svg viewBox="0 0 340 180" className="w-full h-full max-h-[220px] min-w-[460px] sm:min-w-0 overflow-visible" preserveAspectRatio="xMidYMid meet">
           <circle cx="16" cy="18" r="2.5" fill="#B45309" />
           <text x="25" y="21" fill="#B45309" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1.2">
             CHROME EXTENSION // OMTABS_SHIELD
@@ -68,8 +68,8 @@ export default function Project3DVisualizer({ projectId }) {
   // 2. OmSpace — New Tab Dashboard & Focus Studio
   if (projectId === "omspace") {
     return (
-      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-center select-none overflow-visible">
-        <svg viewBox="0 0 340 180" className="w-full h-full max-h-[220px] overflow-visible" preserveAspectRatio="xMidYMid meet">
+      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-start sm:justify-center select-none overflow-x-auto overflow-y-hidden sm:overflow-visible">
+        <svg viewBox="0 0 340 180" className="w-full h-full max-h-[220px] min-w-[460px] sm:min-w-0 overflow-visible" preserveAspectRatio="xMidYMid meet">
           <circle cx="16" cy="18" r="2.5" fill="#B45309" />
           <text x="25" y="21" fill="#B45309" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1.2">
             CHROME DASHBOARD // OMSPACE_V2
@@ -134,8 +134,8 @@ export default function Project3DVisualizer({ projectId }) {
   // 3. GPS Cam (GPSnap) — Geotagged Media Stamper
   if (projectId === "gps-cam") {
     return (
-      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-center select-none overflow-visible">
-        <svg viewBox="0 0 340 180" className="w-full h-full max-h-[220px] overflow-visible" preserveAspectRatio="xMidYMid meet">
+      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-start sm:justify-center select-none overflow-x-auto overflow-y-hidden sm:overflow-visible">
+        <svg viewBox="0 0 340 180" className="w-full h-full max-h-[220px] min-w-[460px] sm:min-w-0 overflow-visible" preserveAspectRatio="xMidYMid meet">
           <circle cx="16" cy="18" r="2.5" fill="#B45309" />
           <text x="25" y="21" fill="#B45309" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1.2">
             MOBILE CAM // GPSNAP_KOTLIN
@@ -209,8 +209,8 @@ export default function Project3DVisualizer({ projectId }) {
   // 4. Nexus Streamer — Drive to YouTube Ingestion Matrix
   if (projectId === "nexus-streamer") {
     return (
-      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-center select-none overflow-visible">
-        <svg viewBox="0 0 340 180" className="w-full h-full max-h-[220px] overflow-visible" preserveAspectRatio="xMidYMid meet">
+      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-start sm:justify-center select-none overflow-x-auto overflow-y-hidden sm:overflow-visible">
+        <svg viewBox="0 0 340 180" className="w-full h-full max-h-[220px] min-w-[460px] sm:min-w-0 overflow-visible" preserveAspectRatio="xMidYMid meet">
           <circle cx="16" cy="18" r="2.5" fill="#B45309" />
           <text x="25" y="21" fill="#B45309" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1.2">
             ZERO-RAM MATRIX // DRIVE2YOUTUBE
@@ -294,8 +294,8 @@ export default function Project3DVisualizer({ projectId }) {
     ];
 
     return (
-      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-center select-none overflow-visible">
-        <svg viewBox="0 0 340 180" className="w-full h-full max-h-[220px] overflow-visible" preserveAspectRatio="xMidYMid meet">
+      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-start sm:justify-center select-none overflow-x-auto overflow-y-hidden sm:overflow-visible">
+        <svg viewBox="0 0 340 180" className="w-full h-full max-h-[220px] min-w-[460px] sm:min-w-0 overflow-visible" preserveAspectRatio="xMidYMid meet">
           <circle cx="16" cy="18" r="2.5" fill="#B45309" />
           <text x="25" y="21" fill="#B45309" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1.2">
             WINDOWS HUD // RADIAL_WPF_8
@@ -381,8 +381,8 @@ export default function Project3DVisualizer({ projectId }) {
   // 6. ImgWorld.buzz — Client-Side Image Tools Studio
   if (projectId === "imgworld") {
     return (
-      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-center select-none overflow-visible">
-        <svg viewBox="0 0 340 180" className="w-full h-full max-h-[220px] overflow-visible" preserveAspectRatio="xMidYMid meet">
+      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-start sm:justify-center select-none overflow-x-auto overflow-y-hidden sm:overflow-visible">
+        <svg viewBox="0 0 340 180" className="w-full h-full max-h-[220px] min-w-[460px] sm:min-w-0 overflow-visible" preserveAspectRatio="xMidYMid meet">
           <circle cx="16" cy="18" r="2.5" fill="#B45309" />
           <text x="25" y="21" fill="#B45309" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1.2">
             CLIENT RUNTIME // IMWORLD_BUZZ
@@ -452,8 +452,8 @@ export default function Project3DVisualizer({ projectId }) {
   // 7. Qpic — Smart Exam Paper Splitter & OCR Studio
   if (projectId === "qpic") {
     return (
-      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-center select-none overflow-visible">
-        <svg viewBox="0 0 340 180" className="w-full h-full max-h-[220px] overflow-visible" preserveAspectRatio="xMidYMid meet">
+      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-start sm:justify-center select-none overflow-x-auto overflow-y-hidden sm:overflow-visible">
+        <svg viewBox="0 0 340 180" className="w-full h-full max-h-[220px] min-w-[460px] sm:min-w-0 overflow-visible" preserveAspectRatio="xMidYMid meet">
           <circle cx="16" cy="18" r="2.5" fill="#B45309" />
           <text x="25" y="21" fill="#B45309" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1.2">
             DOC INTELLIGENCE // QPIC_14_STAGE
@@ -553,8 +553,8 @@ export default function Project3DVisualizer({ projectId }) {
   // 8. Office Mobile — Google Sheet to Mobile Interface
   if (projectId === "officemobile") {
     return (
-      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-center select-none overflow-visible">
-        <svg viewBox="0 0 340 180" className="w-full h-full max-h-[220px] overflow-visible" preserveAspectRatio="xMidYMid meet">
+      <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-start sm:justify-center select-none overflow-x-auto overflow-y-hidden sm:overflow-visible">
+        <svg viewBox="0 0 340 180" className="w-full h-full max-h-[220px] min-w-[460px] sm:min-w-0 overflow-visible" preserveAspectRatio="xMidYMid meet">
           <circle cx="16" cy="18" r="2.5" fill="#B45309" />
           <text x="25" y="21" fill="#B45309" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600" letterSpacing="1.2">
             DYNAMIC SCHEMA // OFFICE_MOBILE
@@ -638,8 +638,8 @@ export default function Project3DVisualizer({ projectId }) {
 
   // 9. Centrix — PW Autonomous Ingestion Pipeline (LAST)
   return (
-    <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-center select-none overflow-visible">
-      <svg viewBox="0 0 340 180" className="w-full h-full max-h-[220px] overflow-visible" preserveAspectRatio="xMidYMid meet">
+    <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-start sm:justify-center select-none overflow-x-auto overflow-y-hidden sm:overflow-visible">
+      <svg viewBox="0 0 340 180" className="w-full h-full max-h-[220px] min-w-[460px] sm:min-w-0 overflow-visible" preserveAspectRatio="xMidYMid meet">
         <defs>
           <linearGradient id="centrixStreamLast" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#B45309" stopOpacity="0.8" />

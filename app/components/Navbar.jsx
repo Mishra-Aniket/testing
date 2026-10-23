@@ -845,26 +845,6 @@ export default function Navbar({
               </AnimatePresence>
             </div>
 
-            {/* Search Trigger (⌘K) */}
-            <button
-              type="button"
-              onClick={() => {
-                sound.playClick();
-                onOpenSearch();
-              }}
-              className="nav-btn-ghost inline-flex items-center gap-2 px-2.5 py-1.5 rounded-[var(--radius)] font-mono text-[11px] font-semibold border transition-all duration-200 cursor-pointer"
-              title="Search the site (⌘K)"
-              aria-label="Open search"
-            >
-              <Search className="w-3.5 h-3.5" />
-              <span className="hidden xl:inline">Search</span>
-              <kbd className={`hidden xl:inline-flex items-center rounded border px-1.5 py-0.5 text-[9.5px] font-bold ${
-                isDarkTheme ? "border-white/15 bg-white/[0.06] text-[#A8A29E]" : "border-[#E4D9BC] bg-[#FAF6EE] text-[#A8A29E]"
-              }`}>
-                ⌘K
-              </kbd>
-            </button>
-
             {/* Audio Toggle Button */}
             <button
               onClick={handleToggleSound}
