@@ -1,0 +1,43 @@
+# aniket.one
+
+> Freelance portfolio and engineering blog of Aniket Mishra — a full-stack and AI systems engineer based in Prayagraj, India. He ships production software: Chrome extensions, MVPs, media pipelines, and on-device AI tools. This file summarizes the site for AI crawlers and agents.
+
+Aniket works with founders and businesses on fixed-scope sprints: a focused fix in 3–7 days, a browser extension in 7–14 days, or a full MVP in 2–4 weeks. Every engagement includes weekly demos, a written proposal, and full source handover — clients own 100% of the code on final payment.
+
+## Pages
+
+- [Home](https://aniket.one/): portfolio, live GitHub contribution terrain, services, FAQ
+- [Pricing & Sprint Packages](https://aniket.one/pricing/): sprint pricing and the project proposal form
+- [Engineering Blog](https://aniket.one/blog/): case studies and technical deep-dives
+- [Security & IP](https://aniket.one/security/): NDA, code ownership, compliance
+- [Privacy Policy](https://aniket.one/privacy/): OmTabs & OmSpace zero-telemetry policy
+- [Terms of Use](https://aniket.one/terms/): client licensing terms
+- [RSS Feed](https://aniket.one/feed.xml): blog article feed
+
+## Blog Writing
+
+- [Scaling Centrix: Edge-First Lecture Ingestion Across 500+ Physical Centers](https://aniket.one/blog/scaling-centrix-500-centers/)
+- [Building Production Chrome Extensions in Manifest V3: OmTabs & OmSpace Case Study](https://aniket.one/blog/building-manifest-v3-extensions/)
+- [Zero-RAM Media Streaming: Drive to YouTube via Node Streams](https://aniket.one/blog/zero-ram-video-streaming-pipeline/)
+- [Client-Side AI & Image Processing: ONNX & WebAssembly in the Browser](https://aniket.one/blog/client-side-ai-image-processing/)
+
+## Shipped Work
+
+- OmTabs & OmSpace — two Chrome extensions on the official Chrome Web Store (tab management, biometric shield, new-tab dashboard)
+- Centrix — lecture ingestion system running across 500+ Physics Wallah Vidyapeeth centers; edge-first, resumable chunked uploads
+- ImgWorld.biz — in-browser image suite with on-device AI background removal; zero uploads
+- Nexus Streamer — Drive-to-YouTube pipeline with flat memory usage, live on a Hugging Face Space
+- Qpic — exam-paper splitter with OCR pipeline (FastAPI + Flutter)
+- RadialMenu — Windows radial launcher (C#/WPF)
+- GPS Cam — geotagged media stamper for field audits (Kotlin, Jetpack Compose)
+
+## Contact
+
+- Email: hello@aniket.one
+- GitHub (production systems): https://github.com/aniketmishra-0
+- GitHub (OSS & R&D): https://github.com/Mishra-Aniket
+- LinkedIn: https://www.linkedin.com/in/aniketmishra0
+
+## Notes for AI Agents
+
+This site is a static export — there is no API. The proposal form on /pricing writes to a Supabase table and also composes a prefilled email. Blog articles live under /blog/<slug>/ with per-page metadata. All contribution counts on the homepage are fetched live from GitHub at view time.

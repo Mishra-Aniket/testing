@@ -69,28 +69,31 @@ export default function Hero() {
 
             {/* Verifiable stats row — no invented metrics */}
             <div className="pt-2">
-              <dl className="grid items-stretch border-y border-[#E4D9BC]/80 w-fit" style={{ gridTemplateColumns: 'repeat(3, auto)' }}>
-                <div className="flex flex-col gap-1 py-3.5 pr-5 sm:pr-8">
-                  <dt className="order-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#78716C] whitespace-nowrap">
+              <dl
+                className="grid items-stretch border-y border-[#E4D9BC]/80 w-full sm:w-fit"
+                style={{ gridTemplateColumns: "repeat(3, minmax(0, 1fr))" }}
+              >
+                <div className="flex flex-col gap-1 py-3.5 pr-3 sm:pr-8">
+                  <dt className="order-2 font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.14em] text-[#78716C] whitespace-nowrap">
                     GitHub Commits · 12 mo
                   </dt>
-                  <dd className="order-1 text-[1.125rem] whitespace-nowrap font-semibold tracking-tight text-[#4A3B33] tabular-nums font-mono">
+                  <dd className="order-1 text-[1rem] sm:text-[1.125rem] whitespace-nowrap font-semibold tracking-tight text-[#4A3B33] tabular-nums font-mono">
                     699+
                   </dd>
                 </div>
-                <div className="flex flex-col gap-1 py-3.5 px-5 sm:px-8 border-l border-[#E4D9BC]/80">
-                  <dt className="order-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#78716C] whitespace-nowrap">
+                <div className="flex flex-col gap-1 py-3.5 px-3 sm:px-8 border-l border-[#E4D9BC]/80">
+                  <dt className="order-2 font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.14em] text-[#78716C] whitespace-nowrap">
                     Typical MVP Sprint
                   </dt>
-                  <dd className="order-1 text-[1.125rem] whitespace-nowrap font-semibold tracking-tight text-[#4A3B33] tabular-nums font-mono">
+                  <dd className="order-1 text-[1rem] sm:text-[1.125rem] whitespace-nowrap font-semibold tracking-tight text-[#4A3B33] tabular-nums font-mono">
                     2–4 Weeks
                   </dd>
                 </div>
-                <div className="flex flex-col gap-1 py-3.5 pl-5 sm:pl-8 border-l border-[#E4D9BC]/80">
-                  <dt className="order-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#78716C] whitespace-nowrap">
+                <div className="flex flex-col gap-1 py-3.5 pl-3 sm:pl-8 border-l border-[#E4D9BC]/80">
+                  <dt className="order-2 font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.14em] text-[#78716C] whitespace-nowrap">
                     Code Ownership
                   </dt>
-                  <dd className="order-1 text-[1.125rem] whitespace-nowrap font-semibold tracking-tight text-[#4A3B33] tabular-nums font-mono">
+                  <dd className="order-1 text-[1rem] sm:text-[1.125rem] whitespace-nowrap font-semibold tracking-tight text-[#4A3B33] tabular-nums font-mono">
                     100% Yours
                   </dd>
                 </div>
