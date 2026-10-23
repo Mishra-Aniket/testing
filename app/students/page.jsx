@@ -1,4 +1,5 @@
 import React from "react";
+import { notFound } from "next/navigation";
 import StudentsClientView from "./StudentsClientView";
 
 export const metadata = {
@@ -11,5 +12,8 @@ export const metadata = {
 };
 
 export default function StudentsPage() {
+  // Students section temporarily hidden — page returns 404.
+  // To re-enable: remove notFound() below and restore the <StudentsClientView /> render.
+  notFound();
   return <StudentsClientView />;
 }

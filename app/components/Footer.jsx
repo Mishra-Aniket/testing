@@ -17,7 +17,8 @@ export default function Footer() {
         { label: "Freelance Services", href: "/#services" },
         { label: "Full-Stack Engine", href: "/#how-it-works" },
         { label: "AI Integration", href: "/#router" },
-        { label: "Student Offers (Free)", href: "/students" }
+        // Students section hidden — kept in code, re-enable by uncommenting.
+        // { label: "Student Offers (Free)", href: "/students" }
       ]
     },
     {

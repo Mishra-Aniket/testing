@@ -1,15 +1,10 @@
 import React from "react";
+import { notFound } from "next/navigation";
 import CompareIndexClientView from "./CompareIndexClientView";
 
-export const metadata = {
-  title: "Compare AI Context Engine Companies | Aniket AI",
-  description:
-    "Compare AI context engine companies and AI memory platforms. Understand the architectural differences between vector search, probabilistic graphs, and deterministic context arithmetic.",
-  alternates: {
-    canonical: "https://aniket.one/compare"
-  }
-};
-
 export default function ComparePage() {
+  // Comparison pages (fictional "Aniket AI" product) hidden — returns 404.
+  // To re-enable: remove notFound() below and restore the <CompareIndexClientView /> render.
+  notFound();
   return <CompareIndexClientView />;
 }

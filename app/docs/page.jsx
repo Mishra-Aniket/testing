@@ -1,4 +1,5 @@
 import React from "react";
+import { notFound } from "next/navigation";
 import DocsClientView from "./DocsClientView";
 
 export const metadata = {
@@ -11,5 +12,8 @@ export const metadata = {
 };
 
 export default function DocsPage() {
+  // Learn & Docs section hidden permanently — page returns 404.
+  // To re-enable: remove notFound() below and restore the <DocsClientView /> render.
+  notFound();
   return <DocsClientView />;
 }

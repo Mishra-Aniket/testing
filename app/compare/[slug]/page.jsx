@@ -5,6 +5,8 @@ import { getComparisonBySlug, COMPARISONS } from "../../data/comparisons";
 import ComparisonClientView from "./ComparisonClientView";
 
 export function generateStaticParams() {
+  // Section hidden — slugs still enumerated so static export succeeds,
+  // but every page prerenders as 404 (see notFound() below).
   const slugs = [];
   for (const key of Object.keys(COMPARISONS)) {
     const comp = COMPARISONS[key];
@@ -19,36 +21,15 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const resolvedParams = await params;
-  const comp = getComparisonBySlug(resolvedParams.slug);
-
-  if (!comp) {
-    return {
-      title: "Comparison Not Found | Aniket AI"
-    };
-  }
-
-  return {
-    title: comp.metaTitle,
-    description: comp.metaDescription,
-    alternates: {
-      canonical: `https://aniket.one/compare/${comp.slug}`
-    },
-    openGraph: {
-      title: comp.metaTitle,
-      description: comp.metaDescription,
-      url: `https://aniket.one/compare/${comp.slug}`
-    }
-  };
+  return { title: "Not Found" };
 }
 
 export default async function ComparisonPage({ params }) {
+  // Comparison pages (fictional "Aniket AI" product) hidden — returns 404.
+  // To re-enable: restore generateStaticParams + metadata + the render below.
+  notFound();
   const resolvedParams = await params;
   const comp = getComparisonBySlug(resolvedParams.slug);
-
-  if (!comp) {
-    notFound();
-  }
-
+  if (!comp) notFound();
   return <ComparisonClientView comp={comp} />;
 }

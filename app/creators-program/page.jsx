@@ -1,15 +1,10 @@
 import React from "react";
+import { notFound } from "next/navigation";
 import CreatorsClientView from "./CreatorsClientView";
 
-export const metadata = {
-  title: "Creators Program - Aniket AI | Grants & Free Tier for Builders",
-  description:
-    "Join the Aniket AI Creators Program. Receive 10M free context tokens per month, private Slack channel with core architects, and community showcase spotlights.",
-  alternates: {
-    canonical: "https://aniket.one/creators-program"
-  }
-};
-
 export default function CreatorsProgramPage() {
+  // Creators program (fictional SaaS) hidden — page returns 404.
+  // To re-enable: remove notFound() below and restore the <CreatorsClientView /> render.
+  notFound();
   return <CreatorsClientView />;
 }
