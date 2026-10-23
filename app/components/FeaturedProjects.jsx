@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Github, Sparkles, CheckCircle2, Layers, FileText } from "lucide-react";
+import { ArrowUpRight, Github, Sparkles, CheckCircle2, Layers, FileText, BookOpen } from "lucide-react";
 import { PROJECTS } from "../data/portfolioData";
 import { sound } from "../utils/sound";
 import Project3DVisualizer from "./Project3DVisualizer";
@@ -320,6 +320,18 @@ export default function FeaturedProjects() {
                         <FileText className="w-3.5 h-3.5" />
                         <span>Documentation</span>
                       </a>
+                    )}
+
+                    {project.deepDive && (
+                      <Link
+                        href={project.deepDive}
+                        onClick={() => sound.playClick()}
+                        className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-[#B45309] hover:text-[#92400E] transition-colors"
+                        title="Read the full engineering deep-dive on the blog"
+                      >
+                        <BookOpen className="w-3.5 h-3.5" />
+                        <span>Deep-Dive</span>
+                      </Link>
                     )}
 
                     {project.githubUrl && (

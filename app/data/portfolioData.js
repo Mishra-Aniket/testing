@@ -39,6 +39,7 @@ export const PERSONAL_INFO = {
 export const PROJECTS = [
   {
     id: "omtabs",
+    deepDive: "/blog/building-manifest-v3-extensions",
     title: "OmTabs — Chrome Tab Management & Privacy Shield",
     subtitle: "Custom Tab Renaming, Biometric Lock & Tab Organization",
     category: "Chrome Extension",
@@ -59,6 +60,7 @@ export const PROJECTS = [
   },
   {
     id: "omspace",
+    deepDive: "/blog/building-manifest-v3-extensions",
     title: "OmSpace — New Tab Dashboard & Focus Studio",
     subtitle: "Customizable Productivity Hub for Chrome",
     category: "Chrome Extension",
@@ -99,6 +101,7 @@ export const PROJECTS = [
   },
   {
     id: "nexus-streamer",
+    deepDive: "/blog/zero-ram-video-streaming-pipeline",
     title: "Nexus Streamer — Drive to YouTube Ingestion Matrix",
     subtitle: "Zero-RAM Cloud-to-Cloud Video Streamer",
     category: "Cloud & Media Streaming",
@@ -140,6 +143,7 @@ export const PROJECTS = [
   },
   {
     id: "imgworld",
+    deepDive: "/blog/client-side-ai-image-processing",
     title: "ImgWorld.biz — Client-Side Image Tools Studio",
     subtitle: "Zero-Server Privacy-First Media Processing Suite",
     category: "Web Tools & Privacy",
@@ -200,6 +204,7 @@ export const PROJECTS = [
   },
   {
     id: "centrix",
+    deepDive: "/blog/scaling-centrix-500-centers",
     title: "Centrix — Autonomous Lecture Ingestion Pipeline",
     subtitle: "Edge-First Operations Platform for 500+ PW Centers",
     category: "Enterprise & Edge Systems",

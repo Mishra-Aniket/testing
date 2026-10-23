@@ -10,7 +10,7 @@ const SIMULATION_OUTPUTS = {
     { text: "[12ms] HTTP/2 200 OK (Edge CDN Cache Hit)", color: "text-[#059669]" },
     { text: "[24ms] Hydrating React Server Components (Zero JS bundle bloat)", color: "text-[#059669]" },
     { text: "[38ms] Database query resolved via Connection Pool", color: "text-[#2563EB]" },
-    { text: "✓ Lighthouse Score: 99/100 (TTFB < 40ms)", color: "text-[#10B981] font-bold" }
+    { text: "✓ Lighthouse budgets audited: TTFB, CLS, LCP", color: "text-[#10B981] font-bold" }
   ],
   1: [
     { text: "$ chrome-ext test --extension=OmTabs --mv3", color: "text-[#B45309]" },
@@ -79,7 +79,7 @@ const STEPS = [
   {
     id: "01",
     title: "How do I build high-performance Full-Stack Web Apps?",
-    desc: "Built with Next.js 15, App Router, React Server Components, and edge database caching. Achieves sub-50ms database queries, smooth client interactivity, and 99+ Lighthouse performance scores.",
+    desc: "Built with Next.js 15, App Router, React Server Components, and edge database caching. Connection-pooled queries, smooth client interactivity, and Lighthouse budgets enforced on every build.",
     file: "app_router_query.ts",
     code: `// Fast Next.js 15 Server Query with Supabase & Connection Pool
 export async function getWorkspaceDashboard(workspaceId: string) {
