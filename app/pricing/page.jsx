@@ -2,12 +2,12 @@ import React from "react";
 import PricingClientView from "./PricingClientView";
 
 export const metadata = {
-  title: "Pricing - Aniket AI Context Layer | Aniket AI",
+  title: "Pricing & Sprint Packages — Freelance Full-Stack Engineer",
   description:
-    "Choose the plan that works best for your needs. All plans include core features to build context-aware AI with persistent memory and sub-300ms retrieval.",
+    "Transparent freelance sprint pricing from Aniket Mishra: rapid MVP builds in 2–4 weeks, Chrome extensions in 7–14 days, and performance audits in 3–7 days. Fixed scope, clean handover, full IP ownership.",
   alternates: {
-    canonical: "https://aniket.one/pricing"
-  }
+    canonical: "https://aniket.one/pricing",
+  },
 };
 
 export default function PricingPage() {
