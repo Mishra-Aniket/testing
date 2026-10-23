@@ -972,31 +972,6 @@ export default function Navbar({
                 <div className={`flex flex-col divide-y ${
                   isDarkTheme ? "divide-white/[0.08]" : "divide-[#E4D9BC]/50"
                 }`}>
-                  {/* 0. Search trigger */}
-                  <div className="py-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        sound.playClick();
-                        setMobileMenuOpen(false);
-                        onOpenSearch();
-                      }}
-                      className="w-full flex items-center justify-between py-1.5 text-left group cursor-pointer"
-                    >
-                      <span className={`text-[17px] font-serif font-medium transition-colors flex items-center gap-2 ${
-                        isDarkTheme ? "text-[#F5F5F4] group-hover:text-[#E4C090]" : "text-[#4A3B33] group-hover:text-[#B45309]"
-                      }`}>
-                        <Search className="w-4 h-4 opacity-70" />
-                        Search Site
-                      </span>
-                      <span className={`font-mono text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border ${
-                        isDarkTheme ? "border-white/15 text-[#A8A29E]" : "border-[#E4D9BC] text-[#A8A29E]"
-                      }`}>
-                        ⌘K
-                      </span>
-                    </button>
-                  </div>
-
                   {/* 1. Projects Accordion */}
                   <div className="py-2">
                     <button
