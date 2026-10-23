@@ -12,20 +12,15 @@ import Footer from "./components/Footer";
 import FeaturedProjects from "./components/FeaturedProjects";
 import ServicesWorkflow from "./components/ServicesWorkflow";
 import SearchModal from "./components/SearchModal";
-import ContextAssessmentModal from "./components/ContextAssessmentModal";
 
 export default function Home() {
   const [searchOpen, setSearchOpen] = useState(false);
-  const [assessmentOpen, setAssessmentOpen] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       if (params.get("search") === "true") {
         setSearchOpen(true);
-      }
-      if (params.get("assessment") === "true") {
-        setAssessmentOpen(true);
       }
     }
   }, []);
@@ -34,8 +29,8 @@ export default function Home() {
     <div className="relative min-h-screen bg-[#FDFBF7] text-[#4A3B33] selection:bg-[#B45309]/20 selection:text-[#B45309]">
       {/* Floating Pill Header / Navigation */}
       <Navbar 
-        onOpenSearch={() => setSearchOpen(true)} 
-        onOpenAssessment={() => setAssessmentOpen(true)}
+        onOpenSearch={() => setSearchOpen(true)}
+        onOpenAssessment={() => {}}
       />
 
       {/* Main Content Sections */}
@@ -89,16 +84,10 @@ export default function Home() {
       <Footer />
 
       {/* ⌘K Quick Search Modal & Fixed Floating Bottom Dock */}
-      <SearchModal 
-        isOpen={searchOpen} 
-        onOpen={() => setSearchOpen(true)} 
-        onClose={() => setSearchOpen(false)} 
-      />
-
-      {/* Interactive Context Assessment Diagnostic Modal */}
-      <ContextAssessmentModal
-        isOpen={assessmentOpen}
-        onClose={() => setAssessmentOpen(false)}
+      <SearchModal
+        isOpen={searchOpen}
+        onOpen={() => setSearchOpen(true)}
+        onClose={() => setSearchOpen(false)}
       />
     </div>
   );

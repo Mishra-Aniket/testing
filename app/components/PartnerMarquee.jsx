@@ -57,7 +57,7 @@ export default function PartnerMarquee() {
         <div className="h-px w-full bg-[#E4D9BC] flex-1" />
         <span className="shrink-0 font-mono text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#78716C] flex items-center gap-2">
           <span className="h-[6px] w-[6px] bg-[#B45309]" />
-          Featured Projects &amp; Systems Engineered by Aniket
+          Featured Projects &amp; Production Systems
         </span>
         <div className="h-px w-full bg-[#E4D9BC] flex-1" />
       </div>

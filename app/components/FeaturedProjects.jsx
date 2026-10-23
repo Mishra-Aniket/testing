@@ -9,7 +9,44 @@ import Project3DVisualizer from "./Project3DVisualizer";
 
 export default function FeaturedProjects() {
   const [activeStep, setActiveStep] = useState(0);
+  const [repoStats, setRepoStats] = useState({});
   const projects = PROJECTS;
+
+  // Live GitHub stars/forks for cards with a real repo URL (skips bare profile links)
+  useEffect(() => {
+    const repoUrls = [...new Set(
+      projects
+        .map((p) => p.githubUrl)
+        .filter((u) => typeof u === "string" && u.startsWith("https://github.com/") && u.replace(/^https:\/\/github\.com\//, "").split("/").filter(Boolean).length >= 2)
+    )];
+
+    let cancelled = false;
+    Promise.all(
+      repoUrls.map(async (url) => {
+        try {
+          const res = await fetch(`https://api.github.com/repos/${url.replace(/^https:\/\/github\.com\//, "")}`, {
+            headers: { Accept: "application/vnd.github+json" },
+          });
+          if (!res.ok) return null;
+          const json = await res.json();
+          return [url, { stars: json.stargazers_count ?? 0, forks: json.forks_count ?? 0 }];
+        } catch {
+          return null;
+        }
+      })
+    ).then((results) => {
+      if (cancelled) return;
+      const map = {};
+      results.forEach((r) => {
+        if (r) map[r[0]] = r[1];
+      });
+      setRepoStats(map);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [projects]);
 
   // High-performance IntersectionObserver: updates active step on scroll without thread lag
   useEffect(() => {
@@ -254,8 +291,8 @@ export default function FeaturedProjects() {
                 <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
                   {project.liveUrl === "Live Demo Will Be Provided Soon" || !project.liveUrl?.startsWith("http") ? (
                     <span className="inline-flex items-center gap-2 font-mono text-xs font-semibold text-[#78716C] bg-[#FAF6EE] px-3 py-1.5 rounded-[var(--radius)] border border-[#E4D9BC]">
-                      <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-                      <span>Live Demo Will Be Provided Soon</span>
+                      <span className="w-2 h-2 rounded-full bg-[#B45309]/70" />
+                      <span>Private Deployment · Source on GitHub</span>
                     </span>
                   ) : (
                     <a
@@ -296,6 +333,14 @@ export default function FeaturedProjects() {
                       >
                         <Github className="w-3.5 h-3.5" />
                         <span>Source Code</span>
+                        {repoStats[project.githubUrl]?.stars > 0 && (
+                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-[#B45309]/[0.07] border border-[#B45309]/20 text-[#B45309] font-bold text-[10px]" title={`${repoStats[project.githubUrl].stars} stars · ${repoStats[project.githubUrl].forks} forks on GitHub`}>
+                            <svg viewBox="0 0 24 24" fill="currentColor" className="w-2.5 h-2.5" aria-hidden="true">
+                              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                            </svg>
+                            {repoStats[project.githubUrl].stars}
+                          </span>
+                        )}
                       </a>
                     )}
                   </div>

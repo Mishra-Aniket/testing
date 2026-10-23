@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2, Copy } from "lucide-react";
 import { motion } from "framer-motion";
 import { sound } from "../utils/sound";
 
@@ -43,10 +43,10 @@ function AnimatedStats() {
     return () => observer.disconnect();
   }, []);
 
-  const latency = useCountUp(300, 0, started);
-  const halluc = useCountUp(99.7, 1, started);
-  const debug = useCountUp(20, 0, started);
-  const api = useCountUp(1, 0, started);
+  const contribs = useCountUp(699, 0, started);
+  const repos = useCountUp(64, 0, started);
+  const centers = useCountUp(500, 0, started);
+  const weeks = useCountUp(4, 0, started);
 
   const statWrap = "py-10 sm:py-12 sm:pr-8 lg:pr-10 border-white/[0.08]";
   const statWrapL = " border-t sm:border-t-0 sm:border-l sm:pl-8 lg:pl-10";
@@ -55,43 +55,43 @@ function AnimatedStats() {
   const subCls = "font-mono text-[10.5px] uppercase tracking-[0.14em] leading-relaxed text-[#A8A29E]";
 
   return (
-    <div ref={ref} className="relative mx-auto px-6 lg:px-8 max-w-[1200px] pt-24 md:pt-32 pb-4" aria-label="Aniket AI in numbers">
+    <div ref={ref} className="relative mx-auto px-6 lg:px-8 max-w-[1200px] pt-24 md:pt-32 pb-4" aria-label="Aniket Mishra in numbers">
       <div aria-hidden="true" className="h-px w-full bg-white/[0.1] mb-2" />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         <div className={statWrap}>
           <div className="h-full flex flex-col">
             <div className={numCls}>
-              <span className="text-[#E4C090]">&lt; </span>{latency}<span className="text-[#E4C090]">ms</span>
+              {contribs}<span className="text-[#E4C090]">+</span>
             </div>
-            <div className={titleCls}>context retrieval latency</div>
-            <div className={subCls}>p95 across all query types</div>
+            <div className={titleCls}>GitHub contributions</div>
+            <div className={subCls}>last 12 months, 2 profiles</div>
           </div>
         </div>
         <div className={statWrap + statWrapL}>
           <div className="h-full flex flex-col">
             <div className={numCls}>
-              {halluc.toFixed(1)}<span className="text-[#E4C090]">%</span>
+              {repos}<span className="text-[#E4C090]"> repos</span>
             </div>
-            <div className={titleCls}>reduction in hallucinations</div>
-            <div className={subCls}>on domain-specific tasks</div>
+            <div className={titleCls}>shipped &amp; public</div>
+            <div className={subCls}>extensions, pipelines &amp; tools</div>
           </div>
         </div>
         <div className={statWrap + " border-t lg:border-t-0 lg:border-l lg:pl-10"}>
           <div className="h-full flex flex-col">
             <div className={numCls}>
-              {debug}<span className="text-[#E4C090]">×</span>
+              {centers}<span className="text-[#E4C090]">+</span>
             </div>
-            <div className={titleCls}>faster agent debugging</div>
-            <div className={subCls}>with context traces vs raw logs</div>
+            <div className={titleCls}>centers on production system</div>
+            <div className={subCls}>Centrix ingestion pipeline</div>
           </div>
         </div>
         <div className={statWrap + " border-t sm:border-l sm:pl-8 lg:border-t-0 lg:pl-10"}>
           <div className="h-full flex flex-col">
             <div className={numCls}>
-              {api}<span className="text-[#E4C090]"> API</span>
+              &lt; {weeks}<span className="text-[#E4C090]"> wks</span>
             </div>
-            <div className={titleCls}>replaces 4 infra pieces</div>
-            <div className={subCls}>vector DB, graph DB, cache, logger</div>
+            <div className={titleCls}>typical MVP sprint</div>
+            <div className={subCls}>wireframe to launched</div>
           </div>
         </div>
       </div>
@@ -102,6 +102,7 @@ function AnimatedStats() {
 export default function DarkCTA({ showStats = false }) {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [emailCopied, setEmailCopied] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -243,9 +244,28 @@ export default function DarkCTA({ showStats = false }) {
               )}
 
               <div className="mt-7 flex flex-col gap-3 border-t border-white/[0.08] pt-6 sm:flex-row sm:gap-6 font-mono text-xs">
-                <a href="mailto:hello@aniket.one" className="text-[#E4C090] hover:underline font-semibold">
-                  Direct Email: hello@aniket.one →
-                </a>
+                <span className="inline-flex items-center gap-2">
+                  <a href="mailto:hello@aniket.one" className="text-[#E4C090] hover:underline font-semibold">
+                    Direct Email: hello@aniket.one →
+                  </a>
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      try {
+                        await navigator.clipboard.writeText("hello@aniket.one");
+                        setEmailCopied(true);
+                        setTimeout(() => setEmailCopied(false), 1600);
+                      } catch {
+                        /* clipboard unavailable */
+                      }
+                    }}
+                    className="text-[#A8A29E] hover:text-[#E4C090] transition-colors cursor-pointer"
+                    aria-label="Copy email address"
+                    title="Copy email address"
+                  >
+                    {emailCopied ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                  </button>
+                </span>
                 <a href="#how-it-works" className="text-[#E4C090] hover:underline font-semibold">
                   View Workflow →
                 </a>

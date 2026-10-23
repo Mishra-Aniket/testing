@@ -40,7 +40,7 @@ export default function Hero() {
             {/* Main Heading */}
             <h1 id="hero-heading" className="font-serif text-[clamp(2.25rem,4.4vw,3.65rem)] font-medium tracking-[-0.03em] text-[#4A3B33] leading-[1.12] max-w-[34rem] text-balance">
               Building Fast Web Apps &amp;{' '}
-              <span className="text-[#B45309] italic font-normal">Modern Software.</span>
+              <span className="text-[#B45309] italic font-normal">Production-Grade Systems.</span>
             </h1>
 
             {/* Subtitle - Simple, direct, no resume fluff */}
@@ -67,20 +67,20 @@ export default function Hero() {
               </Link>
             </div>
 
-            {/* Clean Telemetry Stats Row */}
+            {/* Verifiable stats row — no invented metrics */}
             <div className="pt-2">
               <dl className="grid items-stretch border-y border-[#E4D9BC]/80 w-fit" style={{ gridTemplateColumns: 'repeat(3, auto)' }}>
                 <div className="flex flex-col gap-1 py-3.5 pr-5 sm:pr-8">
                   <dt className="order-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#78716C] whitespace-nowrap">
-                    Super Fast Speed
+                    GitHub Commits · 12 mo
                   </dt>
                   <dd className="order-1 text-[1.125rem] whitespace-nowrap font-semibold tracking-tight text-[#4A3B33] tabular-nums font-mono">
-                    &lt; 80ms
+                    699+
                   </dd>
                 </div>
                 <div className="flex flex-col gap-1 py-3.5 px-5 sm:px-8 border-l border-[#E4D9BC]/80">
                   <dt className="order-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#78716C] whitespace-nowrap">
-                    Fast MVP Launch
+                    Typical MVP Sprint
                   </dt>
                   <dd className="order-1 text-[1.125rem] whitespace-nowrap font-semibold tracking-tight text-[#4A3B33] tabular-nums font-mono">
                     2–4 Weeks
@@ -88,10 +88,10 @@ export default function Hero() {
                 </div>
                 <div className="flex flex-col gap-1 py-3.5 pl-5 sm:pl-8 border-l border-[#E4D9BC]/80">
                   <dt className="order-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#78716C] whitespace-nowrap">
-                    Full Code Ownership
+                    Code Ownership
                   </dt>
                   <dd className="order-1 text-[1.125rem] whitespace-nowrap font-semibold tracking-tight text-[#4A3B33] tabular-nums font-mono">
-                    100% Handover
+                    100% Yours
                   </dd>
                 </div>
               </dl>

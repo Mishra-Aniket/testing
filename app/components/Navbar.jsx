@@ -129,12 +129,13 @@ const NAV_LEARN = [
     badge: "Case Studies",
     href: "/use-cases",
   },
-  {
-    title: "Student Perks & Grants",
-    tagline: "Free 1-on-1 mentorship, code reviews & MVP grants",
-    badge: "100% Free",
-    href: "/students",
-  },
+  // Students section hidden — kept in code, re-enable by uncommenting.
+  // {
+  //   title: "Student Perks & Grants",
+  //   tagline: "Free 1-on-1 mentorship, code reviews & MVP grants",
+  //   badge: "100% Free",
+  //   href: "/students",
+  // },
 ];
 
 export default function Navbar({
@@ -594,7 +595,8 @@ export default function Navbar({
               )}
             </Link>
 
-            {/* Learn Dropdown */}
+            {/* Learn & Docs dropdown hidden permanently — kept inactive in code, re-enable by removing the {false && ( ... )} wrapper */}
+            {false && (
             <div
               className="relative"
               onMouseEnter={() => setActiveDropdown('learn')}
@@ -688,8 +690,10 @@ export default function Navbar({
                 )}
               </AnimatePresence>
             </div>
+            )}
 
-            {/* Student Offers Link */}
+            {/* Students link hidden — kept inactive in code, re-enable by removing the {false && ( ... )} wrapper */}
+            {false && (
             <Link
               href="/students"
               onClick={() => sound.playClick()}
@@ -711,6 +715,7 @@ export default function Navbar({
                 }`} />
               )}
             </Link>
+            )}
           </div>
 
           {/* Right CTA */}
@@ -840,6 +845,26 @@ export default function Navbar({
               </AnimatePresence>
             </div>
 
+            {/* Search Trigger (⌘K) */}
+            <button
+              type="button"
+              onClick={() => {
+                sound.playClick();
+                onOpenSearch();
+              }}
+              className="nav-btn-ghost inline-flex items-center gap-2 px-2.5 py-1.5 rounded-[var(--radius)] font-mono text-[11px] font-semibold border transition-all duration-200 cursor-pointer"
+              title="Search the site (⌘K)"
+              aria-label="Open search"
+            >
+              <Search className="w-3.5 h-3.5" />
+              <span className="hidden xl:inline">Search</span>
+              <kbd className={`hidden xl:inline-flex items-center rounded border px-1.5 py-0.5 text-[9.5px] font-bold ${
+                isDarkTheme ? "border-white/15 bg-white/[0.06] text-[#A8A29E]" : "border-[#E4D9BC] bg-[#FAF6EE] text-[#A8A29E]"
+              }`}>
+                ⌘K
+              </kbd>
+            </button>
+
             {/* Audio Toggle Button */}
             <button
               onClick={handleToggleSound}
@@ -855,7 +880,7 @@ export default function Navbar({
             </button>
 
             <Link
-              href="#get-access"
+              href={pathname.includes('/pricing') ? '#propose' : '#get-access'}
               onClick={() => sound.playClick()}
               className="group inline-flex items-center gap-2 rounded-[var(--radius)] bg-[#B45309] px-5 py-2 text-[0.8125rem] font-bold text-white shadow-[var(--shadow-soft)] transition-all duration-200 hover:-translate-y-px hover:bg-[#A16207]"
             >
@@ -945,6 +970,31 @@ export default function Navbar({
                 <div className={`flex flex-col divide-y ${
                   isDarkTheme ? "divide-white/[0.08]" : "divide-[#E4D9BC]/50"
                 }`}>
+                  {/* 0. Search trigger */}
+                  <div className="py-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        sound.playClick();
+                        setMobileMenuOpen(false);
+                        onOpenSearch();
+                      }}
+                      className="w-full flex items-center justify-between py-1.5 text-left group cursor-pointer"
+                    >
+                      <span className={`text-[17px] font-serif font-medium transition-colors flex items-center gap-2 ${
+                        isDarkTheme ? "text-[#F5F5F4] group-hover:text-[#E4C090]" : "text-[#4A3B33] group-hover:text-[#B45309]"
+                      }`}>
+                        <Search className="w-4 h-4 opacity-70" />
+                        Search Site
+                      </span>
+                      <span className={`font-mono text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border ${
+                        isDarkTheme ? "border-white/15 text-[#A8A29E]" : "border-[#E4D9BC] text-[#A8A29E]"
+                      }`}>
+                        ⌘K
+                      </span>
+                    </button>
+                  </div>
+
                   {/* 1. Projects Accordion */}
                   <div className="py-2">
                     <button
@@ -1159,7 +1209,8 @@ export default function Navbar({
                     </Link>
                   </div>
 
-                  {/* 5. Student Offers (Free) */}
+                  {/* 5. Student Offers (Free) — hidden, kept inactive in code; re-enable by removing the {false && ( ... )} wrapper */}
+                  {false && (
                   <div className="py-2">
                     <Link
                       href="/students"
@@ -1184,8 +1235,10 @@ export default function Navbar({
                       }`} />
                     </Link>
                   </div>
+                  )}
 
-                  {/* 6. Learn & Docs Accordion */}
+                  {/* 6. Learn & Docs Accordion — hidden permanently, kept inactive in code; re-enable by removing the {false && ( ... )} wrapper */}
+                  {false && (
                   <div className="py-2">
                     <button
                       type="button"
@@ -1261,6 +1314,7 @@ export default function Navbar({
                       )}
                     </AnimatePresence>
                   </div>
+                  )}
                 </div>
 
                 {/* Bottom Drawer Actions with Social Profiles + CTA */}
@@ -1320,7 +1374,7 @@ export default function Navbar({
 
                   {/* Primary Call to Action Button */}
                   <Link
-                    href="#get-access"
+                    href={pathname.includes('/pricing') ? '#propose' : '#get-access'}
                     onClick={() => {
                       sound.playClick();
                       setMobileMenuOpen(false);

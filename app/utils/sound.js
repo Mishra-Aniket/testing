@@ -4,7 +4,9 @@
 class SoundEngine {
   constructor() {
     this.ctx = null;
-    this.enabled = true;
+    // Sounds are off by default (professional visitors); users can enable
+    // via the navbar toggle, which persists the choice in localStorage.
+    this.enabled = false;
     this.hasUnlocked = false;
     this.initializedListeners = false;
     this.lastClickTime = 0;

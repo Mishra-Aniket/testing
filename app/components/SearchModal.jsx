@@ -26,7 +26,8 @@ import {
   Cloud,
   Palette,
   Globe,
-  Database
+  Database,
+  Clock
 } from "lucide-react";
 import {
   PROJECTS,
@@ -37,6 +38,7 @@ import {
   FAQS,
   SITE_PAGES
 } from "../data/portfolioData";
+import { BLOG_ARTICLES } from "../data/blogArticles";
 
 // Icon mapping helper
 const ICON_MAP = {
@@ -78,12 +80,13 @@ const QUICK_LINKS = [
     href: "/#stack",
     icon: Layers
   },
-  {
-    id: "quick-students",
-    label: "Students",
-    href: "/students",
-    icon: GraduationCap
-  },
+  // Students quick link hidden — kept in code, re-enable by uncommenting.
+  // {
+  //   id: "quick-students",
+  //   label: "Students",
+  //   href: "/students",
+  //   icon: GraduationCap
+  // },
   {
     id: "quick-walkthrough",
     label: "Architecture",
@@ -186,6 +189,57 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [recentSearches, setRecentSearches] = useState([]);
+
+  // Recent searches: persisted locally, shown when the query is empty
+  useEffect(() => {
+    if (isOpen && typeof window !== "undefined") {
+      try {
+        setRecentSearches(JSON.parse(localStorage.getItem("aniket_recent_searches") || "[]"));
+      } catch {
+        setRecentSearches([]);
+      }
+    }
+  }, [isOpen]);
+
+  const saveRecentSearch = (q) => {
+    if (!q || typeof window === "undefined") return;
+    setRecentSearches((prev) => {
+      const next = [q, ...prev.filter((s) => s !== q)].slice(0, 5);
+      try {
+        localStorage.setItem("aniket_recent_searches", JSON.stringify(next));
+      } catch {
+        /* storage unavailable — recent searches just stay in-memory */
+      }
+      return next;
+    });
+  };
+
+  const clearRecentSearches = () => {
+    setRecentSearches([]);
+    try {
+      localStorage.removeItem("aniket_recent_searches");
+    } catch {
+      /* noop */
+    }
+  };
+
+  // Wrap matched query terms in the label with a subtle highlight
+  const highlightMatch = (text, q) => {
+    const terms = String(q || "").trim().split(/\s+/).filter(Boolean);
+    if (!terms.length || !text) return text;
+    const escaped = terms.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+    const parts = String(text).split(new RegExp(`(${escaped.join("|")})`, "ig"));
+    return parts.map((part, i) =>
+      i % 2 === 1 ? (
+        <mark key={i} className="bg-[#E4C090]/45 text-inherit rounded-[3px] px-0.5">
+          {part}
+        </mark>
+      ) : (
+        part
+      )
+    );
+  };
   const [studentOffers, setStudentOffers] = useState([]);
 
   const [isOverDark, setIsOverDark] = useState(false);
@@ -549,6 +603,19 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
       });
     });
 
+    // 6. Blog Articles
+    (BLOG_ARTICLES || []).forEach((a) => {
+      list.push({
+        id: `blog-${a.slug}`,
+        label: a.title,
+        href: `/blog/${a.slug}`,
+        icon: BookOpen,
+        category: "article",
+        sublabel: `${a.tag} · ${a.readTime}`,
+        keywords: `${a.title} ${a.excerpt} ${a.tag} ${a.keywords?.join(" ")} blog article`.toLowerCase()
+      });
+    });
+
     return list;
   }, [isStudentsPage, studentOffers]);
 
@@ -567,6 +634,9 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
 
   const handleItemClick = (item) => {
     sound.playClick();
+    if (query.trim()) {
+      saveRecentSearch(query.trim());
+    }
     onClose();
 
     // 1. If it's a student quick-action filter (e.g. click category chip from empty search)
@@ -875,6 +945,36 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                     scrollbarWidth: "none"
                   }}
                 >
+                  {!query.trim() && !isStudentsPage && recentSearches.length > 0 && (
+                    <div className="px-2 pt-1 pb-2">
+                      <div className="flex items-center justify-between px-2 pb-1">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-[#A8A29E] select-none">Recent</span>
+                        <button
+                          type="button"
+                          onClick={clearRecentSearches}
+                          className="text-[10px] font-mono uppercase tracking-wider text-[#A8A29E] hover:text-[#B45309] cursor-pointer transition-colors"
+                        >
+                          Clear
+                        </button>
+                      </div>
+                      {recentSearches.map((rs) => (
+                        <button
+                          key={rs}
+                          type="button"
+                          onClick={() => {
+                            sound.playClick();
+                            setQuery(rs);
+                            setSelectedIndex(0);
+                            inputRef.current?.focus();
+                          }}
+                          className="w-full flex items-center gap-3 rounded-md px-3 py-2 text-sm text-[#57534E] hover:bg-[#F3ECE0]/70 transition-colors cursor-pointer text-left"
+                        >
+                          <Clock className="w-4 h-4 shrink-0 text-[#78716C]" />
+                          <span className="truncate text-[13.5px]">{rs}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                   {displayedItems.length === 0 ? (
                     <div className="py-8 text-center text-xs text-[#78716C] font-mono">
                       No results found for &ldquo;{query}&rdquo;
@@ -919,7 +1019,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
                               <span className="truncate text-[13.5px] font-medium">
-                                {item.label}
+                                {query.trim() ? highlightMatch(item.label, query) : item.label}
                               </span>
                               {item.category && (
                                 <span className="font-mono text-[9.5px] uppercase tracking-wider px-1.5 py-0.2 rounded bg-white/[0.08] text-[#E4C090] shrink-0 border border-white/[0.1]">

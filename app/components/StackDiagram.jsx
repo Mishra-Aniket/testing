@@ -265,7 +265,7 @@ export default function StackDiagram() {
                 fontFamily="JetBrains Mono, monospace"
                 letterSpacing="0.2"
               >
-                &lt;80ms · 500+ Centers · Verified
+                500+ Centers · 20K Lectures/Day · Production
               </text>
               <circle cx="348" cy="77" r="6.5" fill="#B45309" />
               <path

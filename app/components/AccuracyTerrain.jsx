@@ -1,8 +1,100 @@
 "use client";
 
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { sound } from "../utils/sound";
 import { X, ArrowUpRight } from "lucide-react";
+
+// ---- Live GitHub data (client-side; static export has no server) ----
+// Contribution calendar via the public jogruber mirror of GitHub's calendar,
+// profile stats via the GitHub REST API. Both unauthenticated; silent
+// fallback to the curated static numbers below if the network fails.
+
+const GH_USERS = { aniket0: "aniketmishra-0", mishra: "Mishra-Aniket" };
+const MONTH_IDX = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+
+async function fetchCalendar(user, signal) {
+  const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${user}?y=last`, { signal });
+  if (!res.ok) throw new Error(`calendar ${res.status}`);
+  const json = await res.json();
+  return json.contributions || [];
+}
+
+async function fetchProfile(user, signal) {
+  const res = await fetch(`https://api.github.com/users/${user}`, { signal });
+  if (!res.ok) throw new Error(`profile ${res.status}`);
+  return res.json();
+}
+
+async function fetchLastPush(user, signal) {
+  const res = await fetch(`https://api.github.com/users/${user}/events/public?per_page=30`, { signal });
+  if (!res.ok) throw new Error(`events ${res.status}`);
+  const events = await res.json();
+  const push = (events || []).find((e) => e.type === "PushEvent");
+  return push ? push.created_at : null;
+}
+
+function useLiveContributions() {
+  const [live, setLive] = useState(null);
+
+  useEffect(() => {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 9000);
+
+    (async () => {
+      try {
+        const [cal0, calM, prof0, profM, lastPush] = await Promise.all([
+          fetchCalendar(GH_USERS.aniket0, ctrl.signal).catch(() => []),
+          fetchCalendar(GH_USERS.mishra, ctrl.signal).catch(() => []),
+          fetchProfile(GH_USERS.aniket0, ctrl.signal).catch(() => null),
+          fetchProfile(GH_USERS.mishra, ctrl.signal).catch(() => null),
+          fetchLastPush(GH_USERS.aniket0, ctrl.signal).catch(() => null),
+        ]);
+        if (!cal0.length && !calM.length) return;
+
+        const byDate0 = new Map(cal0.map((d) => [d.date, d.count]));
+        const byDateM = new Map(calM.map((d) => [d.date, d.count]));
+
+        const months = MONTHS.map((mo) => {
+          const [mon, yy] = mo.label.split(" ");
+          const start = Date.UTC(2000 + Number(yy), MONTH_IDX[mon], 1);
+          let a = 0;
+          let m = 0;
+          for (let i = 0; i < mo.days; i++) {
+            const key = new Date(start + i * 86400000).toISOString().slice(0, 10);
+            a += byDate0.get(key) || 0;
+            m += byDateM.get(key) || 0;
+          }
+          return { ...mo, aniket0: a, mishra: m, combined: a + m };
+        });
+
+        const totals = {
+          aniket0: months.reduce((s, x) => s + x.aniket0, 0),
+          mishra: months.reduce((s, x) => s + x.mishra, 0),
+        };
+        totals.combined = totals.aniket0 + totals.mishra;
+
+        const repos = {
+          aniket0: prof0?.public_repos ?? null,
+          mishra: profM?.public_repos ?? null,
+        };
+        repos.combined = repos.aniket0 != null && repos.mishra != null ? repos.aniket0 + repos.mishra : null;
+
+        setLive({ months, totals, repos, lastPushAt: lastPush, at: Date.now() });
+      } catch {
+        /* offline or API down — curated static data stays */
+      } finally {
+        clearTimeout(timer);
+      }
+    })();
+
+    return () => {
+      clearTimeout(timer);
+      ctrl.abort();
+    };
+  }, []);
+
+  return live;
+}
 
 // 12 Months of real GitHub contribution timeline with verified project releases & dates
 const MONTHS = [
@@ -357,8 +449,39 @@ const Y_TICKS = [0, 50, 100, 150, 200];
 
 export default function AccuracyTerrain() {
   const svgRef = useRef(null);
+  const live = useLiveContributions();
 
-  // Default resting scrub position: May 2026 (index 6, where peak 173 contributions occurred)
+  // Live months/series when GitHub data arrived; curated static otherwise
+  const months = live ? live.months : MONTHS;
+  const series = useMemo(
+    () =>
+      SERIES.map((s) =>
+        live
+          ? {
+              ...s,
+              points: live.months.map((mo) => mo[s.key]),
+              total: live.totals[s.key] ?? s.total,
+              repos: live.repos[s.key] ?? s.repos,
+            }
+          : s
+      ),
+    [live]
+  );
+  const totals = live ? live.totals : { combined: 699, aniket0: 601, mishra: 98 };
+  const repos = live && live.repos.combined != null ? live.repos : { combined: 64, aniket0: 35, mishra: 29 };
+  const peakMonth = useMemo(() => months.reduce((best, mo) => (mo.combined > best.combined ? mo : best), months[0]), [months]);
+
+  // Relative time for the last-push activity chip
+  const lastPushLabel = useMemo(() => {
+    if (!live?.lastPushAt) return null;
+    const mins = Math.max(0, Math.round((live.at - new Date(live.lastPushAt).getTime()) / 60000));
+    if (mins < 60) return `${mins}m ago`;
+    const hrs = Math.round(mins / 60);
+    if (hrs < 24) return `${hrs}h ago`;
+    return `${Math.round(hrs / 24)}d ago`;
+  }, [live]);
+
+  // Default resting scrub position: peak sprint month
   const defaultParked = (6 / (MONTHS.length - 1)) * 520;
   const [parked, setParked] = useState(defaultParked);
   const [scrub, setScrub] = useState(null);
@@ -398,13 +521,13 @@ export default function AccuracyTerrain() {
   const N = scrub !== null ? scrub : parked;
   const monthFloat = (N / 520) * (MONTHS.length - 1);
   const nearestMonthIdx = Math.round(monthFloat);
-  const clampedMonthIdx = Math.max(0, Math.min(MONTHS.length - 1, nearestMonthIdx));
-  const currentMonthData = MONTHS[clampedMonthIdx];
+  const clampedMonthIdx = Math.max(0, Math.min(months.length - 1, nearestMonthIdx));
+  const currentMonthData = months[clampedMonthIdx];
 
   // Live interpolated values
   const interpolatedValues = useMemo(() => {
-    return SERIES.map((s) => interpolateSeries(s.points, N));
-  }, [N]);
+    return series.map((s) => interpolateSeries(s.points, N));
+  }, [N, series]);
 
   // Pointer move handler using SVG CTM inverse projection
   const handlePointerMove = (e) => {
@@ -449,12 +572,17 @@ export default function AccuracyTerrain() {
         {/* Section Header */}
         <div className="text-center mb-8 md:mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#E4D9BC] bg-white text-[#B45309] font-mono text-[11px] font-bold tracking-wider uppercase mb-3 shadow-2xs">
-            <span className="w-2 h-2 rounded-full bg-[#B45309] animate-pulse" />
-            <span>Real GitHub Contribution Terrain · 2 Active Profiles</span>
+            <span className={`w-2 h-2 rounded-full ${live ? "bg-emerald-600" : "bg-[#B45309]"} animate-pulse`} />
+            <span>{live ? "Live GitHub Contribution Terrain · Real-Time Sync" : "Real GitHub Contribution Terrain · 2 Active Profiles"}</span>
+            {lastPushLabel && (
+              <span className="ml-1 pl-2 border-l border-[#E4D9BC] text-emerald-700 normal-case tracking-normal">
+                last push {lastPushLabel}
+              </span>
+            )}
           </div>
           <h2 className="text-[clamp(1.75rem,3.2vw,2.5rem)] leading-tight font-serif font-bold text-[#4A3B33] text-balance">
-            699+ Contributions &amp;{" "}
-            <span className="text-[#B45309] italic font-normal">64 Repositories</span>.
+            {totals.combined}+ Contributions &amp;{" "}
+            <span className="text-[#B45309] italic font-normal">{repos.combined} Repositories</span>.
           </h2>
           <p className="mt-2 text-sm text-[#78716C] max-w-2xl mx-auto font-sans">
             Live 3D telemetry visualized across both GitHub accounts:{" "}
@@ -493,7 +621,7 @@ export default function AccuracyTerrain() {
                   : "bg-white text-[#78716C] border border-[#E4D9BC] hover:text-[#4A3B33]"
               }`}
             >
-              All Activity (699 Total)
+              All Activity ({totals.combined} Total)
             </button>
             <button
               onClick={() => {
@@ -506,7 +634,7 @@ export default function AccuracyTerrain() {
                   : "bg-white text-[#78716C] border border-[#E4D9BC] hover:text-[#059669]"
               }`}
             >
-              @aniketmishra-0 (601 Commits · 35 Repos)
+              @aniketmishra-0 ({totals.aniket0} Commits · {repos.aniket0} Repos)
             </button>
             <button
               onClick={() => {
@@ -519,7 +647,7 @@ export default function AccuracyTerrain() {
                   : "bg-white text-[#78716C] border border-[#E4D9BC] hover:text-[#6366F1]"
               }`}
             >
-              @Mishra-Aniket (98 Commits · 29 Repos)
+              @Mishra-Aniket ({totals.mishra} Commits · {repos.mishra} Repos)
             </button>
           </div>
         </div>
@@ -569,7 +697,7 @@ export default function AccuracyTerrain() {
                   <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
-              {SERIES.map((s) => (
+              {series.map((s) => (
                 <linearGradient key={s.key} id={`bmWall-${s.key}`} x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor={s.color} stopOpacity={s.key === "combined" ? 0.36 : 0.28} />
                   <stop offset="100%" stopColor={s.color} stopOpacity="0.04" />
@@ -706,7 +834,7 @@ export default function AccuracyTerrain() {
               })}
 
               {/* Series baseline tracks */}
-              {SERIES.map((s) => (
+              {series.map((s) => (
                 <line
                   key={s.key}
                   x1={u(-24, s.v).x}
@@ -744,7 +872,7 @@ export default function AccuracyTerrain() {
             </g>
 
             {/* 3D Contribution Ribbons & Extrusion Walls */}
-            {SERIES.map((s, sIdx) => {
+            {series.map((s, sIdx) => {
               const isDimmed =
                 (activeIdx !== null && activeIdx !== sIdx) ||
                 (filterAccount !== "all" && filterAccount !== s.key && s.key !== "combined");
@@ -856,7 +984,7 @@ export default function AccuracyTerrain() {
               })()}
 
               {/* 3 Live Indicator Dots on the curves */}
-              {SERIES.map((s, sIdx) => {
+              {series.map((s, sIdx) => {
                 const val = interpolatedValues[sIdx];
                 const pt = u(N, s.v, (val / 200) * 180);
                 const isDimmed =
@@ -893,7 +1021,7 @@ export default function AccuracyTerrain() {
               </text>
 
               {/* Series Rows */}
-              {SERIES.map((s, sIdx) => {
+              {series.map((s, sIdx) => {
                 const yPos = 132 + 46 * sIdx;
                 const isDimmed =
                   (activeIdx !== null && activeIdx !== sIdx) ||
@@ -947,14 +1075,14 @@ export default function AccuracyTerrain() {
                   TOTAL VERIFIED OUTPUT
                 </text>
                 <text x="744" y="344" fill="#B45309" fontSize="20" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">
-                  699+ Commits
+                  {totals.combined}+ Commits
                 </text>
                 <text x="744" y="362" fill="#059669" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600">
-                  64 Repositories Across Both Accounts
+                  {repos.combined} Repositories Across Both Accounts
                 </text>
 
                 <text x="744" y="380" fill="#78716C" fontSize="7.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4">
-                  Peak: 173 (May 2026) · All-Time
+                  Peak: {peakMonth.combined} ({peakMonth.month}) · All-Time
                 </text>
               </g>
             </g>
@@ -1081,7 +1209,7 @@ export default function AccuracyTerrain() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius)] bg-white border border-[#E4D9BC] font-mono text-xs font-semibold text-[#4A3B33] shadow-xs hover:border-[#059669] hover:text-[#059669] transition-all"
           >
             <span className="w-2 h-2 rounded-full bg-[#059669]" />
-            <span>Open @aniketmishra-0 Profile (35 Repos · 601 Commits) ↗</span>
+            <span>Open @aniketmishra-0 Profile ({repos.aniket0} Repos · {totals.aniket0} Commits) ↗</span>
           </a>
           <a
             href="https://github.com/Mishra-Aniket"
@@ -1091,7 +1219,7 @@ export default function AccuracyTerrain() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius)] bg-white border border-[#E4D9BC] font-mono text-xs font-semibold text-[#4A3B33] shadow-xs hover:border-[#6366F1] hover:text-[#6366F1] transition-all"
           >
             <span className="w-2 h-2 rounded-full bg-[#6366F1]" />
-            <span>Open @Mishra-Aniket Profile (29 Repos · 98 Commits) ↗</span>
+            <span>Open @Mishra-Aniket Profile ({repos.mishra} Repos · {totals.mishra} Commits) ↗</span>
           </a>
         </div>
       </div>
