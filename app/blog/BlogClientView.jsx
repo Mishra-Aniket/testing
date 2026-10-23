@@ -1,15 +1,17 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../components/Navbar";
 import DarkCTA from "../components/DarkCTA";
 import Footer from "../components/Footer";
 import SearchModal from "../components/SearchModal";
 import ConstellationCanvas from "../components/ConstellationCanvas";
-import { Calendar, Clock, ArrowRight, BookOpen, Layers } from "lucide-react";
+import { Calendar, Clock, ArrowRight, BookOpen, Layers, Sparkles } from "lucide-react";
 import { sound } from "../utils/sound";
+import { BLOG_ARTICLES as ARTICLES } from "../data/blogArticles";
 
 function RevealTitle({ text }) {
   const words = text.split(" ");
@@ -38,52 +40,19 @@ function RevealTitle({ text }) {
   );
 }
 
-const ARTICLES = [
-  {
-    slug: "scaling-centrix-500-centers",
-    tag: "Enterprise Architecture",
-    date: "October 2026",
-    readTime: "6 min read",
-    title: "Scaling Centrix: Edge-First Lecture Ingestion Across 500+ Physical Centers",
-    excerpt:
-      "How we engineered an automated ingestion engine for Physics Wallah Vidyapeeth centers pairing OBS capture card recordings with interactive flat panel notes, weighted timetable matching, and direct chunked Google Drive uploads.",
-    author: "Aniket Mishra"
-  },
-  {
-    slug: "building-manifest-v3-extensions",
-    tag: "Browser Engineering",
-    date: "September 2026",
-    readTime: "7 min read",
-    title: "Building Production Chrome Extensions in Manifest V3: OmTabs & OmSpace Case Study",
-    excerpt:
-      "Navigating background service worker lifecycles, chrome.storage.local synchronization, WebAuthn biometric shields, and fast DOM injection without degrading browser frame rates.",
-    author: "Aniket Mishra"
-  },
-  {
-    slug: "zero-ram-video-streaming-pipeline",
-    tag: "Cloud Pipelines",
-    date: "August 2026",
-    readTime: "5 min read",
-    title: "Zero-RAM Media Streaming: Piping Multi-Gigabyte Videos from Drive to YouTube via Node Streams",
-    excerpt:
-      "How Nexus Streamer bypasses server memory bottlenecks using chunk-by-chunk stream transforms and live Server-Sent Events (SSE) telemetry to upload high-res video assets seamlessly.",
-    author: "Aniket Mishra"
-  },
-  {
-    slug: "client-side-ai-image-processing",
-    tag: "Web Performance & AI",
-    date: "July 2026",
-    readTime: "6 min read",
-    title: "Client-Side AI & Image Processing: Running ONNX & WebAssembly in the Browser",
-    excerpt:
-      "Architecting privacy-first web tools where user photos never leave their machine. Implementing on-device background removal and batch conversions using WebAssembly and Web ImageDecoder.",
-    author: "Aniket Mishra"
-  }
-];
+// Article metadata lives in ../data/blogArticles (imported above as ARTICLES)
 
 export default function BlogClientView() {
+  const router = useRouter();
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeTag, setActiveTag] = useState("All");
+
+  const TAGS = useMemo(() => ["All", ...Array.from(new Set(ARTICLES.map((a) => a.tag)))], []);
+  const filteredArticles = useMemo(
+    () => (activeTag === "All" ? ARTICLES : ARTICLES.filter((a) => a.tag === activeTag)),
+    [activeTag]
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -175,63 +144,112 @@ export default function BlogClientView() {
         </header>
 
         {/* Articles List */}
-        <section className="relative mx-auto px-6 lg:px-8 pb-24 md:pb-32 max-w-[848px] space-y-10">
-          {ARTICLES.map((article, idx) => (
-            <motion.article 
-              key={article.slug}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5, delay: idx * 0.08 }}
-              className="group relative rounded-xl border border-[#E4D9BC] bg-white p-7 sm:p-9 shadow-xs hover:border-[#B45309] hover:shadow-[var(--shadow-soft-lg)] transition-all duration-300 cursor-pointer"
-              onClick={() => {
-                sound.playClick();
-                const subject = encodeURIComponent(`Interested in: ${article.title}`);
-                const body = encodeURIComponent(`Hi Aniket,\n\nI'd love to read the full case study on "${article.title}".\n\nPlease let me know when the full article is available.\n\nThanks!`);
-                window.open(`mailto:hello@aniket.one?subject=${subject}&body=${body}`, "_blank");
-              }}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  e.currentTarget.click();
-                }
-              }}
-            >
-              <div className="flex flex-wrap items-center gap-3 mb-4 text-xs font-mono text-[#78716C]">
-                <span className="px-2.5 py-1 rounded bg-[#FAF6EE] text-[#B45309] font-semibold border border-[#E4D9BC]">
-                  {article.tag}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5" />
-                  {article.date}
-                </span>
-                <span>•</span>
-                <span className="flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5" />
-                  {article.readTime}
-                </span>
-              </div>
+        <section className="relative mx-auto px-6 lg:px-8 pb-24 md:pb-32 max-w-[848px]">
+          {/* Topic filter chips */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-wrap items-center gap-2 mb-4"
+            role="tablist"
+            aria-label="Filter articles by topic"
+          >
+            {TAGS.map((tag) => (
+              <button
+                key={tag}
+                type="button"
+                role="tab"
+                aria-selected={activeTag === tag}
+                onClick={() => {
+                  sound.playClick();
+                  setActiveTag(tag);
+                }}
+                className={`font-mono text-[11px] font-semibold uppercase tracking-[0.08em] px-3.5 py-1.5 rounded-full border cursor-pointer transition-all duration-200 ${
+                  activeTag === tag
+                    ? "bg-[#B45309] border-[#B45309] text-[#FDFBF7] shadow-[var(--shadow-soft)]"
+                    : "bg-white border-[#E4D9BC] text-[#78716C] hover:border-[#B45309] hover:text-[#B45309]"
+                }`}
+              >
+                {tag}
+              </button>
+            ))}
+            <span className="ml-auto font-mono text-[11px] text-[#A8A29E]">
+              {filteredArticles.length} {filteredArticles.length === 1 ? "article" : "articles"}
+            </span>
+          </motion.div>
 
-              <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#4A3B33] mb-3 group-hover:text-[#B45309] transition-colors leading-snug">
-                {article.title}
-              </h2>
+          <div className="mt-8 space-y-10">
+            <AnimatePresence mode="popLayout">
+              {filteredArticles.map((article, idx) => {
+                const featured = activeTag === "All" && idx === 0;
+                return (
+                  <motion.article
+                    key={article.slug}
+                    layout
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -12 }}
+                    transition={{ duration: 0.45, delay: idx * 0.06 }}
+                    className={`group relative rounded-xl border border-[#E4D9BC] bg-white p-7 sm:p-9 shadow-xs hover:border-[#B45309] hover:shadow-[var(--shadow-soft-lg)] transition-all duration-300 cursor-pointer ${
+                      featured ? "border-t-[3px] border-t-[#B45309]" : ""
+                    }`}
+                    onClick={() => {
+                      sound.playClick();
+                      router.push(`/blog/${article.slug}`);
+                    }}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        e.currentTarget.click();
+                      }
+                    }}
+                  >
+                    <div className="flex flex-wrap items-center gap-3 mb-4 text-xs font-mono text-[#78716C]">
+                      <span className="px-2.5 py-1 rounded bg-[#FAF6EE] text-[#B45309] font-semibold border border-[#E4D9BC]">
+                        {article.tag}
+                      </span>
+                      {featured && (
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#B45309] text-[#FDFBF7] font-bold uppercase tracking-wider text-[10px]">
+                          <Sparkles className="w-3 h-3" />
+                          Latest
+                        </span>
+                      )}
+                      <span className="flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5" />
+                        {article.date}
+                      </span>
+                      <span>•</span>
+                      <span className="flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5" />
+                        {article.readTime}
+                      </span>
+                    </div>
 
-              <p className="text-sm sm:text-[15px] leading-relaxed text-[#57534E] mb-6">
-                {article.excerpt}
-              </p>
+                    <h2 className={`font-serif font-bold text-[#4A3B33] mb-3 group-hover:text-[#B45309] transition-colors leading-snug ${
+                      featured ? "text-2xl sm:text-[1.75rem]" : "text-xl sm:text-2xl"
+                    }`}>
+                      {article.title}
+                    </h2>
 
-              <div className="flex items-center justify-between pt-4 border-t border-[#E4D9BC]/60">
-                <span className="text-xs font-mono text-[#78716C]">
-                  By <strong className="text-[#4A3B33]">{article.author}</strong>
-                </span>
-                <span className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-[#B45309] group-hover:translate-x-1 transition-transform">
-                  Request Full Article <ArrowRight className="w-3.5 h-3.5" />
-                </span>
-              </div>
-            </motion.article>
-          ))}
+                    <p className="text-sm sm:text-[15px] leading-relaxed text-[#57534E] mb-6">
+                      {article.excerpt}
+                    </p>
+
+                    <div className="flex items-center justify-between pt-4 border-t border-[#E4D9BC]/60">
+                      <span className="text-xs font-mono text-[#78716C]">
+                        By <strong className="text-[#4A3B33]">{article.author}</strong>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-[#B45309] group-hover:translate-x-1 transition-transform">
+                        Read Article <ArrowRight className="w-3.5 h-3.5" />
+                      </span>
+                    </div>
+                  </motion.article>
+                );
+              })}
+            </AnimatePresence>
+          </div>
         </section>
 
         <DarkCTA />
