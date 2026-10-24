@@ -96,7 +96,7 @@ export default function AboutClientView() {
                 "radial-gradient(ellipse 70% 60% at 38% 42%, rgba(253,251,247,0.8) 0%, rgba(241,233,215,0) 62%)",
             }}
           />
-          <div className="relative mx-auto px-6 lg:px-8 pt-32 md:pt-36 pb-16 md:pb-20 max-w-[1200px]">
+          <div className="relative mx-auto px-6 lg:px-8 pt-28 md:pt-32 pb-16 md:pb-20 max-w-[1200px] flex flex-col min-h-[100svh]">
             <motion.nav
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -115,7 +115,7 @@ export default function AboutClientView() {
               </ol>
             </motion.nav>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center my-auto">
               {/* LEFT: the portrait cutout on warm glow */}
               <motion.div
                 initial={{ opacity: 0, y: 24 }}

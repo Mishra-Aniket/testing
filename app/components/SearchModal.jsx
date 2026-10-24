@@ -337,7 +337,29 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
         }
       }
 
-      // 1. Direct bounding box check against known dark sections
+      // 1. Dynamic: sample the actual background under the pill (top of the visual stack, excluding the pill/modal itself)
+      try {
+        const stack = document.elementsFromPoint
+          ? document.elementsFromPoint(dockX, dockY)
+          : [];
+        for (const node of stack) {
+          if (!node || node === document.documentElement || node === document.body) continue;
+          if (dockRef.current && (node === dockRef.current || dockRef.current.contains(node))) continue;
+          if (node.closest && node.closest("[data-search-modal], [data-bottom-search-dock]")) continue;
+          const bg = window.getComputedStyle(node).backgroundColor;
+          if (bg && bg !== "transparent" && !/^rgba\(0,\s*0,\s*0,\s*0\)$/.test(bg)) {
+            const m = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+            if (m) {
+              const lum = 0.299 * parseInt(m[1], 10) + 0.587 * parseInt(m[2], 10) + 0.114 * parseInt(m[3], 10);
+              foundDark = lum < 110;
+              break;
+            }
+          }
+        }
+      } catch (e) {}
+
+      // 2. Fallback: direct bounding box check against known dark sections
+      if (!foundDark) {
       const darkElements = document.querySelectorAll('[data-theme="dark"], #dark-cta-section, footer');
       let foundDark = false;
       for (let i = 0; i < darkElements.length; i++) {
@@ -380,6 +402,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
             }
           } catch (e) {}
         }
+      }
       }
 
       setIsOverDark(foundDark);
