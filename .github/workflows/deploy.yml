@@ -38,6 +38,12 @@ jobs:
         env:
           GITHUB_ACTIONS: "true"
           NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_EMAILJS_SERVICE_ID: ${{ secrets.NEXT_PUBLIC_EMAILJS_SERVICE_ID }}
+          NEXT_PUBLIC_EMAILJS_PUBLIC_KEY: ${{ secrets.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY }}
+          NEXT_PUBLIC_EMAILJS_TEMPLATE_INQUIRY: ${{ secrets.NEXT_PUBLIC_EMAILJS_TEMPLATE_INQUIRY }}
+          NEXT_PUBLIC_EMAILJS_TEMPLATE_NEWSLETTER: ${{ secrets.NEXT_PUBLIC_EMAILJS_TEMPLATE_NEWSLETTER }}
         run: npm run build
 
       - name: Upload artifact
