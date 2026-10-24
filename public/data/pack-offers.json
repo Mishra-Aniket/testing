@@ -1,6 +1,6 @@
 {
   "source": "GitHub Education & Awesome Student Software Deals",
-  "updatedAt": "2026-10-23T00:25:05.578Z",
+  "updatedAt": "2026-10-24T00:23:52.370Z",
   "count": 148,
   "offers": [
     {
@@ -169,6 +169,17 @@
       "source": "GitHub Student Developer Pack"
     },
     {
+      "name": "MongoDB",
+      "about": "A general purpose, document-based, distributed database built for modern application developers and for the cloud era.",
+      "offer": "$50 in MongoDB Atlas Credits, plus access to MongoDB Compass and MongoDB University including free certification valued at $150.",
+      "link": "https://www.mongodb.com/students",
+      "logo": "https://www.google.com/s2/favicons?domain=mongodb.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=mongodb.com&sz=128",
+      "domain": "mongodb.com",
+      "category": "Database & Data",
+      "source": "GitHub Student Developer Pack"
+    },
+    {
       "name": "Educative",
       "about": "Discover the best learning environment to learn and retain concepts effortlessly. Experience instant coding with browser-based Playgrounds, engage with interactive hands-on labs, and follow guided tutorials for seamless mastery.",
       "offer": "Dive into 6 months of free access to over 70 practical courses, covering hot topics like Web Development, Python, Java, and Machine Learning. Plus, students enjoy an awesome 30% discount on any subscription they pick!",
@@ -191,17 +202,6 @@
       "source": "GitHub Student Developer Pack"
     },
     {
-      "name": "MongoDB",
-      "about": "A general purpose, document-based, distributed database built for modern application developers and for the cloud era.",
-      "offer": "$50 in MongoDB Atlas Credits, plus access to MongoDB Compass and MongoDB University including free certification valued at $150.",
-      "link": "https://www.mongodb.com/students",
-      "logo": "https://www.google.com/s2/favicons?domain=mongodb.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=mongodb.com&sz=128",
-      "domain": "mongodb.com",
-      "category": "Database & Data",
-      "source": "GitHub Student Developer Pack"
-    },
-    {
       "name": "Datadog",
       "about": "Cloud-based infrastructure monitoring.",
       "offer": "Pro Account, including 10 servers. Free for 2 years.",
@@ -213,13 +213,13 @@
       "source": "GitHub Student Developer Pack"
     },
     {
-      "name": "Camber",
-      "about": "Agentic AI for data science — build AI agents from your own data and code, then run them on cloud CPU and GPU.",
-      "offer": "Free Camber Student plan while you're enrolled, including 40 CPU hours, 5 GPU hours, 50 GB of storage, and 50 agent messages per month. Connect open data sources like Postgres, Trino, and S3, build agents that know your data and your code, and run them from Cursor or Claude Code through the Camber MCP server — long jobs keep running after you close your laptop.",
-      "link": "https://cambercloud.com",
-      "logo": "https://www.google.com/s2/favicons?domain=cambercloud.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=cambercloud.com&sz=128",
-      "domain": "cambercloud.com",
+      "name": "Microsoft Azure (for ages 13-17)",
+      "about": "Access to Microsoft Azure cloud services and learning resources for students aged 13-17 – no credit card required",
+      "offer": "For students age 13-17. Free access to Azure App Services, Azure Functions, Notification Hubs, MySQL database from MySQL in-app, Application Insights, Azure DevOps.",
+      "link": "https://azure.microsoft.com/free/students/",
+      "logo": "https://www.google.com/s2/favicons?domain=azure.microsoft.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=azure.microsoft.com&sz=128",
+      "domain": "azure.microsoft.com",
       "category": "Cloud & Infra",
       "source": "GitHub Student Developer Pack"
     },
@@ -235,13 +235,13 @@
       "source": "GitHub Student Developer Pack"
     },
     {
-      "name": "Microsoft Azure (for ages 13-17)",
-      "about": "Access to Microsoft Azure cloud services and learning resources for students aged 13-17 – no credit card required",
-      "offer": "For students age 13-17. Free access to Azure App Services, Azure Functions, Notification Hubs, MySQL database from MySQL in-app, Application Insights, Azure DevOps.",
-      "link": "https://azure.microsoft.com/free/students/",
-      "logo": "https://www.google.com/s2/favicons?domain=azure.microsoft.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=azure.microsoft.com&sz=128",
-      "domain": "azure.microsoft.com",
+      "name": "Camber",
+      "about": "Agentic AI for data science — build AI agents from your own data and code, then run them on cloud CPU and GPU.",
+      "offer": "Free Camber Student plan while you're enrolled, including 40 CPU hours, 5 GPU hours, 50 GB of storage, and 50 agent messages per month. Connect open data sources like Postgres, Trino, and S3, build agents that know your data and your code, and run them from Cursor or Claude Code through the Camber MCP server — long jobs keep running after you close your laptop.",
+      "link": "https://cambercloud.com",
+      "logo": "https://www.google.com/s2/favicons?domain=cambercloud.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=cambercloud.com&sz=128",
+      "domain": "cambercloud.com",
       "category": "Cloud & Infra",
       "source": "GitHub Student Developer Pack"
     },
@@ -268,6 +268,17 @@
       "source": "GitHub Student Developer Pack"
     },
     {
+      "name": "Stripe",
+      "about": "Build web and mobile applications to accept payments, send payouts, and manage your business online with Stripe.",
+      "offer": "Get $25 in Stripe credits to offset fees on products including Stripe Payments, Billing, and more.",
+      "link": "https://stripe.com",
+      "logo": "https://www.google.com/s2/favicons?domain=stripe.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=stripe.com&sz=128",
+      "domain": "stripe.com",
+      "category": "Developer Tools",
+      "source": "GitHub Student Developer Pack"
+    },
+    {
       "name": "GitHub Pages",
       "about": "Websites for you and your projects. Hosted directly from your GitHub repository. Just edit, push, and your changes are live.",
       "offer": "Get one site per GitHub account and organization, and unlimited project sites.",
@@ -290,13 +301,13 @@
       "source": "GitHub Student Developer Pack"
     },
     {
-      "name": "Stripe",
-      "about": "Build web and mobile applications to accept payments, send payouts, and manage your business online with Stripe.",
-      "offer": "Get $25 in Stripe credits to offset fees on products including Stripe Payments, Billing, and more.",
-      "link": "https://stripe.com",
-      "logo": "https://www.google.com/s2/favicons?domain=stripe.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=stripe.com&sz=128",
-      "domain": "stripe.com",
+      "name": "Github Campus Experts",
+      "about": "GitHub Campus Experts are students who build technical communities on campus, with training and support from GitHub.",
+      "offer": "Apply to become part of the program while you’re a student.",
+      "link": "https://githubcampus.expert",
+      "logo": "https://www.google.com/s2/favicons?domain=githubcampus.expert&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=githubcampus.expert&sz=128",
+      "domain": "githubcampus.expert",
       "category": "Developer Tools",
       "source": "GitHub Student Developer Pack"
     },
@@ -308,17 +319,6 @@
       "logo": "https://www.google.com/s2/favicons?domain=visualstudio.microsoft.com&sz=128",
       "favicon": "https://www.google.com/s2/favicons?domain=visualstudio.microsoft.com&sz=128",
       "domain": "visualstudio.microsoft.com",
-      "category": "Developer Tools",
-      "source": "GitHub Student Developer Pack"
-    },
-    {
-      "name": "Github Campus Experts",
-      "about": "GitHub Campus Experts are students who build technical communities on campus, with training and support from GitHub.",
-      "offer": "Apply to become part of the program while you’re a student.",
-      "link": "https://githubcampus.expert",
-      "logo": "https://www.google.com/s2/favicons?domain=githubcampus.expert&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=githubcampus.expert&sz=128",
-      "domain": "githubcampus.expert",
       "category": "Developer Tools",
       "source": "GitHub Student Developer Pack"
     },
@@ -367,17 +367,6 @@
       "source": "GitHub Student Developer Pack"
     },
     {
-      "name": "Bootstrap Studio",
-      "about": "Bootstrap Studio is a powerful desktop app for creating responsive websites using the Bootstrap framework.",
-      "offer": "A free license for Bootstrap Studio while you are a student.",
-      "link": "https://bootstrapstudio.io/pages/student-pack",
-      "logo": "https://www.google.com/s2/favicons?domain=bootstrapstudio.io&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=bootstrapstudio.io&sz=128",
-      "domain": "bootstrapstudio.io",
-      "category": "Developer Tools",
-      "source": "GitHub Student Developer Pack"
-    },
-    {
       "name": "Appwrite",
       "about": "Appwrite is an open-source, developer infrastructure platform for building web, mobile, and AI apps. It includes both a backend server and a fully integrated hosting solution for deploying static and server-side rendered frontends.",
       "offer": "Free access to Appwrite's Education plan (2 projects with equivalent resource limits as Appwrite Pro, worth $40/month) for six months.",
@@ -400,6 +389,17 @@
       "source": "GitHub Student Developer Pack"
     },
     {
+      "name": "Bootstrap Studio",
+      "about": "Bootstrap Studio is a powerful desktop app for creating responsive websites using the Bootstrap framework.",
+      "offer": "A free license for Bootstrap Studio while you are a student.",
+      "link": "https://bootstrapstudio.io/pages/student-pack",
+      "logo": "https://www.google.com/s2/favicons?domain=bootstrapstudio.io&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=bootstrapstudio.io&sz=128",
+      "domain": "bootstrapstudio.io",
+      "category": "Developer Tools",
+      "source": "GitHub Student Developer Pack"
+    },
+    {
       "name": "Scrimba",
       "about": "Scrimba is an interactive learning platform for frontend developers.",
       "offer": "Level up your coding skills with interactive courses, projects, and challenges. Learn JavaScript, CSS, React, Python, and more. Enjoy 1 month of free access to Full access to Scrimba’s Pro courses, projects, and coding challenges, which includes 40+ courses.",
@@ -408,6 +408,17 @@
       "favicon": "https://www.google.com/s2/favicons?domain=scrimba.com&sz=128",
       "domain": "scrimba.com",
       "category": "Learning",
+      "source": "GitHub Student Developer Pack"
+    },
+    {
+      "name": "Zyte",
+      "about": "Zyte's Scrapy Cloud is a battle-tested cloud platform for running web crawlers. Manage and automate your web spiders at scale.",
+      "offer": "1 Free Forever Scrapy Cloud Unit - unlimited team members, projects or requests. Unlimited crawl time and 120 day data retention.",
+      "link": "https://www.zyte.com",
+      "logo": "https://www.google.com/s2/favicons?domain=zyte.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=zyte.com&sz=128",
+      "domain": "zyte.com",
+      "category": "Database & Data",
       "source": "GitHub Student Developer Pack"
     },
     {
@@ -455,14 +466,14 @@
       "source": "GitHub Student Developer Pack"
     },
     {
-      "name": "Zyte",
-      "about": "Zyte's Scrapy Cloud is a battle-tested cloud platform for running web crawlers. Manage and automate your web spiders at scale.",
-      "offer": "1 Free Forever Scrapy Cloud Unit - unlimited team members, projects or requests. Unlimited crawl time and 120 day data retention.",
-      "link": "https://www.zyte.com",
-      "logo": "https://www.google.com/s2/favicons?domain=zyte.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=zyte.com&sz=128",
-      "domain": "zyte.com",
-      "category": "Database & Data",
+      "name": "Visme",
+      "about": "The all-in-one platform for creating engaging and interactive presentations, visual documents, data visualizations, short videos and other branded content you can be proud of.",
+      "offer": "Get 3 free months free access to Visme's Starter plan.",
+      "link": "https://www.visme.co/education/",
+      "logo": "https://www.google.com/s2/favicons?domain=visme.co&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=visme.co&sz=128",
+      "domain": "visme.co",
+      "category": "Design & 3D",
       "source": "GitHub Student Developer Pack"
     },
     {
@@ -473,6 +484,28 @@
       "logo": "https://www.google.com/s2/favicons?domain=lambdatest.com&sz=128",
       "favicon": "https://www.google.com/s2/favicons?domain=lambdatest.com&sz=128",
       "domain": "lambdatest.com",
+      "category": "Developer Tools",
+      "source": "GitHub Student Developer Pack"
+    },
+    {
+      "name": "IconScout",
+      "about": "IconScout is a design resources marketplace with over 4.9 million icons, illustrations, 3D assets, and Lottie animations.",
+      "offer": "Free access to 60 premium icons from selected contributors every month for 1 year.",
+      "link": "https://iconscout.com/github-students",
+      "logo": "https://www.google.com/s2/favicons?domain=iconscout.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=iconscout.com&sz=128",
+      "domain": "iconscout.com",
+      "category": "Design & 3D",
+      "source": "GitHub Student Developer Pack"
+    },
+    {
+      "name": "CodeScene",
+      "about": "Learn how to write healthier code, pinpoint and manage tech debt and other code quality issues. CodeScene gives you instant feedback on your code and recommendations based on the best coding practices and latest standards. Integrate CodeScene into your pull requests to get automated code reviews, set quality gates and only merge quality code. 25+ programming languages are supported.",
+      "offer": "A free Student account to analyze private GitHub repositories.",
+      "link": "https://codescene.com",
+      "logo": "https://www.google.com/s2/favicons?domain=codescene.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=codescene.com&sz=128",
+      "domain": "codescene.com",
       "category": "Developer Tools",
       "source": "GitHub Student Developer Pack"
     },
@@ -488,58 +521,14 @@
       "source": "GitHub Student Developer Pack"
     },
     {
-      "name": "CodeScene",
-      "about": "Learn how to write healthier code, pinpoint and manage tech debt and other code quality issues. CodeScene gives you instant feedback on your code and recommendations based on the best coding practices and latest standards. Integrate CodeScene into your pull requests to get automated code reviews, set quality gates and only merge quality code. 25+ programming languages are supported.",
-      "offer": "A free Student account to analyze private GitHub repositories.",
-      "link": "https://codescene.com",
-      "logo": "https://www.google.com/s2/favicons?domain=codescene.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=codescene.com&sz=128",
-      "domain": "codescene.com",
-      "category": "Developer Tools",
-      "source": "GitHub Student Developer Pack"
-    },
-    {
-      "name": "Visme",
-      "about": "The all-in-one platform for creating engaging and interactive presentations, visual documents, data visualizations, short videos and other branded content you can be proud of.",
-      "offer": "Get 3 free months free access to Visme's Starter plan.",
-      "link": "https://www.visme.co/education/",
-      "logo": "https://www.google.com/s2/favicons?domain=visme.co&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=visme.co&sz=128",
-      "domain": "visme.co",
-      "category": "Design & 3D",
-      "source": "GitHub Student Developer Pack"
-    },
-    {
-      "name": "IconScout",
-      "about": "IconScout is a design resources marketplace with over 4.9 million icons, illustrations, 3D assets, and Lottie animations.",
-      "offer": "Free access to 60 premium icons from selected contributors every month for 1 year.",
-      "link": "https://iconscout.com/github-students",
-      "logo": "https://www.google.com/s2/favicons?domain=iconscout.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=iconscout.com&sz=128",
-      "domain": "iconscout.com",
-      "category": "Design & 3D",
-      "source": "GitHub Student Developer Pack"
-    },
-    {
-      "name": "HazeOver",
-      "about": "Get focused while working on your projects or studying with HazeOver for Mac.",
-      "offer": "Free app license, including minor updates.",
-      "link": "https://hazeover.com",
-      "logo": "https://www.google.com/s2/favicons?domain=hazeover.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=hazeover.com&sz=128",
-      "domain": "hazeover.com",
-      "category": "Design & 3D",
-      "source": "GitHub Student Developer Pack"
-    },
-    {
-      "name": "Adafruit",
-      "about": "Adafruit is an open-source hardware and open-source educational electronics company based in NYC, USA.",
-      "offer": "One year of Adafruit IO+ and discounts on selected hardware.",
-      "link": "https://www.adafruit.com",
-      "logo": "https://www.google.com/s2/favicons?domain=adafruit.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=adafruit.com&sz=128",
-      "domain": "adafruit.com",
-      "category": "Hardware & IoT",
+      "name": "Travis CI",
+      "about": "Continuous integration platform for open source and private projects",
+      "offer": "Private builds for free while you're a student.",
+      "link": "https://www.travis-ci.com/pricing/students/",
+      "logo": "https://www.google.com/s2/favicons?domain=travis-ci.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=travis-ci.com&sz=128",
+      "domain": "travis-ci.com",
+      "category": "Cloud & Infra",
       "source": "GitHub Student Developer Pack"
     },
     {
@@ -554,14 +543,25 @@
       "source": "GitHub Student Developer Pack"
     },
     {
-      "name": "Travis CI",
-      "about": "Continuous integration platform for open source and private projects",
-      "offer": "Private builds for free while you're a student.",
-      "link": "https://www.travis-ci.com/pricing/students/",
-      "logo": "https://www.google.com/s2/favicons?domain=travis-ci.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=travis-ci.com&sz=128",
-      "domain": "travis-ci.com",
-      "category": "Cloud & Infra",
+      "name": "Adafruit",
+      "about": "Adafruit is an open-source hardware and open-source educational electronics company based in NYC, USA.",
+      "offer": "One year of Adafruit IO+ and discounts on selected hardware.",
+      "link": "https://www.adafruit.com",
+      "logo": "https://www.google.com/s2/favicons?domain=adafruit.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=adafruit.com&sz=128",
+      "domain": "adafruit.com",
+      "category": "Hardware & IoT",
+      "source": "GitHub Student Developer Pack"
+    },
+    {
+      "name": "HazeOver",
+      "about": "Get focused while working on your projects or studying with HazeOver for Mac.",
+      "offer": "Free app license, including minor updates.",
+      "link": "https://hazeover.com",
+      "logo": "https://www.google.com/s2/favicons?domain=hazeover.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=hazeover.com&sz=128",
+      "domain": "hazeover.com",
+      "category": "Design & 3D",
       "source": "GitHub Student Developer Pack"
     },
     {
@@ -609,17 +609,6 @@
       "source": "GitHub Student Developer Pack"
     },
     {
-      "name": "WorkingCopy",
-      "about": "Powerful Git client for iPhone & iPad.",
-      "offer": "All Pro features for free while you are a student.",
-      "link": "https://workingcopy.app",
-      "logo": "https://www.google.com/s2/favicons?domain=workingcopy.app&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=workingcopy.app&sz=128",
-      "domain": "workingcopy.app",
-      "category": "Developer Tools",
-      "source": "GitHub Student Developer Pack"
-    },
-    {
       "name": "Pageclip",
       "about": "A server for your static websites and HTML forms.",
       "offer": "Free basic plan while you are a student.",
@@ -642,13 +631,46 @@
       "source": "GitHub Student Developer Pack"
     },
     {
-      "name": "Doppler",
-      "about": "A different way to manage secrets. From local development to production, we work on every stack, scaling with you as your team and products grow.",
-      "offer": "Free Doppler Team subscription while the user is an active student.",
-      "link": "https://www.doppler.com",
-      "logo": "https://www.google.com/s2/favicons?domain=doppler.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=doppler.com&sz=128",
-      "domain": "doppler.com",
+      "name": "WorkingCopy",
+      "about": "Powerful Git client for iPhone & iPad.",
+      "offer": "All Pro features for free while you are a student.",
+      "link": "https://workingcopy.app",
+      "logo": "https://www.google.com/s2/favicons?domain=workingcopy.app&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=workingcopy.app&sz=128",
+      "domain": "workingcopy.app",
+      "category": "Developer Tools",
+      "source": "GitHub Student Developer Pack"
+    },
+    {
+      "name": "InterviewCake",
+      "about": "Interview Cake makes coding interviews a piece of cake with practice questions, data structures and algorithms reference pages, cheat sheets, and more.",
+      "offer": "Access to the full coding interview prep course for 1 week.",
+      "link": "https://www.interviewcake.com",
+      "logo": "https://www.google.com/s2/favicons?domain=interviewcake.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=interviewcake.com&sz=128",
+      "domain": "interviewcake.com",
+      "category": "Learning",
+      "source": "GitHub Student Developer Pack"
+    },
+    {
+      "name": "PopSQL",
+      "about": "Modern, collaborative SQL editor for your team — write queries, visualize data, and share your results.",
+      "offer": "Free Premium subscription for PopSQL while you're a student.",
+      "link": "https://popsql.com",
+      "logo": "https://www.google.com/s2/favicons?domain=popsql.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=popsql.com&sz=128",
+      "domain": "popsql.com",
+      "category": "Database & Data",
+      "source": "GitHub Student Developer Pack"
+    },
+    {
+      "name": "ToDiagram",
+      "about": "ToDiagram is a browser-based interactive data editor that turns any JSON, YAML, CSV and XML into editable diagrams with fully customizable formats, allowing you to define nodes and edges for any diagram.",
+      "offer": "ToDiagram Pro Plan including full editor access, no data limits, and up to 10 documents stored in the cloud. This offer does not include AI-assistant functionality.",
+      "link": "https://todiagram.com",
+      "logo": "https://www.google.com/s2/favicons?domain=todiagram.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=todiagram.com&sz=128",
+      "domain": "todiagram.com",
       "category": "Productivity",
       "source": "GitHub Student Developer Pack"
     },
@@ -675,36 +697,58 @@
       "source": "GitHub Student Developer Pack"
     },
     {
-      "name": "PopSQL",
-      "about": "Modern, collaborative SQL editor for your team — write queries, visualize data, and share your results.",
-      "offer": "Free Premium subscription for PopSQL while you're a student.",
-      "link": "https://popsql.com",
-      "logo": "https://www.google.com/s2/favicons?domain=popsql.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=popsql.com&sz=128",
-      "domain": "popsql.com",
-      "category": "Database & Data",
-      "source": "GitHub Student Developer Pack"
-    },
-    {
-      "name": "InterviewCake",
-      "about": "Interview Cake makes coding interviews a piece of cake with practice questions, data structures and algorithms reference pages, cheat sheets, and more.",
-      "offer": "Access to the full coding interview prep course for 1 week.",
-      "link": "https://www.interviewcake.com",
-      "logo": "https://www.google.com/s2/favicons?domain=interviewcake.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=interviewcake.com&sz=128",
-      "domain": "interviewcake.com",
+      "name": "GoRails",
+      "about": "Tutorials for web developers learning Ruby, Rails, Javascript, Turbolinks, Stimulus.js, Vue.js, and more.",
+      "offer": "Free access to all videos and lessons for 12 months.",
+      "link": "https://gorails.com",
+      "logo": "https://www.google.com/s2/favicons?domain=gorails.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=gorails.com&sz=128",
+      "domain": "gorails.com",
       "category": "Learning",
       "source": "GitHub Student Developer Pack"
     },
     {
-      "name": "ToDiagram",
-      "about": "ToDiagram is a browser-based interactive data editor that turns any JSON, YAML, CSV and XML into editable diagrams with fully customizable formats, allowing you to define nodes and edges for any diagram.",
-      "offer": "ToDiagram Pro Plan including full editor access, no data limits, and up to 10 documents stored in the cloud. This offer does not include AI-assistant functionality.",
-      "link": "https://todiagram.com",
-      "logo": "https://www.google.com/s2/favicons?domain=todiagram.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=todiagram.com&sz=128",
-      "domain": "todiagram.com",
+      "name": "SimpleAnalytics",
+      "about": "Privacy-friendly analytics with a simple interface and API.",
+      "offer": "Starter plan free for one year, including 100k page views per month.",
+      "link": "https://simpleanalytics.com",
+      "logo": "https://www.google.com/s2/favicons?domain=simpleanalytics.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=simpleanalytics.com&sz=128",
+      "domain": "simpleanalytics.com",
+      "category": "Database & Data",
+      "source": "GitHub Student Developer Pack"
+    },
+    {
+      "name": "Doppler",
+      "about": "A different way to manage secrets. From local development to production, we work on every stack, scaling with you as your team and products grow.",
+      "offer": "Free Doppler Team subscription while the user is an active student.",
+      "link": "https://www.doppler.com",
+      "logo": "https://www.google.com/s2/favicons?domain=doppler.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=doppler.com&sz=128",
+      "domain": "doppler.com",
       "category": "Productivity",
+      "source": "GitHub Student Developer Pack"
+    },
+    {
+      "name": "Tower",
+      "about": "The Git client that brings all of Git and GitHub's power to the desktop, for Mac and Windows.",
+      "offer": "Free license for Tower Pro while you are a student.",
+      "link": "https://www.git-tower.com/students",
+      "logo": "https://www.google.com/s2/favicons?domain=git-tower.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=git-tower.com&sz=128",
+      "domain": "git-tower.com",
+      "category": "Developer Tools",
+      "source": "GitHub Student Developer Pack"
+    },
+    {
+      "name": "Requestly",
+      "about": "Requestly is an open-source tool for developers to intercept, modify, and mock HTTP requests and responses to build, test, and manage APIs",
+      "offer": "Requestly Professional plan (worth $270) free for one year.",
+      "link": "https://requestly.com",
+      "logo": "https://www.google.com/s2/favicons?domain=requestly.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=requestly.com&sz=128",
+      "domain": "requestly.com",
+      "category": "Developer Tools",
       "source": "GitHub Student Developer Pack"
     },
     {
@@ -730,28 +774,6 @@
       "source": "GitHub Student Developer Pack"
     },
     {
-      "name": "GoRails",
-      "about": "Tutorials for web developers learning Ruby, Rails, Javascript, Turbolinks, Stimulus.js, Vue.js, and more.",
-      "offer": "Free access to all videos and lessons for 12 months.",
-      "link": "https://gorails.com",
-      "logo": "https://www.google.com/s2/favicons?domain=gorails.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=gorails.com&sz=128",
-      "domain": "gorails.com",
-      "category": "Learning",
-      "source": "GitHub Student Developer Pack"
-    },
-    {
-      "name": "Tower",
-      "about": "The Git client that brings all of Git and GitHub's power to the desktop, for Mac and Windows.",
-      "offer": "Free license for Tower Pro while you are a student.",
-      "link": "https://www.git-tower.com/students",
-      "logo": "https://www.google.com/s2/favicons?domain=git-tower.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=git-tower.com&sz=128",
-      "domain": "git-tower.com",
-      "category": "Developer Tools",
-      "source": "GitHub Student Developer Pack"
-    },
-    {
       "name": "POEditor",
       "about": "POEditor is a highly scalable localization management platform for teams.",
       "offer": "Plus Plan for free for one year.",
@@ -763,47 +785,14 @@
       "source": "GitHub Student Developer Pack"
     },
     {
-      "name": "Requestly",
-      "about": "Requestly is an open-source tool for developers to intercept, modify, and mock HTTP requests and responses to build, test, and manage APIs",
-      "offer": "Requestly Professional plan (worth $270) free for one year.",
-      "link": "https://requestly.com",
-      "logo": "https://www.google.com/s2/favicons?domain=requestly.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=requestly.com&sz=128",
-      "domain": "requestly.com",
-      "category": "Developer Tools",
-      "source": "GitHub Student Developer Pack"
-    },
-    {
-      "name": "SimpleAnalytics",
-      "about": "Privacy-friendly analytics with a simple interface and API.",
-      "offer": "Starter plan free for one year, including 100k page views per month.",
-      "link": "https://simpleanalytics.com",
-      "logo": "https://www.google.com/s2/favicons?domain=simpleanalytics.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=simpleanalytics.com&sz=128",
-      "domain": "simpleanalytics.com",
+      "name": "DeepScan",
+      "about": "DeepScan is a platform for building better and more reliable JavaScript apps.",
+      "offer": "Free 6-month trial while you are a student.",
+      "link": "https://deepscan.io",
+      "logo": "https://www.google.com/s2/favicons?domain=deepscan.io&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=deepscan.io&sz=128",
+      "domain": "deepscan.io",
       "category": "Database & Data",
-      "source": "GitHub Student Developer Pack"
-    },
-    {
-      "name": "SQLGate",
-      "about": "Simple but powerful IDE for multiple SQL databases.",
-      "offer": "Access to most Standard Subscription features for 1 year.",
-      "link": "https://www.sqlgate.com",
-      "logo": "https://www.google.com/s2/favicons?domain=sqlgate.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=sqlgate.com&sz=128",
-      "domain": "sqlgate.com",
-      "category": "Database & Data",
-      "source": "GitHub Student Developer Pack"
-    },
-    {
-      "name": "ConfigCat",
-      "about": "Learn feature flags with the industry leading feature flag service.",
-      "offer": "1000 feature flags, ∞ users for free.",
-      "link": "https://configcat.com",
-      "logo": "https://www.google.com/s2/favicons?domain=configcat.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=configcat.com&sz=128",
-      "domain": "configcat.com",
-      "category": "Developer Tools",
       "source": "GitHub Student Developer Pack"
     },
     {
@@ -818,6 +807,17 @@
       "source": "GitHub Student Developer Pack"
     },
     {
+      "name": "SQLGate",
+      "about": "Simple but powerful IDE for multiple SQL databases.",
+      "offer": "Access to most Standard Subscription features for 1 year.",
+      "link": "https://www.sqlgate.com",
+      "logo": "https://www.google.com/s2/favicons?domain=sqlgate.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=sqlgate.com&sz=128",
+      "domain": "sqlgate.com",
+      "category": "Database & Data",
+      "source": "GitHub Student Developer Pack"
+    },
+    {
       "name": "Vaadin",
       "about": "Best open source Java framework for building Progressive Web Applications.",
       "offer": "Free Pro subscription license to access the commercial components and tools.",
@@ -826,17 +826,6 @@
       "favicon": "https://www.google.com/s2/favicons?domain=vaadin.com&sz=128",
       "domain": "vaadin.com",
       "category": "Developer Tools",
-      "source": "GitHub Student Developer Pack"
-    },
-    {
-      "name": "Blockchair",
-      "about": "Connect to the world of blockchains through Blockchair’s professional APIs — supports most major cryptocurrencies.",
-      "offer": "100,000 free requests.",
-      "link": "https://blockchair.com",
-      "logo": "https://www.google.com/s2/favicons?domain=blockchair.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=blockchair.com&sz=128",
-      "domain": "blockchair.com",
-      "category": "Database & Data",
       "source": "GitHub Student Developer Pack"
     },
     {
@@ -862,14 +851,36 @@
       "source": "GitHub Student Developer Pack"
     },
     {
-      "name": "DeepScan",
-      "about": "DeepScan is a platform for building better and more reliable JavaScript apps.",
-      "offer": "Free 6-month trial while you are a student.",
-      "link": "https://deepscan.io",
-      "logo": "https://www.google.com/s2/favicons?domain=deepscan.io&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=deepscan.io&sz=128",
-      "domain": "deepscan.io",
+      "name": "ConfigCat",
+      "about": "Learn feature flags with the industry leading feature flag service.",
+      "offer": "1000 feature flags, ∞ users for free.",
+      "link": "https://configcat.com",
+      "logo": "https://www.google.com/s2/favicons?domain=configcat.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=configcat.com&sz=128",
+      "domain": "configcat.com",
+      "category": "Developer Tools",
+      "source": "GitHub Student Developer Pack"
+    },
+    {
+      "name": "Blockchair",
+      "about": "Connect to the world of blockchains through Blockchair’s professional APIs — supports most major cryptocurrencies.",
+      "offer": "100,000 free requests.",
+      "link": "https://blockchair.com",
+      "logo": "https://www.google.com/s2/favicons?domain=blockchair.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=blockchair.com&sz=128",
+      "domain": "blockchair.com",
       "category": "Database & Data",
+      "source": "GitHub Student Developer Pack"
+    },
+    {
+      "name": "Xojo",
+      "about": "A cross-platform development tool for making native apps for Desktop, Mobile, Web and Raspberry Pi.",
+      "offer": "Xojo Pro license free while you are a student.",
+      "link": "https://www.xojo.com",
+      "logo": "https://www.google.com/s2/favicons?domain=xojo.com&sz=128",
+      "favicon": "https://www.google.com/s2/favicons?domain=xojo.com&sz=128",
+      "domain": "xojo.com",
+      "category": "Developer Tools",
       "source": "GitHub Student Developer Pack"
     },
     {
@@ -891,17 +902,6 @@
       "logo": "https://www.google.com/s2/favicons?domain=appfigures.com&sz=128",
       "favicon": "https://www.google.com/s2/favicons?domain=appfigures.com&sz=128",
       "domain": "appfigures.com",
-      "category": "Developer Tools",
-      "source": "GitHub Student Developer Pack"
-    },
-    {
-      "name": "Xojo",
-      "about": "A cross-platform development tool for making native apps for Desktop, Mobile, Web and Raspberry Pi.",
-      "offer": "Xojo Pro license free while you are a student.",
-      "link": "https://www.xojo.com",
-      "logo": "https://www.google.com/s2/favicons?domain=xojo.com&sz=128",
-      "favicon": "https://www.google.com/s2/favicons?domain=xojo.com&sz=128",
-      "domain": "xojo.com",
       "category": "Developer Tools",
       "source": "GitHub Student Developer Pack"
     },
