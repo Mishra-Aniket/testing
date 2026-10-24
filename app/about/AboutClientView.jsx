@@ -26,6 +26,27 @@ import { sound } from "../utils/sound";
 /* ---------- Photo card: dual-photo crossfade with subtle 3D tilt ---------- */
 const PHOTOS = ["/me-1.jpg", "/me-2.jpg"];
 
+/* Floating glass chip orbiting the photo at its own 3D depth */
+function FloatChip({ className, depth, delay = 0, rotate = "0deg", children }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1, y: [0, -7, 0] }}
+      transition={{
+        opacity: { duration: 0.5, delay: delay + 0.2 },
+        scale: { duration: 0.5, delay: delay + 0.2 },
+        y: { duration: 5 + delay * 2, repeat: Infinity, ease: "easeInOut", delay },
+      }}
+      style={{ transform: `translateZ(${depth}px) rotate(${rotate})`, transformStyle: "preserve-3d" }}
+      className={`absolute z-10 ${className}`}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+const chipBase = "inline-flex items-center gap-2 rounded-2xl px-3.5 py-2.5 shadow-[0_18px_36px_-12px_rgba(74,59,51,0.45)]";
+
 function PhotoCard() {
   const ref = useRef(null);
   const [active, setActive] = useState(0);
@@ -60,72 +81,96 @@ function PhotoCard() {
   };
 
   return (
-    <div className="relative w-fit mx-auto lg:mx-0 select-none py-6" style={{ perspective: 1100 }}>
-      {/* Borderless depth: soft colored glow panels behind the card */}
-      <div aria-hidden="true" className="absolute top-9 left-[-20px] w-[248px] sm:w-[286px] h-[78%] rounded-[2rem] bg-[#B45309]/20 blur-2xl rotate-[-7deg]" />
-      <div aria-hidden="true" className="absolute top-9 right-[-20px] w-[248px] sm:w-[286px] h-[78%] rounded-[2rem] bg-[#E4C090]/60 blur-2xl rotate-[6deg]" />
-      {/* Ambient floor shadow */}
-      <div aria-hidden="true" className="absolute inset-x-8 -bottom-1 h-12 rounded-[50%] bg-[#4A3B33]/25 blur-2xl" />
+    <div className="relative w-fit mx-auto lg:mx-0 select-none py-8" style={{ perspective: 1100 }}>
+      {/* Ambient glow field — borderless depth */}
+      <div aria-hidden="true" className="absolute top-14 left-[-28px] w-[260px] sm:w-[300px] h-[70%] rounded-[2.5rem] bg-[#B45309]/15 blur-3xl rotate-[-8deg]" />
+      <div aria-hidden="true" className="absolute top-14 right-[-28px] w-[260px] sm:w-[300px] h-[70%] rounded-[2.5rem] bg-[#E4C090]/50 blur-3xl rotate-[7deg]" />
+      <div aria-hidden="true" className="absolute inset-x-10 -bottom-1 h-14 rounded-[50%] bg-[#4A3B33]/25 blur-2xl" />
 
       <motion.div
         ref={ref}
         onMouseMove={handleMove}
         onMouseLeave={handleLeave}
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="relative w-[248px] sm:w-[286px] rounded-[1.4rem] overflow-hidden bg-[#F3EBDD] shadow-[0_36px_70px_-24px_rgba(74,59,51,0.5)]"
+        className="relative"
       >
-        <div className="relative aspect-[4/5]" style={{ transformStyle: "preserve-3d" }}>
-          {PHOTOS.map((src, i) => (
-            <motion.img
-              key={src}
-              /* eslint-disable-next-line @next/next/no-img-element */
-              src={src}
-              alt="Aniket Mishra"
-              initial={false}
-              animate={{ opacity: active === i ? 1 : 0, scale: active === i ? 1 : 1.05 }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          ))}
-
-          {/* Cinematic bottom gradient with identity — no border, part of the photo */}
-          <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#1C1917]/85 via-[#1C1917]/35 to-transparent" />
-          <div className="absolute bottom-0 inset-x-0 px-5 pb-5">
-            <div className="font-serif text-white text-xl font-bold leading-tight">Aniket Mishra</div>
-            <div className="flex items-center gap-2 mt-1.5">
-              <MapPin className="w-3 h-3 text-[#E4C090] shrink-0" />
-              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#E7E5E4]">Prayagraj, India</span>
-            </div>
-          </div>
-
-          {/* Pointer-following glass glare */}
-          <motion.div
-            aria-hidden="true"
-            style={{ background: glare, mixBlendMode: "overlay" }}
-            className="absolute inset-0 pointer-events-none"
-          />
-
-          {/* Available badge — solid pill, floats above the photo in 3D */}
-          <div style={{ transform: "translateZ(55px)" }} className="absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-600 shadow-lg">
-            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-            <span className="font-mono text-[9px] font-bold uppercase tracking-wider text-white">Available</span>
-          </div>
-
-          {/* Photo switcher dots */}
-          <div className="absolute top-3 right-3 flex flex-col gap-1.5">
-            {PHOTOS.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                aria-label={`Photo ${i + 1}`}
-                onClick={() => setActive(i)}
-                className={`w-1.5 rounded-full cursor-pointer transition-all ${
-                  active === i ? "bg-[#E4C090] h-4" : "h-1.5 bg-white/50 hover:bg-white/80"
-                }`}
+        {/* THE PHOTO — clean, edge-to-edge, no borders */}
+        <div className="relative w-[248px] sm:w-[286px] rounded-[1.4rem] overflow-hidden bg-[#F3EBDD] shadow-[0_36px_70px_-24px_rgba(74,59,51,0.5)]">
+          <div className="relative aspect-[4/5]">
+            {PHOTOS.map((src, i) => (
+              <motion.img
+                key={src}
+                /* eslint-disable-next-line @next/next/no-img-element */
+                src={src}
+                alt="Aniket Mishra"
+                initial={false}
+                animate={{ opacity: active === i ? 1 : 0, scale: active === i ? 1 : 1.05 }}
+                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute inset-0 w-full h-full object-cover"
               />
             ))}
+
+            {/* Cinematic bottom gradient with identity */}
+            <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#1C1917]/85 via-[#1C1917]/35 to-transparent" />
+            <div className="absolute bottom-0 inset-x-0 px-5 pb-5">
+              <div className="font-serif text-white text-xl font-bold leading-tight">Aniket Mishra</div>
+              <div className="flex items-center gap-2 mt-1.5">
+                <MapPin className="w-3 h-3 text-[#E4C090] shrink-0" />
+                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#E7E5E4]">Prayagraj, India</span>
+              </div>
+            </div>
+
+            {/* Pointer-following glass glare */}
+            <motion.div
+              aria-hidden="true"
+              style={{ background: glare, mixBlendMode: "overlay" }}
+              className="absolute inset-0 pointer-events-none"
+            />
+
+            {/* Photo switcher dots — vertical, right edge */}
+            <div className="absolute top-3 right-3 flex flex-col gap-1.5">
+              {PHOTOS.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  aria-label={`Photo ${i + 1}`}
+                  onClick={() => setActive(i)}
+                  className={`w-1.5 rounded-full cursor-pointer transition-all ${
+                    active === i ? "bg-[#E4C090] h-4" : "h-1.5 bg-white/50 hover:bg-white/80"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         </div>
+
+        {/* ORBITING 3D CHIPS — each at its own depth, gently floating */}
+        <FloatChip className="-left-10 -top-4 sm:-left-14" depth={85} delay={0} rotate="-4deg">
+          <span className={`${chipBase} bg-emerald-600`}>
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+            <span className="font-mono text-[9.5px] font-bold uppercase tracking-wider text-white">Available for work</span>
+          </span>
+        </FloatChip>
+
+        <FloatChip className="-right-8 -top-6 sm:-right-12" depth={110} delay={0.9} rotate="5deg">
+          <span className={`${chipBase} bg-white`}>
+            <Github className="w-3.5 h-3.5 text-[#B45309]" />
+            <span className="font-mono text-[10px] font-bold text-[#4A3B33]">699+ <span className="text-[#78716C] font-semibold">commits / yr</span></span>
+          </span>
+        </FloatChip>
+
+        <FloatChip className="-right-6 bottom-16 sm:-right-11" depth={70} delay={1.7} rotate="-3deg">
+          <span className={`${chipBase} bg-[#B45309]`}>
+            <span className="font-mono text-[10px] font-bold text-white">2 <span className="text-[#F6D8A8] font-semibold">Web Store extensions</span></span>
+          </span>
+        </FloatChip>
+
+        <FloatChip className="-left-8 bottom-6 sm:-left-12" depth={95} delay={0.5} rotate="3deg">
+          <span className={`${chipBase} bg-white`}>
+            <Layers className="w-3.5 h-3.5 text-[#B45309]" />
+            <span className="font-mono text-[10px] font-bold text-[#4A3B33]">9 <span className="text-[#78716C] font-semibold">projects shipped</span></span>
+          </span>
+        </FloatChip>
       </motion.div>
     </div>
   );
