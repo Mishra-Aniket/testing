@@ -171,7 +171,6 @@ export default function HireMeModal({ isOpen, onClose }) {
                       onClick={() => {
                         setSubmitted(false);
                         setForm({ name: "", email: "", message: "" });
-                        setProjectType("MVP Build");
                       }}
                       className="mt-5 font-mono text-[10.5px] font-bold uppercase tracking-wider px-4 py-2 rounded-full border border-[#E4D9BC] text-[#78716C] hover:border-[#B45309] hover:text-[#B45309] transition-all cursor-pointer"
                     >
