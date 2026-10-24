@@ -206,22 +206,22 @@ export default function PricingClientView() {
     setSubmitError("");
     setSubmitting(true);
 
-    // 1. Web3Forms — free unlimited, no stamp, lands in the inbox
-    const emailed = await sendWeb3Form({
-      name: form.name.trim(),
-      email: form.email.trim(),
-      subject: `New ${SPRINTS.find((s) => s.id === selectedSprint)?.name || "Project"} Proposal — ${form.name.trim()}`,
+    // 1. EmailJS — branded template email to the inbox
+    const emailed = await sendEmail(TPL, {
+      from_name: form.name.trim(),
+      reply_email: form.email.trim(),
       project_type: SPRINTS.find((s) => s.id === selectedSprint)?.name || selectedSprint,
       budget: form.budget || "-",
       timeline: form.timeline || "-",
       message: form.message.trim(),
     });
 
-    // 2. EmailJS fallback — branded template email
+    // 2. Web3Forms fallback — plain notification if branded delivery fails
     if (!emailed) {
-      await sendEmail(TPL, {
-        from_name: form.name.trim(),
-        reply_email: form.email.trim(),
+      await sendWeb3Form({
+        name: form.name.trim(),
+        email: form.email.trim(),
+        subject: `New ${SPRINTS.find((s) => s.id === selectedSprint)?.name || "Project"} Proposal — ${form.name.trim()}`,
         project_type: SPRINTS.find((s) => s.id === selectedSprint)?.name || selectedSprint,
         budget: form.budget || "-",
         timeline: form.timeline || "-",

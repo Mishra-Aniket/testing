@@ -115,18 +115,18 @@ export default function DarkCTA({ showStats = false }) {
     if (!email.trim()) return;
     setSubscribing(true);
 
-    // 1. Web3Forms — free unlimited, no stamp
-    const w3f = await sendWeb3Form({
-      name: "Newsletter Subscriber",
-      email: email.trim().toLowerCase(),
-      subject: `New Newsletter Subscriber — ${email.trim().toLowerCase()}`,
-      message: `${email.trim().toLowerCase()} subscribed to build updates via the Follow the Build card.`,
+    // 1. EmailJS — branded subscriber notification
+    const emailed = await sendEmail(NEWSLETTER_TPL, {
+      subscriber_email: email.trim().toLowerCase(),
     });
 
-    // 2. EmailJS fallback notification
-    if (!w3f) {
-      await sendEmail(NEWSLETTER_TPL, {
-        subscriber_email: email.trim().toLowerCase(),
+    // 2. Web3Forms fallback — plain notification if branded delivery fails
+    if (!emailed) {
+      await sendWeb3Form({
+        name: "Newsletter Subscriber",
+        email: email.trim().toLowerCase(),
+        subject: `New Newsletter Subscriber — ${email.trim().toLowerCase()}`,
+        message: `${email.trim().toLowerCase()} subscribed to build updates via the Follow the Build card.`,
       });
     }
 
