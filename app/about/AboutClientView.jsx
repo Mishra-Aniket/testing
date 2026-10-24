@@ -26,7 +26,7 @@ import { sound } from "../utils/sound";
 /* ---------- Data ---------- */
 const FACTS = [
   { icon: MapPin, label: "Based in", value: "Prayagraj, India" },
-  { icon: Briefcase, label: "Working as", value: "Freelance full-stack developer" },
+  { icon: Briefcase, label: "Working as", value: "Freelance developer" },
   { icon: Layers, label: "Shipped", value: "9 projects, all real" },
   { icon: Clock, label: "Response time", value: "Within 24 hours" },
 ];
@@ -183,18 +183,6 @@ export default function AboutClientView() {
                 className="font-serif font-black uppercase text-[#4A3B33] leading-[1] tracking-[-0.01em] text-[clamp(1.7rem,4.8vw,3.9rem)] mt-4 whitespace-nowrap"
               >
                 I am Aniket Mishra
-              </motion.div>
-
-              {/* Giant role — bottom right, OUTLINE style like the reference */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                aria-hidden="true"
-                className="font-serif font-black uppercase leading-[0.88] tracking-[-0.02em] text-[clamp(2.2rem,6.5vw,5rem)] text-right lg:absolute lg:right-8 lg:bottom-24 mt-4 lg:mt-0 select-none pointer-events-none"
-                style={{ WebkitTextStroke: "2px #4A3B33", color: "transparent", paintOrder: "stroke fill" }}
-              >
-                Full-Stack<br />Developer
               </motion.div>
 
             </div>
