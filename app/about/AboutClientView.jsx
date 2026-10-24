@@ -227,6 +227,32 @@ export default function AboutClientView() {
                     Read the Case Studies
                   </Link>
                 </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.55 }}
+                  className="flex flex-wrap gap-2.5 mt-5"
+                >
+                  <a
+                    href="https://github.com/aniketmishra-0"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => sound.playClick()}
+                    className="inline-flex items-center gap-1.5 font-mono text-[10.5px] font-bold uppercase tracking-wider text-[#57534E] bg-white rounded-full px-3.5 py-2 shadow-xs hover:text-[#B45309] transition-colors no-underline"
+                  >
+                    <Github className="w-3 h-3" /> @aniketmishra-0
+                  </a>
+                  <a
+                    href="https://github.com/Mishra-Aniket"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => sound.playClick()}
+                    className="inline-flex items-center gap-1.5 font-mono text-[10.5px] font-bold uppercase tracking-wider text-[#57534E] bg-white rounded-full px-3.5 py-2 shadow-xs hover:text-[#B45309] transition-colors no-underline"
+                  >
+                    <Github className="w-3 h-3" /> @Mishra-Aniket
+                  </a>
+                </motion.div>
               </div>
             </div>
           </div>
