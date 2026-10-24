@@ -49,6 +49,7 @@ export default function HireMeModal({ isOpen, onClose }) {
     const emailed = await sendEmail(TPL, {
       from_name: form.name.trim(),
       reply_email: form.email.trim(),
+      project_type: "Direct Message",
       message: form.message.trim(),
     });
 
@@ -62,7 +63,7 @@ export default function HireMeModal({ isOpen, onClose }) {
       });
     }
 
-    // 2. Supabase record (when keys + table exist)
+    // 3. Supabase record (when keys + table exist)
     let dbSaved = false;
     try {
       const url = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
