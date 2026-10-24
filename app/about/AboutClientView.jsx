@@ -74,25 +74,24 @@ export default function AboutClientView() {
       <Navbar onOpenSearch={() => setSearchOpen(true)} onOpenAssessment={() => {}} />
 
       <main className="relative z-10 bg-[#FDFBF7] text-[#4A3B33]">
-        {/* ============ MADISON-STYLE HERO ============ */}
+        {/* ============ SIDE-LAYOUT HERO: cutout left, value proposition right ============ */}
         <header className="relative overflow-hidden bg-[#F1E9D7]">
           <div aria-hidden="true" className="plate-grid absolute inset-0 opacity-30 pointer-events-none" />
-          {/* Warm vignette — lighter center, darker edges, like the reference */}
           <div
             aria-hidden="true"
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "radial-gradient(ellipse 70% 60% at 50% 42%, rgba(253,251,247,0.75) 0%, rgba(241,233,215,0) 60%)",
+                "radial-gradient(ellipse 70% 60% at 38% 42%, rgba(253,251,247,0.8) 0%, rgba(241,233,215,0) 62%)",
             }}
           />
-          <div className="relative mx-auto px-6 lg:px-8 pt-32 md:pt-36 max-w-[1200px]">
+          <div className="relative mx-auto px-6 lg:px-8 pt-32 md:pt-36 pb-16 md:pb-20 max-w-[1200px]">
             <motion.nav
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.05 }}
               aria-label="Breadcrumb"
-              className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-[#A8A29E] mb-8"
+              className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-[#A8A29E] mb-10"
             >
               <ol className="flex items-center gap-2 m-0 p-0 list-none">
                 <li>
@@ -105,52 +104,26 @@ export default function AboutClientView() {
               </ol>
             </motion.nav>
 
-            {/* Hero stage */}
-            <div className="relative pt-6 pb-16 md:pb-24">
-              {/* Availability pill — top left */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+              {/* LEFT: the portrait cutout on warm glow */}
               <motion.div
-                initial={{ opacity: 0, y: -8 }}
+                initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.15 }}
-                className="relative z-20 inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white shadow-[var(--shadow-soft)]"
+                transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                className="lg:col-span-5 relative"
               >
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#4A3B33]">
-                  Available for new projects
-                </span>
-              </motion.div>
-
-              {/* Center stage: giant serif greeting BEHIND the photo — bold, full opacity like the reference */}
-              <div className="relative mt-2">
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 1, delay: 0.25 }}
-                  aria-hidden="true"
-                  className="absolute inset-x-0 top-[15%] -translate-y-1/2 text-center font-serif italic font-bold text-[clamp(3rem,8vw,6rem)] leading-none text-[#4A3B33] select-none pointer-events-none whitespace-nowrap"
-                >
-                  Hey, there
-                </motion.div>
-
-                {/* Warm radial glow behind the portrait */}
                 <div
                   aria-hidden="true"
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px] sm:w-[620px] sm:h-[620px] rounded-full pointer-events-none"
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] h-[420px] rounded-full pointer-events-none"
                   style={{
                     background:
-                      "radial-gradient(circle, rgba(233,214,182,0.9) 0%, rgba(228,192,144,0.4) 45%, rgba(241,233,215,0) 72%)",
+                      "radial-gradient(circle, rgba(233,214,182,0.95) 0%, rgba(228,192,144,0.45) 45%, rgba(241,233,215,0) 72%)",
                   }}
                 />
-
-                {/* The portrait — ML cutout with a soft grounding shadow, bottom melts into the page */}
-                <motion.div
-                  initial={{ opacity: 0, y: 26 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative z-10 mx-auto w-[330px] sm:w-[430px] mt-8 sm:mt-14"
+                <div className="relative mx-auto w-[300px] sm:w-[350px]"
                   style={{
-                    maskImage: "linear-gradient(to bottom, black 76%, transparent 99%)",
-                    WebkitMaskImage: "linear-gradient(to bottom, black 76%, transparent 99%)",
+                    maskImage: "linear-gradient(to bottom, black 80%, transparent 99%)",
+                    WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 99%)",
                   }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -158,33 +131,72 @@ export default function AboutClientView() {
                     src="/me-cutout.png"
                     alt="Aniket Mishra"
                     className="w-full h-auto block"
-                    style={{ filter: "drop-shadow(34px 30px 34px rgba(74,59,51,0.38))" }}
+                    style={{ filter: "drop-shadow(26px 22px 26px rgba(74,59,51,0.35))" }}
                     draggable={false}
                   />
-                </motion.div>
-
-                {/* Small specialization note — right of the portrait */}
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.7, delay: 0.55 }}
-                  className="hidden lg:block absolute right-0 top-[30%] max-w-[210px] text-[13px] leading-[1.8] text-[#78716C] m-0"
-                >
-                  Specialized in production web apps, Chrome extensions, media pipelines and AI integrations —
-                  shipped on fixed-scope sprints.
-                </motion.p>
-              </div>
-
-              {/* Giant name — bottom left, filled */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                className="font-serif font-black uppercase text-[#4A3B33] leading-[1] tracking-[-0.01em] text-[clamp(1.7rem,4.8vw,3.9rem)] mt-4 whitespace-nowrap"
-              >
-                I am Aniket Mishra
+                </div>
               </motion.div>
 
+              {/* RIGHT: value proposition */}
+              <div className="lg:col-span-7">
+                <motion.div
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white shadow-[var(--shadow-soft)] mb-6"
+                >
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#4A3B33]">
+                    Available for new projects
+                  </span>
+                </motion.div>
+
+                <motion.h1
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                  className="font-serif text-[clamp(1.9rem,3.8vw,3.1rem)] leading-[1.12] tracking-[-0.025em] font-bold text-[#4A3B33] text-balance m-0 mb-6"
+                >
+                  I build software that ships, and I stick around{" "}
+                  <span className="text-[#B45309] italic font-normal">when it breaks.</span>
+                </motion.h1>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.35 }}
+                  className="text-[1.02rem] leading-[1.8] text-[#57534E] max-w-[34rem] m-0 mb-8"
+                >
+                  The last year went into things people can open and use: two extensions on the
+                  official Chrome Web Store (OmTabs and OmSpace), an edge-first lecture ingestion
+                  engine (Centrix), an image tool that edits photos entirely inside the browser
+                  (ImgWorld.biz), and a pipeline that moves multi-gigabyte videos between cloud
+                  services without filling a single server's RAM (Nexus Streamer).
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.45 }}
+                  className="flex flex-wrap gap-3"
+                >
+                  <Link
+                    href="/#get-access"
+                    onClick={() => sound.playClick()}
+                    className="group inline-flex items-center gap-2 rounded-[var(--radius)] font-bold text-sm tracking-wide px-6 py-3 transition-all duration-200 bg-[#B45309] text-white shadow-[var(--shadow-soft)] hover:bg-[#A16207] hover:-translate-y-px no-underline"
+                  >
+                    Work With Me
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                  </Link>
+                  <Link
+                    href="/blog"
+                    onClick={() => sound.playClick()}
+                    className="group inline-flex items-center gap-2 rounded-[var(--radius)] font-bold text-sm tracking-wide px-6 py-3 transition-all duration-200 bg-white text-[#57534E] shadow-[var(--shadow-soft)] hover:text-[#4A3B33] hover:-translate-y-px no-underline"
+                  >
+                    Read the Case Studies
+                  </Link>
+                </motion.div>
+              </div>
             </div>
           </div>
         </header>
@@ -227,13 +239,6 @@ export default function AboutClientView() {
               transition={{ duration: 0.65 }}
               className="lg:col-span-8 space-y-5 text-[1.02rem] leading-[1.8] text-[#57534E]"
             >
-              <p className="m-0">
-                The last year went into things people can open and use: two extensions on the
-                official Chrome Web Store (OmTabs and OmSpace), an edge-first lecture ingestion
-                engine (Centrix), an image tool that edits photos entirely inside the browser
-                (ImgWorld.biz), and a pipeline that moves multi-gigabyte videos between cloud
-                services without filling a single server's RAM (Nexus Streamer).
-              </p>
               <p className="m-0">
                 I work freelance, and I keep it boring on purpose: written scope before we start,
                 a fixed price, a deployed build you can click through every week, and the full
