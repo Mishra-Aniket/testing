@@ -61,16 +61,36 @@ function PhotoCard() {
 
   return (
     <div className="relative w-fit mx-auto lg:mx-0 select-none py-6" style={{ perspective: 1100 }}>
+      {/* Giant editorial monogram behind everything — cropped by the page edge */}
+      <div
+        aria-hidden="true"
+        className="absolute -top-16 -left-12 sm:-top-24 sm:-left-16 font-serif font-bold leading-none text-[9rem] sm:text-[14rem] text-[#F1E7D0] select-none pointer-events-none z-0"
+      >
+        AM
+      </div>
+
       {/* Soft ambient glow behind — borderless depth */}
-      <div aria-hidden="true" className="absolute top-10 left-[-24px] w-[248px] sm:w-[286px] h-[75%] rounded-[2.5rem] bg-[#B45309]/15 blur-3xl rotate-[-8deg]" />
-      <div aria-hidden="true" className="absolute top-10 right-[-24px] w-[248px] sm:w-[286px] h-[75%] rounded-[2.5rem] bg-[#E4C090]/50 blur-3xl rotate-[7deg]" />
-      <div aria-hidden="true" className="absolute inset-x-10 -bottom-1 h-12 rounded-[50%] bg-[#4A3B33]/25 blur-2xl" />
+      <div aria-hidden="true" className="absolute top-10 left-[-24px] w-[248px] sm:w-[286px] h-[75%] rounded-[2.5rem] bg-[#B45309]/15 blur-3xl rotate-[-8deg] z-0" />
+      <div aria-hidden="true" className="absolute top-10 right-[-24px] w-[248px] sm:w-[286px] h-[75%] rounded-[2.5rem] bg-[#E4C090]/50 blur-3xl rotate-[7deg] z-0" />
+      <div aria-hidden="true" className="absolute inset-x-10 -bottom-1 h-12 rounded-[50%] bg-[#4A3B33]/25 blur-2xl z-0" />
+
+      {/* Vertical editorial label along the photo's right edge */}
+      <div
+        aria-hidden="true"
+        className="absolute top-1/2 -translate-y-1/2 right-[-20px] sm:-right-8 z-0 flex items-center gap-2"
+        style={{ writingMode: "vertical-rl" }}
+      >
+        <span className="block w-px h-10 bg-[#D6CDB8]" />
+        <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.3em] text-[#A8A29E]">
+          Aniket Mishra — Portfolio
+        </span>
+      </div>
 
       <motion.div
         ref={ref}
         onMouseMove={handleMove}
         onMouseLeave={handleLeave}
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        style={{ rotateX, rotateY, transformStyle: "preserve-3d", position: "relative", zIndex: 1 }}
         className="relative w-[248px] sm:w-[286px] rounded-[1.4rem] overflow-hidden bg-[#F3EBDD] shadow-[0_36px_70px_-24px_rgba(74,59,51,0.5)]"
       >
         <div className="relative aspect-[4/5]" style={{ transformStyle: "preserve-3d" }}>
