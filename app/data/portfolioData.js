@@ -132,7 +132,7 @@ export const PROJECTS = [
     description:
       "A modern circular application launcher and fuzzy search HUD for Windows 10/11 built with C# and WPF. Brings macOS-style radial aesthetics with global hotkeys, 8 configurable app slots, and lightning-fast keyboard navigation.",
     tags: [".NET 8", "C#", "WPF", "Windows API", "XAML"],
-    githubUrl: "https://github.com/aniketmishra-0/RedialWin",
+    githubUrl: "https://github.com/aniketmishra-0/RedialMenu-releases",
     liveUrl: "https://aniketmishra-0.github.io/RedialMenu-releases/",
     liveLabel: "Download Release (.exe)",
     highlights: [
@@ -153,7 +153,7 @@ export const PROJECTS = [
     description:
       "A comprehensive in-browser image editing suite running entirely on the user's hardware. Utilizes the native Canvas API, Web ImageDecoder, FaceDetector, and on-device ONNX background removal models without server uploads.",
     tags: ["React 19", "ONNX Runtime Web", "Web ImageDecoder", "Canvas API", "Vite", "Tailwind CSS"],
-    githubUrl: "https://github.com/aniketmishra-0/imgWorld.biz",
+    githubUrl: "https://github.com/aniketmishra-0",
     liveUrl: "https://www.imgworld.biz/",
     liveLabel: "Launch ImgWorld.biz",
     highlights: [
