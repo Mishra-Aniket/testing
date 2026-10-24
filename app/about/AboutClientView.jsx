@@ -127,7 +127,7 @@ export default function AboutClientView() {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 1, delay: 0.25 }}
                   aria-hidden="true"
-                  className="absolute inset-x-0 top-[24%] -translate-y-1/2 text-center font-serif italic font-bold text-[clamp(3.5rem,9.5vw,7rem)] leading-none text-[#4A3B33] select-none pointer-events-none whitespace-nowrap"
+                  className="absolute inset-x-0 top-[15%] -translate-y-1/2 text-center font-serif italic font-bold text-[clamp(3rem,8vw,6rem)] leading-none text-[#4A3B33] select-none pointer-events-none whitespace-nowrap"
                 >
                   Hey, there
                 </motion.div>
@@ -147,7 +147,7 @@ export default function AboutClientView() {
                   initial={{ opacity: 0, y: 26 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative z-10 mx-auto w-[340px] sm:w-[460px] -mt-6 sm:-mt-10"
+                  className="relative z-10 mx-auto w-[330px] sm:w-[430px] mt-8 sm:mt-14"
                   style={{
                     maskImage: "linear-gradient(to bottom, black 76%, transparent 99%)",
                     WebkitMaskImage: "linear-gradient(to bottom, black 76%, transparent 99%)",
@@ -180,9 +180,9 @@ export default function AboutClientView() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                className="font-serif font-black uppercase text-[#4A3B33] leading-[0.88] tracking-[-0.02em] text-[clamp(2.8rem,8vw,6rem)] -mt-2 lg:mt-2 lg:-translate-y-6"
+                className="font-serif font-black uppercase text-[#4A3B33] leading-[1] tracking-[-0.01em] text-[clamp(1.7rem,4.8vw,3.9rem)] mt-4 whitespace-nowrap"
               >
-                I am<br />Aniket
+                I am Aniket Mishra
               </motion.div>
 
               {/* Giant role — bottom right, OUTLINE style like the reference */}
