@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Navbar from "../components/Navbar";
 import DarkCTA from "../components/DarkCTA";
 import Footer from "../components/Footer";
@@ -23,34 +23,82 @@ import {
 } from "lucide-react";
 import { sound } from "../utils/sound";
 
-/* ---------- Photo card (clean, no gimmicks) ---------- */
+/* ---------- Photo card: dual-photo crossfade with subtle 3D tilt ---------- */
+const PHOTOS = ["/me-1.jpg", "/me-2.jpg"];
+
 function PhotoCard() {
-  const [imgOk, setImgOk] = useState(true);
+  const ref = useRef(null);
+  const [active, setActive] = useState(0);
+
+  // Auto-rotate photos
+  useEffect(() => {
+    const t = setInterval(() => setActive((p) => (p + 1) % PHOTOS.length), 4200);
+    return () => clearInterval(t);
+  }, []);
+
+  // Subtle 3D tilt following the pointer
+  const mx = useMotionValue(0.5);
+  const my = useMotionValue(0.5);
+  const rotateX = useSpring(useTransform(my, [0, 1], [6, -6]), { stiffness: 140, damping: 16 });
+  const rotateY = useSpring(useTransform(mx, [0, 1], [-7, 7]), { stiffness: 140, damping: 16 });
+
+  const handleMove = (e) => {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    mx.set((e.clientX - r.left) / r.width);
+    my.set((e.clientY - r.top) / r.height);
+  };
+  const handleLeave = () => {
+    mx.set(0.5);
+    my.set(0.5);
+  };
 
   return (
-    <div className="relative w-fit mx-auto lg:mx-0 select-none">
-      <div className="relative w-[248px] sm:w-[286px] rounded-2xl border border-[#E4D9BC] bg-white p-3 shadow-[var(--shadow-soft-lg)]">
-        <div className="relative overflow-hidden rounded-xl aspect-[4/5] bg-[#F3EBDD] grid place-items-center">
-          {imgOk ? (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
-              src="/me.jpg"
-              alt="Aniket Mishra"
-              className="w-full h-full object-cover"
-              onError={() => setImgOk(false)}
-            />
-          ) : (
-            <div className="grid place-items-center gap-3 text-center px-6">
-              <span className="font-serif text-5xl font-bold text-[#B45309] m-0">AM</span>
-              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#A8A29E] m-0">
-                Aniket Mishra
-              </span>
-            </div>
-          )}
+    <div className="relative w-fit mx-auto lg:mx-0 select-none" style={{ perspective: 1000 }}>
+      {/* Soft depth shadow base */}
+      <div aria-hidden="true" className="absolute inset-x-4 -bottom-5 h-10 rounded-[50%] bg-[#4A3B33]/15 blur-xl" />
 
-          <div className="absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/95 border border-emerald-600/30 shadow-sm">
+      <motion.div
+        ref={ref}
+        onMouseMove={handleMove}
+        onMouseLeave={handleLeave}
+        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        className="relative w-[248px] sm:w-[286px] rounded-2xl border border-[#E4D9BC] bg-white p-3 shadow-[var(--shadow-soft-lg)]"
+      >
+        <div className="relative overflow-hidden rounded-xl aspect-[4/5] bg-[#F3EBDD]">
+          {PHOTOS.map((src, i) => (
+            <motion.img
+              key={src}
+              /* eslint-disable-next-line @next/next/no-img-element */
+              src={src}
+              alt="Aniket Mishra"
+              initial={false}
+              animate={{ opacity: active === i ? 1 : 0, scale: active === i ? 1 : 1.04 }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          ))}
+
+          {/* Available badge — floats above the photo in 3D */}
+          <div style={{ transform: "translateZ(40px)" }} className="absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/95 border border-emerald-600/30 shadow-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span className="font-mono text-[9px] font-bold uppercase tracking-wider text-emerald-700">Available</span>
+          </div>
+
+          {/* Photo switcher dots */}
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+            {PHOTOS.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                aria-label={`Photo ${i + 1}`}
+                onClick={() => setActive(i)}
+                className={`h-1.5 rounded-full cursor-pointer transition-all ${
+                  active === i ? "bg-white w-4" : "w-1.5 bg-white/50 hover:bg-white/80"
+                }`}
+              />
+            ))}
           </div>
         </div>
 
@@ -64,7 +112,7 @@ function PhotoCard() {
             2 Profiles
           </span>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
