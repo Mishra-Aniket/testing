@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from "framer-motion";
+import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import DarkCTA from "../components/DarkCTA";
 import Footer from "../components/Footer";
@@ -23,153 +23,7 @@ import {
 } from "lucide-react";
 import { sound } from "../utils/sound";
 
-/* ---------- Photo card: dual-photo crossfade with subtle 3D tilt ---------- */
 const PHOTOS = ["/me-1.jpg", "/me-2.jpg"];
-
-function PhotoCard() {
-  const ref = useRef(null);
-  const [active, setActive] = useState(0);
-
-  // Auto-rotate photos
-  useEffect(() => {
-    const t = setInterval(() => setActive((p) => (p + 1) % PHOTOS.length), 4200);
-    return () => clearInterval(t);
-  }, []);
-
-  // 3D tilt: pointer-driven with a resting tilt so the card reads as 3D even untouched
-  const mx = useMotionValue(0.5);
-  const my = useMotionValue(0.5);
-  // Bolder resting angle so the depth is obvious even untouched
-  const rotateX = useSpring(useTransform(my, [0, 1], [16, -3]), { stiffness: 150, damping: 16 });
-  const rotateY = useSpring(useTransform(mx, [0, 1], [-17, 2]), { stiffness: 150, damping: 16 });
-
-  // Glare highlight that follows the pointer across the glass
-  const glareX = useTransform(mx, [0, 1], [15, 85]);
-  const glareY = useTransform(my, [0, 1], [15, 85]);
-  const glare = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.38) 0%, rgba(255,255,255,0.10) 28%, transparent 55%)`;
-
-  const handleMove = (e) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    mx.set((e.clientX - r.left) / r.width);
-    my.set((e.clientY - r.top) / r.height);
-  };
-  const handleLeave = () => {
-    mx.set(0.5);
-    my.set(0.5);
-  };
-
-  return (
-    <div className="relative w-fit mx-auto lg:mx-0 select-none py-8" style={{ perspective: 1300 }}>
-      {/* Soft ambient glow behind — borderless depth */}
-      <div aria-hidden="true" className="absolute top-12 left-[-24px] w-[248px] sm:w-[286px] h-[70%] rounded-[2.5rem] bg-[#B45309]/15 blur-3xl rotate-[-8deg] z-0" />
-      <div aria-hidden="true" className="absolute top-12 right-[-24px] w-[248px] sm:w-[286px] h-[70%] rounded-[2.5rem] bg-[#E4C090]/50 blur-3xl rotate-[7deg] z-0" />
-      <div aria-hidden="true" className="absolute inset-x-10 bottom-14 h-12 rounded-[50%] bg-[#4A3B33]/30 blur-2xl z-0" />
-
-      <motion.div
-        ref={ref}
-        onMouseMove={handleMove}
-        onMouseLeave={handleLeave}
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d", position: "relative", zIndex: 1 }}
-        className="relative w-[248px] sm:w-[286px]"
-      >
-        {/* CARD THICKNESS — extruded edge layers behind the photo plate */}
-        {[6, 5, 4, 3, 2, 1].map((n) => (
-          <div
-            key={n}
-            aria-hidden="true"
-            style={{ transform: `translateZ(-${n * 4}px)` }}
-            className={`absolute inset-0 rounded-[1.4rem] ${
-              n > 4 ? "bg-[#C9B48E]" : n > 2 ? "bg-[#D8C6A2]" : "bg-[#E6D9BE]"
-            }`}
-          />
-        ))}
-
-        {/* PHOTO PLATE — the front face of the card */}
-        <div
-          className="relative rounded-[1.4rem] overflow-hidden bg-[#F3EBDD] shadow-[0_42px_80px_-24px_rgba(74,59,51,0.55)]"
-          style={{ transform: "translateZ(2px)" }}
-        >
-          <div className="relative aspect-[4/5]">
-            {PHOTOS.map((src, i) => (
-              <motion.img
-                key={src}
-                /* eslint-disable-next-line @next/next/no-img-element */
-                src={src}
-                alt="Aniket Mishra"
-                initial={false}
-                animate={{ opacity: active === i ? 1 : 0, scale: active === i ? 1 : 1.05 }}
-                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            ))}
-
-            {/* Cinematic bottom gradient */}
-            <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#1C1917]/80 via-[#1C1917]/30 to-transparent" />
-
-            {/* Pointer-following glass glare */}
-            <motion.div
-              aria-hidden="true"
-              style={{ background: glare, mixBlendMode: "overlay" }}
-              className="absolute inset-0 pointer-events-none"
-            />
-
-            {/* Photo switcher dots — vertical, right edge */}
-            <div className="absolute top-3 right-3 flex flex-col gap-1.5">
-              {PHOTOS.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  aria-label={`Photo ${i + 1}`}
-                  onClick={() => setActive(i)}
-                  className={`w-1.5 rounded-full cursor-pointer transition-all ${
-                    active === i ? "bg-[#E4C090] h-4" : "h-1.5 bg-white/50 hover:bg-white/80"
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* AVAILABLE BADGE — pops OUT of the card in real 3D */}
-        <div
-          style={{ transform: "translateZ(70px)", transformStyle: "preserve-3d" }}
-          className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-600 shadow-[0_16px_28px_-8px_rgba(5,150,105,0.6)]"
-        >
-          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-          <span className="font-mono text-[9.5px] font-bold uppercase tracking-wider text-white">Available</span>
-        </div>
-
-        {/* IDENTITY PLATE — floats above the card's bottom edge in 3D */}
-        <div
-          style={{ transform: "translateZ(55px)", transformStyle: "preserve-3d" }}
-          className="absolute -bottom-6 left-4 right-4 rounded-2xl bg-white shadow-[0_24px_44px_-14px_rgba(74,59,51,0.55)] px-4 py-3.5"
-        >
-          <div className="flex items-center justify-between gap-2">
-            <div className="min-w-0">
-              <div className="font-serif text-[15px] font-bold text-[#4A3B33] leading-tight">Aniket Mishra</div>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <MapPin className="w-2.5 h-2.5 text-[#B45309] shrink-0" />
-                <span className="font-mono text-[8.5px] uppercase tracking-[0.14em] text-[#78716C]">Prayagraj, India</span>
-              </div>
-            </div>
-            <a
-              href="https://github.com/aniketmishra-0"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => sound.playClick()}
-              aria-label="GitHub profile"
-              className="grid place-items-center w-8 h-8 rounded-xl bg-[#B45309] text-white shrink-0 cursor-pointer transition-transform hover:scale-105"
-            >
-              <Github className="w-3.5 h-3.5" />
-            </a>
-          </div>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
 
 /* ---------- Data ---------- */
 const FACTS = [
@@ -198,7 +52,13 @@ const WORK_STEPS = [
 /* ---------- Page ---------- */
 export default function AboutClientView() {
   const [searchOpen, setSearchOpen] = useState(false);
+  const [active, setActive] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const t = setInterval(() => setActive((p) => (p + 1) % PHOTOS.length), 4200);
+    return () => clearInterval(t);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -222,16 +82,16 @@ export default function AboutClientView() {
       <Navbar onOpenSearch={() => setSearchOpen(true)} onOpenAssessment={() => {}} />
 
       <main className="relative z-10 bg-[#FDFBF7] text-[#4A3B33]">
-        {/* Hero: photo + bio */}
+        {/* ============ MADISON-STYLE HERO ============ */}
         <header className="relative overflow-hidden bg-[#FDFBF7]">
           <div aria-hidden="true" className="plate-grid absolute inset-0 opacity-40 pointer-events-none" />
-          <div className="relative mx-auto px-6 lg:px-8 pt-32 md:pt-40 pb-14 md:pb-20 max-w-[1200px]">
+          <div className="relative mx-auto px-6 lg:px-8 pt-32 md:pt-36 max-w-[1200px]">
             <motion.nav
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.05 }}
               aria-label="Breadcrumb"
-              className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-[#A8A29E] mb-10"
+              className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-[#A8A29E] mb-8"
             >
               <ol className="flex items-center gap-2 m-0 p-0 list-none">
                 <li>
@@ -244,91 +104,200 @@ export default function AboutClientView() {
               </ol>
             </motion.nav>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            {/* Hero stage */}
+            <div className="relative pt-6 pb-16 md:pb-24">
+              {/* Availability pill — top left */}
               <motion.div
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.1 }}
-                className="lg:col-span-5"
+                transition={{ duration: 0.5, delay: 0.15 }}
+                className="relative z-20 inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white shadow-[var(--shadow-soft)]"
               >
-                <PhotoCard />
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#4A3B33]">
+                  Available for new projects
+                </span>
               </motion.div>
 
-              <div className="lg:col-span-7">
-                <motion.span
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.15 }}
-                  className="inline-flex items-center gap-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] leading-none text-[#B45309] mb-6"
-                >
-                  <span aria-hidden="true" className="h-[7px] w-[7px] bg-[#B45309]" />
-                  About Me
-                </motion.span>
-
-                <motion.h1
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="font-serif text-[clamp(2rem,4vw,3.25rem)] leading-[1.12] tracking-[-0.03em] font-bold text-[#4A3B33] text-balance m-0 mb-7"
-                >
-                  I build software that ships, and I stick around{" "}
-                  <span className="text-[#B45309] italic font-normal">when it breaks.</span>
-                </motion.h1>
-
+              {/* Center stage: giant serif greeting BEHIND the photo */}
+              <div className="relative mt-2">
                 <motion.div
-                  initial={{ opacity: 0, y: 18 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.3 }}
-                  className="space-y-5 text-[1.02rem] leading-[1.8] text-[#57534E]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 1, delay: 0.25 }}
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-[38%] -translate-y-1/2 text-center font-serif italic font-medium text-[clamp(3.5rem,11vw,8.5rem)] leading-none text-[#4A3B33]/[0.16] select-none pointer-events-none whitespace-nowrap"
                 >
-                  <p className="m-0">
-                    The last year went into things people can open and use: two extensions on the
-                    official Chrome Web Store (OmTabs and OmSpace), an edge-first lecture ingestion
-                    engine (Centrix), an image tool that edits photos entirely inside the browser
-                    (ImgWorld.biz), and a pipeline that moves multi-gigabyte videos between cloud
-                    services without filling a single server's RAM (Nexus Streamer).
-                  </p>
-                  <p className="m-0">
-                    I work freelance, and I keep it boring on purpose: written scope before we start,
-                    a fixed price, a deployed build you can click through every week, and the full
-                    source handed over at the end. You will never sit through a "trust me, it's 90%
-                    done" call with me.
-                  </p>
-                  <p className="m-0">
-                    Everything on this site is real work, live or having run in production — no
-                    tutorial clones, no numbers I can't defend in a call. Look at the work, talk to
-                    me, decide.
-                  </p>
+                  Hey, there
                 </motion.div>
 
+                {/* Warm radial glow behind the portrait */}
+                <div
+                  aria-hidden="true"
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[420px] sm:w-[520px] sm:h-[520px] rounded-full pointer-events-none"
+                  style={{
+                    background:
+                      "radial-gradient(circle, rgba(228,192,144,0.55) 0%, rgba(180,83,9,0.16) 45%, rgba(253,251,247,0) 70%)",
+                  }}
+                />
+
+                {/* The portrait — bottom fades into the page */}
                 <motion.div
-                  initial={{ opacity: 0, y: 14 }}
+                  initial={{ opacity: 0, y: 26 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                  className="mt-9 flex flex-wrap gap-3"
+                  transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                  className="relative z-10 mx-auto w-[290px] sm:w-[350px]"
                 >
-                  <Link
-                    href="/#get-access"
-                    onClick={() => sound.playClick()}
-                    className="group inline-flex items-center gap-2 rounded-[var(--radius)] font-bold text-sm tracking-wide px-6 py-3 transition-all duration-200 bg-[#B45309] text-white shadow-[var(--shadow-soft)] hover:bg-[#A16207] hover:-translate-y-px no-underline"
+                  <div
+                    className="relative aspect-[4/5] rounded-[2rem] overflow-hidden"
+                    style={{
+                      maskImage: "linear-gradient(to bottom, black 78%, transparent 99%)",
+                      WebkitMaskImage: "linear-gradient(to bottom, black 78%, transparent 99%)",
+                    }}
                   >
-                    Work With Me
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-                  </Link>
-                  <Link
-                    href="/blog"
-                    onClick={() => sound.playClick()}
-                    className="group inline-flex items-center gap-2 rounded-[var(--radius)] font-bold text-sm tracking-wide px-6 py-3 transition-all duration-200 bg-white text-[#57534E] border border-[#E4D9BC] shadow-[var(--shadow-soft)] hover:text-[#4A3B33] hover:border-[#B45309]/50 hover:-translate-y-px no-underline"
-                  >
-                    Read the Case Studies
-                  </Link>
+                    {PHOTOS.map((src, i) => (
+                      <motion.img
+                        key={src}
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        src={src}
+                        alt="Aniket Mishra"
+                        initial={false}
+                        animate={{ opacity: active === i ? 1 : 0, scale: active === i ? 1 : 1.04 }}
+                        transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    ))}
+                  </div>
+
+                  {/* Photo switcher dots */}
+                  <div className="relative z-20 flex justify-center gap-2 -mt-6">
+                    {PHOTOS.map((_, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        aria-label={`Photo ${i + 1}`}
+                        onClick={() => setActive(i)}
+                        className={`h-1.5 rounded-full cursor-pointer transition-all ${
+                          active === i ? "bg-[#B45309] w-5" : "w-1.5 bg-[#D6CDB8] hover:bg-[#B45309]/60"
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </motion.div>
+
+                {/* Small specialization note — right of the portrait */}
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.7, delay: 0.55 }}
+                  className="hidden lg:block absolute right-0 top-[30%] max-w-[210px] text-[13px] leading-[1.8] text-[#78716C] m-0"
+                >
+                  Specialized in production web apps, Chrome extensions, media pipelines and AI integrations —
+                  shipped on fixed-scope sprints.
+                </motion.p>
               </div>
+
+              {/* Giant name — bottom left */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                className="font-serif font-black uppercase text-[#4A3B33] leading-[0.88] tracking-[-0.02em] text-[clamp(2.8rem,8.5vw,6.5rem)] mt-6 lg:mt-0"
+              >
+                I am<br />Aniket
+              </motion.div>
+
+              {/* Giant role — bottom right */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="font-serif font-black uppercase text-[#B45309] leading-[0.88] tracking-[-0.02em] text-[clamp(2.8rem,8.5vw,6.5rem)] text-right lg:absolute lg:right-8 lg:bottom-24 mt-4 lg:mt-0"
+              >
+                Full-Stack<br />Developer
+              </motion.div>
             </div>
           </div>
         </header>
 
-        {/* Quick facts — 3D glass tiles */}
+        {/* ============ BIO ============ */}
+        <section className="relative border-t border-[#E4D9BC] py-16 md:py-20">
+          <div className="max-w-[1200px] mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14">
+            <div className="lg:col-span-4">
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B45309]">
+                The short version
+              </span>
+              <h2 className="font-serif text-2xl font-bold text-[#4A3B33] mt-3 mb-4 m-0 leading-snug">
+                Work first.<br />Everything else after.
+              </h2>
+              <div className="flex flex-wrap gap-2.5">
+                <a
+                  href="https://github.com/aniketmishra-0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => sound.playClick()}
+                  className="inline-flex items-center gap-1.5 font-mono text-[10.5px] font-bold uppercase tracking-wider text-[#57534E] bg-white rounded-full px-3.5 py-2 shadow-xs hover:text-[#B45309] transition-colors no-underline"
+                >
+                  <Github className="w-3 h-3" /> @aniketmishra-0
+                </a>
+                <a
+                  href="https://github.com/Mishra-Aniket"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => sound.playClick()}
+                  className="inline-flex items-center gap-1.5 font-mono text-[10.5px] font-bold uppercase tracking-wider text-[#57534E] bg-white rounded-full px-3.5 py-2 shadow-xs hover:text-[#B45309] transition-colors no-underline"
+                >
+                  <Github className="w-3 h-3" /> @Mishra-Aniket
+                </a>
+              </div>
+            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.65 }}
+              className="lg:col-span-8 space-y-5 text-[1.02rem] leading-[1.8] text-[#57534E]"
+            >
+              <p className="m-0">
+                The last year went into things people can open and use: two extensions on the
+                official Chrome Web Store (OmTabs and OmSpace), an edge-first lecture ingestion
+                engine (Centrix), an image tool that edits photos entirely inside the browser
+                (ImgWorld.biz), and a pipeline that moves multi-gigabyte videos between cloud
+                services without filling a single server's RAM (Nexus Streamer).
+              </p>
+              <p className="m-0">
+                I work freelance, and I keep it boring on purpose: written scope before we start,
+                a fixed price, a deployed build you can click through every week, and the full
+                source handed over at the end. You will never sit through a "trust me, it's 90%
+                done" call with me.
+              </p>
+              <p className="m-0">
+                Everything on this site is real work, live or having run in production — no
+                tutorial clones, no numbers I can't defend in a call. Look at the work, talk to
+                me, decide.
+              </p>
+              <div className="pt-2 flex flex-wrap gap-3">
+                <Link
+                  href="/#get-access"
+                  onClick={() => sound.playClick()}
+                  className="group inline-flex items-center gap-2 rounded-[var(--radius)] font-bold text-sm tracking-wide px-6 py-3 transition-all duration-200 bg-[#B45309] text-white shadow-[var(--shadow-soft)] hover:bg-[#A16207] hover:-translate-y-px no-underline"
+                >
+                  Work With Me
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                </Link>
+                <Link
+                  href="/blog"
+                  onClick={() => sound.playClick()}
+                  className="group inline-flex items-center gap-2 rounded-[var(--radius)] font-bold text-sm tracking-wide px-6 py-3 transition-all duration-200 bg-white text-[#57534E] shadow-[var(--shadow-soft)] hover:text-[#4A3B33] hover:-translate-y-px no-underline"
+                >
+                  Read the Case Studies
+                </Link>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Quick facts — tiles */}
         <section className="relative mx-auto px-6 lg:px-8 pb-20 max-w-[1200px]">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {FACTS.map((f, idx) => {
@@ -336,15 +305,13 @@ export default function AboutClientView() {
               return (
                 <motion.div
                   key={f.label}
-                  initial={{ opacity: 0, y: 22, rotateX: 8 }}
-                  whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                  initial={{ opacity: 0, y: 22 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ duration: 0.55, delay: idx * 0.08 }}
-                  whileHover={{ y: -6, rotateX: 4, rotateY: -3 }}
-                  style={{ transformStyle: "preserve-3d", perspective: 700 }}
-                  className="rounded-2xl border border-[#E4D9BC] bg-white p-5 shadow-[0_18px_36px_-18px_rgba(74,59,51,0.25)]"
+                  className="rounded-2xl bg-white p-5 shadow-[var(--shadow-soft)]"
                 >
-                  <span className="grid place-items-center w-9 h-9 rounded-lg bg-[#B45309]/10 border border-[#B45309]/25 mb-3">
+                  <span className="grid place-items-center w-9 h-9 rounded-lg bg-[#B45309]/10 mb-3">
                     <Icon className="w-4 h-4 text-[#B45309]" />
                   </span>
                   <div className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-[#A8A29E]">{f.label}</div>
@@ -399,7 +366,7 @@ export default function AboutClientView() {
         </section>
 
         {/* How I work — 4 tiles */}
-        <section className="relative mx-auto px-6 lg:px-8 pb-20 max-w-[1200px]">
+        <section className="relative mx-auto px-6 lg:px-8 py-20 max-w-[1200px]">
           <div className="max-w-[700px] mb-10">
             <span className="font-mono text-xs uppercase tracking-wider text-[#B45309] font-bold">How I Work</span>
           </div>
@@ -413,10 +380,10 @@ export default function AboutClientView() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ duration: 0.5, delay: idx * 0.08 }}
-                  className="rounded-xl border border-[#E4D9BC] bg-white p-5"
+                  className="rounded-xl bg-white p-5 shadow-xs"
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <span className="w-8 h-8 rounded-lg bg-[#B45309]/10 border border-[#B45309]/20 grid place-items-center">
+                    <span className="w-8 h-8 rounded-lg bg-[#B45309]/10 grid place-items-center">
                       <Icon className="w-4 h-4 text-[#B45309]" />
                     </span>
                     <span className="font-mono text-[10px] font-bold text-[#A8A29E] tracking-widest">{s.step}</span>
@@ -444,7 +411,7 @@ export default function AboutClientView() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => sound.playClick()}
-              className="inline-flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-wider px-4 py-2 rounded-full bg-white border border-[#E4D9BC] text-[#57534E] hover:border-[#B45309] hover:text-[#B45309] transition-all no-underline"
+              className="inline-flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-wider px-4 py-2 rounded-full bg-white text-[#57534E] hover:text-[#B45309] transition-all no-underline"
             >
               <Github className="w-3.5 h-3.5" />
               @aniketmishra-0
@@ -454,7 +421,7 @@ export default function AboutClientView() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => sound.playClick()}
-              className="inline-flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-wider px-4 py-2 rounded-full bg-white border border-[#E4D9BC] text-[#57534E] hover:border-[#B45309] hover:text-[#B45309] transition-all no-underline"
+              className="inline-flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-wider px-4 py-2 rounded-full bg-white text-[#57534E] hover:text-[#B45309] transition-all no-underline"
             >
               <Github className="w-3.5 h-3.5" />
               @Mishra-Aniket
