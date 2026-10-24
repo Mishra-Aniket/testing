@@ -338,6 +338,7 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
       }
 
       // 1. Dynamic: sample the actual background under the pill (top of the visual stack, excluding the pill/modal itself)
+      let foundDark = false;
       try {
         const stack = document.elementsFromPoint
           ? document.elementsFromPoint(dockX, dockY)
@@ -361,7 +362,6 @@ export default function SearchModal({ isOpen, onOpen, onClose }) {
       // 2. Fallback: direct bounding box check against known dark sections
       if (!foundDark) {
       const darkElements = document.querySelectorAll('[data-theme="dark"], #dark-cta-section, footer');
-      let foundDark = false;
       for (let i = 0; i < darkElements.length; i++) {
         const el = darkElements[i];
         if (el.closest('[data-bottom-search-dock]') || el.closest('[data-search-modal]')) continue;
