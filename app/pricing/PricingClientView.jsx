@@ -238,7 +238,7 @@ export default function PricingClientView() {
     // 2. Fallback: prefilled draft link shown in the UI — opened only on click
     if (!emailed && !dbSaved) {
       setMailtoUrl(buildMailto());
-      setSubmitError("Almost there — tap the button below to send your proposal from your mail app. If it didn't open, email it directly to hello@aniket.one.");
+      setSubmitError("Delivery isn\'t configured yet — tap the button below to send your proposal from your own mail app, or email it directly to hello@aniket.one.");
     } else {
       setMailtoUrl("");
       setSubmitError("");

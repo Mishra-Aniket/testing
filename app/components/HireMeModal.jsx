@@ -81,7 +81,7 @@ export default function HireMeModal({ isOpen, onClose }) {
     sound.playSuccess();
     setSubmitted(true);
     if (!dbSaved) {
-      setFallbackNote("Your mail app should have opened with the details. If it didn't, email hello@aniket.one directly.");
+      setFallbackNote("Delivery isn\'t configured yet — tap below to send your inquiry from your own mail app, or email hello@aniket.one directly.");
     }
     sound.playSuccess();
   };
