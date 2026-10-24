@@ -61,20 +61,20 @@ function PhotoCard() {
 
   return (
     <div className="relative w-fit mx-auto lg:mx-0 select-none py-6" style={{ perspective: 1100 }}>
-      {/* Stacked depth layers behind the card */}
-      <div aria-hidden="true" className="absolute top-7 left-[-14px] w-[248px] sm:w-[286px] h-[calc(100%-1.5rem)] rounded-2xl border-2 border-[#B45309]/30 bg-[#FAF6EE] rotate-[-6deg]" />
-      <div aria-hidden="true" className="absolute top-7 right-[-14px] w-[248px] sm:w-[286px] h-[calc(100%-1.5rem)] rounded-2xl border border-[#E4C090]/70 bg-white rotate-[5deg]" />
-      {/* Soft depth shadow base */}
-      <div aria-hidden="true" className="absolute inset-x-6 -bottom-2 h-12 rounded-[50%] bg-[#4A3B33]/20 blur-xl" />
+      {/* Borderless depth: soft colored glow panels behind the card */}
+      <div aria-hidden="true" className="absolute top-9 left-[-20px] w-[248px] sm:w-[286px] h-[78%] rounded-[2rem] bg-[#B45309]/20 blur-2xl rotate-[-7deg]" />
+      <div aria-hidden="true" className="absolute top-9 right-[-20px] w-[248px] sm:w-[286px] h-[78%] rounded-[2rem] bg-[#E4C090]/60 blur-2xl rotate-[6deg]" />
+      {/* Ambient floor shadow */}
+      <div aria-hidden="true" className="absolute inset-x-8 -bottom-1 h-12 rounded-[50%] bg-[#4A3B33]/25 blur-2xl" />
 
       <motion.div
         ref={ref}
         onMouseMove={handleMove}
         onMouseLeave={handleLeave}
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="relative w-[248px] sm:w-[286px] rounded-2xl border border-[#E4D9BC] bg-white p-3 shadow-[0_28px_50px_-20px_rgba(74,59,51,0.4)]"
+        className="relative w-[248px] sm:w-[286px] rounded-[1.4rem] overflow-hidden bg-[#F3EBDD] shadow-[0_36px_70px_-24px_rgba(74,59,51,0.5)]"
       >
-        <div className="relative overflow-hidden rounded-xl aspect-[4/5] bg-[#F3EBDD]" style={{ transformStyle: "preserve-3d" }}>
+        <div className="relative aspect-[4/5]" style={{ transformStyle: "preserve-3d" }}>
           {PHOTOS.map((src, i) => (
             <motion.img
               key={src}
@@ -88,6 +88,16 @@ function PhotoCard() {
             />
           ))}
 
+          {/* Cinematic bottom gradient with identity — no border, part of the photo */}
+          <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#1C1917]/85 via-[#1C1917]/35 to-transparent" />
+          <div className="absolute bottom-0 inset-x-0 px-5 pb-5">
+            <div className="font-serif text-white text-xl font-bold leading-tight">Aniket Mishra</div>
+            <div className="flex items-center gap-2 mt-1.5">
+              <MapPin className="w-3 h-3 text-[#E4C090] shrink-0" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#E7E5E4]">Prayagraj, India</span>
+            </div>
+          </div>
+
           {/* Pointer-following glass glare */}
           <motion.div
             aria-hidden="true"
@@ -95,38 +105,26 @@ function PhotoCard() {
             className="absolute inset-0 pointer-events-none"
           />
 
-          {/* Available badge — floats above the photo in 3D */}
-          <div style={{ transform: "translateZ(55px)" }} className="absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/95 border border-emerald-600/30 shadow-lg">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="font-mono text-[9px] font-bold uppercase tracking-wider text-emerald-700">Available</span>
+          {/* Available badge — solid pill, floats above the photo in 3D */}
+          <div style={{ transform: "translateZ(55px)" }} className="absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-600 shadow-lg">
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+            <span className="font-mono text-[9px] font-bold uppercase tracking-wider text-white">Available</span>
           </div>
 
           {/* Photo switcher dots */}
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+          <div className="absolute top-3 right-3 flex flex-col gap-1.5">
             {PHOTOS.map((_, i) => (
               <button
                 key={i}
                 type="button"
                 aria-label={`Photo ${i + 1}`}
                 onClick={() => setActive(i)}
-                className={`h-1.5 rounded-full cursor-pointer transition-all ${
-                  active === i ? "bg-white w-4" : "w-1.5 bg-white/50 hover:bg-white/80"
+                className={`w-1.5 rounded-full cursor-pointer transition-all ${
+                  active === i ? "bg-[#E4C090] h-4" : "h-1.5 bg-white/50 hover:bg-white/80"
                 }`}
               />
             ))}
           </div>
-        </div>
-
-        {/* Name plate — raised above the photo surface */}
-        <div style={{ transform: "translateZ(35px)" }} className="flex items-center justify-between px-2 pt-3">
-          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-[#78716C] bg-white/90 rounded-full px-2 py-1 border border-[#E4D9BC] shadow-sm">
-            <MapPin className="w-3 h-3 text-[#B45309]" />
-            Prayagraj, India
-          </span>
-          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-[#78716C] bg-white/90 rounded-full px-2 py-1 border border-[#E4D9BC] shadow-sm">
-            <Github className="w-3 h-3 text-[#B45309]" />
-            2 Profiles
-          </span>
         </div>
       </motion.div>
     </div>
