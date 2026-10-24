@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from "framer-motion";
 import Navbar from "../components/Navbar";
 import DarkCTA from "../components/DarkCTA";
 import Footer from "../components/Footer";
@@ -36,11 +36,16 @@ function PhotoCard() {
     return () => clearInterval(t);
   }, []);
 
-  // Subtle 3D tilt following the pointer
+  // 3D tilt: pointer-driven with a resting tilt so the card reads as 3D even untouched
   const mx = useMotionValue(0.5);
   const my = useMotionValue(0.5);
-  const rotateX = useSpring(useTransform(my, [0, 1], [6, -6]), { stiffness: 140, damping: 16 });
-  const rotateY = useSpring(useTransform(mx, [0, 1], [-7, 7]), { stiffness: 140, damping: 16 });
+  const rotateX = useSpring(useTransform(my, [0, 1], [11, -3]), { stiffness: 150, damping: 16 });
+  const rotateY = useSpring(useTransform(mx, [0, 1], [-11, 3]), { stiffness: 150, damping: 16 });
+
+  // Glare highlight that follows the pointer across the glass
+  const glareX = useTransform(mx, [0, 1], [15, 85]);
+  const glareY = useTransform(my, [0, 1], [15, 85]);
+  const glare = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.38) 0%, rgba(255,255,255,0.10) 28%, transparent 55%)`;
 
   const handleMove = (e) => {
     const el = ref.current;
@@ -55,18 +60,21 @@ function PhotoCard() {
   };
 
   return (
-    <div className="relative w-fit mx-auto lg:mx-0 select-none" style={{ perspective: 1000 }}>
+    <div className="relative w-fit mx-auto lg:mx-0 select-none py-6" style={{ perspective: 1100 }}>
+      {/* Stacked depth layers behind the card */}
+      <div aria-hidden="true" className="absolute top-7 left-[-14px] w-[248px] sm:w-[286px] h-[calc(100%-1.5rem)] rounded-2xl border-2 border-[#B45309]/30 bg-[#FAF6EE] rotate-[-6deg]" />
+      <div aria-hidden="true" className="absolute top-7 right-[-14px] w-[248px] sm:w-[286px] h-[calc(100%-1.5rem)] rounded-2xl border border-[#E4C090]/70 bg-white rotate-[5deg]" />
       {/* Soft depth shadow base */}
-      <div aria-hidden="true" className="absolute inset-x-4 -bottom-5 h-10 rounded-[50%] bg-[#4A3B33]/15 blur-xl" />
+      <div aria-hidden="true" className="absolute inset-x-6 -bottom-2 h-12 rounded-[50%] bg-[#4A3B33]/20 blur-xl" />
 
       <motion.div
         ref={ref}
         onMouseMove={handleMove}
         onMouseLeave={handleLeave}
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="relative w-[248px] sm:w-[286px] rounded-2xl border border-[#E4D9BC] bg-white p-3 shadow-[var(--shadow-soft-lg)]"
+        className="relative w-[248px] sm:w-[286px] rounded-2xl border border-[#E4D9BC] bg-white p-3 shadow-[0_28px_50px_-20px_rgba(74,59,51,0.4)]"
       >
-        <div className="relative overflow-hidden rounded-xl aspect-[4/5] bg-[#F3EBDD]">
+        <div className="relative overflow-hidden rounded-xl aspect-[4/5] bg-[#F3EBDD]" style={{ transformStyle: "preserve-3d" }}>
           {PHOTOS.map((src, i) => (
             <motion.img
               key={src}
@@ -74,14 +82,21 @@ function PhotoCard() {
               src={src}
               alt="Aniket Mishra"
               initial={false}
-              animate={{ opacity: active === i ? 1 : 0, scale: active === i ? 1 : 1.04 }}
+              animate={{ opacity: active === i ? 1 : 0, scale: active === i ? 1 : 1.05 }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
               className="absolute inset-0 w-full h-full object-cover"
             />
           ))}
 
+          {/* Pointer-following glass glare */}
+          <motion.div
+            aria-hidden="true"
+            style={{ background: glare, mixBlendMode: "overlay" }}
+            className="absolute inset-0 pointer-events-none"
+          />
+
           {/* Available badge — floats above the photo in 3D */}
-          <div style={{ transform: "translateZ(40px)" }} className="absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/95 border border-emerald-600/30 shadow-sm">
+          <div style={{ transform: "translateZ(55px)" }} className="absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/95 border border-emerald-600/30 shadow-lg">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span className="font-mono text-[9px] font-bold uppercase tracking-wider text-emerald-700">Available</span>
           </div>
@@ -102,12 +117,13 @@ function PhotoCard() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between px-2 pt-3">
-          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-[#78716C]">
+        {/* Name plate — raised above the photo surface */}
+        <div style={{ transform: "translateZ(35px)" }} className="flex items-center justify-between px-2 pt-3">
+          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-[#78716C] bg-white/90 rounded-full px-2 py-1 border border-[#E4D9BC] shadow-sm">
             <MapPin className="w-3 h-3 text-[#B45309]" />
             Prayagraj, India
           </span>
-          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-[#78716C]">
+          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-[#78716C] bg-white/90 rounded-full px-2 py-1 border border-[#E4D9BC] shadow-sm">
             <Github className="w-3 h-3 text-[#B45309]" />
             2 Profiles
           </span>
@@ -126,11 +142,11 @@ const FACTS = [
 ];
 
 const TIMELINE = [
-  { period: "Nov – Dec 2025", title: "ImgWorld.biz & RadialMenu", note: "Browser-only image tools with on-device AI; a Windows radial launcher shipped with signed installers." },
-  { period: "Jan – Feb 2026", title: "Centrix, built end to end", note: "The edge-first lecture ingestion engine — weighted timetable matching, resumable chunked uploads, zero central bandwidth. January was a 173-commit month." },
-  { period: "Mar – Apr 2026", title: "Nexus Streamer & Office Mobile", note: "Drive-to-YouTube streaming with flat memory; spreadsheets turned into mobile data-entry PWAs." },
-  { period: "May – Jun 2026", title: "Qpic & OmTabs", note: "OCR exam-paper splitting; first Chrome extension live on the official Web Store with a biometric shield." },
-  { period: "Jul – Oct 2026", title: "OmSpace & aniket.one", note: "Second extension on the Web Store; this portfolio rebuilt as a fast static site with live GitHub telemetry." },
+  { period: "Nov – Dec 2025", title: "ImgWorld.biz & RadialMenu", note: "Browser-only image tools with on-device AI; a Windows radial launcher shipped with signed installers.", href: "/blog/client-side-ai-image-processing", hrefLabel: "Read the deep-dive" },
+  { period: "Jan – Feb 2026", title: "Centrix, built end to end", note: "The edge-first lecture ingestion engine — weighted timetable matching, resumable chunked uploads, zero central bandwidth. January was a 173-commit month.", href: "/blog/building-centrix-edge-ingestion", hrefLabel: "Read the deep-dive" },
+  { period: "Mar – Apr 2026", title: "Nexus Streamer & Office Mobile", note: "Drive-to-YouTube streaming with flat memory; spreadsheets turned into mobile data-entry PWAs.", href: "/blog/zero-ram-video-streaming-pipeline", hrefLabel: "Read the deep-dive" },
+  { period: "May – Jun 2026", title: "Qpic & OmTabs", note: "OCR exam-paper splitting; first Chrome extension live on the official Web Store with a biometric shield.", href: "/blog/building-manifest-v3-extensions", hrefLabel: "Read the deep-dive" },
+  { period: "Jul – Oct 2026", title: "OmSpace & aniket.one", note: "Second extension on the Web Store; this portfolio rebuilt as a fast static site with live GitHub telemetry.", href: "/blog/building-manifest-v3-extensions", hrefLabel: "Read the deep-dive" },
 ];
 
 const WORK_STEPS = [
@@ -327,6 +343,16 @@ export default function AboutClientView() {
                   <div className="font-mono text-[10.5px] font-bold uppercase tracking-[0.14em] text-[#B45309]">{t.period}</div>
                   <h3 className="font-serif text-xl font-bold text-[#4A3B33] mt-1.5 mb-1.5 m-0">{t.title}</h3>
                   <p className="text-[14px] leading-relaxed text-[#57534E] m-0">{t.note}</p>
+                  {t.href && (
+                    <Link
+                      href={t.href}
+                      onClick={() => sound.playClick()}
+                      className="group/link inline-flex items-center gap-1.5 mt-2.5 font-mono text-[11px] font-bold text-[#B45309] hover:text-[#92400E] transition-colors no-underline"
+                    >
+                      {t.hrefLabel}
+                      <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-0.5" />
+                    </Link>
+                  )}
                 </motion.div>
               ))}
             </div>
