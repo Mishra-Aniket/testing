@@ -6,11 +6,8 @@ import { X, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 import { sound } from "../utils/sound";
 import { createClient } from "../../lib/supabase/client";
 
-const SPRINT_TYPES = ["MVP Build", "Chrome Extension", "Automation / API", "Something Else"];
-
 export default function HireMeModal({ isOpen, onClose }) {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [projectType, setProjectType] = useState("MVP Build");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [fallbackNote, setFallbackNote] = useState("");
@@ -29,10 +26,10 @@ export default function HireMeModal({ isOpen, onClose }) {
   }, [isOpen, onClose]);
 
   const buildMailto = () => {
-    const subject = encodeURIComponent(`Project Inquiry — ${projectType} — ${form.name}`);
+    const subject = encodeURIComponent(`Project Inquiry — ${form.name}`);
     const body = encodeURIComponent(
       `Hi Aniket,\n\nI'd like to start a project.\n\n` +
-      `Name: ${form.name}\nEmail: ${form.email}\nProject type: ${projectType}\n\n` +
+      `Name: ${form.name}\nEmail: ${form.email}\n\n` +
       `Details:\n${form.message}\n\n---\nSent from aniket.one`
     );
     return `mailto:hello@aniket.one?subject=${subject}&body=${body}`;
@@ -51,7 +48,6 @@ export default function HireMeModal({ isOpen, onClose }) {
         const { error } = await supabase.from("contact_messages").insert({
           name: form.name.trim(),
           email: form.email.trim(),
-          project_type: projectType,
           message: form.message.trim(),
         });
         dbSaved = !error;
@@ -76,13 +72,6 @@ export default function HireMeModal({ isOpen, onClose }) {
 
   const inputCls =
     "w-full rounded-[var(--radius)] border border-[#E4D9BC] bg-white px-4 py-3 text-sm text-[#4A3B33] placeholder-[#A8A29E] outline-none transition-all duration-200 focus:border-[#B45309] focus:ring-1 focus:ring-[#B45309]/30";
-
-  const chipCls = (active) =>
-    `px-3 py-1.5 rounded-full font-mono text-[10.5px] font-semibold uppercase tracking-wider border cursor-pointer transition-all ${
-      active
-        ? "bg-[#B45309] border-[#B45309] text-white"
-        : "bg-white border-[#E4D9BC] text-[#78716C] hover:border-[#B45309] hover:text-[#B45309]"
-    }`;
 
   return (
     <AnimatePresence>
@@ -167,24 +156,6 @@ export default function HireMeModal({ isOpen, onClose }) {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                      <label className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#78716C] block mb-2">
-                        Project type
-                      </label>
-                      <div className="flex flex-wrap gap-2">
-                        {SPRINT_TYPES.map((t) => (
-                          <button
-                            key={t}
-                            type="button"
-                            onClick={() => { sound.playClick(); setProjectType(t); }}
-                            className={chipCls(projectType === t)}
-                          >
-                            {t}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
                         <label htmlFor="hm-name" className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#78716C] block mb-1.5">
