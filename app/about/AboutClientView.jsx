@@ -133,12 +133,16 @@ export default function AboutClientView() {
                   }}
                 />
 
-                {/* The portrait — background-removed cutout, no card/frame */}
+                {/* The portrait — background-removed cutout, no card/frame, bottom melts into the page */}
                 <motion.div
                   initial={{ opacity: 0, y: 26 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
                   className="relative z-10 mx-auto w-[300px] sm:w-[380px]"
+                  style={{
+                    maskImage: "linear-gradient(to bottom, black 72%, transparent 98%)",
+                    WebkitMaskImage: "linear-gradient(to bottom, black 72%, transparent 98%)",
+                  }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
