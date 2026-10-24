@@ -75,8 +75,17 @@ export default function AboutClientView() {
 
       <main className="relative z-10 bg-[#FDFBF7] text-[#4A3B33]">
         {/* ============ MADISON-STYLE HERO ============ */}
-        <header className="relative overflow-hidden bg-[#FDFBF7]">
-          <div aria-hidden="true" className="plate-grid absolute inset-0 opacity-40 pointer-events-none" />
+        <header className="relative overflow-hidden bg-[#F1E9D7]">
+          <div aria-hidden="true" className="plate-grid absolute inset-0 opacity-30 pointer-events-none" />
+          {/* Warm vignette — lighter center, darker edges, like the reference */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(ellipse 70% 60% at 50% 42%, rgba(253,251,247,0.75) 0%, rgba(241,233,215,0) 60%)",
+            }}
+          />
           <div className="relative mx-auto px-6 lg:px-8 pt-32 md:pt-36 max-w-[1200px]">
             <motion.nav
               initial={{ opacity: 0, y: -10 }}
@@ -111,14 +120,14 @@ export default function AboutClientView() {
                 </span>
               </motion.div>
 
-              {/* Center stage: giant serif greeting BEHIND the photo */}
+              {/* Center stage: giant serif greeting BEHIND the photo — bold, full opacity like the reference */}
               <div className="relative mt-2">
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 1, delay: 0.25 }}
                   aria-hidden="true"
-                  className="absolute inset-x-0 top-[38%] -translate-y-1/2 text-center font-serif italic font-medium text-[clamp(3.5rem,11vw,8.5rem)] leading-none text-[#4A3B33]/[0.16] select-none pointer-events-none whitespace-nowrap"
+                  className="absolute inset-x-0 top-[34%] -translate-y-1/2 text-center font-serif italic font-bold text-[clamp(3.5rem,10vw,7.5rem)] leading-none text-[#4A3B33] select-none pointer-events-none whitespace-nowrap"
                 >
                   Hey, there
                 </motion.div>
@@ -126,22 +135,22 @@ export default function AboutClientView() {
                 {/* Warm radial glow behind the portrait */}
                 <div
                   aria-hidden="true"
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[420px] sm:w-[520px] sm:h-[520px] rounded-full pointer-events-none"
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px] sm:w-[620px] sm:h-[620px] rounded-full pointer-events-none"
                   style={{
                     background:
-                      "radial-gradient(circle, rgba(228,192,144,0.55) 0%, rgba(180,83,9,0.16) 45%, rgba(253,251,247,0) 70%)",
+                      "radial-gradient(circle, rgba(233,214,182,0.9) 0%, rgba(228,192,144,0.4) 45%, rgba(241,233,215,0) 72%)",
                   }}
                 />
 
-                {/* The portrait — background-removed cutout, no card/frame, bottom melts into the page */}
+                {/* The portrait — ML cutout with a soft grounding shadow, bottom melts into the page */}
                 <motion.div
                   initial={{ opacity: 0, y: 26 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative z-10 mx-auto w-[300px] sm:w-[380px]"
+                  className="relative z-10 mx-auto w-[320px] sm:w-[430px]"
                   style={{
-                    maskImage: "linear-gradient(to bottom, black 72%, transparent 98%)",
-                    WebkitMaskImage: "linear-gradient(to bottom, black 72%, transparent 98%)",
+                    maskImage: "linear-gradient(to bottom, black 76%, transparent 99%)",
+                    WebkitMaskImage: "linear-gradient(to bottom, black 76%, transparent 99%)",
                   }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -149,6 +158,7 @@ export default function AboutClientView() {
                     src="/me-cutout.png"
                     alt="Aniket Mishra"
                     className="w-full h-auto block"
+                    style={{ filter: "drop-shadow(34px 30px 34px rgba(74,59,51,0.38))" }}
                     draggable={false}
                   />
                 </motion.div>
@@ -165,7 +175,7 @@ export default function AboutClientView() {
                 </motion.p>
               </div>
 
-              {/* Giant name — bottom left */}
+              {/* Giant name — bottom left, filled */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -173,6 +183,18 @@ export default function AboutClientView() {
                 className="font-serif font-black uppercase text-[#4A3B33] leading-[0.88] tracking-[-0.02em] text-[clamp(2.8rem,8.5vw,6.5rem)] mt-6 lg:mt-0"
               >
                 I am<br />Aniket
+              </motion.div>
+
+              {/* Giant role — bottom right, OUTLINE style like the reference */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                aria-hidden="true"
+                className="font-serif font-black uppercase leading-[0.88] tracking-[-0.02em] text-[clamp(2.2rem,6.5vw,5rem)] text-right lg:absolute lg:right-8 lg:bottom-24 mt-4 lg:mt-0 select-none pointer-events-none"
+                style={{ WebkitTextStroke: "2px #4A3B33", color: "transparent", paintOrder: "stroke fill" }}
+              >
+                Full-Stack<br />Developer
               </motion.div>
 
             </div>
