@@ -231,56 +231,10 @@ export default function CodeWalkthrough() {
           </div>
         </div>
 
-        {/* Two Column: Sticky Step Navigation + Cards */}
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 mb-24 md:mb-32">
-          {/* Sticky Navigation (Desktop) */}
-          <div className="hidden lg:block lg:col-span-4">
-            <div className="sticky top-28 md:top-32 w-full">
-              {/* Progress Bars */}
-              <div className="mb-8 flex gap-1.5" aria-hidden="true">
-                {STEPS.map((step, idx) => (
-                  <div key={step.id} className="relative h-[3px] flex-1 overflow-hidden rounded-full bg-[#F1E9DA]">
-                    <div 
-                      className="absolute inset-0 origin-left bg-[#B45309] transition-transform duration-300" 
-                      style={{ transform: idx <= activeStep ? "scaleX(1)" : "scaleX(0)" }}
-                    />
-                  </div>
-                ))}
-              </div>
-
-              {/* Step Buttons */}
-              <ol className="space-y-2">
-                {STEPS.map((step, idx) => {
-                  const isCurrent = activeStep === idx;
-                  return (
-                    <li key={step.id}>
-                      <button
-                        type="button"
-                        onClick={() => scrollToStep(idx)}
-                        className={`group flex w-full items-start gap-4 rounded-[6px] py-3 px-3 text-left transition-all duration-200 ${
-                          isCurrent ? "bg-[#FAF6EE] shadow-sm" : "hover:bg-[#FAF6EE]/50"
-                        }`}
-                      >
-                        <span className={`mt-[2px] font-mono text-[11px] font-semibold tracking-[0.14em] transition-colors duration-200 ${
-                          isCurrent ? "text-[#B45309] font-bold" : "text-[#A8A29E] group-hover:text-[#78716C]"
-                        }`}>
-                          {step.id}
-                        </span>
-                        <span className={`text-[0.9375rem] font-bold leading-snug transition-colors duration-200 ${
-                          isCurrent ? "text-[#4A3B33]" : "text-[#78716C] group-hover:text-[#4A3B33]"
-                        }`}>
-                          {step.title}
-                        </span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ol>
-            </div>
-          </div>
-
+        {/* Cards — single column, centered */}
+        <div className="relative mb-24 md:mb-32">
           {/* Content Column */}
-          <div className="lg:col-span-8 flex flex-col gap-10 md:gap-14">
+          <div className="max-w-[900px] mx-auto flex flex-col gap-10 md:gap-14">
             {STEPS.map((step, idx) => (
               <div 
                 key={step.id} 
