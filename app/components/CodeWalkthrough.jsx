@@ -209,25 +209,6 @@ export default function CodeWalkthrough() {
         {/* Section Divider & Eyebrow */}
         <div className="mb-14 md:mb-20">
           <div aria-hidden="true" className="h-px w-full bg-[#E4D9BC] mb-7" />
-          <div className="mb-6">
-            <span className="inline-flex items-center gap-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] leading-none text-[#B45309]">
-              <span aria-hidden="true" className="h-[7px] w-[7px] bg-[#B45309]" />
-              Engineering Primitives
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end">
-            <h2 id="fixes-heading" className="text-[clamp(1.875rem,3.6vw,2.875rem)] leading-[1.14] tracking-[-0.028em] font-bold text-[#4A3B33] text-balance lg:col-span-7 font-serif">
-              How I architect, code &amp; ship{" "}
-              <span className="text-[#B45309] italic font-normal">high-performance</span>{" "}
-              apps &amp; systems.
-            </h2>
-            <div className="lg:col-span-5 lg:pb-1.5">
-              <p className="text-[1.0625rem] leading-[1.75] text-[#57534E]">
-                From production Chrome extensions and full-stack web applications to automated Google Drive ingestion pipelines — explore the actual code patterns and engineering logic behind my apps.
-              </p>
-            </div>
-          </div>
         </div>
 
         {/* Mobile/Tablet Sticky Horizontal Tabs */}

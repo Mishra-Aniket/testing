@@ -581,8 +581,8 @@ export default function AccuracyTerrain() {
             )}
           </div>
           <h2 className="text-[clamp(1.75rem,3.2vw,2.5rem)] leading-tight font-serif font-bold text-[#4A3B33] text-balance">
-            {totals.combined}+ Contributions &amp;{" "}
-            <span className="text-[#B45309] italic font-normal">{repos.combined} Repositories</span>.
+            Two GitHub profiles.{" "}
+            <span className="text-[#B45309] italic font-normal">One public build log.</span>
           </h2>
           <p className="mt-2 text-sm text-[#78716C] max-w-2xl mx-auto font-sans">
             Live 3D telemetry visualized across both GitHub accounts:{" "}
@@ -621,7 +621,7 @@ export default function AccuracyTerrain() {
                   : "bg-white text-[#78716C] border border-[#E4D9BC] hover:text-[#4A3B33]"
               }`}
             >
-              All Activity ({totals.combined} Total)
+              All Activity
             </button>
             <button
               onClick={() => {
@@ -634,7 +634,7 @@ export default function AccuracyTerrain() {
                   : "bg-white text-[#78716C] border border-[#E4D9BC] hover:text-[#059669]"
               }`}
             >
-              @aniketmishra-0 ({totals.aniket0} Commits · {repos.aniket0} Repos)
+              @aniketmishra-0 · Production
             </button>
             <button
               onClick={() => {
@@ -647,7 +647,7 @@ export default function AccuracyTerrain() {
                   : "bg-white text-[#78716C] border border-[#E4D9BC] hover:text-[#6366F1]"
               }`}
             >
-              @Mishra-Aniket ({totals.mishra} Commits · {repos.mishra} Repos)
+              @Mishra-Aniket · OSS &amp; Core
             </button>
           </div>
         </div>
@@ -1072,17 +1072,17 @@ export default function AccuracyTerrain() {
                 <line x1="744" y1="288" x2="936" y2="288" stroke="#F1E9DA" strokeWidth="1" />
 
                 <text x="744" y="318" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4" fontWeight="600">
-                  TOTAL VERIFIED OUTPUT
+                  LIVE GITHUB TELEMETRY
                 </text>
                 <text x="744" y="344" fill="#B45309" fontSize="20" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">
-                  {totals.combined}+ Commits
+                  Two Profiles
                 </text>
                 <text x="744" y="362" fill="#059669" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600">
-                  {repos.combined} Repositories Across Both Accounts
+                  12-Month Rolling Window · Both Accounts
                 </text>
 
                 <text x="744" y="380" fill="#78716C" fontSize="7.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4">
-                  Peak: {peakMonth.combined} ({peakMonth.month}) · All-Time
+                  {live ? "Verified live at view time" : "Verified contribution timeline"}
                 </text>
               </g>
             </g>
