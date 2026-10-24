@@ -11,6 +11,9 @@ import ConstellationCanvas from "../components/ConstellationCanvas";
 import { Check, ArrowRight, Zap, Rocket, Compass, MessageSquare, FileText, Code2, ShieldCheck, Loader2, CheckCircle2, Mail, Clock } from "lucide-react";
 import { sound } from "../utils/sound";
 import { createClient } from "../../lib/supabase/client";
+import { sendEmail } from "../../lib/emailjs";
+
+const TPL = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_INQUIRY;
 
 function RevealTitle({ text }) {
   const words = text.split(" ");
@@ -201,7 +204,17 @@ export default function PricingClientView() {
     setSubmitError("");
     setSubmitting(true);
 
-    // 1. Persist to Supabase (contact_messages table, anonymous insert allowed by RLS)
+    // 1. EmailJS — lands directly in the inbox, works from the static site
+    const emailed = await sendEmail(TPL, {
+      from_name: form.name.trim(),
+      reply_email: form.email.trim(),
+      project_type: SPRINTS.find((s) => s.id === selectedSprint)?.name || selectedSprint,
+      budget: form.budget || "-",
+      timeline: form.timeline || "-",
+      message: form.message.trim(),
+    });
+
+    // 2. Supabase record (contact_messages table, anonymous insert allowed by RLS)
     let dbSaved = false;
     try {
       const url = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
@@ -231,8 +244,10 @@ export default function PricingClientView() {
 
     setSubmitting(false);
     setSubmitted(true);
-    if (!dbSaved) {
+    if (!emailed && !dbSaved) {
       setSubmitError("Your mail app should have opened with the proposal. If it didn't, email it directly to hello@aniket.one.");
+    } else {
+      setSubmitError("");
     }
     sound.playSuccess();
   };

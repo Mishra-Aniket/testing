@@ -3,6 +3,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ArrowRight, CheckCircle2, Copy, Loader2 } from "lucide-react";
 import { createClient } from "../../lib/supabase/client";
+import { sendEmail } from "../../lib/emailjs";
+
+const NEWSLETTER_TPL = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_NEWSLETTER;
 import { motion } from "framer-motion";
 import { sound } from "../utils/sound";
 
@@ -111,7 +114,12 @@ export default function DarkCTA({ showStats = false }) {
     if (!email.trim()) return;
     setSubscribing(true);
 
-    // Persist the subscriber (table exists via supabase/migrations/002_newsletter.sql)
+    // 1. EmailJS notification — lands in the inbox directly
+    await sendEmail(NEWSLETTER_TPL, {
+      subscriber_email: email.trim().toLowerCase(),
+    });
+
+    // 2. Supabase record (table exists via supabase/migrations/002_newsletter.sql)
     try {
       const url = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
       if (url && !url.includes("placeholder")) {

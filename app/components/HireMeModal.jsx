@@ -5,6 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 import { sound } from "../utils/sound";
 import { createClient } from "../../lib/supabase/client";
+import { sendEmail } from "../../lib/emailjs";
+
+const TPL = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_INQUIRY;
 
 export default function HireMeModal({ isOpen, onClose }) {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -40,6 +43,14 @@ export default function HireMeModal({ isOpen, onClose }) {
     setSubmitting(true);
     setFallbackNote("");
 
+    // 1. EmailJS — lands directly in the inbox, works from the static site
+    const emailed = await sendEmail(TPL, {
+      from_name: form.name.trim(),
+      reply_email: form.email.trim(),
+      message: form.message.trim(),
+    });
+
+    // 2. Supabase record (when keys + table exist)
     let dbSaved = false;
     try {
       const url = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
@@ -53,16 +64,24 @@ export default function HireMeModal({ isOpen, onClose }) {
         dbSaved = !error;
       }
     } catch {
-      /* fall through to email */
+      /* fall through */
     }
 
+    setSubmitting(false);
+
+    if (emailed || dbSaved) {
+      sound.playSuccess();
+      setSubmitted(true);
+      return;
+    }
+
+    // 3. Last-resort fallback: prefilled mail app
     try {
       window.open(buildMailto(), "_blank");
     } catch {
       /* popup blocked — direct email shown in success state */
     }
-
-    setSubmitting(false);
+    sound.playSuccess();
     setSubmitted(true);
     if (!dbSaved) {
       setFallbackNote("Your mail app should have opened with the details. If it didn't, email hello@aniket.one directly.");
