@@ -581,29 +581,12 @@ export default function AccuracyTerrain() {
             )}
           </div>
           <h2 className="text-[clamp(1.75rem,3.2vw,2.5rem)] leading-tight font-serif font-bold text-[#4A3B33] text-balance">
-            Two GitHub profiles.{" "}
-            <span className="text-[#B45309] italic font-normal">One public build log.</span>
+            A year of shipping,{" "}
+            <span className="text-[#B45309] italic font-normal">on the record.</span>
           </h2>
           <p className="mt-2 text-sm text-[#78716C] max-w-2xl mx-auto font-sans">
-            Live 3D telemetry visualized across both GitHub accounts:{" "}
-            <a
-              href="https://github.com/aniketmishra-0"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-mono font-semibold text-[#059669] hover:underline"
-            >
-              @aniketmishra-0
-            </a>{" "}
-            (Production Systems) and{" "}
-            <a
-              href="https://github.com/Mishra-Aniket"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-mono font-semibold text-[#6366F1] hover:underline"
-            >
-              @Mishra-Aniket
-            </a>{" "}
-            (OSS &amp; Core).
+            Twelve months of commits streamed live from GitHub — every project, every sprint,
+            timestamped and public. No claims here, just the record.
           </p>
 
           {/* Quick Profile Filter Pills */}
@@ -1075,10 +1058,10 @@ export default function AccuracyTerrain() {
                   LIVE GITHUB TELEMETRY
                 </text>
                 <text x="744" y="344" fill="#B45309" fontSize="20" fontFamily="var(--font-merriweather), Georgia, serif" fontWeight="700">
-                  Two Profiles
+                  Live Telemetry
                 </text>
                 <text x="744" y="362" fill="#059669" fontSize="8" fontFamily="JetBrains Mono, monospace" fontWeight="600">
-                  12-Month Rolling Window · Both Accounts
+                  12-Month Rolling Window · Live from GitHub
                 </text>
 
                 <text x="744" y="380" fill="#78716C" fontSize="7.2" fontFamily="JetBrains Mono, monospace" letterSpacing="0.4">
@@ -1091,7 +1074,7 @@ export default function AccuracyTerrain() {
             <g pointerEvents="none">
               <line x1="16" y1="646" x2="936" y2="646" stroke="#E4D9BC" strokeWidth="1" />
               <text x="16" y="666" fill="#A8A29E" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4">
-                github_velocity_terrain.live · 2 profiles (@aniketmishra-0 &amp; @Mishra-Aniket) · verified data
+                github_velocity_terrain.live · synced from github · verified data
               </text>
               <text x="936" y="666" textAnchor="end" fill="#B45309" fontSize="7.5" fontFamily="JetBrains Mono, monospace" letterSpacing="1.4" fontWeight="600">
                 MOVE POINTER ACROSS TERRAIN TO SCRUB TIMELINE
