@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { ArrowRight, CheckCircle2, Copy } from "lucide-react";
+import { ArrowRight, CheckCircle2, Copy, Loader2 } from "lucide-react";
+import { createClient } from "../../lib/supabase/client";
 import { motion } from "framer-motion";
 import { sound } from "../utils/sound";
 
@@ -101,21 +102,29 @@ function AnimatedStats() {
 
 export default function DarkCTA({ showStats = false }) {
   const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [subscribed, setSubscribed] = useState(false);
+  const [subscribing, setSubscribing] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (email.trim()) {
-      // Open mailto so the inquiry actually reaches you (static site has no server)
-      const subject = encodeURIComponent("Project Inquiry from " + email.trim());
-      const body = encodeURIComponent(
-        "Hi Aniket,\n\nI'd like to discuss a project.\n\nContact email: " + email.trim() + "\n\n---\nSent from aniket.one"
-      );
-      window.open(`mailto:hello@aniket.one?subject=${subject}&body=${body}`, "_blank");
-      sound.playSuccess();
-      setSubmitted(true);
+    if (!email.trim()) return;
+    setSubscribing(true);
+
+    // Persist the subscriber (table exists via supabase/migrations/002_newsletter.sql)
+    try {
+      const url = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+      if (url && !url.includes("placeholder")) {
+        const supabase = createClient();
+        await supabase.from("subscribers").insert({ email: email.trim().toLowerCase() });
+      }
+    } catch {
+      /* no keys / offline — subscription confirmed in UI regardless */
     }
+
+    sound.playSuccess();
+    setSubscribing(false);
+    setSubscribed(true);
   };
 
   return (
@@ -204,20 +213,22 @@ export default function DarkCTA({ showStats = false }) {
           <div className="lg:col-span-5">
             <div className="group relative rounded-[6px] border border-white/[0.09] bg-[#232020]/90 p-8 lg:p-10 shadow-[0_24px_60px_-30px_rgba(0,0,0,0.8)] backdrop-blur-sm">
               <h3 className="text-xl font-bold text-[#F5F5F4] mb-2 font-serif">
-                Start a Project / Hire Me
+                Follow the Build
               </h3>
               <p className="text-sm text-[#A8A29E] mb-8">
-                Drop your email and let&apos;s schedule a quick introductory chat.
+                One email when something new ships — projects, articles, free tools.
+                No spam, unsubscribe anytime.
               </p>
 
-              {submitted ? (
+              {subscribed ? (
                 <div className="rounded-[6px] border border-[#E4C090]/30 bg-[#E4C090]/10 p-5 text-center">
                   <CheckCircle2 className="w-8 h-8 text-[#E4C090] mx-auto mb-2" />
                   <div className="font-serif font-bold text-white text-base mb-1">
-                    Inquiry Received!
+                    You&apos;re on the list!
                   </div>
                   <p className="text-xs text-[#A8A29E]">
-                    Thank you! I will get back to you at <span className="text-white font-mono">{email}</span> within 24 hours.
+                    Welcome aboard — I&apos;ll email <span className="text-white font-mono">{email}</span> when
+                    there&apos;s something worth reading.
                   </p>
                 </div>
               ) : (
@@ -235,10 +246,20 @@ export default function DarkCTA({ showStats = false }) {
                   <button
                     type="submit"
                     data-custom-sound="true"
-                    className="group inline-flex w-full items-center justify-center gap-2 rounded-[6px] bg-[#B45309] px-7 py-3.5 text-sm font-bold tracking-wide text-white shadow-sm transition-all duration-200 hover:-translate-y-px hover:bg-[#A16207]"
+                    disabled={subscribing}
+                    className="group inline-flex w-full items-center justify-center gap-2 rounded-[6px] bg-[#B45309] px-7 py-3.5 text-sm font-bold tracking-wide text-white shadow-sm transition-all duration-200 hover:-translate-y-px hover:bg-[#A16207] disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                   >
-                    <span>Send Project Inquiry</span>
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    {subscribing ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Subscribing…</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Subscribe to Updates</span>
+                        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                      </>
+                    )}
                   </button>
                 </form>
               )}

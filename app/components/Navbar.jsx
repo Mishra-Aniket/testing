@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { sound } from '../utils/sound';
 import MonogramAM from './MonogramAM';
+import HireMeModal from './HireMeModal';
 
 const NAV_PROJECTS = [
   {
@@ -153,6 +154,7 @@ export default function Navbar({
   const [mobileExpandedSection, setMobileExpandedSection] = useState(null);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [soundActive, setSoundActive] = useState(true);
+  const [hireOpen, setHireOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
   // Dual GitHub Profiles Hover & Direct Open Both State
@@ -875,14 +877,17 @@ export default function Navbar({
               <span className="tracking-wide">{soundActive ? "SFX ON" : "SFX OFF"}</span>
             </button>
 
-            <Link
-              href={pathname.includes('/pricing') ? '#propose' : '#get-access'}
-              onClick={() => sound.playClick()}
-              className="group inline-flex items-center gap-2 rounded-[var(--radius)] bg-[#B45309] px-5 py-2 text-[0.8125rem] font-bold text-white shadow-[var(--shadow-soft)] transition-all duration-200 hover:-translate-y-px hover:bg-[#A16207]"
+            <button
+              type="button"
+              onClick={() => {
+                sound.playClick();
+                setHireOpen(true);
+              }}
+              className="group inline-flex items-center gap-2 rounded-[var(--radius)] bg-[#B45309] px-5 py-2 text-[0.8125rem] font-bold text-white shadow-[var(--shadow-soft)] transition-all duration-200 hover:-translate-y-px hover:bg-[#A16207] cursor-pointer"
             >
               Hire Me
               <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-            </Link>
+            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -913,6 +918,9 @@ export default function Navbar({
             </button>
           </div>
         </nav>
+
+        {/* Hire Me modal */}
+        <HireMeModal isOpen={hireOpen} onClose={() => setHireOpen(false)} />
 
         {/* Integrated Clean Mobile Drawer */}
         <AnimatePresence>
@@ -1367,17 +1375,18 @@ export default function Navbar({
                   </div>
 
                   {/* Primary Call to Action Button */}
-                  <Link
-                    href={pathname.includes('/pricing') ? '#propose' : '#get-access'}
+                  <button
+                    type="button"
                     onClick={() => {
                       sound.playClick();
                       setMobileMenuOpen(false);
+                      setHireOpen(true);
                     }}
                     className="group relative flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#B45309] to-[#92400E] px-5 py-3 font-sans font-bold text-white shadow-[0_8px_24px_-6px_rgba(180,83,9,0.35)] transition-all duration-200 hover:brightness-105 active:scale-[0.98]"
                   >
                     <span className="tracking-wide">Hire Me / Start Project</span>
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
+                  </button>
 
                   {/* Trust guarantee subtext */}
                   <div className={`text-center font-mono text-[9.5px] tracking-tight ${
