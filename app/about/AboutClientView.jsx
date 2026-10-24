@@ -40,6 +40,11 @@ const TIMELINE = [
   { period: "Sep – Oct 2026", title: "aniket.one", note: "This portfolio rebuilt as a fast static site with live GitHub telemetry.", href: null, hrefLabel: null },
 ];
 
+const PHOTOS = [
+  { src: "/me-cutout.png", label: "Photo 1" },
+  { src: "/me-cutout-2.png", label: "Photo 2" },
+];
+
 const WORK_STEPS = [
   { icon: MessageSquare, step: "01", title: "Discovery Call", body: "30 minutes, free. We both check the fit." },
   { icon: FileText, step: "02", title: "Written Proposal", body: "Fixed scope, timeline and milestone payments — within 48 hours." },
@@ -50,7 +55,13 @@ const WORK_STEPS = [
 /* ---------- Page ---------- */
 export default function AboutClientView() {
   const [searchOpen, setSearchOpen] = useState(false);
+  const [active, setActive] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const t = setInterval(() => setActive((p) => (p + 1) % PHOTOS.length), 4200);
+    return () => clearInterval(t);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -120,20 +131,42 @@ export default function AboutClientView() {
                       "radial-gradient(circle, rgba(233,214,182,0.95) 0%, rgba(228,192,144,0.45) 45%, rgba(241,233,215,0) 72%)",
                   }}
                 />
-                <div className="relative mx-auto w-[300px] sm:w-[350px]"
+                <div
+                  className="relative mx-auto w-[300px] sm:w-[350px]"
                   style={{
                     maskImage: "linear-gradient(to bottom, black 80%, transparent 99%)",
                     WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 99%)",
                   }}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/me-cutout.png"
-                    alt="Aniket Mishra"
-                    className="w-full h-auto block"
-                    style={{ filter: "drop-shadow(26px 22px 26px rgba(74,59,51,0.35))" }}
-                    draggable={false}
-                  />
+                  <div className="relative w-full" style={{ aspectRatio: "760 / 680" }}>
+                    {PHOTOS.map((p, i) => (
+                      <motion.img
+                        key={p.src}
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        src={p.src}
+                        alt="Aniket Mishra"
+                        initial={false}
+                        animate={{ opacity: active === i ? 1 : 0, scale: active === i ? 1 : 1.03 }}
+                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                        className="absolute inset-0 w-full h-full object-contain object-bottom"
+                        style={{ filter: "drop-shadow(26px 22px 26px rgba(74,59,51,0.35))" }}
+                        draggable={false}
+                      />
+                    ))}
+                  </div>
+                  <div className="relative flex justify-center gap-2 -mt-4">
+                    {PHOTOS.map((_, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        aria-label={`Photo ${i + 1}`}
+                        onClick={() => setActive(i)}
+                        className={`h-1.5 rounded-full cursor-pointer transition-all ${
+                          active === i ? "bg-[#B45309] w-5" : "w-1.5 bg-[#C9BCA0] hover:bg-[#B45309]/60"
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </div>
               </motion.div>
 
