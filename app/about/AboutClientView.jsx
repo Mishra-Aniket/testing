@@ -143,8 +143,9 @@ const TIMELINE = [
   { period: "Nov – Dec 2025", title: "ImgWorld.biz & RadialMenu", note: "Browser-only image tools with on-device AI; a Windows radial launcher shipped with signed installers.", href: "/blog/client-side-ai-image-processing", hrefLabel: "Read the deep-dive" },
   { period: "Jan – Feb 2026", title: "Centrix, built end to end", note: "The edge-first lecture ingestion engine — weighted timetable matching, resumable chunked uploads, zero central bandwidth. January was a 173-commit month.", href: "/blog/building-centrix-edge-ingestion", hrefLabel: "Read the deep-dive" },
   { period: "Mar – Apr 2026", title: "Nexus Streamer & Office Mobile", note: "Drive-to-YouTube streaming with flat memory; spreadsheets turned into mobile data-entry PWAs.", href: "/blog/zero-ram-video-streaming-pipeline", hrefLabel: "Read the deep-dive" },
-  { period: "May – Jun 2026", title: "Qpic & OmTabs", note: "OCR exam-paper splitting; first Chrome extension live on the official Web Store with a biometric shield.", href: "/blog/building-manifest-v3-extensions", hrefLabel: "Read the deep-dive" },
-  { period: "Jul – Oct 2026", title: "OmSpace & aniket.one", note: "Second extension on the Web Store; this portfolio rebuilt as a fast static site with live GitHub telemetry.", href: "/blog/building-manifest-v3-extensions", hrefLabel: "Read the deep-dive" },
+  { period: "May – Jun 2026", title: "Qpic", note: "OCR exam-paper splitting — a 3-tier detection pipeline (text layer → Tesseract → vision fallback) with a Flutter desktop app.", href: null, hrefLabel: null },
+  { period: "Jun – Aug 2026", title: "OmTabs & OmSpace", note: "Both Chrome extensions live on the official Web Store — tab management with a biometric shield, and a new-tab focus dashboard.", href: "/blog/building-manifest-v3-extensions", hrefLabel: "Read the deep-dive" },
+  { period: "Sep – Oct 2026", title: "aniket.one", note: "This portfolio rebuilt as a fast static site with live GitHub telemetry.", href: null, hrefLabel: null },
 ];
 
 const WORK_STEPS = [
@@ -318,7 +319,7 @@ export default function AboutClientView() {
         <section className="relative w-full bg-[#F8F4EE] border-t border-[#E4D9BC]/70 py-20">
           <div className="relative mx-auto px-6 lg:px-8 max-w-[848px]">
             <span className="font-mono text-xs uppercase tracking-wider text-[#B45309] font-bold">The Work So Far</span>
-            <h2 className="mt-2 font-serif text-3xl font-bold text-[#4A3B33] mb-3 mt-2">What I built, and when.</h2>
+            <h2 className="mt-2 font-serif text-3xl font-bold text-[#4A3B33] mb-3 mt-2">Everything I built this year.</h2>
             <p className="text-sm text-[#57534E] mb-12">
               The last year of projects in order — what each one is and what it does.
             </p>
@@ -361,7 +362,6 @@ export default function AboutClientView() {
         <section className="relative mx-auto px-6 lg:px-8 pb-20 max-w-[1200px]">
           <div className="max-w-[700px] mb-10">
             <span className="font-mono text-xs uppercase tracking-wider text-[#B45309] font-bold">How I Work</span>
-            <h2 className="mt-2 font-serif text-3xl font-bold text-[#4A3B33] m-0">Boring on purpose.</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {WORK_STEPS.map((s, idx) => {
