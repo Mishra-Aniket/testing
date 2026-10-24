@@ -39,8 +39,9 @@ function PhotoCard() {
   // 3D tilt: pointer-driven with a resting tilt so the card reads as 3D even untouched
   const mx = useMotionValue(0.5);
   const my = useMotionValue(0.5);
-  const rotateX = useSpring(useTransform(my, [0, 1], [11, -3]), { stiffness: 150, damping: 16 });
-  const rotateY = useSpring(useTransform(mx, [0, 1], [-11, 3]), { stiffness: 150, damping: 16 });
+  // Bolder resting angle so the depth is obvious even untouched
+  const rotateX = useSpring(useTransform(my, [0, 1], [16, -3]), { stiffness: 150, damping: 16 });
+  const rotateY = useSpring(useTransform(mx, [0, 1], [-17, 2]), { stiffness: 150, damping: 16 });
 
   // Glare highlight that follows the pointer across the glass
   const glareX = useTransform(mx, [0, 1], [15, 85]);
@@ -60,89 +61,109 @@ function PhotoCard() {
   };
 
   return (
-    <div className="relative w-fit mx-auto lg:mx-0 select-none py-6" style={{ perspective: 1100 }}>
-      {/* Giant editorial monogram behind everything — cropped by the page edge */}
-      <div
-        aria-hidden="true"
-        className="absolute -top-16 -left-12 sm:-top-24 sm:-left-16 font-serif font-bold leading-none text-[9rem] sm:text-[14rem] text-[#F1E7D0] select-none pointer-events-none z-0"
-      >
-        AM
-      </div>
-
+    <div className="relative w-fit mx-auto lg:mx-0 select-none py-8" style={{ perspective: 1300 }}>
       {/* Soft ambient glow behind — borderless depth */}
-      <div aria-hidden="true" className="absolute top-10 left-[-24px] w-[248px] sm:w-[286px] h-[75%] rounded-[2.5rem] bg-[#B45309]/15 blur-3xl rotate-[-8deg] z-0" />
-      <div aria-hidden="true" className="absolute top-10 right-[-24px] w-[248px] sm:w-[286px] h-[75%] rounded-[2.5rem] bg-[#E4C090]/50 blur-3xl rotate-[7deg] z-0" />
-      <div aria-hidden="true" className="absolute inset-x-10 -bottom-1 h-12 rounded-[50%] bg-[#4A3B33]/25 blur-2xl z-0" />
-
-      {/* Vertical editorial label along the photo's right edge */}
-      <div
-        aria-hidden="true"
-        className="absolute top-1/2 -translate-y-1/2 right-[-20px] sm:-right-8 z-0 flex items-center gap-2"
-        style={{ writingMode: "vertical-rl" }}
-      >
-        <span className="block w-px h-10 bg-[#D6CDB8]" />
-        <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.3em] text-[#A8A29E]">
-          Aniket Mishra — Portfolio
-        </span>
-      </div>
+      <div aria-hidden="true" className="absolute top-12 left-[-24px] w-[248px] sm:w-[286px] h-[70%] rounded-[2.5rem] bg-[#B45309]/15 blur-3xl rotate-[-8deg] z-0" />
+      <div aria-hidden="true" className="absolute top-12 right-[-24px] w-[248px] sm:w-[286px] h-[70%] rounded-[2.5rem] bg-[#E4C090]/50 blur-3xl rotate-[7deg] z-0" />
+      <div aria-hidden="true" className="absolute inset-x-10 bottom-14 h-12 rounded-[50%] bg-[#4A3B33]/30 blur-2xl z-0" />
 
       <motion.div
         ref={ref}
         onMouseMove={handleMove}
         onMouseLeave={handleLeave}
         style={{ rotateX, rotateY, transformStyle: "preserve-3d", position: "relative", zIndex: 1 }}
-        className="relative w-[248px] sm:w-[286px] rounded-[1.4rem] overflow-hidden bg-[#F3EBDD] shadow-[0_36px_70px_-24px_rgba(74,59,51,0.5)]"
+        className="relative w-[248px] sm:w-[286px]"
       >
-        <div className="relative aspect-[4/5]" style={{ transformStyle: "preserve-3d" }}>
-          {PHOTOS.map((src, i) => (
-            <motion.img
-              key={src}
-              /* eslint-disable-next-line @next/next/no-img-element */
-              src={src}
-              alt="Aniket Mishra"
-              initial={false}
-              animate={{ opacity: active === i ? 1 : 0, scale: active === i ? 1 : 1.05 }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          ))}
-
-          {/* Cinematic bottom gradient with identity */}
-          <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#1C1917]/85 via-[#1C1917]/35 to-transparent" />
-          <div className="absolute bottom-0 inset-x-0 px-5 pb-5">
-            <div className="font-serif text-white text-xl font-bold leading-tight">Aniket Mishra</div>
-            <div className="flex items-center gap-2 mt-1.5">
-              <MapPin className="w-3 h-3 text-[#E4C090] shrink-0" />
-              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#E7E5E4]">Prayagraj, India</span>
-            </div>
-          </div>
-
-          {/* Pointer-following glass glare */}
-          <motion.div
+        {/* CARD THICKNESS — extruded edge layers behind the photo plate */}
+        {[6, 5, 4, 3, 2, 1].map((n) => (
+          <div
+            key={n}
             aria-hidden="true"
-            style={{ background: glare, mixBlendMode: "overlay" }}
-            className="absolute inset-0 pointer-events-none"
+            style={{ transform: `translateZ(-${n * 4}px)` }}
+            className={`absolute inset-0 rounded-[1.4rem] ${
+              n > 4 ? "bg-[#C9B48E]" : n > 2 ? "bg-[#D8C6A2]" : "bg-[#E6D9BE]"
+            }`}
           />
+        ))}
 
-          {/* Available badge — solid pill floating above the photo in 3D */}
-          <div style={{ transform: "translateZ(55px)" }} className="absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-600 shadow-lg">
-            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-            <span className="font-mono text-[9px] font-bold uppercase tracking-wider text-white">Available</span>
-          </div>
-
-          {/* Photo switcher dots — vertical, right edge */}
-          <div className="absolute top-3 right-3 flex flex-col gap-1.5">
-            {PHOTOS.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                aria-label={`Photo ${i + 1}`}
-                onClick={() => setActive(i)}
-                className={`w-1.5 rounded-full cursor-pointer transition-all ${
-                  active === i ? "bg-[#E4C090] h-4" : "h-1.5 bg-white/50 hover:bg-white/80"
-                }`}
+        {/* PHOTO PLATE — the front face of the card */}
+        <div
+          className="relative rounded-[1.4rem] overflow-hidden bg-[#F3EBDD] shadow-[0_42px_80px_-24px_rgba(74,59,51,0.55)]"
+          style={{ transform: "translateZ(2px)" }}
+        >
+          <div className="relative aspect-[4/5]">
+            {PHOTOS.map((src, i) => (
+              <motion.img
+                key={src}
+                /* eslint-disable-next-line @next/next/no-img-element */
+                src={src}
+                alt="Aniket Mishra"
+                initial={false}
+                animate={{ opacity: active === i ? 1 : 0, scale: active === i ? 1 : 1.05 }}
+                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute inset-0 w-full h-full object-cover"
               />
             ))}
+
+            {/* Cinematic bottom gradient */}
+            <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#1C1917]/80 via-[#1C1917]/30 to-transparent" />
+
+            {/* Pointer-following glass glare */}
+            <motion.div
+              aria-hidden="true"
+              style={{ background: glare, mixBlendMode: "overlay" }}
+              className="absolute inset-0 pointer-events-none"
+            />
+
+            {/* Photo switcher dots — vertical, right edge */}
+            <div className="absolute top-3 right-3 flex flex-col gap-1.5">
+              {PHOTOS.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  aria-label={`Photo ${i + 1}`}
+                  onClick={() => setActive(i)}
+                  className={`w-1.5 rounded-full cursor-pointer transition-all ${
+                    active === i ? "bg-[#E4C090] h-4" : "h-1.5 bg-white/50 hover:bg-white/80"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* AVAILABLE BADGE — pops OUT of the card in real 3D */}
+        <div
+          style={{ transform: "translateZ(70px)", transformStyle: "preserve-3d" }}
+          className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-600 shadow-[0_16px_28px_-8px_rgba(5,150,105,0.6)]"
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+          <span className="font-mono text-[9.5px] font-bold uppercase tracking-wider text-white">Available</span>
+        </div>
+
+        {/* IDENTITY PLATE — floats above the card's bottom edge in 3D */}
+        <div
+          style={{ transform: "translateZ(55px)", transformStyle: "preserve-3d" }}
+          className="absolute -bottom-6 left-4 right-4 rounded-2xl bg-white shadow-[0_24px_44px_-14px_rgba(74,59,51,0.55)] px-4 py-3.5"
+        >
+          <div className="flex items-center justify-between gap-2">
+            <div className="min-w-0">
+              <div className="font-serif text-[15px] font-bold text-[#4A3B33] leading-tight">Aniket Mishra</div>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <MapPin className="w-2.5 h-2.5 text-[#B45309] shrink-0" />
+                <span className="font-mono text-[8.5px] uppercase tracking-[0.14em] text-[#78716C]">Prayagraj, India</span>
+              </div>
+            </div>
+            <a
+              href="https://github.com/aniketmishra-0"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => sound.playClick()}
+              aria-label="GitHub profile"
+              className="grid place-items-center w-8 h-8 rounded-xl bg-[#B45309] text-white shrink-0 cursor-pointer transition-transform hover:scale-105"
+            >
+              <Github className="w-3.5 h-3.5" />
+            </a>
           </div>
         </div>
       </motion.div>
