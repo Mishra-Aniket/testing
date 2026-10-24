@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useMemo } from "react";
+import Link from "next/link";
 import { sound } from "../utils/sound";
 import { X, ArrowUpRight } from "lucide-react";
 
@@ -35,6 +36,7 @@ async function fetchLastPush(user, signal) {
 
 function useLiveContributions() {
   const [live, setLive] = useState(null);
+  const [status, setStatus] = useState("syncing"); // "syncing" | "live" | "static"
 
   useEffect(() => {
     const ctrl = new AbortController();
@@ -80,8 +82,10 @@ function useLiveContributions() {
         repos.combined = repos.aniket0 != null && repos.mishra != null ? repos.aniket0 + repos.mishra : null;
 
         setLive({ months, totals, repos, lastPushAt: lastPush, at: Date.now() });
+        setStatus("live");
       } catch {
         /* offline or API down — curated static data stays */
+        setStatus("static");
       } finally {
         clearTimeout(timer);
       }
@@ -93,7 +97,7 @@ function useLiveContributions() {
     };
   }, []);
 
-  return live;
+  return { live, status };
 }
 
 // 12 Months of real GitHub contribution timeline with verified project releases & dates
@@ -107,6 +111,7 @@ const MONTHS = [
     mishra: 20,
     combined: 25,
     project: "ImgWorld.biz — Privacy Media Studio",
+    deepDive: "/blog/client-side-ai-image-processing",
     category: "WebAssembly & Client-Side AI",
     body: "Engineered a zero-server client-side image processing suite running entirely on user hardware with WebAssembly, Canvas API, and on-device ONNX Web background removal models with zero telemetry.",
     repo: "aniketmishra-0/imgWorld.biz",
@@ -154,6 +159,7 @@ const MONTHS = [
     combined: 173,
     isPeakSprint: true,
     project: "Centrix — Autonomous Lecture Ingestion Pipeline",
+    deepDive: "/blog/building-centrix-edge-ingestion",
     category: "Enterprise Operations & Cloud Sync",
     body: "Edge-first automated ingestion engine built for large coaching networks. Automatically pairs OBS/capture card recordings with MaxHub notes, matches timetables using confidence scoring, and uploads chunked files to Google Drive.",
     repo: "aniketmishra-0/Centrix",
@@ -200,6 +206,7 @@ const MONTHS = [
     mishra: 0,
     combined: 44,
     project: "Nexus Streamer — Drive to YouTube Ingestion Matrix",
+    deepDive: "/blog/zero-ram-video-streaming-pipeline",
     category: "Cloud Media & Stream Pipelines",
     body: "Autonomous cloud pipeline bridging Google Drive and YouTube. Streams multi-gigabyte video files directly to YouTube as Unlisted assets with chunk-by-chunk Node.js stream transforms and live SSE progress without filling server RAM.",
     repo: "aniketmishra-0",
@@ -270,6 +277,7 @@ const MONTHS = [
     mishra: 1,
     combined: 115,
     project: "OmTabs — Chrome Tab Management & Privacy Shield",
+    deepDive: "/blog/building-manifest-v3-extensions",
     category: "Chrome Extension & Web Security",
     body: "Chrome extension that enables power users to rename open browser tabs with custom titles, protect sensitive tabs with biometric/passcode shields, and organize work sessions with zero browser memory overhead.",
     repo: "aniketmishra-0",
@@ -293,6 +301,7 @@ const MONTHS = [
     mishra: 0,
     combined: 0,
     project: "Centrix Hardening & Load Testing",
+    deepDive: "/blog/building-centrix-edge-ingestion",
     category: "Enterprise Operations & Scale",
     body: "Load testing and hardening of the ingestion engine — simulated multi-center upload bursts, failure-recovery drills, and timetable-sync edge cases across the pipeline.",
     repo: "aniketmishra-0/Centrix",
@@ -316,6 +325,7 @@ const MONTHS = [
     mishra: 1,
     combined: 3,
     project: "OmSpace — New Tab Dashboard & Focus Studio",
+    deepDive: "/blog/building-manifest-v3-extensions",
     category: "Chrome Extension & Productivity",
     body: "Customizable new tab dashboard with browser-default search, focus tools, widgets, and quick-access surfaces for power users who want an organized, distraction-free browser workspace every time a new tab is opened.",
     repo: "aniketmishra-0",
@@ -449,7 +459,7 @@ const Y_TICKS = [0, 50, 100, 150, 200];
 
 export default function AccuracyTerrain() {
   const svgRef = useRef(null);
-  const live = useLiveContributions();
+  const { live, status } = useLiveContributions();
 
   // Live months/series when GitHub data arrived; curated static otherwise
   const months = live ? live.months : MONTHS;
@@ -572,12 +582,24 @@ export default function AccuracyTerrain() {
         {/* Section Header */}
         <div className="text-center mb-8 md:mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#E4D9BC] bg-white text-[#B45309] font-mono text-[11px] font-bold tracking-wider uppercase mb-3 shadow-2xs">
-            <span className={`w-2 h-2 rounded-full ${live ? "bg-emerald-600" : "bg-[#B45309]"} animate-pulse`} />
-            <span>{live ? "Live GitHub Contribution Terrain · Real-Time Sync" : "Real GitHub Contribution Terrain · 2 Active Profiles"}</span>
-            {lastPushLabel && (
-              <span className="ml-1 pl-2 border-l border-[#E4D9BC] text-emerald-700 normal-case tracking-normal">
-                last push {lastPushLabel}
-              </span>
+            {status === "syncing" ? (
+              <>
+                <svg className="w-2.5 h-2.5 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" stroke="#D6CDB8" strokeWidth="3" />
+                  <path d="M21 12a9 9 0 0 0-9-9" stroke="#B45309" strokeWidth="3" strokeLinecap="round" />
+                </svg>
+                <span>Syncing live data from GitHub…</span>
+              </>
+            ) : (
+              <>
+                <span className={`w-2 h-2 rounded-full ${live ? "bg-emerald-600" : "bg-[#B45309]"} animate-pulse`} />
+                <span>{live ? "Live GitHub Contribution Terrain · Real-Time Sync" : "GitHub Contribution Terrain · Verified Timeline"}</span>
+                {lastPushLabel && (
+                  <span className="ml-1 pl-2 border-l border-[#E4D9BC] text-emerald-700 normal-case tracking-normal">
+                    last push {lastPushLabel}
+                  </span>
+                )}
+              </>
             )}
           </div>
           <h2 className="text-[clamp(1.75rem,3.2vw,2.5rem)] leading-tight font-serif font-bold text-[#4A3B33] text-balance">
@@ -588,6 +610,20 @@ export default function AccuracyTerrain() {
             Twelve months of commits streamed live from GitHub — every project, every sprint,
             timestamped and public. No claims here, just the record.
           </p>
+
+          {/* GitHub CTA */}
+          <div className="mt-5">
+            <a
+              href="https://github.com/aniketmishra-0"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => sound.playClick()}
+              className="group inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-[#E4D9BC] font-mono text-[10.5px] font-bold uppercase tracking-wider text-[#57534E] hover:border-[#B45309] hover:text-[#B45309] transition-all shadow-xs no-underline"
+            >
+              View on GitHub
+              <ArrowUpRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+          </div>
 
           {/* Quick Profile Filter Pills */}
           <div className="flex flex-wrap items-center justify-center gap-2 mt-5">
@@ -1136,6 +1172,16 @@ export default function AccuracyTerrain() {
                           <ArrowUpRight className="w-2.5 h-2.5" />
                         </a>
                       ) : null}
+                      {currentMonthData.deepDive && (
+                        <Link
+                          href={currentMonthData.deepDive}
+                          onClick={() => sound.playClick()}
+                          className="inline-flex items-center gap-1 font-mono text-[9px] font-bold text-[#B45309] hover:underline"
+                        >
+                          <span>Read the deep-dive</span>
+                          <ArrowUpRight className="w-2.5 h-2.5" />
+                        </Link>
+                      )}
                     </div>
                   </div>
 
