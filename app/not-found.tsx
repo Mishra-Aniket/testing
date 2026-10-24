@@ -45,7 +45,7 @@ export default function NotFound() {
         </div>
 
         <p className="mt-10 font-mono text-[11px] text-[#A8A29E]">
-          aniket.one · full-stack &amp; AI systems engineer
+          full-stack &amp; AI systems engineer
         </p>
       </main>
     </div>

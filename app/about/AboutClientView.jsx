@@ -233,7 +233,7 @@ export default function AboutClientView() {
         </header>
 
         {/* ============ BIO ============ */}
-        <section className="relative border-t border-[#E4D9BC] py-16 md:py-20">
+        <section className="relative bg-[#F1E9D7] py-16 md:py-20">
           <div className="max-w-[1200px] mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14">
             <div className="lg:col-span-4">
               <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B45309]">

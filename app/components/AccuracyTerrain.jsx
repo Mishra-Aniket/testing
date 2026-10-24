@@ -361,7 +361,7 @@ const MONTHS = [
     aniket0: 1,
     mishra: 28,
     combined: 29,
-    project: "aniket.one — Next-Gen 3D Interactive Portfolio",
+    project: "Interactive Portfolio Website",
     category: "High-Performance Web & 3D Visualizers",
     body: "Engineered an interactive 3D glassmorphic portfolio featuring custom SVG isometric hardware architectures, time-scrubbed contribution terrain, and real-time model spec evaluators.",
     repo: "aniket-one",
