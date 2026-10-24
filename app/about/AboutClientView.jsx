@@ -37,7 +37,7 @@ const TIMELINE = [
   { period: "Mar – Apr 2026", title: "Nexus Streamer & Office Mobile", note: "Drive-to-YouTube streaming with flat memory; spreadsheets turned into mobile data-entry PWAs.", href: "/blog/zero-ram-video-streaming-pipeline", hrefLabel: "Read the deep-dive" },
   { period: "May – Jun 2026", title: "Qpic", note: "OCR exam-paper splitting — a 3-tier detection pipeline (text layer → Tesseract → vision fallback) with a Flutter desktop app.", href: null, hrefLabel: null },
   { period: "Jun – Aug 2026", title: "OmTabs & OmSpace", note: "Both Chrome extensions live on the official Web Store — tab management with a biometric shield, and a new-tab focus dashboard.", href: "/blog/building-manifest-v3-extensions", hrefLabel: "Read the deep-dive" },
-  { period: "Sep – Oct 2026", title: "aniket.one", note: "This portfolio rebuilt as a fast static site with live GitHub telemetry.", href: null, hrefLabel: null },
+  { period: "Sep – Oct 2026", title: "This Portfolio", note: "Rebuilt this site as a fast static site with live GitHub telemetry.", href: null, hrefLabel: null },
 ];
 
 const PHOTOS = [

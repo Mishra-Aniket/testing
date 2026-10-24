@@ -55,7 +55,7 @@ export default function Footer() {
     {
       title: "PHILOSOPHY",
       links: [
-        { label: "About Me", href: "/about" },
+        { label: "How I Work", href: "/about" },
         { label: "Pricing & Sprints", href: "/pricing" },
         { label: "Reliability Guarantee", href: "/#faq" },
         { label: "Client FAQ", href: "/#faq" }
