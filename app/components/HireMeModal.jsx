@@ -6,6 +6,7 @@ import { X, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 import { sound } from "../utils/sound";
 import { createClient } from "../../lib/supabase/client";
 import { sendEmail } from "../../lib/emailjs";
+import { sendWeb3Form } from "../../lib/web3forms";
 
 const TPL = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_INQUIRY;
 
@@ -44,12 +45,22 @@ export default function HireMeModal({ isOpen, onClose }) {
     setSubmitting(true);
     setFallbackNote("");
 
-    // 1. EmailJS — lands directly in the inbox, works from the static site
-    const emailed = await sendEmail(TPL, {
-      from_name: form.name.trim(),
-      reply_email: form.email.trim(),
+    // 1. Web3Forms — free unlimited, no stamp, lands in the inbox
+    const emailed = await sendWeb3Form({
+      name: form.name.trim(),
+      email: form.email.trim(),
+      subject: `New Project Inquiry — ${form.name.trim()}`,
       message: form.message.trim(),
     });
+
+    // 2. EmailJS fallback — branded template email
+    if (!emailed) {
+      await sendEmail(TPL, {
+        from_name: form.name.trim(),
+        reply_email: form.email.trim(),
+        message: form.message.trim(),
+      });
+    }
 
     // 2. Supabase record (when keys + table exist)
     let dbSaved = false;

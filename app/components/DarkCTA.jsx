@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { ArrowRight, CheckCircle2, Copy, Loader2 } from "lucide-react";
 import { createClient } from "../../lib/supabase/client";
 import { sendEmail } from "../../lib/emailjs";
+import { sendWeb3Form } from "../../lib/web3forms";
 
 const NEWSLETTER_TPL = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_NEWSLETTER;
 import { motion } from "framer-motion";
@@ -114,10 +115,20 @@ export default function DarkCTA({ showStats = false }) {
     if (!email.trim()) return;
     setSubscribing(true);
 
-    // 1. EmailJS notification — lands in the inbox directly
-    await sendEmail(NEWSLETTER_TPL, {
-      subscriber_email: email.trim().toLowerCase(),
+    // 1. Web3Forms — free unlimited, no stamp
+    const w3f = await sendWeb3Form({
+      name: "Newsletter Subscriber",
+      email: email.trim().toLowerCase(),
+      subject: `New Newsletter Subscriber — ${email.trim().toLowerCase()}`,
+      message: `${email.trim().toLowerCase()} subscribed to build updates via the Follow the Build card.`,
     });
+
+    // 2. EmailJS fallback notification
+    if (!w3f) {
+      await sendEmail(NEWSLETTER_TPL, {
+        subscriber_email: email.trim().toLowerCase(),
+      });
+    }
 
     // 2. Supabase record (table exists via supabase/migrations/002_newsletter.sql)
     try {
