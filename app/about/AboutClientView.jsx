@@ -171,15 +171,6 @@ export default function AboutClientView() {
                 I am<br />Aniket
               </motion.div>
 
-              {/* Giant role — bottom right */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="font-serif font-black uppercase text-[#B45309] leading-[0.88] tracking-[-0.02em] text-[clamp(2.8rem,8.5vw,6.5rem)] text-right lg:absolute lg:right-8 lg:bottom-24 mt-4 lg:mt-0"
-              >
-                Full-Stack<br />Developer
-              </motion.div>
             </div>
           </div>
         </header>
