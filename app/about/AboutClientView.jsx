@@ -23,8 +23,6 @@ import {
 } from "lucide-react";
 import { sound } from "../utils/sound";
 
-const PHOTOS = ["/me-1.jpg", "/me-2.jpg"];
-
 /* ---------- Data ---------- */
 const FACTS = [
   { icon: MapPin, label: "Based in", value: "Prayagraj, India" },
@@ -52,13 +50,7 @@ const WORK_STEPS = [
 /* ---------- Page ---------- */
 export default function AboutClientView() {
   const [searchOpen, setSearchOpen] = useState(false);
-  const [active, setActive] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
-
-  useEffect(() => {
-    const t = setInterval(() => setActive((p) => (p + 1) % PHOTOS.length), 4200);
-    return () => clearInterval(t);
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -141,48 +133,20 @@ export default function AboutClientView() {
                   }}
                 />
 
-                {/* The portrait — bottom fades into the page */}
+                {/* The portrait — background-removed cutout, no card/frame */}
                 <motion.div
                   initial={{ opacity: 0, y: 26 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative z-10 mx-auto w-[290px] sm:w-[350px]"
+                  className="relative z-10 mx-auto w-[300px] sm:w-[380px]"
                 >
-                  <div
-                    className="relative aspect-[4/5] rounded-[2rem] overflow-hidden"
-                    style={{
-                      maskImage: "linear-gradient(to bottom, black 78%, transparent 99%)",
-                      WebkitMaskImage: "linear-gradient(to bottom, black 78%, transparent 99%)",
-                    }}
-                  >
-                    {PHOTOS.map((src, i) => (
-                      <motion.img
-                        key={src}
-                        /* eslint-disable-next-line @next/next/no-img-element */
-                        src={src}
-                        alt="Aniket Mishra"
-                        initial={false}
-                        animate={{ opacity: active === i ? 1 : 0, scale: active === i ? 1 : 1.04 }}
-                        transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-                        className="absolute inset-0 w-full h-full object-cover"
-                      />
-                    ))}
-                  </div>
-
-                  {/* Photo switcher dots */}
-                  <div className="relative z-20 flex justify-center gap-2 -mt-6">
-                    {PHOTOS.map((_, i) => (
-                      <button
-                        key={i}
-                        type="button"
-                        aria-label={`Photo ${i + 1}`}
-                        onClick={() => setActive(i)}
-                        className={`h-1.5 rounded-full cursor-pointer transition-all ${
-                          active === i ? "bg-[#B45309] w-5" : "w-1.5 bg-[#D6CDB8] hover:bg-[#B45309]/60"
-                        }`}
-                      />
-                    ))}
-                  </div>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/me-cutout.png"
+                    alt="Aniket Mishra"
+                    className="w-full h-auto block"
+                    draggable={false}
+                  />
                 </motion.div>
 
                 {/* Small specialization note — right of the portrait */}
