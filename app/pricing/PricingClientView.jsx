@@ -160,6 +160,7 @@ export default function PricingClientView() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [mailtoUrl, setMailtoUrl] = useState("");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -234,21 +235,17 @@ export default function PricingClientView() {
       /* fall through to email */
     }
 
-    // 2. Email delivery — guaranteed path on a static site: opens the
-    //    visitor's mail client with the full proposal prefilled.
-    try {
-      window.open(buildMailto(), "_blank");
-    } catch {
-      /* popup blocked — email link is also shown below */
+    // 2. Fallback: prefilled draft link shown in the UI — opened only on click
+    if (!emailed && !dbSaved) {
+      setMailtoUrl(buildMailto());
+      setSubmitError("Almost there — tap the button below to send your proposal from your mail app. If it didn't open, email it directly to hello@aniket.one.");
+    } else {
+      setMailtoUrl("");
+      setSubmitError("");
     }
 
     setSubmitting(false);
     setSubmitted(true);
-    if (!emailed && !dbSaved) {
-      setSubmitError("Your mail app should have opened with the proposal. If it didn't, email it directly to hello@aniket.one.");
-    } else {
-      setSubmitError("");
-    }
     sound.playSuccess();
   };
 
@@ -478,6 +475,17 @@ export default function PricingClientView() {
                         Thanks {form.name.split(" ")[0]} — your {SPRINTS.find((s) => s.id === selectedSprint)?.name} proposal is in.
                         You'll get a personal reply within 24 hours and a written quote within 48.
                       </p>
+                      {submitError && mailtoUrl && (
+                        <div className="mt-4 text-xs text-[#B45309] bg-[#B45309]/[0.06] border border-[#B45309]/20 rounded-lg px-4 py-3 max-w-md mx-auto text-left">
+                          <p className="m-0">{submitError}</p>
+                          <a
+                            href={mailtoUrl}
+                            className="inline-flex items-center gap-1 mt-2 font-mono font-bold text-[#B45309] hover:underline no-underline"
+                          >
+                            Open prefilled email ↗
+                          </a>
+                        </div>
+                      )}
                       {submitError && (
                         <p className="mt-4 text-xs text-[#B45309] bg-[#B45309]/[0.06] border border-[#B45309]/20 rounded-lg px-4 py-3 max-w-md mx-auto text-left">
                           {submitError}

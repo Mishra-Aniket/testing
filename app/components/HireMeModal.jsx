@@ -14,6 +14,7 @@ export default function HireMeModal({ isOpen, onClose }) {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [fallbackNote, setFallbackNote] = useState("");
+  const [mailtoUrl, setMailtoUrl] = useState("");
 
   // Scroll lock (Lenis) + Escape to close
   useEffect(() => {
@@ -75,12 +76,8 @@ export default function HireMeModal({ isOpen, onClose }) {
       return;
     }
 
-    // 3. Last-resort fallback: prefilled mail app
-    try {
-      window.open(buildMailto(), "_blank");
-    } catch {
-      /* popup blocked — direct email shown in success state */
-    }
+    // 3. Fallback: hand the visitor a prefilled draft they can open deliberately
+    setMailtoUrl(buildMailto());
     sound.playSuccess();
     setSubmitted(true);
     if (!dbSaved) {
@@ -157,9 +154,17 @@ export default function HireMeModal({ isOpen, onClose }) {
                       and a written quote within 48.
                     </p>
                     {fallbackNote && (
-                      <p className="mt-4 text-xs text-[#B45309] bg-[#B45309]/[0.06] border border-[#B45309]/20 rounded-lg px-4 py-3 text-left">
-                        {fallbackNote}
-                      </p>
+                      <div className="mt-4 text-xs text-[#B45309] bg-[#B45309]/[0.06] border border-[#B45309]/20 rounded-lg px-4 py-3 text-left">
+                        <p className="m-0">{fallbackNote}</p>
+                        {mailtoUrl && (
+                          <a
+                            href={mailtoUrl}
+                            className="inline-flex items-center gap-1 mt-2 font-mono font-bold text-[#B45309] hover:underline no-underline"
+                          >
+                            Open prefilled email ↗
+                          </a>
+                        )}
+                      </div>
                     )}
                     <button
                       type="button"
