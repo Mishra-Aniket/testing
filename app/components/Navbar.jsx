@@ -928,8 +928,13 @@ export default function Navbar({
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              exit={{
+                opacity: 0,
+                height: 0,
+                // easeInOut for exits — expo-out rushes then crawls, which reads as "stuck" on mobile
+                transition: { duration: 0.24, ease: [0.4, 0, 0.2, 1] },
+              }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className={`lg:hidden border-t overflow-hidden transition-colors ${
                 isDarkTheme
                   ? "border-white/[0.08] bg-[#1C1917] text-[#F5F5F4]"
@@ -1008,8 +1013,8 @@ export default function Navbar({
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                          exit={{ opacity: 0, height: 0, transition: { duration: 0.18, ease: [0.4, 0, 0.2, 1] } }}
+                          transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
                           className={`pl-3 mt-2 mb-1 space-y-1 border-l-2 ${
                             isDarkTheme ? "border-[#E4C090]/40" : "border-[#B45309]/30"
                           }`}
@@ -1097,8 +1102,8 @@ export default function Navbar({
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                          exit={{ opacity: 0, height: 0, transition: { duration: 0.18, ease: [0.4, 0, 0.2, 1] } }}
+                          transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
                           className={`pl-3 mt-2 mb-1 space-y-1 border-l-2 ${
                             isDarkTheme ? "border-[#E4C090]/40" : "border-[#B45309]/30"
                           }`}
@@ -1279,8 +1284,8 @@ export default function Navbar({
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                          exit={{ opacity: 0, height: 0, transition: { duration: 0.18, ease: [0.4, 0, 0.2, 1] } }}
+                          transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
                           className={`pl-3 mt-2 mb-1 space-y-1 border-l-2 ${
                             isDarkTheme ? "border-[#E4C090]/40" : "border-[#B45309]/30"
                           }`}
@@ -1408,7 +1413,7 @@ export default function Navbar({
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        exit={{ opacity: 0, transition: { duration: 0.24, ease: [0.4, 0, 0.2, 1] } }}
         transition={{ duration: 0.2 }}
         onClick={() => setMobileMenuOpen(false)}
         className="fixed inset-0 bg-[#1C1917]/70 backdrop-blur-md z-40 lg:hidden"
