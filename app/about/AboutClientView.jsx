@@ -41,8 +41,8 @@ const TIMELINE = [
 ];
 
 const PHOTOS = [
-  { src: "/me-cutout.png", label: "Photo 1" },
-  { src: "/me-cutout-2.png", label: "Photo 2" },
+  { src: "/me-1.jpg", label: "Photo 1" },
+  { src: "/me-2.jpg", label: "Photo 2" },
 ];
 
 const WORK_STEPS = [
@@ -131,14 +131,8 @@ export default function AboutClientView() {
                       "radial-gradient(circle, rgba(233,214,182,0.95) 0%, rgba(228,192,144,0.45) 45%, rgba(241,233,215,0) 72%)",
                   }}
                 />
-                <div
-                  className="relative mx-auto w-[300px] sm:w-[350px]"
-                  style={{
-                    maskImage: "linear-gradient(to bottom, black 80%, transparent 99%)",
-                    WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 99%)",
-                  }}
-                >
-                  <div className="relative w-full" style={{ aspectRatio: "760 / 680" }}>
+                <div className="relative mx-auto w-[280px] sm:w-[330px] rounded-[1.4rem] overflow-hidden bg-[#F3EBDD] shadow-[0_34px_64px_-22px_rgba(74,59,51,0.5)]">
+                  <div className="relative aspect-[4/5]">
                     {PHOTOS.map((p, i) => (
                       <motion.img
                         key={p.src}
@@ -146,26 +140,30 @@ export default function AboutClientView() {
                         src={p.src}
                         alt="Aniket Mishra"
                         initial={false}
-                        animate={{ opacity: active === i ? 1 : 0, scale: active === i ? 1 : 1.03 }}
+                        animate={{ opacity: active === i ? 1 : 0, scale: active === i ? 1 : 1.04 }}
                         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                        className="absolute inset-0 w-full h-full object-contain object-bottom"
-                        style={{ filter: "drop-shadow(26px 22px 26px rgba(74,59,51,0.35))" }}
+                        className="absolute inset-0 w-full h-full object-cover"
                         draggable={false}
                       />
                     ))}
-                  </div>
-                  <div className="relative flex justify-center gap-2 -mt-4">
-                    {PHOTOS.map((_, i) => (
-                      <button
-                        key={i}
-                        type="button"
-                        aria-label={`Photo ${i + 1}`}
-                        onClick={() => setActive(i)}
-                        className={`h-1.5 rounded-full cursor-pointer transition-all ${
-                          active === i ? "bg-[#B45309] w-5" : "w-1.5 bg-[#C9BCA0] hover:bg-[#B45309]/60"
-                        }`}
-                      />
-                    ))}
+                    <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#1C1917]/75 via-[#1C1917]/25 to-transparent" />
+                    <div className="absolute bottom-0 inset-x-0 px-4 pb-4">
+                      <div className="font-serif text-white text-lg font-bold leading-tight">Aniket Mishra</div>
+                      <div className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#E7E5E4] mt-0.5">Prayagraj, India</div>
+                    </div>
+                    <div className="absolute top-3 right-3 flex flex-col gap-1.5">
+                      {PHOTOS.map((_, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          aria-label={`Photo ${i + 1}`}
+                          onClick={() => setActive(i)}
+                          className={`w-1.5 rounded-full cursor-pointer transition-all ${
+                            active === i ? "bg-[#E4C090] h-4" : "h-1.5 bg-white/50 hover:bg-white/80"
+                          }`}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
               </motion.div>
