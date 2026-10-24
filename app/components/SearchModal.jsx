@@ -90,7 +90,7 @@ const QUICK_LINKS = [
   {
     id: "quick-walkthrough",
     label: "Architecture",
-    href: "/#how-it-works",
+    href: "/#stack",
     icon: Cpu
   },
   {

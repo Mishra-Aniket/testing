@@ -572,7 +572,7 @@ export default function Navbar({
 
             {/* Architecture link */}
             <Link
-              href="/#how-it-works"
+              href="/#stack"
               onClick={() => sound.playClick()}
               className="nav-link relative px-3 py-1.5 rounded-[var(--radius)] cursor-pointer transition-all hover:bg-black/[0.04] dark:hover:bg-white/[0.06]"
             >
@@ -1143,7 +1143,7 @@ export default function Navbar({
                   {/* 3. Architecture & Code Walkthrough */}
                   <div className="py-2">
                     <Link
-                      href="/#how-it-works"
+                      href="/#stack"
                       onClick={() => {
                         sound.playClick();
                         setMobileMenuOpen(false);

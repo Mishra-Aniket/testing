@@ -5,7 +5,6 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import PartnerMarquee from "./components/PartnerMarquee";
 import ModelSovereignty from "./components/ModelSovereignty";
-import CodeWalkthrough from "./components/CodeWalkthrough";
 import FAQ from "./components/FAQ";
 import DarkCTA from "./components/DarkCTA";
 import Footer from "./components/Footer";
@@ -69,9 +68,6 @@ export default function Home() {
 
         {/* 6. Model Sovereignty 3D Router Graphic (Claude, GPT, Gemini) */}
         <ModelSovereignty />
-
-        {/* 7. 4 Engineering Primitives / Code Walkthrough */}
-        <CodeWalkthrough />
 
         {/* 8. FAQ */}
         <FAQ />

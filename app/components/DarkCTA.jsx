@@ -266,7 +266,7 @@ export default function DarkCTA({ showStats = false }) {
                     {emailCopied ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                   </button>
                 </span>
-                <a href="#how-it-works" className="text-[#E4C090] hover:underline font-semibold">
+                <a href="#services" className="text-[#E4C090] hover:underline font-semibold">
                   View Workflow →
                 </a>
               </div>

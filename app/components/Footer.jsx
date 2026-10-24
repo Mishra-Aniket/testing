@@ -15,7 +15,7 @@ export default function Footer() {
       links: [
         { label: "Featured Projects", href: "/#work" },
         { label: "Freelance Services", href: "/#services" },
-        { label: "Full-Stack Engine", href: "/#how-it-works" },
+        { label: "Full-Stack Engine", href: "/#stack" },
         { label: "AI Integration", href: "/#router" },
         // Students section hidden — kept in code, re-enable by uncommenting.
         // { label: "Student Offers (Free)", href: "/students" }
@@ -25,7 +25,7 @@ export default function Footer() {
       title: "SERVICES",
       links: [
         { label: "2–4 Week MVP Build", href: "/#get-access" },
-        { label: "AI Agent Orchestration", href: "/#how-it-works" },
+        { label: "AI Agent Orchestration", href: "/#services" },
         { label: "High-Load API Systems", href: "/#primitives" },
         { label: "Full-Stack Refactor", href: "/#get-access" },
         { label: "Technical Advisory", href: "/#get-access" }
@@ -35,8 +35,8 @@ export default function Footer() {
       title: "EXPERTISE",
       links: [
         { label: "Next.js 15 & React", href: "/#primitives" },
-        { label: "FastAPI & Python", href: "/#how-it-works" },
-        { label: "PostgreSQL & Vector", href: "/#how-it-works" },
+        { label: "FastAPI & Python", href: "/#stack" },
+        { label: "PostgreSQL & Vector", href: "/#stack" },
         { label: "Multi-Model LLMs", href: "/#router" },
         { label: "Framer Motion & 3D", href: "/#hero" }
       ]
@@ -49,7 +49,7 @@ export default function Footer() {
         { label: "About Me", href: "/about" },
         { label: "Engineering Blog", href: "/blog" },
         { label: "llms.txt", href: "/llms.txt" },
-        { label: "Developer Guide", href: "/#how-it-works" }
+        { label: "Developer Guide", href: "/blog" }
       ]
     },
     {
