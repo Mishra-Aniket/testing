@@ -112,7 +112,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   },
   {
     id: "03",
-    title: "How does Centrix automate Google Drive sync at the edge?s?",
+    title: "How does Centrix automate Google Drive sync at the edge?",
     desc: "Built for coaching networks — pairs recordings with panel notes and uploads straight to Drive with confidence-scored timetable matching.",
     file: "centrix_ingestion_pipeline.cs",
     code: `// Centrix .NET 8 Automated Lecture Ingestion Pipeline
