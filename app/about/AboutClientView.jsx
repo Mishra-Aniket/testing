@@ -96,7 +96,7 @@ export default function AboutClientView() {
                 "radial-gradient(ellipse 70% 60% at 38% 42%, rgba(253,251,247,0.8) 0%, rgba(241,233,215,0) 62%)",
             }}
           />
-          <div className="relative mx-auto px-6 lg:px-8 pt-28 md:pt-32 pb-16 md:pb-20 max-w-[1200px] flex flex-col min-h-[100svh]">
+          <div className="relative mx-auto px-6 lg:px-8 pt-24 md:pt-32 pb-12 md:pb-20 max-w-[1200px] flex flex-col min-h-[100svh]">
             <motion.nav
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -115,7 +115,7 @@ export default function AboutClientView() {
               </ol>
             </motion.nav>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center my-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center my-auto">
               {/* LEFT: the portrait cutout on warm glow */}
               <motion.div
                 initial={{ opacity: 0, y: 24 }}
@@ -131,7 +131,7 @@ export default function AboutClientView() {
                       "radial-gradient(circle, rgba(233,214,182,0.95) 0%, rgba(228,192,144,0.45) 45%, rgba(241,233,215,0) 72%)",
                   }}
                 />
-                <div className="relative mx-auto w-[280px] sm:w-[330px] rounded-[1.4rem] overflow-hidden bg-[#F3EBDD] shadow-[0_34px_64px_-22px_rgba(74,59,51,0.5)]">
+                <div className="relative mx-auto w-[265px] sm:w-[330px] rounded-[1.4rem] overflow-hidden bg-[#F3EBDD] shadow-[0_34px_64px_-22px_rgba(74,59,51,0.5)]">
                   <div className="relative aspect-[4/5]">
                     {PHOTOS.map((p, i) => (
                       <motion.img
@@ -186,7 +186,7 @@ export default function AboutClientView() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                  className="font-serif text-[clamp(1.9rem,3.8vw,3.1rem)] leading-[1.12] tracking-[-0.025em] font-bold text-[#4A3B33] text-balance m-0 mb-6"
+                  className="font-serif text-[clamp(1.7rem,3.8vw,3.1rem)] leading-[1.1] tracking-[-0.025em] font-bold text-[#4A3B33] text-balance m-0 mb-6"
                 >
                   I build software that ships, and I stick around{" "}
                   <span className="text-[#B45309] italic font-normal">when it breaks.</span>
@@ -196,7 +196,7 @@ export default function AboutClientView() {
                   initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.35 }}
-                  className="text-[1.02rem] leading-[1.8] text-[#57534E] max-w-[34rem] m-0 mb-8"
+                  className="hidden min-[400px]:block text-[0.95rem] sm:text-[1.02rem] leading-[1.7] text-[#57534E] max-w-[34rem] m-0 mb-6"
                 >
                   The last year went into things people can open and use: two extensions on the
                   official Chrome Web Store (OmTabs and OmSpace), an edge-first lecture ingestion
